@@ -4,7 +4,7 @@ SQL Query Builder
 [![Build Status](https://travis-ci.org/nilportugues/sql-query-builder.png)](https://travis-ci.org/nilportugues/sql-query-builder) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/89ec1003-4227-43a2-8432-67a9fc2d3ba3/mini.png)](https://insight.sensiolabs.com/projects/89ec1003-4227-43a2-8432-67a9fc2d3ba3) [![Latest Stable Version](https://poser.pugx.org/nilportugues/sql-query-builder/v/stable.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![Total Downloads](https://poser.pugx.org/nilportugues/sql-query-builder/downloads.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![License](https://poser.pugx.org/nilportugues/sql-query-builder/license.svg)](https://packagist.org/packages/nilportugues/sql-query-builder)
 
 An elegant lightweight and efficient SQL Query Builder with fluid interface SQL syntax supporting bindings and complicated query generation.
-
+<a name="index_block"></a>
 * [1. Installation](#block1)
 * [2. The Builder](#block2)
 	* [2.1. Generic Builder](#block2.1)     
@@ -37,7 +37,7 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
 
 
 <a name="block1"></a>
-## 1. Installation
+## 1. Installation [↑](#index_block)
 The recommended way to install SQL Query Builder is through [Composer](http://getcomposer.org). Just create a ``composer.json`` file and run the ``php composer.phar install`` command to install it:
 
 ```json
@@ -49,12 +49,12 @@ The recommended way to install SQL Query Builder is through [Composer](http://ge
 ```
 
 <a name="block2"></a>
-## 2. The Builder
+## 2. The Builder [↑](#index_block)
 
 The SQL Query Builder allows to generate complex SQL queries standard `SQL-2003` dialect and `MySQL` dialect. 
 
 <a name="block2.1"></a>
-### 2.1. Generic Builder 
+### 2.1. Generic Builder [↑](#index_block)
 The Generic Query Builder is the default builder for this class and writes standard SQL-2003.
 
 #### Usage:
@@ -74,7 +74,7 @@ SELECT user.* FROM user
 ```
 
 <a name="block2.2"></a>
-### 2.2. MySQL Builder 
+### 2.2. MySQL Builder [↑](#index_block) 
 The MySQL Query Builder has its own class, that inherits from the SQL-2003 builder. All columns will be wrapped with the tilde **`** sign.
 
 #### Usage:
@@ -94,7 +94,7 @@ SELECT user.* FROM `user`
 ```
 
 <a name="block2.3"></a>
-### 2.3. Human Readable Output
+### 2.3. Human Readable Output [↑](#index_block)
 
 Both Generic and MySQL Query Builder can write complex SQL queries. 
 
@@ -126,15 +126,15 @@ More complicated examples can be found in the documentation.
 
 
 <a name="block3"></a>
-## 3. Building Queries
+## 3. Building Queries [↑](#index_block)
 
 <a name="block3.1"></a>
-### 3.1. SELECT Statement 
+### 3.1. SELECT Statement [↑](#index_block) 
 
 
 
 <a name="block3.1.1"></a>
-### 3.1.1. Basic SELECT statement 
+### 3.1.1. Basic SELECT statement [↑](#index_block)
 #### Usage:
 ```php
 <?php
@@ -154,7 +154,7 @@ SELECT user.user_id, user.name, user.email FROM user
 ```
 
 <a name="block3.1.2"></a>
-### 3.1.2. Aliased SELECT statement 
+### 3.1.2. Aliased SELECT statement [↑](#index_block) 
 
 #### Usage:
 ```php
@@ -175,18 +175,18 @@ SELECT user.user_id AS userId, user.name AS username, user.email AS email FROM u
 ```
 
 <a name="block3.2"></a>
-### 3.2. INSERT Statement 
+### 3.2. INSERT Statement [↑](#index_block)
 
 
 
 <a name="block3.3"></a>
-### 3.3. UPDATE Statement 
+### 3.3. UPDATE Statement [↑](#index_block)
 
 The `UPDATE` statement works just like expected, set the values and the conditions to match the row and you're set. 
 
 Examples provided below.
 
-### 3.3.1 Basic UPDATE statement 
+### 3.3.1 Basic UPDATE statement [↑](#index_block)
 Important including the the `where` statement is critical, or all table rows will be replaced with the provided values if the statement is executed.
 
 #### Usage:
@@ -219,7 +219,7 @@ UPDATE user SET  user.user_id = :v1, user.name = :v2, user.contact = :v3  WHERE 
 [':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com', ':v4' => 1];
 ```
 
-### 3.3.2. Elaborated UPDATE statement 
+### 3.3.2. Elaborated UPDATE statement [↑](#index_block)
 
 #### Usage:
 ```php
@@ -263,11 +263,11 @@ LIMIT :v5
 ```
 
 <a name="block3.4"></a>
-### 3.4. DELETE Statement 
+### 3.4. DELETE Statement [↑](#index_block)
 
 The `DELETE` statement is used just like `UPDATE`, but no values are set. Examples provided below.
 
-### 3.4.1. Basic DELETE statement
+### 3.4.1. Basic DELETE statement [↑](#index_block)
 Important including the the `where` statement is critical, or all table rows will be deleted with the provided values if the statement is executed.
 
 #### Usage:
@@ -300,7 +300,7 @@ DELETE FROM user WHERE (user.user_id = :v1) LIMIT :v2
 [':v1' => 100, ':v2' => 1];
 ```
 
-### 3.4.2. Elaborated DELETE statement 
+### 3.4.2. Elaborated DELETE statement [↑](#index_block) 
 
 #### Usage:
 ```php
@@ -339,10 +339,10 @@ LIMIT :v4
 ```
 
 <a name="block4"></a>
-## 4. Advanced Queries 
+## 4. Advanced Queries [↑](#index_block)
 
 <a name="block4.1"></a>
-### 4.1. Filtering using WHERE 
+### 4.1. Filtering using WHERE [↑](#index_block)
 The following operators are available for filtering using WHERE conditionals:
 
 ```php
@@ -370,30 +370,30 @@ The following operators are available for filtering using WHERE conditionals:
     public function conjunction($operator);
 ```
 <a name="block4.1.1"></a>
-#### 4.1.1 Available operators 
+#### 4.1.1 Available operators [↑](#index_block)
 
 <a name="block4.2"></a>
-### 4.2. Changing WHERE logical operator 
+### 4.2. Changing WHERE logical operator [↑](#index_block)
 
 <a name="block4.3"></a>
-### 4.3. Grouping with GROUP BY and HAVING 
+### 4.3. Grouping with GROUP BY and HAVING [↑](#index_block)
 
 <a name="block4.3.1"></a>
-#### 4.3.1 Available HAVING operators 
+#### 4.3.1 Available HAVING operators  [↑](#index_block)
 Same operators used in the WHERE statement are available for HAVING operations.
 
 <a name="block4.4"></a>
-### 4.4. Changing HAVING logical operator 
+### 4.4. Changing HAVING logical operator [↑](#index_block)
 
 <a name="block4.5"></a>
-### 4.5. Columns as SELECT statements 
+### 4.5. Columns as SELECT statements [↑](#index_block)
 
 <a name="block4.6"></a>
-### 4.6. Columns using FUNCTIONS 
+### 4.6. Columns using FUNCTIONS [↑](#index_block)
 
 
 <a name="block5"></a>
-## 5. Quality Code
+## 5. Quality Code [↑](#index_block)
 Testing has been done using PHPUnit and [Travis-CI](https://travis-ci.org). All code has been tested to be compatible from PHP 5.4 up to PHP 5.6 and [HHVM](http://hhvm.com/).
 
 To run the test suite, you need [Composer](http://getcomposer.org):
@@ -405,7 +405,7 @@ To run the test suite, you need [Composer](http://getcomposer.org):
 
 
 <a name="block6"></a>
-## 6. Author
+## 6. Author [↑](#index_block)
 Nil Portugués Calderó
 
  - <contact@nilportugues.com>
@@ -413,7 +413,7 @@ Nil Portugués Calderó
 
 
 <a name="block7"></a>
-## 7. License
+## 7. License [↑](#index_block)
 SQL Query Builder is licensed under the MIT license.
 
 ```
