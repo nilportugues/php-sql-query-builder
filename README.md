@@ -9,7 +9,7 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
 * [2. The Builder](#block2)
 	* [2.1. Generic Builder](#block2.1)     
 	* [2.2. MySQL Builder](#block2.2)     
-	* [2.3. Human Readable Output](#block2.2)     
+	* [2.3. Human Readable Output](#block2.3)     
 * [3. Building Queries](#block3)
 	* [3.1. SELECT Statement](#block3.1)     
 	* [3.2. INSERT Statement](#block3.2)     
@@ -68,7 +68,7 @@ SELECT user.* FROM user
 
 <a name="block2.2"></a>
 ### 2.2. MySQL Builder 
-The MySQL Query Builder has its own class, that inherits from the SQL-2003 builder. All columns will be escaped with the tilde **`** sign.
+The MySQL Query Builder has its own class, that inherits from the SQL-2003 builder. All columns will be wrapped with the tilde **`** sign.
 
 #### Usage:
 ```php
