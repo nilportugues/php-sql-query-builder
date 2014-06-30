@@ -3,10 +3,10 @@ SQL Query Builder
 
 [![Build Status](https://travis-ci.org/nilportugues/sql-query-builder.png)](https://travis-ci.org/nilportugues/sql-query-builder) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/89ec1003-4227-43a2-8432-67a9fc2d3ba3/mini.png)](https://insight.sensiolabs.com/projects/89ec1003-4227-43a2-8432-67a9fc2d3ba3) [![Latest Stable Version](https://poser.pugx.org/nilportugues/sql-query-builder/v/stable.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![Total Downloads](https://poser.pugx.org/nilportugues/sql-query-builder/downloads.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![License](https://poser.pugx.org/nilportugues/sql-query-builder/license.svg)](https://packagist.org/packages/nilportugues/sql-query-builder)
 
-Builds sitemaps for pages, images and media files and provides a class to submit them to search engines.
+An elegant lightweight and efficient SQL Query Builder supporting bindings and complicated query generation
 
 * [1. Installation](#block1)
-* [2. The Builder](#block2)
+* [2. The Query Builder](#block2)
 	* [2.1. SQL Builder](#block2.1)
 	* [2.2. MySQL Builder](#block2.2)
 * [3. Building Queries](#block3)
@@ -27,7 +27,7 @@ Builds sitemaps for pages, images and media files and provides a class to submit
 * [6. Author](#block6)
 * [7. License](#block7)
 
----
+
 <a name="block1"></a>
 ## 1. Installation
 The recommended way to install SQL Query Builder is through [Composer](http://getcomposer.org). Just create a ``composer.json`` file and run the ``php composer.phar install`` command to install it:
@@ -40,7 +40,14 @@ The recommended way to install SQL Query Builder is through [Composer](http://ge
   }
 ```
 
-----
+<a name="block2"></a>
+## 2. The Query Builder
+
+<a name="block3"></a>
+## 3. Building Queries
+
+<a name="block4"></a>
+## 4. Advanced Queries
 
 <a name="block5"></a>
 ## 5. Quality Code
@@ -52,7 +59,7 @@ To run the test suite, you need [Composer](http://getcomposer.org):
     php composer.phar install --dev
     bin/phpunit
 ```
----
+
 
 <a name="block6"></a>
 ## 6. Author
@@ -61,7 +68,6 @@ Nil Portugués Calderó
  - <contact@nilportugues.com>
  - [http://nilportugues.com](http://nilportugues.com)
 
----
 
 <a name="block7"></a>
 ## 7. License
