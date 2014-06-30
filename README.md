@@ -278,6 +278,39 @@ ORDER BY
 <a name="block3.2"></a>
 ### 3.2. INSERT Statement [↑](#index_block)
 
+The `INSERT` statement is really straightforward.
+
+<a name="block3.2.1"></a>
+### 3.3.1 Basic INSERT statement [↑](#index_block)
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Insert;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$query = (new Insert())
+    ->setTable('user')
+    ->setValues([
+        'user_id' => 1,
+        'name'    => 'Nil',
+        'contact' => 'contact@nilportugues.com',
+    ]);
+
+$builder = new GenericBuilder(); 
+   
+$sql = $builder->writeFormatted($query);    
+$values = $builder->getValues();
+```
+
+#### Output
+```sql
+INSERT INTO user (user.user_id, user.name, user.contact) VALUES (:v1, :v2, :v3)
+```
+----
+```php
+[':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com'];
+```
 
 
 <a name="block3.3"></a>
@@ -298,14 +331,14 @@ use NilPortugues\SqlQueryBuilder\Manipulation\Update;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
 $query = (new Update())
-            ->setTable('user')
-            ->setValues([
-                'user_id' => 1,
-                'name' => 'Nil',
-                'contact' => 'contact@nilportugues.com'
-            ])
-            ->where()
-            ->equals('user_id', 1);
+    ->setTable('user')
+    ->setValues([
+        'user_id' => 1,
+        'name' => 'Nil',
+        'contact' => 'contact@nilportugues.com'
+    ])
+    ->where()
+    ->equals('user_id', 1);
     
 $builder = new GenericBuilder(); 
    
@@ -503,15 +536,13 @@ use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
 $query = (new Select())
     ->setTable('user')
-    ->setColumns(
-        array(
-            'userId'   => 'user_id',
-            'username' => 'name',
-            'email'    => 'email',
-            'created_at'
-        )
-    )
-    ->groupBy(array('user_id', 'name'))
+    ->setColumns([
+        'userId'   => 'user_id',
+        'username' => 'name',
+        'email'    => 'email',
+        'created_at'
+    ])
+    ->groupBy(['user_id', 'name'])
     ->setHavingOperator('OR')
     ->having()
     ->equals('user_id', 1);   
@@ -550,8 +581,8 @@ Testing has been done using PHPUnit and [Travis-CI](https://travis-ci.org). All 
 To run the test suite, you need [Composer](http://getcomposer.org):
 
 ```bash
-    $ php composer.phar install --dev
-    $ vendor/bin/phpunit
+    php composer.phar install --dev
+    vendor/bin/phpunit
 ```
 
 
