@@ -5,6 +5,7 @@ SQL Query Builder
 
 An elegant lightweight and efficient SQL Query Builder with fluid interface SQL syntax supporting bindings and complicated query generation.
 <a name="index_block"></a>
+
 * [1. Installation](#block1)
 * [2. The Builder](#block2)
 	* [2.1. Generic Builder](#block2.1)     
@@ -186,6 +187,7 @@ The `UPDATE` statement works just like expected, set the values and the conditio
 
 Examples provided below.
 
+<a name="block3.3.2"></a>
 ### 3.3.1 Basic UPDATE statement [↑](#index_block)
 Important including the the `where` statement is critical, or all table rows will be replaced with the provided values if the statement is executed.
 
@@ -211,14 +213,21 @@ $sql = $builder->write($query);
 $values = $builder->getValues();
 ```
 #### Output:
-```sql
-UPDATE user SET  user.user_id = :v1, user.name = :v2, user.contact = :v3  WHERE (user.user_id = :v4)
 ```
-```php
+//$sql
+UPDATE 
+    user 
+SET
+    user.user_id = :v1,
+    user.name = :v2, 
+    user.contact = :v3
+WHERE 
+    (user.user_id = :v4)
+
 //$values
 [':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com', ':v4' => 1];
 ```
-
+<a name="block3.3.2"></a>
 ### 3.3.2. Elaborated UPDATE statement [↑](#index_block)
 
 #### Usage:
@@ -265,8 +274,11 @@ LIMIT :v5
 <a name="block3.4"></a>
 ### 3.4. DELETE Statement [↑](#index_block)
 
-The `DELETE` statement is used just like `UPDATE`, but no values are set. Examples provided below.
+The `DELETE` statement is used just like `UPDATE`, but no values are set. 
 
+Examples provided below.
+
+<a name="block3.4.1"></a>
 ### 3.4.1. Basic DELETE statement [↑](#index_block)
 Important including the the `where` statement is critical, or all table rows will be deleted with the provided values if the statement is executed.
 
@@ -292,14 +304,14 @@ $sql = $builder->write($query);
 $values = $builder->getValues();
 ```
 #### Output:
-```sql
-DELETE FROM user WHERE (user.user_id = :v1) LIMIT :v2
 ```
-```php
+//$sql
+DELETE FROM user WHERE (user.user_id = :v1) LIMIT :v2
+
 //$values
 [':v1' => 100, ':v2' => 1];
 ```
-
+<a name="block3.4.2"></a>
 ### 3.4.2. Elaborated DELETE statement [↑](#index_block) 
 
 #### Usage:
