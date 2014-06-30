@@ -12,9 +12,16 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
 	* [2.3. Human Readable Output](#block2.3)     
 * [3. Building Queries](#block3)
 	* [3.1. SELECT Statement](#block3.1)     
-	* [3.2. INSERT Statement](#block3.2)     
-	* [3.3. UPDATE Statement](#block3.3)     
+        * [3.1.1. Basic SELECT statement](#block3.1.1) 
+        * [3.1.2. Aliased SELECT statement](#block3.1.2)
+	* [3.2. INSERT Statement](#block3.2)
+	       * [3.2.1. Basic INSERT statement](#block3.2.1) 
+	* [3.3. UPDATE Statement](#block3.3)
+        * [3.3.1. Basic UPDATE statement](#block3.3.1)
+        * [3.3.2. Elaborated UPDATE statement](#block3.3.2)
 	* [3.4. DELETE Statement](#block3.4)     
+        * [3.4.1. Basic DELETE statement](#block3.4.1)
+        * [3.4.2. Elaborated DELETE statement](#block3.4.2)  	
 * [4. Advanced Queries](#block4)	
 	* [4.1. Filtering using WHERE](#block4.1)     
 		* [4.1.1 Available operators](#block4.1)     
@@ -87,7 +94,7 @@ SELECT user.* FROM `user`
 ```
 
 <a name="block2.3"></a>
-## 2.3. Human Readable Output
+### 2.3. Human Readable Output
 
 Both Generic and MySQL Query Builder can write complex SQL queries. 
 
@@ -127,7 +134,7 @@ More complicated examples can be found in the documentation.
 
 
 <a name="block3.1.1"></a>
-### 3.1.1. Basic SELECT Statement 
+### 3.1.1. Basic SELECT statement 
 #### Usage:
 ```php
 <?php
@@ -147,7 +154,7 @@ SELECT user.user_id, user.name, user.email FROM user
 ```
 
 <a name="block3.1.2"></a>
-### 3.1.2. Aliased SELECT Statement 
+### 3.1.2. Aliased SELECT statement 
 
 #### Usage:
 ```php
@@ -174,6 +181,10 @@ SELECT user.user_id AS userId, user.name AS username, user.email AS email FROM u
 
 <a name="block3.3"></a>
 ### 3.3. UPDATE Statement 
+
+The `UPDATE` statement works just like expected, set the values and the conditions to match the row and you're set. 
+
+Examples provided below.
 
 ### 3.3.1 Basic UPDATE statement 
 Important including the the `where` statement is critical, or all table rows will be replaced with the provided values if the statement is executed.
@@ -208,11 +219,7 @@ UPDATE user SET  user.user_id = :v1, user.name = :v2, user.contact = :v3  WHERE 
 [':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com', ':v4' => 1];
 ```
 
-### 3.3.2 Elaborated UPDATE statement 
-
-The `UPDATE` statement works just like expected, set the values and the conditions to match the row and you're set. 
-
-Examples provided below.
+### 3.3.2. Elaborated UPDATE statement 
 
 #### Usage:
 ```php
@@ -260,7 +267,7 @@ LIMIT :v5
 
 The `DELETE` statement is used just like `UPDATE`, but no values are set. Examples provided below.
 
-### 3.3.1 Basic DELETE statement
+### 3.4.1. Basic DELETE statement
 Important including the the `where` statement is critical, or all table rows will be deleted with the provided values if the statement is executed.
 
 #### Usage:
@@ -293,7 +300,7 @@ DELETE FROM user WHERE (user.user_id = :v1) LIMIT :v2
 [':v1' => 100, ':v2' => 1];
 ```
 
-### 3.3.2 Elaborated DELETE statement 
+### 3.4.2. Elaborated DELETE statement 
 
 #### Usage:
 ```php
