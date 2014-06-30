@@ -15,6 +15,8 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
 	* [3.1. SELECT Statement](#block3.1)     
         * [3.1.1. Basic SELECT statement](#block3.1.1) 
         * [3.1.2. Aliased SELECT statement](#block3.1.2)
+        * [3.1.3. SELECT with WHERE statement](#block3.1.3)
+        * [3.1.4. LEFT/RIGHT/INNER/CROSS JOIN SELECT statements](#block3.1.4)
 	* [3.2. INSERT Statement](#block3.2)
 	       * [3.2.1. Basic INSERT statement](#block3.2.1) 
 	* [3.3. UPDATE Statement](#block3.3)
@@ -23,10 +25,10 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
 	* [3.4. DELETE Statement](#block3.4)     
         * [3.4.1. Basic DELETE statement](#block3.4.1)
         * [3.4.2. Elaborated DELETE statement](#block3.4.2)  	
-* [4. Advanced Queries](#block4)	
-	* [4.1. Filtering using WHERE](#block4.1)     
-		* [4.1.1 Available operators](#block4.1)     
-	* [4.2. Changing WHERE logical operator](#block4.2)     
+* [4. Advanced Quering](#block4)	
+	* [4.1. Filtering using WHERE](#block4.1)
+		* [4.1.1. Changing WHERE logical operator](#block4.2)     
+		* [4.1.2. Writing complicated WHERE conditions](#block4.2)     
 	* [4.3. Grouping with GROUP BY and HAVING](#block4.3)     
 		* [4.3.1 Available HAVING operators](#block4.3.1)     
 	* [4.4. Changing HAVING logical operator](#block4.4)     
@@ -174,6 +176,88 @@ echo $builder->write($query);
 ```sql
 SELECT user.user_id AS userId, user.name AS username, user.email AS email FROM user
 ```
+<a name="block3.1.3"></a>
+#### 3.1.3. SELECT with WHERE statement
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$query = (new Select())
+    ->setTable('user')
+    ->setColumns([
+        'userId' => 'user_id',
+        'username' => 'name',
+        'email' => 'email'
+    ]);
+    ->where()
+    ->greaterThan('user_id', 5)
+    ->notLike('username', 'John');
+    
+$builder = new GenericBuilder();    
+echo $builder->writeFormatted($query);    
+```
+#### Output:
+```sql
+SELECT 
+    user.user_id AS userId,
+    user.name AS username,
+    user.email AS email 
+FROM 
+    user 
+WHERE 
+    user.user_id < :v5
+```
+
+<a name="block3.1.4"></a>
+#### 3.1.4. LEFT/RIGHT/INNER/CROSS JOIN SELECT statements
+
+Syntax for `LEFT JOIN`, `LEFT JOIN`, `LEFT JOIN`, `LEFT JOIN` work the exactly same way. Here's an example selecting both table and joined table columns and doing sorting using columns from both the table and the joined table.
+
+```php
+$query = (new Select())
+    ->setTable('user')
+    ->setColumns([
+            'userId'   => 'user_id',
+            'username' => 'name',
+            'email'    => 'email',
+            'created_at'
+    ])
+    ->orderBy('user_id', OrderBy::DESC)
+    ->leftJoin(
+        'news', //join table
+        'user_id', //origin table field used to join
+        'author_id', //join column
+         ['newsTitle' => 'title', 'body', 'created_at', 'updated_at']
+     )
+    ->on()
+    ->equals('author_id', 1); //enforcing a condition on the join column
+
+$query
+    ->orderBy('created_at', OrderBy::DESC);
+```
+```sql
+SELECT 
+    user.user_id AS userId,
+    user.name AS username,
+    user.email AS email,
+    user.created_at,
+    news.title AS newsTitle,
+    news.body,
+    news.created_at,
+    news.updated_at 
+FROM 
+    user 
+LEFT JOIN 
+        news
+    ON 
+        (news.author_id = user.user_id) 
+        AND (news.author_id = :v1)
+ORDER BY 
+    user.user_id DESC,
+    news.created_at DESC';
+```
 
 <a name="block3.2"></a>
 ### 3.2. INSERT Statement [↑](#index_block)
@@ -209,7 +293,7 @@ $query = (new Update())
     
 $builder = new GenericBuilder(); 
    
-$sql = $builder->write($query);    
+$sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
 ```
 #### Output:
@@ -351,7 +435,7 @@ LIMIT :v4
 ```
 
 <a name="block4"></a>
-## 4. Advanced Queries [↑](#index_block)
+## 4. Advanced Quering [↑](#index_block)
 
 <a name="block4.1"></a>
 ### 4.1. Filtering using WHERE [↑](#index_block)
@@ -381,8 +465,6 @@ The following operators are available for filtering using WHERE conditionals:
     public function addBitClause($column, $value);
     public function conjunction($operator);
 ```
-<a name="block4.1.1"></a>
-#### 4.1.1 Available operators [↑](#index_block)
 
 <a name="block4.2"></a>
 ### 4.2. Changing WHERE logical operator [↑](#index_block)
