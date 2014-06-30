@@ -228,11 +228,11 @@ use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 $query = (new Select())
     ->setTable('user')
     ->where()
-    ->equals($column, 1)
-    ->equals($column, 2)
+    ->equals('user_id', 1)
+    ->equals('user_id', 2)
     ->subWhere("OR")
     ->lessThan($column, 10)
-    ->greaterThan($column, 100);
+    ->greaterThan('user_id', 100);
 
 $builder = new GenericBuilder();
 echo $builder->writeFormatted($query);
