@@ -33,7 +33,8 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
 		* [4.3.1 Available HAVING operators](#block4.3.1)     
 	* [4.4. Changing HAVING logical operator](#block4.4)     
 	* [4.5. Columns as SELECT statements](#block4.5)     	
-	* [4.6. Columns using FUNCTIONS](#block4.6)     		
+	* [4.6. 	Columns being Values](#block4.6)
+	* [4.7. Columns using FUNCTIONS](#block4.7)
 * [5. Quality Code](#block5)
 * [6. Author](#block6)
 * [7. License](#block7)
@@ -640,8 +641,167 @@ HAVING
 <a name="block4.5"></a>
 ### 4.5. Columns as SELECT statements [↑](#index_block)
 
+Sometimes, a column needs to be set as a column. SQL Query Builder got you covered on this one too! Check the example below.
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$selectRole = (new Select())
+    ->setTable('role')
+    ->setColumns(array('role_name'))
+    ->limit(1)
+    ->where()
+    ->equals('role_id', 3);
+
+$query = (new Select())
+    ->setTable('user')
+    ->setColumns(array('user_id', 'username'))
+    ->setSelectAsColumn(array('user_role' => $selectRole))
+    ->setSelectAsColumn(array($selectRole))
+    ->where()
+    ->equals('user_id', 4);
+
+$builder = new GenericBuilder(); 
+   
+$sql = $builder->writeFormatted($query);    
+$values = $builder->getValues();
+```
+#### Output:
+```sql
+SELECT 
+    user.user_id,
+    user.username,
+    (
+        SELECT 
+            role.role_name 
+        FROM 
+            role 
+        WHERE 
+            (role.role_id = :v1) 
+        LIMIT :v2, :v3
+    ) AS user_role, 
+    (
+        SELECT 
+            role.role_name  
+        FROM 
+            role 
+        WHERE 
+            (role.role_id = :v4) 
+        LIMIT :v5, :v6
+    ) AS role 
+FROM 
+    user 
+WHERE 
+    (user.user_id = :v7)
+```
+
 <a name="block4.6"></a>
-### 4.6. Columns using FUNCTIONS [↑](#index_block)
+### 4.6. Columns being Values [↑](#index_block)
+
+There are time where you need to force the same column structure (eg: UNIONs) even when lacking of a column or value. Forcing column with values gets you covered.
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$query = (new Select())
+    ->setTable('user')
+    ->setColumns(array('user_id', 'username'))
+    ->setValueAsColumn('10', 'priority')
+    ->where()
+    ->equals('user_id', 1);
+
+$builder = new GenericBuilder(); 
+   
+$sql = $builder->writeFormatted($query);    
+$values = $builder->getValues();
+```
+#### Output:
+```sql
+SELECT 
+    user.user_id,
+    user.username,
+    :v1 AS priority 
+FROM 
+    user 
+WHERE
+    (user.user_id = :v2)
+```
+
+<a name="block4.7"></a>
+### 4.7. Columns using FUNCTIONS [↑](#index_block)
+
+Example for MAX function.
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$query = (new Select())
+    ->setTable('user')
+    ->setColumns(array('user_id', 'username'))
+    ->setFunctionAsColumn('MAX', array('user_id'), 'max_id')
+    ->where()
+    ->equals('user_id', 1);
+    
+$builder = new GenericBuilder(); 
+   
+$sql = $builder->writeFormatted($query);    
+$values = $builder->getValues();
+```
+
+#### Output:
+```sql
+SELECT 
+    user.user_id,
+    user.username,
+    MAX(user_id) AS max_id 
+FROM 
+    user
+WHERE
+    (user.user_id = :v1)
+```
+
+Example for CURRENT_TIMESTAMP function.
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$query = (new Select())
+    ->setTable('user')
+    ->setColumns(array('user_id', 'username'))
+    ->setFunctionAsColumn('CURRENT_TIMESTAMP', array(), 'server_time')
+    ->where()
+    ->equals('user_id', 1);
+
+$builder = new GenericBuilder(); 
+   
+$sql = $builder->writeFormatted($query);    
+$values = $builder->getValues();
+```
+
+#### Output:
+```sql
+SELECT 
+    user.user_id,
+    user.username,
+    CURRENT_TIMESTAMP AS server_time 
+FROM 
+    user 
+WHERE
+    (user.user_id = :v1)
+```
+
 
 
 <a name="block5"></a>
