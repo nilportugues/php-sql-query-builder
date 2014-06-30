@@ -284,8 +284,7 @@ The following operators are available for filtering using WHERE conditionals:
     public function addBitClause($column, $value);
     public function conjunction($operator);
 ```
-<a name="block4.1.1"></a>
-#### 4.1.1 Available operators 
+
 
 <a name="block4.2"></a>
 ### 4.2. Changing WHERE logical operator 
