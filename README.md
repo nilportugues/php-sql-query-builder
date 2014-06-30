@@ -182,7 +182,11 @@ use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
 $query = (new Update())
             ->setTable('user')
-            ->setValues(['user_id' => 1, 'name' => 'Nil', 'contact' => 'contact@nilportugues.com'])
+            ->setValues([
+                'user_id' => 1,
+                'name' => 'Nil',
+                'contact' => 'contact@nilportugues.com'
+            ])
             ->where()
             ->equals('user_id', 1);
     
@@ -193,7 +197,6 @@ $values = $builder->getValues();
 ```
 #### Output:
 ```sql
-## $sql
 UPDATE user SET  user.user_id = :v1, user.name = :v2, user.contact = :v3  WHERE (user.user_id = :v4)
 ```
 ```php
@@ -201,9 +204,47 @@ UPDATE user SET  user.user_id = :v1, user.name = :v2, user.contact = :v3  WHERE 
 [':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com', ':v4' => 1];
 ```
 
-### 3.3.2 Example of a more elaborated UPDATE statement 
+### 3.3.2 Elaborated UPDATE statement 
 
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Update;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
+$query = (new Update())
+    ->setTable('user')
+    ->setValues([
+        'name' => 'UpdatedName',
+    ]);
+    
+$query
+    ->where()
+    ->like('username', '%N')
+    ->between('user_id', 1, 2000);
+        
+$query
+    ->orderBy('user_id', OrderBy::ASC)
+    ->limit(1);            
+
+$builder = new GenericBuilder(); 
+   
+$sql = $builder->writeFormatted($query);    
+$values = $builder->getValues();
+```
+#### Output:
+```sql
+UPDATE 
+    user 
+SET 
+    user.name = :v1
+WHERE 
+    (user.username LIKE :v2) 
+    AND (user.user_id BETWEEN :v3 AND :v4)
+ORDER BY 
+    user.user_id ASC 
+LIMIT :v5
+```
 
 <a name="block3.4"></a>
 ### 3.4. DELETE Statement 
@@ -213,6 +254,9 @@ UPDATE user SET  user.user_id = :v1, user.name = :v2, user.contact = :v3  WHERE 
 
 <a name="block4.1"></a>
 ### 4.1. Filtering using WHERE 
+The following operators are available for filtering using WHERE conditionals:
+
+
 
 <a name="block4.1.1"></a>
 #### 4.1.1 Available operators 
@@ -225,6 +269,7 @@ UPDATE user SET  user.user_id = :v1, user.name = :v2, user.contact = :v3  WHERE 
 
 <a name="block4.3.1"></a>
 #### 4.3.1 Available HAVING operators 
+Same operators used in the WHERE statement are available for HAVING operations.
 
 <a name="block4.4"></a>
 ### 4.4. Changing HAVING logical operator 
