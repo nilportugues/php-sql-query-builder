@@ -178,6 +178,9 @@ SELECT user.user_id AS userId, user.name AS username, user.email AS email FROM u
 ```
 <a name="block3.1.3"></a>
 #### 3.1.3. SELECT with WHERE statement
+
+Default logical operator for filtering using `WHERE` conditions is `AND`.
+
 #### Usage:
 ```php
 <?php
@@ -280,8 +283,8 @@ ORDER BY
 
 The `INSERT` statement is really straightforward.
 
-<a name="block3.2.1"></a>
-### 3.3.1 Basic INSERT statement [↑](#index_block)
+<a name="block3.3.1"></a>
+### 3.2.1 Basic INSERT statement [↑](#index_block)
 
 #### Usage:
 ```php
@@ -307,7 +310,7 @@ $values = $builder->getValues();
 ```sql
 INSERT INTO user (user.user_id, user.name, user.contact) VALUES (:v1, :v2, :v3)
 ```
-----
+
 ```php
 [':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com'];
 ```
@@ -320,7 +323,7 @@ The `UPDATE` statement works just like expected, set the values and the conditio
 
 Examples provided below.
 
-<a name="block3.3.2"></a>
+<a name="block3.3.1"></a>
 ### 3.3.1 Basic UPDATE statement [↑](#index_block)
 Important including the the `where` statement is critical, or all table rows will be replaced with the provided values if the statement is executed.
 
@@ -516,8 +519,74 @@ The following operators are available for filtering using WHERE conditionals:
 <a name="block4.2"></a>
 ### 4.2. Changing WHERE logical operator [↑](#index_block)
 
+For the time being, `WHERE` default's operator must be changed using the `setWhereOperator` method before the using the `where` method.
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$query = (new Select())
+    ->setTable('user')
+    ->setWhereOperator('OR')
+    ->where()
+    ->equals('user_id', 1)
+    ->like('name', '%N%');
+       
+$builder = new GenericBuilder(); 
+   
+$sql = $builder->writeFormatted($query);    
+$values = $builder->getValues();
+```
+#### Output:
+```sql
+SELECT user.* FROM user WHERE (user.user_id = :v1) OR (user.name LIKE :v2)
+```
+        
 <a name="block4.3"></a>
 ### 4.3. Grouping with GROUP BY and HAVING [↑](#index_block)
+
+Default logical operator for joining more than one `HAVING` condition is `AND`.
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$query = (new Select())
+    ->setTable('user')
+    ->setColumns([
+        'userId'   => 'user_id',
+        'username' => 'name',
+        'email'    => 'email',
+        'created_at'
+    ])
+    ->groupBy(['user_id', 'name'])
+    ->having()
+    ->equals('user_id', 1);
+       
+$builder = new GenericBuilder(); 
+   
+$sql = $builder->writeFormatted($query);    
+$values = $builder->getValues();
+```
+#### Output:
+```sql
+SELECT 
+    user.user_id AS userId,
+    user.name AS username,
+    user.email AS email,
+    user.created_at 
+FROM 
+    user 
+GROUP BY 
+    user.user_id, user.name 
+HAVING 
+    (user.user_id = :v1)
+    AND (user.user_id = :v2)
+```
 
 <a name="block4.3.1"></a>
 #### 4.3.1 Available HAVING operators  [↑](#index_block)
@@ -545,7 +614,8 @@ $query = (new Select())
     ->groupBy(['user_id', 'name'])
     ->setHavingOperator('OR')
     ->having()
-    ->equals('user_id', 1);   
+    ->equals('user_id', 1);
+       
 $builder = new GenericBuilder(); 
    
 $sql = $builder->writeFormatted($query);    
