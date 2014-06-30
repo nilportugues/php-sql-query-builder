@@ -89,7 +89,11 @@ SELECT user.* FROM `user`
 <a name="block2.3"></a>
 ## 2.3. Human Readable Output
 
-Both Generic and MySQL Query Builder can write complex complicated SQL queries. Because every developer out there needs at some point revising the output of a complicated query, the SQL Query Builder includes the `writeFormatted` method for there to use when you need it.
+Both Generic and MySQL Query Builder can write complex SQL queries. 
+
+Every developer out there needs at some point revising the output of a complicated query, the SQL Query Builder includes a human-friendly output method, and therefore the `writeFormatted` method is there to aid the developer when need. 
+
+Keep in mind `writeFormatted` is to be avoided at all cost in production mode as it adds unneeded overhead due to parsing and re-formatting of the generated statement.
 
 #### Usage:
 ```php
@@ -256,8 +260,30 @@ LIMIT :v5
 ### 4.1. Filtering using WHERE 
 The following operators are available for filtering using WHERE conditionals:
 
-
-
+```php
+    public function subWhere($operator = 'OR');
+    public function setTable($table);
+    public function eq($column, $value);
+    public function equals($column, $value);
+    public function compare($column, $value, $operator);
+    public function notEquals($column, $value);
+    public function greaterThan($column, $value);
+    public function greaterThanOrEqual($column, $value);
+    public function lessThan($column, $value);
+    public function lessThanOrEqual($column, $value);
+    public function like($column, $value);
+    public function notLike($column, $value);
+    public function match(array $columns, array $values);
+    public function matchBoolean(array $columns, array $values);
+    public function matchWithQueryExpansion(array $columns, array $values);
+    public function in($column, array $values);
+    public function notIn($column, array $values);
+    public function between($column, $a, $b);
+    public function isNull($column);
+    public function isNotNull($column);
+    public function addBitClause($column, $value);
+    public function conjunction($operator);
+```
 <a name="block4.1.1"></a>
 #### 4.1.1 Available operators 
 
