@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit cacheTokens="false"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         syntaxCheck="true"
+         bootstrap="vendor/autoload.php"
+         strict="true"
+         verbose="true">
+
+    <php>
+        <ini name="intl.default_locale" value="en_US.UTF-8" />
+        <ini name="intl.error_level" value="0" />
+        <ini name="memory_limit" value="-1" />
+        <ini name="max_execution_time" value="-1"/>
+        <ini name="date.timezone" value="Europe/Madrid" />
+        <ini name="error_reporting" value="E_ALL" />
+    </php>
+
+
+    <testsuites>
+        <testsuite name="Test Suite">
+            <directory>./src/Tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./</directory>
+            <exclude>
+                <directory>./vendor/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="junit" target="build/logs/junit.xml"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+        <log type="coverage-html" target="build/coverage"/>
+    </logging>
+</phpunit>
