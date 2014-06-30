@@ -3,12 +3,13 @@ SQL Query Builder
 
 [![Build Status](https://travis-ci.org/nilportugues/sql-query-builder.png)](https://travis-ci.org/nilportugues/sql-query-builder) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/89ec1003-4227-43a2-8432-67a9fc2d3ba3/mini.png)](https://insight.sensiolabs.com/projects/89ec1003-4227-43a2-8432-67a9fc2d3ba3) [![Latest Stable Version](https://poser.pugx.org/nilportugues/sql-query-builder/v/stable.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![Total Downloads](https://poser.pugx.org/nilportugues/sql-query-builder/downloads.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![License](https://poser.pugx.org/nilportugues/sql-query-builder/license.svg)](https://packagist.org/packages/nilportugues/sql-query-builder)
 
-An elegant lightweight and efficient SQL Query Builder supporting bindings and complicated query generation
+An elegant lightweight and efficient SQL Query Builder with fluid interface SQL syntax supporting bindings and complicated query generation.
 
 * [1. Installation](#block1)
 * [2. The Builder](#block2)
 	* [2.1. Generic Builder](#block2.1)     
 	* [2.2. MySQL Builder](#block2.2)     
+	* [2.3. Human Readable Output](#block2.2)     
 * [3. Building Queries](#block3)
 	* [3.1. SELECT Statement](#block3.1)     
 	* [3.2. INSERT Statement](#block3.2)     
@@ -85,11 +86,41 @@ echo $builder->write($query);
 SELECT user.* FROM `user` 
 ```
 
+<a name="block2.3"></a>
+## 2.3. Human Readable Output
+
+Both Generic and MySQL Query Builder can write complex complicated SQL queries. Because every developer out there needs at some point revising the output of a complicated query, the SQL Query Builder includes the `writeFormatted` method for there to use when you need it.
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$query = (new Select())->setTable('user');    
+$builder = new GenericBuilder();    
+
+echo $builder->writeFormatted($query);    
+
+```
+#### Output:
+```sql
+SELECT 
+    user.* 
+FROM 
+    user
+```
+
+More complicated examples can be found in the documentation.
+
+
 <a name="block3"></a>
 ## 3. Building Queries
 
 <a name="block3.1"></a>
 ### 3.1. SELECT Statement 
+
+
 
 <a name="block3.1.1"></a>
 ### 3.1.1. Basic SELECT Statement 
@@ -132,11 +163,47 @@ echo $builder->write($query);
 SELECT user.user_id AS userId, user.name AS username, user.email AS email FROM user
 ```
 
+
+
 <a name="block3.2"></a>
 ### 3.2. INSERT Statement 
 
 <a name="block3.3"></a>
 ### 3.3. UPDATE Statement 
+
+### 3.3.1 Basic UPDATE statement 
+Important including the the `where` statement is critical, or all table rows will be replaced with the provided values if the statement is executed.
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Update;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$query = (new Update())
+            ->setTable('user')
+            ->setValues(['user_id' => 1, 'name' => 'Nil', 'contact' => 'contact@nilportugues.com'])
+            ->where()
+            ->equals('user_id', 1);
+    
+$builder = new GenericBuilder(); 
+   
+$sql = $builder->write($query);    
+$values = $builder->getValues();
+```
+#### Output:
+```sql
+## $sql
+UPDATE user SET  user.user_id = :v1, user.name = :v2, user.contact = :v3  WHERE (user.user_id = :v4)
+```
+```php
+//$values
+[':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com', ':v4' => 1];
+```
+
+### 3.3.2 Example of a more elaborated UPDATE statement 
+
+
 
 <a name="block3.4"></a>
 ### 3.4. DELETE Statement 
@@ -154,7 +221,7 @@ SELECT user.user_id AS userId, user.name AS username, user.email AS email FROM u
 ### 4.2. Changing WHERE logical operator 
 
 <a name="block4.3"></a>
-### 4.3. Aggroupation with GROUP BY and HAVING 
+### 4.3. Grouping with GROUP BY and HAVING 
 
 <a name="block4.3.1"></a>
 #### 4.3.1 Available HAVING operators 
