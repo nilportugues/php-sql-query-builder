@@ -167,10 +167,10 @@ echo $builder->write($query);
 SELECT user.user_id AS userId, user.name AS username, user.email AS email FROM user
 ```
 
-
-
 <a name="block3.2"></a>
 ### 3.2. INSERT Statement 
+
+
 
 <a name="block3.3"></a>
 ### 3.3. UPDATE Statement 
@@ -210,10 +210,15 @@ UPDATE user SET  user.user_id = :v1, user.name = :v2, user.contact = :v3  WHERE 
 
 ### 3.3.2 Elaborated UPDATE statement 
 
+The `UPDATE` statement works just like expected, set the values and the conditions to match the row and you're set. 
+
+Examples provided below.
+
 #### Usage:
 ```php
 <?php
 use NilPortugues\SqlQueryBuilder\Manipulation\Update;
+use NilPortugues\SqlQueryBuilder\Syntax\OrderBy;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
 $query = (new Update())
@@ -253,6 +258,79 @@ LIMIT :v5
 <a name="block3.4"></a>
 ### 3.4. DELETE Statement 
 
+The `DELETE` statement is used just like `UPDATE`, but no values are set. Examples provided below.
+
+### 3.3.1 Basic DELETE statement
+Important including the the `where` statement is critical, or all table rows will be deleted with the provided values if the statement is executed.
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Delete;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$query = (new Delete())
+    ->setTable('user');
+
+$query
+    ->where()
+    ->equals('user_id', 100);
+
+$query
+    ->limit(1);
+    
+$builder = new GenericBuilder(); 
+   
+$sql = $builder->write($query);    
+$values = $builder->getValues();
+```
+#### Output:
+```sql
+DELETE FROM user WHERE (user.user_id = :v1) LIMIT :v2
+```
+```php
+//$values
+[':v1' => 100, ':v2' => 1];
+```
+
+### 3.3.2 Elaborated DELETE statement 
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Delete;
+use NilPortugues\SqlQueryBuilder\Syntax\OrderBy;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$query = (new Delete())
+    ->setTable('user');
+    
+$query
+    ->where()
+    ->like('username', '%N')
+    ->between('user_id', 1, 2000);
+        
+$query
+    ->orderBy('user_id', OrderBy::ASC)
+    ->limit(1);            
+
+$builder = new GenericBuilder(); 
+   
+$sql = $builder->writeFormatted($query);    
+$values = $builder->getValues();
+```
+#### Output:
+```sql
+DELETE FROM 
+    user 
+WHERE 
+    (user.username LIKE :v1) 
+    AND (user.user_id BETWEEN :v2 AND :v3)
+ORDER BY 
+    user.user_id ASC 
+LIMIT :v4
+```
+
 <a name="block4"></a>
 ## 4. Advanced Queries 
 
@@ -284,7 +362,8 @@ The following operators are available for filtering using WHERE conditionals:
     public function addBitClause($column, $value);
     public function conjunction($operator);
 ```
-
+<a name="block4.1.1"></a>
+#### 4.1.1 Available operators 
 
 <a name="block4.2"></a>
 ### 4.2. Changing WHERE logical operator 
