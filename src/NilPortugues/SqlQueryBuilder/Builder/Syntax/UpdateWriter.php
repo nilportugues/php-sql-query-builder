@@ -31,11 +31,6 @@ class UpdateWriter
     private $placeholderWriter;
 
     /**
-     * @var WhereWriter
-     */
-    private $whereWriter;
-
-    /**
      * @param GenericBuilder    $writer
      * @param PlaceholderWriter $placeholder
      */

@@ -330,7 +330,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->where
             ->isNull($column)
-            ->getIsNull();
+            ->getNull();
 
         $this->assertInstanceOf($this->columnClass, $result[0]['subject']);
     }
@@ -344,7 +344,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->where
             ->isNotNull($column)
-            ->getIsNotNull();
+            ->getNotNull();
 
         $this->assertInstanceOf($this->columnClass, $result[0]['subject']);
     }

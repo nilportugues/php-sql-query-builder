@@ -259,7 +259,7 @@ class WhereWriter
      */
     protected function writeWhereIsNulls(Where $where)
     {
-        $isNulls = $where->getIsNull();
+        $isNulls = $where->getNull();
 
         array_walk(
             $isNulls,
@@ -281,7 +281,7 @@ class WhereWriter
      */
     protected function writeWhereIsNotNulls(Where $where)
     {
-        $isNotNulls = $where->getIsNotNull();
+        $isNotNulls = $where->getNotNull();
 
         array_walk(
             $isNotNulls,

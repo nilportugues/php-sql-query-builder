@@ -512,7 +512,7 @@ class Where
     /**
      * @return array
      */
-    public function getIsNotNull()
+    public function getNotNull()
     {
         return $this->isNotNull;
     }
@@ -520,7 +520,7 @@ class Where
     /**
      * @return array
      */
-    public function getIsNull()
+    public function getNull()
     {
         return $this->isNull;
     }

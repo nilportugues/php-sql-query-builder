@@ -76,7 +76,7 @@ class SelectWriter
      */
     public function writeSelect(Select $select)
     {
-        if ($select->getIsJoin()) {
+        if ($select->isJoinSelect()) {
             return $this->writer->writeJoin($select);
         }
 

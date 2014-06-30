@@ -249,7 +249,6 @@ class Select extends BaseQuery
      * @param null  $selfColumn
      * @param null  $refColumn
      * @param array $columns
-     * @param null  $selectClass
      *
      * @return Select
      */
@@ -263,7 +262,6 @@ class Select extends BaseQuery
      * @param null  $selfColumn
      * @param null  $refColumn
      * @param array $columns
-     * @param null  $selectClass
      *
      * @return Select
      */
@@ -284,7 +282,7 @@ class Select extends BaseQuery
     /**
      * @return boolean
      */
-    public function getIsJoin()
+    public function isJoinSelect()
     {
         return $this->isJoin;
     }
