@@ -104,13 +104,17 @@ abstract class BaseQuery implements Query, QueryPart
     }
 
     /**
+     * @param string $whereOperator
+     *
      * @return Where
      */
-    public function where()
+    public function where($whereOperator = 'AND')
     {
         if (!isset($this->where)) {
             $this->where = $this->filter();
         }
+
+        $this->where->conjunction($whereOperator);
 
         return $this->where;
     }
@@ -125,22 +129,6 @@ abstract class BaseQuery implements Query, QueryPart
         }
 
         return $this->where->getConjunction();
-    }
-
-    /**
-     * @param string $whereOperator
-     *
-     * @return $this
-     */
-    public function setWhereOperator($whereOperator)
-    {
-        if (!isset($this->where)) {
-            $this->where = $this->filter();
-        }
-
-        $this->where->conjunction($whereOperator);
-
-        return $this;
     }
 
     /**

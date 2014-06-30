@@ -69,7 +69,7 @@ class BaseQueryTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame('AND', $this->query->getWhereOperator());
 
-        $this->query->setWhereOperator('OR');
+        $this->query->where('OR');
         $this->assertSame('OR', $this->query->getWhereOperator());
     }
 }

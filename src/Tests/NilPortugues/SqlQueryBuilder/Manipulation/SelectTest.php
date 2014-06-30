@@ -245,8 +245,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $this->query
             ->setTable('user')
-            ->setWhereOperator('OR')
-            ->where()
+            ->where('OR')
             ->equals('user_id', 1)
             ->like('name', '%N%');
 
@@ -526,7 +525,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 )
             )
             ->groupBy(array('user_id', 'name'))
-            ->setHavingOperator('AAAAAAAAAAAAAAAA');
+            ->having('AAAAAAAAAAAAAAAA');
 
     }
 
@@ -546,8 +545,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 )
             )
             ->groupBy(array('user_id', 'name'))
-            ->setHavingOperator('OR')
-            ->having()
+            ->having('OR')
             ->equals('user_id', 1)
             ->equals('user_id', 2);
 

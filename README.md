@@ -520,7 +520,7 @@ The following operators are available for filtering using WHERE conditionals:
 <a name="block4.2"></a>
 ### 4.2. Changing WHERE logical operator [↑](#index_block)
 
-For the time being, `WHERE` default's operator must be changed using the `setWhereOperator` method before the using the `where` method.
+`WHERE` default's operator must be changed passing to the `where` method the logical operator `OR`.
 
 #### Usage:
 ```php
@@ -530,8 +530,7 @@ use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
 $query = (new Select())
     ->setTable('user')
-    ->setWhereOperator('OR')
-    ->where()
+    ->where('OR')
     ->equals('user_id', 1)
     ->like('name', '%N%');
        
@@ -596,7 +595,7 @@ Same operators used in the WHERE statement are available for HAVING operations.
 <a name="block4.4"></a>
 ### 4.4. Changing HAVING logical operator [↑](#index_block)
 
-For the time being, `HAVING` default's operator must be changed using the `setHavingOperator` method before the using the `having` method.
+`HAVING` default's operator must be changed passing to the `having` method the logical operator `OR`.
 
 #### Usage:
 ```php
@@ -613,8 +612,7 @@ $query = (new Select())
         'created_at'
     ])
     ->groupBy(['user_id', 'name'])
-    ->setHavingOperator('OR')
-    ->having()
+    ->having('OR')
     ->equals('user_id', 1);
        
 $builder = new GenericBuilder(); 

@@ -537,13 +537,24 @@ class Select extends BaseQuery
     }
 
     /**
+     * @param $havingOperator
+     *
+     * @throws QueryException
      * @return Where
      */
-    public function having()
+    public function having($havingOperator = 'AND')
     {
         if (!isset($this->having)) {
             $this->having = QueryFactory::createWhere($this);
         }
+
+        if (!in_array($havingOperator, array(Where::CONJUNCTION_AND, Where::CONJUNCTION_OR))) {
+            throw new QueryException(
+                "Invalid conjunction specified, must be one of AND or OR, but '" . $havingOperator . "' was found."
+            );
+        }
+
+        $this->havingOperator = $havingOperator;
 
         return $this->having;
     }
@@ -556,24 +567,6 @@ class Select extends BaseQuery
         return $this->havingOperator;
     }
 
-    /**
-     * @param string $havingOperator
-     *
-     * @throws QueryException
-     * @return $this
-     */
-    public function setHavingOperator($havingOperator)
-    {
-        if (!in_array($havingOperator, array(Where::CONJUNCTION_AND, Where::CONJUNCTION_OR))) {
-            throw new QueryException(
-                "Invalid conjunction specified, must be one of AND or OR, but '" . $havingOperator . "' was found."
-            );
-        }
-
-        $this->havingOperator = $havingOperator;
-
-        return $this;
-    }
 
     /**
      * @return $this
