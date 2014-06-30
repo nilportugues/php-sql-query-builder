@@ -218,6 +218,7 @@ Syntax for `JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `INNER JOIN`, `CROSS JOIN` work th
 
 Here's an example selecting both table and joined table columns and doing sorting using columns from both the table and the joined table.
 
+#### Usage:
 ```php
 $query = (new Select())
     ->setTable('user')
@@ -244,7 +245,11 @@ $query
 
 $query
     ->orderBy('created_at', OrderBy::DESC);
+
+$builder = new GenericBuilder();    
+echo $builder->writeFormatted($query); 
 ```
+#### Output:
 ```sql
 SELECT 
     user.user_id AS userId,
@@ -308,8 +313,7 @@ $sql = $builder->writeFormatted($query);
 $values = $builder->getValues();
 ```
 #### Output:
-```
-//$sql
+```sql
 UPDATE 
     user 
 SET
@@ -318,8 +322,8 @@ SET
     user.contact = :v3
 WHERE 
     (user.user_id = :v4)
-
-//$values
+```
+```php
 [':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com', ':v4' => 1];
 ```
 <a name="block3.3.2"></a>
@@ -399,11 +403,10 @@ $sql = $builder->write($query);
 $values = $builder->getValues();
 ```
 #### Output:
-```
-//$sql
+```sql
 DELETE FROM user WHERE (user.user_id = :v1) LIMIT :v2
-
-//$values
+```
+```php
 [':v1' => 100, ':v2' => 1];
 ```
 <a name="block3.4.2"></a>
