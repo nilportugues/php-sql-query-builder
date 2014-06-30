@@ -607,7 +607,8 @@ $query = (new Select())
     ])
     ->groupBy(['user_id', 'name'])
     ->having()
-    ->equals('user_id', 1);
+    ->equals('user_id', 1)
+    ->equals('user_id', 2);
        
 $builder = new GenericBuilder(); 
    
@@ -655,7 +656,8 @@ $query = (new Select())
     ])
     ->groupBy(['user_id', 'name'])
     ->having('OR')
-    ->equals('user_id', 1);
+    ->equals('user_id', 1)
+    ->equals('user_id', 2);
        
 $builder = new GenericBuilder(); 
    
