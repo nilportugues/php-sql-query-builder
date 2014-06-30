@@ -16,7 +16,7 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
         * [3.1.1. Basic SELECT statement](#block3.1.1) 
         * [3.1.2. Aliased SELECT statement](#block3.1.2)
         * [3.1.3. SELECT with WHERE statement](#block3.1.3)
-        * [3.1.4. LEFT/RIGHT/INNER/CROSS JOIN SELECT statements](#block3.1.4)
+        * [3.1.4. JOIN & LEFT/RIGHT/INNER/CROSS JOIN SELECT statements](#block3.1.4)
 	* [3.2. INSERT Statement](#block3.2)
 	       * [3.2.1. Basic INSERT statement](#block3.2.1) 
 	* [3.3. UPDATE Statement](#block3.3)
@@ -207,13 +207,16 @@ SELECT
 FROM 
     user 
 WHERE 
-    user.user_id < :v5
+    (user.user_id < :v1)
+    AND (user.username NOT LIKE :v2)
 ```
 
 <a name="block3.1.4"></a>
-#### 3.1.4. LEFT/RIGHT/INNER/CROSS JOIN SELECT statements
+#### 3.1.4. JOIN & LEFT/RIGHT/INNER/CROSS JOIN SELECT statements
 
-Syntax for `LEFT JOIN`, `LEFT JOIN`, `LEFT JOIN`, `LEFT JOIN` work the exactly same way. Here's an example selecting both table and joined table columns and doing sorting using columns from both the table and the joined table.
+Syntax for `JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `INNER JOIN`, `CROSS JOIN` work the exactly same way. 
+
+Here's an example selecting both table and joined table columns and doing sorting using columns from both the table and the joined table.
 
 ```php
 $query = (new Select())
@@ -235,6 +238,11 @@ $query = (new Select())
     ->equals('author_id', 1); //enforcing a condition on the join column
 
 $query
+    ->where()
+    ->greaterThan('user_id', 5)
+    ->notLike('username', 'John');
+
+$query
     ->orderBy('created_at', OrderBy::DESC);
 ```
 ```sql
@@ -254,9 +262,12 @@ LEFT JOIN
     ON 
         (news.author_id = user.user_id) 
         AND (news.author_id = :v1)
+WHERE 
+    (user.user_id < :v2)
+    AND (user.username NOT LIKE :v3)        
 ORDER BY 
     user.user_id DESC,
-    news.created_at DESC';
+    news.created_at DESC;
 ```
 
 <a name="block3.2"></a>
@@ -478,6 +489,49 @@ Same operators used in the WHERE statement are available for HAVING operations.
 
 <a name="block4.4"></a>
 ### 4.4. Changing HAVING logical operator [↑](#index_block)
+
+For the time being, `HAVING` default's operator must be changed using the `setHavingOperator` method before the using the `having` method.
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$query = (new Select())
+    ->setTable('user')
+    ->setColumns(
+        array(
+            'userId'   => 'user_id',
+            'username' => 'name',
+            'email'    => 'email',
+            'created_at'
+        )
+    )
+    ->groupBy(array('user_id', 'name'))
+    ->setHavingOperator('OR')
+    ->having()
+    ->equals('user_id', 1);   
+$builder = new GenericBuilder(); 
+   
+$sql = $builder->writeFormatted($query);    
+$values = $builder->getValues();
+```
+#### Output:
+```sql
+SELECT 
+    user.user_id AS userId,
+    user.name AS username,
+    user.email AS email,
+    user.created_at 
+FROM 
+    user 
+GROUP BY 
+    user.user_id, user.name 
+HAVING 
+    (user.user_id = :v1)
+    OR (user.user_id = :v2)
+```
 
 <a name="block4.5"></a>
 ### 4.5. Columns as SELECT statements [↑](#index_block)
