@@ -16,7 +16,8 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
         * [3.1.1. Basic SELECT statement](#block3.1.1) 
         * [3.1.2. Aliased SELECT statement](#block3.1.2)
         * [3.1.3. SELECT with WHERE statement](#block3.1.3)
-        * [3.1.4. JOIN & LEFT/RIGHT/INNER/CROSS JOIN SELECT statements](#block3.1.4)
+        * [3.1.4. Complex WHERE conditions](#block3.1.4)
+        * [3.1.5. JOIN & LEFT/RIGHT/INNER/CROSS JOIN SELECT statements](#block3.1.5)
 	* [3.2. INSERT Statement](#block3.2)
 	       * [3.2.1. Basic INSERT statement](#block3.2.1) 
 	* [3.3. UPDATE Statement](#block3.3)
@@ -28,7 +29,7 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
 * [4. Advanced Quering](#block4)	
 	* [4.1. Filtering using WHERE](#block4.1)
 		* [4.1.1. Changing WHERE logical operator](#block4.2)     
-		* [4.1.2. Writing complicated WHERE conditions](#block4.2)     
+		* [4.1.2. Writing complicated WHERE conditions](#block4.2)
 	* [4.3. Grouping with GROUP BY and HAVING](#block4.3)     
 		* [4.3.1 Available HAVING operators](#block4.3.1)     
 	* [4.4. Changing HAVING logical operator](#block4.4)     
@@ -216,7 +217,44 @@ WHERE
 ```
 
 <a name="block3.1.4"></a>
-#### 3.1.4. JOIN & LEFT/RIGHT/INNER/CROSS JOIN SELECT statements
+#### 3.1.4. Complex WHERE conditions
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$query = (new Select())
+    ->setTable('user')
+    ->where()
+    ->equals($column, 1)
+    ->equals($column, 2)
+    ->subWhere("OR")
+    ->lessThan($column, 10)
+    ->greaterThan($column, 100);
+
+$builder = new GenericBuilder();
+echo $builder->writeFormatted($query);
+```
+
+#### Output:
+```sql
+SELECT
+    user.*
+FROM
+    user
+WHERE
+    (user.user_id = :v1)
+    AND (user.user_id = :v2)
+    AND (
+        (user.user_id < :v3)
+        OR (user.user_id > :v4)
+    )
+```
+
+<a name="block3.1.5"></a>
+#### 3.1.5. JOIN & LEFT/RIGHT/INNER/CROSS JOIN SELECT statements
 
 Syntax for `JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `INNER JOIN`, `CROSS JOIN` work the exactly same way. 
 
@@ -224,6 +262,10 @@ Here's an example selecting both table and joined table columns and doing sortin
 
 #### Usage:
 ```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
 $query = (new Select())
     ->setTable('user')
     ->setColumns([
