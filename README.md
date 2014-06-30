@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/nilportugues/sql-query-builder.png)](https://travis-ci.org/nilportugues/sql-query-builder) SQL Query Builder
+SQL Query Builder
 =================
 
-[![Latest Stable Version](https://poser.pugx.org/nilportugues/sql-query-builder/v/stable.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![Total Downloads](https://poser.pugx.org/nilportugues/sql-query-builder/downloads.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![Latest Unstable Version](https://poser.pugx.org/nilportugues/sql-query-builder/v/unstable.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![License](https://poser.pugx.org/nilportugues/sql-query-builder/license.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/efe392af-cc7c-4a4f-9ec8-817de3b80f6e/mini.png)](https://insight.sensiolabs.com/projects/efe392af-cc7c-4a4f-9ec8-817de3b80f6e)
+[![Build Status](https://travis-ci.org/nilportugues/sql-query-builder.png)](https://travis-ci.org/nilportugues/sql-query-builder) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/89ec1003-4227-43a2-8432-67a9fc2d3ba3/mini.png)](https://insight.sensiolabs.com/projects/89ec1003-4227-43a2-8432-67a9fc2d3ba3) [![Latest Stable Version](https://poser.pugx.org/nilportugues/sql-query-builder/v/stable.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![Total Downloads](https://poser.pugx.org/nilportugues/sql-query-builder/downloads.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![License](https://poser.pugx.org/nilportugues/sql-query-builder/license.svg)](https://packagist.org/packages/nilportugues/sql-query-builder)
 
-Builds sitemaps for pages, images and media files and provides a class to submit them to search engines.
+An elegant lightweight and efficient SQL Query Builder supporting bindings and complicated query generation
 
 * [1. Installation](#block1)
 * [2. The Builder](#block2)
@@ -18,7 +18,7 @@ Builds sitemaps for pages, images and media files and provides a class to submit
 	* [4.1. Filtering using WHERE](#block4.1)     
 		* [4.1.1 Available operators](#block4.1)     
 	* [4.2. Changing WHERE logical operator](#block4.2)     
-	* [4.3. Aggroupation with GROUP BY and HAVING](#block4.3)     
+	* [4.3. Grouping with GROUP BY and HAVING](#block4.3)     
 		* [4.3.1 Available HAVING operators](#block4.3.1)     
 	* [4.4. Changing HAVING logical operator](#block4.4)     
 	* [4.5. Columns as SELECT statements](#block4.5)     	
@@ -171,7 +171,7 @@ SELECT user.user_id AS userId, user.name AS username, user.email AS email FROM u
 
 <a name="block5"></a>
 ## 5. Quality Code
-Testing has been done using PHPUnit and [Travis-CI](https://travis-ci.org). All code has been tested to be compatible from PHP 5.3 up to PHP 5.6 and [HHVM](http://hhvm.com/).
+Testing has been done using PHPUnit and [Travis-CI](https://travis-ci.org). All code has been tested to be compatible from PHP 5.4 up to PHP 5.6 and [HHVM](http://hhvm.com/).
 
 To run the test suite, you need [Composer](http://getcomposer.org):
 
