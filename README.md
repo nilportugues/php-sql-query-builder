@@ -536,8 +536,6 @@ The following operators are available for filtering using WHERE conditionals:
 
 ```php
     public function subWhere($operator = 'OR');
-    public function setTable($table);
-    public function eq($column, $value);
     public function equals($column, $value);
     public function compare($column, $value, $operator);
     public function notEquals($column, $value);
@@ -556,7 +554,6 @@ The following operators are available for filtering using WHERE conditionals:
     public function isNull($column);
     public function isNotNull($column);
     public function addBitClause($column, $value);
-    public function conjunction($operator);
 ```
 
 <a name="block4.2"></a>
