@@ -19,7 +19,7 @@ final class SyntaxFactory
      * Creates a collection of Column objects.
      *
      * @param array $arguments
-     * @param null  $table
+     * @param Table|null  $table
      *
      * @return array
      */
@@ -47,7 +47,7 @@ final class SyntaxFactory
      * Creates a Column object.
      *
      * @param array $argument
-     * @param null  $table
+     * @param null|Table  $table
      *
      * @return Column
      */

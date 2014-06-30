@@ -91,7 +91,7 @@ class PlaceholderWriter
     }
 
     /**
-     * @param $value
+     * @param string $value
      *
      * @return string
      */
@@ -101,7 +101,7 @@ class PlaceholderWriter
     }
 
     /**
-     * @param $value
+     * @param boolean $value
      *
      * @return string
      */

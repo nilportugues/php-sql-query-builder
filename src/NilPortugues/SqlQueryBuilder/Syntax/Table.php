@@ -37,7 +37,7 @@ class Table
 
     /**
      * @param      $name
-     * @param null $schema
+     * @param string $schema
      */
     public function __construct($name, $schema = null)
     {
@@ -125,6 +125,7 @@ class Table
 
     /**
      * @param string
+     * @param string $schema
      *
      * @return $this
      */

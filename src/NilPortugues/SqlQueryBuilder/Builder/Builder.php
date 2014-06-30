@@ -20,7 +20,7 @@ interface Builder
     /**
      * @param Query $query
      *
-     * @return mixed
+     * @return string
      */
     public function write(Query $query);
 }

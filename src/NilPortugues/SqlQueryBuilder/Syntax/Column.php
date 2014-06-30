@@ -36,8 +36,8 @@ class Column implements QueryPart
 
     /**
      * @param      $name
-     * @param      $table
-     * @param null $alias
+     * @param      null|string $table
+     * @param null|string $alias
      */
     public function __construct($name, $table, $alias = null)
     {
@@ -104,7 +104,7 @@ class Column implements QueryPart
     }
 
     /**
-     * @param $alias
+     * @param null|string $alias
      *
      * @return $this
      * @throws QueryException

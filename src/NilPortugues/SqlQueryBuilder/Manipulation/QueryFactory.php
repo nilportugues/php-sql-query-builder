@@ -61,7 +61,7 @@ final class QueryFactory
     /**
      * @param Query $query
      *
-     * @return mixed
+     * @return Where
      */
     public static function createWhere(Query $query)
     {

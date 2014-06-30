@@ -258,7 +258,7 @@ class GenericBuilder implements Builder
     /**
      * @param $operator
      *
-     * @return mixed
+     * @return string
      */
     public function writeConjunction($operator)
     {
