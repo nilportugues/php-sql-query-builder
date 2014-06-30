@@ -51,7 +51,7 @@ class MySqlBuilder extends GenericBuilder
      *
      * @param $alias
      *
-     * @return mixed
+     * @return string
      */
     public function writeAlias($alias)
     {

@@ -101,7 +101,7 @@ class Select extends BaseQuery
     protected $columnFuncs = array();
 
     /**
-     * @param null  $table
+     * @param string  $table
      * @param array $columns
      */
     public function __construct($table = null, $columns = array(Column::ALL))
@@ -152,7 +152,7 @@ class Select extends BaseQuery
      * @param null  $selfColumn
      * @param null  $refColumn
      * @param array $columns
-     * @param null  $joinType
+     * @param string  $joinType
      *
      * @return Select
      */
@@ -460,7 +460,7 @@ class Select extends BaseQuery
 
 
     /**
-     * @param $start
+     * @param integer $start
      * @param $count
      *
      * @return $this

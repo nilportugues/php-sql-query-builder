@@ -144,7 +144,7 @@ abstract class BaseQuery implements Query, QueryPart
     }
 
     /**
-     * @param        $column
+     * @param        string $column
      * @param string $direction
      * @param null   $table
      *

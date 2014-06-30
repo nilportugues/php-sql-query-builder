@@ -167,7 +167,7 @@ class Where
     }
 
     /**
-     * @param $table string
+     * @param Table $table string
      *
      * @return $this
      */
@@ -182,7 +182,7 @@ class Where
      * equals alias
      *
      * @param $column
-     * @param $value
+     * @param integer $value
      *
      * @return static
      */
@@ -205,7 +205,7 @@ class Where
     /**
      * @param $column
      * @param $value
-     * @param $operator
+     * @param string $operator
      *
      * @return $this
      */
@@ -235,8 +235,8 @@ class Where
     }
 
     /**
-     * @param $column
-     * @param $value
+     * @param string $column
+     * @param integer $value
      *
      * @return static
      */
@@ -246,8 +246,8 @@ class Where
     }
 
     /**
-     * @param $column
-     * @param $value
+     * @param string $column
+     * @param integer $value
      *
      * @return static
      */
@@ -257,8 +257,8 @@ class Where
     }
 
     /**
-     * @param $column
-     * @param $value
+     * @param string $column
+     * @param integer $value
      *
      * @return static
      */
@@ -268,8 +268,8 @@ class Where
     }
 
     /**
-     * @param $column
-     * @param $value
+     * @param string $column
+     * @param integer $value
      *
      * @return static
      */
@@ -279,8 +279,8 @@ class Where
     }
 
     /**
-     * @param $column
-     * @param $value
+     * @param string $column
+     * @param integer $value
      *
      * @return static
      */
@@ -290,7 +290,7 @@ class Where
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @param $value
      *
      * @return static
@@ -301,8 +301,8 @@ class Where
     }
 
     /**
-     * @param $column
-     * @param $value
+     * @param string $column
+     * @param integer $value
      *
      * @return static
      */
@@ -313,7 +313,7 @@ class Where
 
     /**
      * @param       $column
-     * @param array $values
+     * @param integer[] $values
      *
      * @return static
      */
@@ -330,7 +330,7 @@ class Where
 
     /**
      * @param       $column
-     * @param array $values
+     * @param integer[] $values
      *
      * @return static
      */
@@ -347,7 +347,7 @@ class Where
 
     /**
      * @param       $column
-     * @param array $values
+     * @param integer[] $values
      *
      * @return static
      */
@@ -363,8 +363,8 @@ class Where
     }
 
     /**
-     * @param       $column
-     * @param array $values
+     * @param       string $column
+     * @param integer[] $values
      *
      * @return static
      */
@@ -376,8 +376,8 @@ class Where
     }
 
     /**
-     * @param       $column
-     * @param array $values
+     * @param       string $column
+     * @param integer[] $values
      *
      * @return static
      */
@@ -389,9 +389,9 @@ class Where
     }
 
     /**
-     * @param $column
-     * @param $a
-     * @param $b
+     * @param string $column
+     * @param integer $a
+     * @param integer $b
      *
      * @return static
      */
@@ -404,7 +404,7 @@ class Where
     }
 
     /**
-     * @param $column
+     * @param string $column
      *
      * @return static
      */
@@ -417,7 +417,7 @@ class Where
     }
 
     /**
-     * @param $column
+     * @param string $column
      *
      * @return static
      */
@@ -430,8 +430,8 @@ class Where
     }
 
     /**
-     * @param $column
-     * @param $value
+     * @param string $column
+     * @param integer $value
      *
      * @return static
      */
@@ -468,7 +468,7 @@ class Where
     }
 
     /**
-     * @param $operator
+     * @param string $operator
      *
      * @return $this
      * @throws QueryException

@@ -67,7 +67,7 @@ class Update extends BaseQuery
     }
 
     /**
-     * @param $start
+     * @param integer $start
      *
      * @return $this
      */
