@@ -24,8 +24,9 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
         * [3.3.1. Basic UPDATE statement](#block3.3.1)
         * [3.3.2. Elaborated UPDATE statement](#block3.3.2)
 	* [3.4. DELETE Statement](#block3.4)     
-        * [3.4.1. Basic DELETE statement](#block3.4.1)
-        * [3.4.2. Elaborated DELETE statement](#block3.4.2)  	
+	* [3.4.1. Empty table with DELETE statement](#block3.4.1)
+        * [3.4.2. Basic DELETE statement](#block3.4.2)
+        * [3.4.3. Elaborated DELETE statement](#block3.4.3)  	
 * [4. Advanced Quering](#block4)	
 	* [4.1. Filtering using WHERE](#block4.1)
 		* [4.1.1. Changing WHERE logical operator](#block4.2)     
@@ -99,7 +100,7 @@ SELECT user.* FROM `user`
 ```
 
 <a name="block2.3"></a>
-### 2.3. Human Readable Output [↑](#index_block)
+#### 2.3. Human Readable Output [↑](#index_block)
 
 Both Generic and MySQL Query Builder can write complex SQL queries. 
 
@@ -139,7 +140,7 @@ More complicated examples can be found in the documentation.
 
 
 <a name="block3.1.1"></a>
-### 3.1.1. Basic SELECT statement [↑](#index_block)
+#### 3.1.1. Basic SELECT statement [↑](#index_block)
 #### Usage:
 ```php
 <?php
@@ -159,7 +160,7 @@ SELECT user.user_id, user.name, user.email FROM user
 ```
 
 <a name="block3.1.2"></a>
-### 3.1.2. Aliased SELECT statement [↑](#index_block) 
+#### 3.1.2. Aliased SELECT statement [↑](#index_block) 
 
 #### Usage:
 ```php
@@ -179,7 +180,7 @@ echo $builder->write($query);
 SELECT user.user_id AS userId, user.name AS username, user.email AS email FROM user
 ```
 <a name="block3.1.3"></a>
-#### 3.1.3. SELECT with WHERE statement
+#### 3.1.3. SELECT with WHERE statement [↑](#index_block)
 
 Default logical operator for filtering using `WHERE` conditions is `AND`.
 
@@ -217,7 +218,7 @@ WHERE
 ```
 
 <a name="block3.1.4"></a>
-#### 3.1.4. Complex WHERE conditions
+#### 3.1.4. Complex WHERE conditions [↑](#index_block)
 
 #### Usage:
 ```php
@@ -254,7 +255,7 @@ WHERE
 ```
 
 <a name="block3.1.5"></a>
-#### 3.1.5. JOIN & LEFT/RIGHT/INNER/CROSS JOIN SELECT statements
+#### 3.1.5. JOIN & LEFT/RIGHT/INNER/CROSS JOIN SELECT statements [↑](#index_block)
 
 Syntax for `JOIN`, `LEFT JOIN`, `RIGHT JOIN`, `INNER JOIN`, `CROSS JOIN` work the exactly same way. 
 
@@ -327,7 +328,7 @@ ORDER BY
 The `INSERT` statement is really straightforward.
 
 <a name="block3.3.1"></a>
-### 3.2.1 Basic INSERT statement [↑](#index_block)
+#### 3.2.1 Basic INSERT statement [↑](#index_block)
 
 #### Usage:
 ```php
@@ -367,7 +368,7 @@ The `UPDATE` statement works just like expected, set the values and the conditio
 Examples provided below.
 
 <a name="block3.3.1"></a>
-### 3.3.1 Basic UPDATE statement [↑](#index_block)
+#### 3.3.1 Basic UPDATE statement [↑](#index_block)
 Important including the the `where` statement is critical, or all table rows will be replaced with the provided values if the statement is executed.
 
 #### Usage:
@@ -406,7 +407,7 @@ WHERE
 [':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com', ':v4' => 1];
 ```
 <a name="block3.3.2"></a>
-### 3.3.2. Elaborated UPDATE statement [↑](#index_block)
+#### 3.3.2. Elaborated UPDATE statement [↑](#index_block)
 
 #### Usage:
 ```php
@@ -457,7 +458,28 @@ The `DELETE` statement is used just like `UPDATE`, but no values are set.
 Examples provided below.
 
 <a name="block3.4.1"></a>
-### 3.4.1. Basic DELETE statement [↑](#index_block)
+#### 3.4.1. Empty table with DELETE statement [↑](#index_block)
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Manipulation\Delete;
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$query = (new Delete())
+    ->setTable('user');
+    
+$builder = new GenericBuilder(); 
+   
+$sql = $builder->write($query);   
+```
+#### Output:
+```sql
+DELETE FROM user
+```
+
+<a name="block3.4.2"></a>
+#### 3.4.2. Basic DELETE statement [↑](#index_block)
 Important including the the `where` statement is critical, or all table rows will be deleted with the provided values if the statement is executed.
 
 #### Usage:
@@ -489,7 +511,7 @@ DELETE FROM user WHERE (user.user_id = :v1) LIMIT :v2
 [':v1' => 100, ':v2' => 1];
 ```
 <a name="block3.4.2"></a>
-### 3.4.2. Elaborated DELETE statement [↑](#index_block) 
+#### 3.4.2. Elaborated DELETE statement [↑](#index_block) 
 
 #### Usage:
 ```php
