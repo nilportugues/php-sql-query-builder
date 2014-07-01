@@ -48,7 +48,7 @@ The recommended way to install SQL Query Builder is through [Composer](http://ge
 ```json
     {
         "require": {
-            "nilportugues/sql-query-builder": "1.0.0"
+            "nilportugues/sql-query-builder": "dev-master"
         }
     }
 ```
