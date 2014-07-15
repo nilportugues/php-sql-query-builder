@@ -8,35 +8,35 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
 
 * [1. Installation](#block1)
 * [2. The Builder](#block2)
-	* [2.1. Generic Builder](#block2.1)     
-	* [2.2. MySQL Builder](#block2.2)     
-	* [2.3. Human Readable Output](#block2.3)     
+    * [2.1. Generic Builder](#block2.1)     
+    * [2.2. MySQL Builder](#block2.2)     
+    * [2.3. Human Readable Output](#block2.3)     
 * [3. Building Queries](#block3)
-	* [3.1. SELECT Statement](#block3.1)     
-		* [3.1.1. Basic SELECT statement](#block3.1.1) 
-		* [3.1.2. Aliased SELECT statement](#block3.1.2)
-		* [3.1.3. SELECT with WHERE statement](#block3.1.3)
-		* [3.1.4. Complex WHERE conditions](#block3.1.4)
-		* [3.1.5. JOIN & LEFT/RIGHT/INNER/CROSS JOIN SELECT statements](#block3.1.5)
-	* [3.2. INSERT Statement](#block3.2)
-	       * [3.2.1. Basic INSERT statement](#block3.2.1) 
-	* [3.3. UPDATE Statement](#block3.3)
-		* [3.3.1. Basic UPDATE statement](#block3.3.1)
-		* [3.3.2. Elaborated UPDATE statement](#block3.3.2)
-	* [3.4. DELETE Statement](#block3.4)     
-		* [3.4.1. Empty table with DELETE statement](#block3.4.1)
-		* [3.4.2. Basic DELETE statement](#block3.4.2)
-		* [3.4.3. Elaborated DELETE statement](#block3.4.3)  	
-* [4. Advanced Quering](#block4)	
-	* [4.1. Filtering using WHERE](#block4.1)
-		* [4.1.1. Changing WHERE logical operator](#block4.2)     
-		* [4.1.2. Writing complicated WHERE conditions](#block4.2)
-	* [4.3. Grouping with GROUP BY and HAVING](#block4.3)     
-		* [4.3.1 Available HAVING operators](#block4.3.1)     
-	* [4.4. Changing HAVING logical operator](#block4.4)     
-	* [4.5. Columns as SELECT statements](#block4.5)     	
-	* [4.6. Columns being Values](#block4.6)
-	* [4.7. Columns using FUNCTIONS](#block4.7)
+    * [3.1. SELECT Statement](#block3.1)     
+        * [3.1.1. Basic SELECT statement](#block3.1.1) 
+        * [3.1.2. Aliased SELECT statement](#block3.1.2)
+        * [3.1.3. SELECT with WHERE statement](#block3.1.3)
+        * [3.1.4. Complex WHERE conditions](#block3.1.4)
+        * [3.1.5. JOIN & LEFT/RIGHT/INNER/CROSS JOIN SELECT statements](#block3.1.5)
+    * [3.2. INSERT Statement](#block3.2)
+           * [3.2.1. Basic INSERT statement](#block3.2.1) 
+    * [3.3. UPDATE Statement](#block3.3)
+        * [3.3.1. Basic UPDATE statement](#block3.3.1)
+        * [3.3.2. Elaborated UPDATE statement](#block3.3.2)
+    * [3.4. DELETE Statement](#block3.4)     
+        * [3.4.1. Empty table with DELETE statement](#block3.4.1)
+        * [3.4.2. Basic DELETE statement](#block3.4.2)
+        * [3.4.3. Elaborated DELETE statement](#block3.4.3)     
+* [4. Advanced Quering](#block4)    
+    * [4.1. Filtering using WHERE](#block4.1)
+        * [4.1.1. Changing WHERE logical operator](#block4.2)     
+        * [4.1.2. Writing complicated WHERE conditions](#block4.2)
+    * [4.3. Grouping with GROUP BY and HAVING](#block4.3)     
+        * [4.3.1 Available HAVING operators](#block4.3.1)     
+    * [4.4. Changing HAVING logical operator](#block4.4)     
+    * [4.5. Columns as SELECT statements](#block4.5)        
+    * [4.6. Columns being Values](#block4.6)
+    * [4.7. Columns using FUNCTIONS](#block4.7)
 * [5. Quality Code](#block5)
 * [6. Author](#block6)
 * [7. License](#block7)
@@ -66,11 +66,11 @@ The Generic Query Builder is the default builder for this class and writes stand
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Select())->setTable('user');    
-$builder = new GenericBuilder();    
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()->setTable('user');    
 
 echo $builder->write($query);    
 ```
@@ -86,11 +86,11 @@ The MySQL Query Builder has its own class, that inherits from the SQL-2003 build
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Select())->setTable('user');    
-$builder = new GenericBuilder();    
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()->setTable('user'); 
 
 echo $builder->write($query);    
 ```
@@ -111,10 +111,11 @@ Keep in mind `writeFormatted` is to be avoided at all cost in production mode as
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Select())->setTable('user');    
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()->setTable('user');    
 $builder = new GenericBuilder();    
 
 echo $builder->writeFormatted($query);    
@@ -144,14 +145,14 @@ More complicated examples can be found in the documentation.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Select())
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
     ->setTable('user')
     ->setColumns(['user_id','name','email']);
-    
-$builder = new GenericBuilder();    
+     
 echo $builder->write($query);    
 ```
 #### Output:
@@ -165,14 +166,14 @@ SELECT user.user_id, user.name, user.email FROM user
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Select())
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
     ->setTable('user')
     ->setColumns(['userId' => 'user_id', 'username' => 'name', 'email' => 'email']);
-    
-$builder = new GenericBuilder();    
+       
 echo $builder->write($query);    
 ```
 #### Output:
@@ -187,10 +188,11 @@ Default logical operator for filtering using `WHERE` conditions is `AND`.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Select())
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
     ->setTable('user')
     ->setColumns([
         'userId' => 'user_id',
@@ -200,8 +202,7 @@ $query = (new Select())
     ->where()
     ->greaterThan('user_id', 5)
     ->notLike('username', 'John');
-    
-$builder = new GenericBuilder();    
+      
 echo $builder->writeFormatted($query);    
 ```
 #### Output:
@@ -223,10 +224,11 @@ WHERE
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Select())
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
     ->setTable('user')
     ->where()
     ->equals('user_id', 1)
@@ -235,7 +237,6 @@ $query = (new Select())
     ->lessThan($column, 10)
     ->greaterThan('user_id', 100);
 
-$builder = new GenericBuilder();
 echo $builder->writeFormatted($query);
 ```
 
@@ -264,10 +265,11 @@ Here's an example selecting both table and joined table columns and doing sortin
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Select())
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
     ->setTable('user')
     ->setColumns([
             'userId'   => 'user_id',
@@ -293,7 +295,6 @@ $query
 $query
     ->orderBy('created_at', OrderBy::DESC);
 
-$builder = new GenericBuilder();    
 echo $builder->writeFormatted($query); 
 ```
 #### Output:
@@ -333,18 +334,17 @@ The `INSERT` statement is really straightforward.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Insert;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Insert())
+$builder = new GenericBuilder(); 
+
+$query = $builder->insert()
     ->setTable('user')
     ->setValues([
         'user_id' => 1,
         'name'    => 'Nil',
         'contact' => 'contact@nilportugues.com',
     ]);
-
-$builder = new GenericBuilder(); 
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
@@ -374,10 +374,11 @@ Important including the the `where` statement is critical, or all table rows wil
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Update;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Update())
+$builder = new GenericBuilder(); 
+
+$query = $builder->update()
     ->setTable('user')
     ->setValues([
         'user_id' => 1,
@@ -386,9 +387,7 @@ $query = (new Update())
     ])
     ->where()
     ->equals('user_id', 1);
-    
-$builder = new GenericBuilder(); 
-   
+
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
 ```
@@ -412,11 +411,12 @@ WHERE
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Update;
 use NilPortugues\SqlQueryBuilder\Syntax\OrderBy;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Update())
+$builder = new GenericBuilder(); 
+
+$query = $builder->update()
     ->setTable('user')
     ->setValues([
         'name' => 'UpdatedName',
@@ -430,8 +430,6 @@ $query
 $query
     ->orderBy('user_id', OrderBy::ASC)
     ->limit(1);            
-
-$builder = new GenericBuilder(); 
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
@@ -463,13 +461,12 @@ Examples provided below.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Delete;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Delete())
-    ->setTable('user');
-    
 $builder = new GenericBuilder(); 
+
+$query = $builder->delete()
+    ->setTable('user');
    
 $sql = $builder->write($query);   
 ```
@@ -485,10 +482,11 @@ Important including the the `where` statement is critical, or all table rows wil
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Delete;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Delete())
+$builder = new GenericBuilder(); 
+
+$query = $builder->delete()
     ->setTable('user');
 
 $query
@@ -497,8 +495,6 @@ $query
 
 $query
     ->limit(1);
-    
-$builder = new GenericBuilder(); 
    
 $sql = $builder->write($query);    
 $values = $builder->getValues();
@@ -516,11 +512,12 @@ DELETE FROM user WHERE (user.user_id = :v1) LIMIT :v2
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Delete;
 use NilPortugues\SqlQueryBuilder\Syntax\OrderBy;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Delete())
+$builder = new GenericBuilder(); 
+
+$query = $builder->delete()
     ->setTable('user');
     
 $query
@@ -531,8 +528,6 @@ $query
 $query
     ->orderBy('user_id', OrderBy::ASC)
     ->limit(1);            
-
-$builder = new GenericBuilder(); 
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
@@ -586,16 +581,15 @@ The following operators are available for filtering using WHERE conditionals:
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Select())
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
     ->setTable('user')
     ->where('OR')
     ->equals('user_id', 1)
-    ->like('name', '%N%');
-       
-$builder = new GenericBuilder(); 
+    ->like('name', '%N%');       
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
@@ -613,10 +607,11 @@ Default logical operator for joining more than one `HAVING` condition is `AND`.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Select())
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
     ->setTable('user')
     ->setColumns([
         'userId'   => 'user_id',
@@ -628,8 +623,6 @@ $query = (new Select())
     ->having()
     ->equals('user_id', 1)
     ->equals('user_id', 2);
-       
-$builder = new GenericBuilder(); 
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
@@ -662,10 +655,11 @@ Same operators used in the WHERE statement are available for HAVING operations.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Select())
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
     ->setTable('user')
     ->setColumns([
         'userId'   => 'user_id',
@@ -677,8 +671,6 @@ $query = (new Select())
     ->having('OR')
     ->equals('user_id', 1)
     ->equals('user_id', 2);
-       
-$builder = new GenericBuilder(); 
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
@@ -707,25 +699,24 @@ Sometimes, a column needs to be set as a column. SQL Query Builder got you cover
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$selectRole = (new Select())
+$builder = new GenericBuilder(); 
+
+$selectRole = $builder->select()
     ->setTable('role')
     ->setColumns(array('role_name'))
     ->limit(1)
     ->where()
     ->equals('role_id', 3);
 
-$query = (new Select())
+$query = $builder->select()
     ->setTable('user')
     ->setColumns(array('user_id', 'username'))
     ->setSelectAsColumn(array('user_role' => $selectRole))
     ->setSelectAsColumn(array($selectRole))
     ->where()
     ->equals('user_id', 4);
-
-$builder = new GenericBuilder(); 
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
@@ -767,17 +758,16 @@ There are time where you need to force the same column structure (eg: UNIONs) ev
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Select())
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
     ->setTable('user')
     ->setColumns(array('user_id', 'username'))
     ->setValueAsColumn('10', 'priority')
     ->where()
     ->equals('user_id', 1);
-
-$builder = new GenericBuilder(); 
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
@@ -802,17 +792,16 @@ Example for MAX function.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Select())
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
     ->setTable('user')
     ->setColumns(array('user_id', 'username'))
     ->setFunctionAsColumn('MAX', array('user_id'), 'max_id')
     ->where()
-    ->equals('user_id', 1);
-    
-$builder = new GenericBuilder(); 
+    ->equals('user_id', 1); 
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
@@ -835,17 +824,16 @@ Example for CURRENT_TIMESTAMP function.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-$query = (new Select())
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
     ->setTable('user')
     ->setColumns(array('user_id', 'username'))
     ->setFunctionAsColumn('CURRENT_TIMESTAMP', array(), 'server_time')
     ->where()
     ->equals('user_id', 1);
-
-$builder = new GenericBuilder(); 
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
