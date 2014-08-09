@@ -57,7 +57,7 @@ The recommended way to install SQL Query Builder is through [Composer](http://ge
 <a name="block2"></a>
 ## 2. The Builder [↑](#index_block)
 
-The SQL Query Builder allows to generate complex SQL queries standard `SQL-2003` dialect and `MySQL` dialect. 
+The SQL Query Builder allows to generate complex SQL queries standard using the `SQL-2003` dialect (default) and the `MySQL` dialect, that extends the `SQL-2003` dialect.
 
 <a name="block2.1"></a>
 ### 2.1. Generic Builder [↑](#index_block)
