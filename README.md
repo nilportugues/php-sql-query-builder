@@ -86,9 +86,9 @@ The MySQL Query Builder has its own class, that inherits from the SQL-2003 build
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\Builder\MySqlBuilder;
 
-$builder = new GenericBuilder(); 
+$builder = new MySqlBuilder(); 
 
 $query = $builder->select()->setTable('user'); 
 
