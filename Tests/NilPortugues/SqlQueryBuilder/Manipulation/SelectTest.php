@@ -171,7 +171,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 array(
                     'userId'   => 'user_id', // Alias -> column name
                     'username' => 'name',
-                    'email'    => 'email'
+                    'email'    => 'email',
                 )
             );
 
@@ -206,14 +206,14 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 array(
                     'userId'   => 'user_id', // Alias -> column name
                     'username' => 'name',
-                    'email'    => 'email'
+                    'email'    => 'email',
                 )
             )
             ->orderBy('user_id', OrderBy::ASC)
             ->orderBy('email', OrderBy::DESC);
 
         $expected =
-            'SELECT user.user_id AS userId, user.name AS username, user.email AS email FROM ' .
+            'SELECT user.user_id AS userId, user.name AS username, user.email AS email FROM '.
             'user ORDER BY user.user_id ASC, user.email DESC';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -285,7 +285,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->setTable('user')
             ->leftJoin('news', 'user_id', 'author_id', array('title', 'body', 'created_at', 'updated_at'));
 
-        $expected = 'SELECT user.*, news.title, news.body, news.created_at, news.updated_at FROM user LEFT JOIN ' .
+        $expected = 'SELECT user.*, news.title, news.body, news.created_at, news.updated_at FROM user LEFT JOIN '.
             'news ON (news.author_id = user.user_id)';
         $this->assertSame($expected, $this->writer->write($this->query));
     }
@@ -299,7 +299,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->setTable('user')
             ->rightJoin('news', 'user_id', 'author_id', array('title', 'body', 'created_at', 'updated_at'));
 
-        $expected = 'SELECT user.*, news.title, news.body, news.created_at, news.updated_at FROM user RIGHT JOIN ' .
+        $expected = 'SELECT user.*, news.title, news.body, news.created_at, news.updated_at FROM user RIGHT JOIN '.
             'news ON (news.author_id = user.user_id)';
         $this->assertSame($expected, $this->writer->write($this->query));
     }
@@ -313,7 +313,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->setTable('user')
             ->innerJoin('news', 'user_id', 'author_id', array('title', 'body', 'created_at', 'updated_at'));
 
-        $expected = 'SELECT user.*, news.title, news.body, news.created_at, news.updated_at FROM user INNER JOIN ' .
+        $expected = 'SELECT user.*, news.title, news.body, news.created_at, news.updated_at FROM user INNER JOIN '.
             'news ON (news.author_id = user.user_id)';
         $this->assertSame($expected, $this->writer->write($this->query));
     }
@@ -327,7 +327,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->setTable('user')
             ->crossJoin('news', 'user_id', 'author_id', array('title', 'body', 'created_at', 'updated_at'));
 
-        $expected = 'SELECT user.*, news.title, news.body, news.created_at, news.updated_at FROM user CROSS JOIN ' .
+        $expected = 'SELECT user.*, news.title, news.body, news.created_at, news.updated_at FROM user CROSS JOIN '.
             'news ON (news.author_id = user.user_id)';
         $this->assertSame($expected, $this->writer->write($this->query));
     }
@@ -344,15 +344,15 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                     'userId'   => 'user_id',
                     'username' => 'name',
                     'email'    => 'email',
-                    'created_at'
+                    'created_at',
                 )
             )
             ->orderBy('user_id', OrderBy::DESC)
             ->leftJoin('news', 'user_id', 'author_id', array('title', 'body', 'created_at', 'updated_at'))
             ->orderBy('created_at', OrderBy::DESC);
 
-        $expected = 'SELECT user.user_id AS userId, user.name AS username, user.email AS email, user.created_at,' .
-            ' news.title, news.body, news.created_at, news.updated_at FROM user LEFT JOIN news ON (news.author_id ' .
+        $expected = 'SELECT user.user_id AS userId, user.name AS username, user.email AS email, user.created_at,'.
+            ' news.title, news.body, news.created_at, news.updated_at FROM user LEFT JOIN news ON (news.author_id '.
             '= user.user_id) ORDER BY user.user_id DESC, news.created_at DESC';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -367,7 +367,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->setTable('user')
             ->join('news', 'user_id', 'author_id', array('title', 'body', 'created_at', 'updated_at'));
 
-        $expected = 'SELECT user.*, news.title, news.body, news.created_at, news.updated_at FROM user JOIN ' .
+        $expected = 'SELECT user.*, news.title, news.body, news.created_at, news.updated_at FROM user JOIN '.
             'news ON (news.author_id = user.user_id)';
         $this->assertSame($expected, $this->writer->write($this->query));
     }
@@ -384,15 +384,15 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                     'userId'   => 'user_id',
                     'username' => 'name',
                     'email'    => 'email',
-                    'created_at'
+                    'created_at',
                 )
             )
             ->orderBy('user_id', OrderBy::DESC)
             ->join('news', 'user_id', 'author_id', array('title', 'body', 'created_at', 'updated_at'))
             ->orderBy('created_at', OrderBy::DESC);
 
-        $expected = 'SELECT user.user_id AS userId, user.name AS username, user.email AS email, user.created_at,' .
-            ' news.title, news.body, news.created_at, news.updated_at FROM user JOIN news ON (news.author_id =' .
+        $expected = 'SELECT user.user_id AS userId, user.name AS username, user.email AS email, user.created_at,'.
+            ' news.title, news.body, news.created_at, news.updated_at FROM user JOIN news ON (news.author_id ='.
             ' user.user_id) ORDER BY user.user_id DESC, news.created_at DESC';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -407,19 +407,19 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         for ($i = 1; $i <= 5; $i++) {
 
-            //Select Query for "news" table
+            //Select QueryInterface for "news" table
             $select = new Select();
             $select
-                ->setTable('news' . $i)
-                ->setColumns(array('title' . $i));
+                ->setTable('news'.$i)
+                ->setColumns(array('title'.$i));
 
             //Select query for user table, being joined with "newsX" select.
-            $this->query->addJoin($select, 'user_id', 'author_id' . $i);
+            $this->query->addJoin($select, 'user_id', 'author_id'.$i);
         }
 
-        $expected = 'SELECT user.*, news1.title1, news2.title2, news3.title3, news4.title4, news5.title5 ' .
-            'FROM user JOIN news1 ON (news1.author_id1 = user.user_id) JOIN news2 ON (news2.author_id2 = user.user_id)' .
-            ' JOIN news3 ON (news3.author_id3 = user.user_id) JOIN news4 ON (news4.author_id4 = user.user_id) ' .
+        $expected = 'SELECT user.*, news1.title1, news2.title2, news3.title3, news4.title4, news5.title5 '.
+            'FROM user JOIN news1 ON (news1.author_id1 = user.user_id) JOIN news2 ON (news2.author_id2 = user.user_id)'.
+            ' JOIN news3 ON (news3.author_id3 = user.user_id) JOIN news4 ON (news4.author_id4 = user.user_id) '.
             'JOIN news5 ON (news5.author_id5 = user.user_id)';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -437,7 +437,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                     'userId'   => 'user_id',
                     'username' => 'name',
                     'email'    => 'email',
-                    'created_at'
+                    'created_at',
                 )
             )
             ->orderBy('user_id', OrderBy::DESC)
@@ -448,9 +448,9 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $this->query->limit(1, 10);
 
-        $expected = 'SELECT user.user_id AS userId, user.name AS username, user.email AS email, user.created_at,' .
-            ' news.title, news.body, news.created_at, news.updated_at FROM user JOIN news ON ' .
-            '(news.author_id = user.user_id) AND (news.author_id = :v1) ORDER BY ' .
+        $expected = 'SELECT user.user_id AS userId, user.name AS username, user.email AS email, user.created_at,'.
+            ' news.title, news.body, news.created_at, news.updated_at FROM user JOIN news ON '.
+            '(news.author_id = user.user_id) AND (news.author_id = :v1) ORDER BY '.
             'user.user_id DESC, news.created_at DESC LIMIT :v2, :v3';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -491,7 +491,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                     'userId'   => 'user_id',
                     'username' => 'name',
                     'email'    => 'email',
-                    'created_at'
+                    'created_at',
                 )
             )
             ->groupBy(array('user_id', 'name'))
@@ -499,7 +499,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->equals('user_id', 1)
             ->equals('user_id', 2);
 
-        $expected = 'SELECT user.user_id AS userId, user.name AS username, user.email AS email, user.created_at' .
+        $expected = 'SELECT user.user_id AS userId, user.name AS username, user.email AS email, user.created_at'.
             ' FROM user GROUP BY user.user_id, user.name HAVING (user.user_id = :v1) AND (user.user_id = :v2)';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -521,7 +521,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                     'userId'   => 'user_id',
                     'username' => 'name',
                     'email'    => 'email',
-                    'created_at'
+                    'created_at',
                 )
             )
             ->groupBy(array('user_id', 'name'))
@@ -541,7 +541,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                     'userId'   => 'user_id',
                     'username' => 'name',
                     'email'    => 'email',
-                    'created_at'
+                    'created_at',
                 )
             )
             ->groupBy(array('user_id', 'name'))
@@ -549,7 +549,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->equals('user_id', 1)
             ->equals('user_id', 2);
 
-        $expected = 'SELECT user.user_id AS userId, user.name AS username, user.email AS email, user.created_at' .
+        $expected = 'SELECT user.user_id AS userId, user.name AS username, user.email AS email, user.created_at'.
             ' FROM user GROUP BY user.user_id, user.name HAVING (user.user_id = :v1) OR (user.user_id = :v2)';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -827,7 +827,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->where()
             ->eq($table1, 2);
 
-        $expected = 'SELECT Table2.* FROM Table2 WHERE ((SELECT Table1.* FROM Table1 ' .
+        $expected = 'SELECT Table2.* FROM Table2 WHERE ((SELECT Table1.* FROM Table1 '.
             'WHERE (Table1.table1_id = :v1)) = :v2)';
 
         $this->assertSame($expected, $this->writer->write($table2));
@@ -865,7 +865,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->lessThan($column, 10)
             ->greaterThan($column, 100);
 
-        $expected = 'SELECT user.* FROM user WHERE (user.user_id = :v1) AND (user.user_id = :v2) ' .
+        $expected = 'SELECT user.* FROM user WHERE (user.user_id = :v1) AND (user.user_id = :v2) '.
             'AND ((user.user_id < :v3) OR (user.user_id > :v4))';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -914,9 +914,9 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->where()
             ->equals('user_id', 4);
 
-        $expected = 'SELECT user.user_id, user.username, ' .
-            '(SELECT role.role_name FROM role WHERE (role.role_id = :v1) LIMIT :v2, :v3) AS user_role, ' .
-            '(SELECT role.role_name FROM role WHERE (role.role_id = :v4) LIMIT :v5, :v6) AS role ' .
+        $expected = 'SELECT user.user_id, user.username, '.
+            '(SELECT role.role_name FROM role WHERE (role.role_id = :v1) LIMIT :v2, :v3) AS user_role, '.
+            '(SELECT role.role_name FROM role WHERE (role.role_id = :v4) LIMIT :v5, :v6) AS role '.
             'FROM user WHERE (user.user_id = :v7)';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -1002,7 +1002,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->where()
             ->equals('role_id', $selectRole);
 
-        $expected = 'SELECT user.user_id, user.role_id FROM user WHERE ' .
+        $expected = 'SELECT user.user_id, user.role_id FROM user WHERE '.
             '(user.role_id = (SELECT role.role_name FROM role WHERE (role.role_id = :v1) LIMIT :v2, :v3))';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -1022,7 +1022,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->where()
             ->match(array('username', 'email'), array('Nil'));
 
-        $expected = 'SELECT user.user_id, user.role_id FROM user ' .
+        $expected = 'SELECT user.user_id, user.role_id FROM user '.
             'WHERE (MATCH(user.username, user.email) AGAINST(:v1))';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -1042,7 +1042,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->where()
             ->matchBoolean(array('username', 'email'), array('Nil'));
 
-        $expected = 'SELECT user.user_id, user.role_id FROM user ' .
+        $expected = 'SELECT user.user_id, user.role_id FROM user '.
             'WHERE (MATCH(user.username, user.email) AGAINST(:v1 IN BOOLEAN MODE))';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -1062,7 +1062,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->where()
             ->matchWithQueryExpansion(array('username', 'email'), array('Nil'));
 
-        $expected = 'SELECT user.user_id, user.role_id FROM user ' .
+        $expected = 'SELECT user.user_id, user.role_id FROM user '.
             'WHERE (MATCH(user.username, user.email) AGAINST(:v1 WITH QUERY EXPANSION))';
 
         $this->assertSame($expected, $this->writer->write($this->query));

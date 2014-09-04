@@ -11,10 +11,10 @@
 namespace NilPortugues\SqlQueryBuilder\Syntax;
 
 /**
- * Interface QueryPart
+ * Interface QueryPartInterface
  * @package NilPortugues\SqlQueryBuilder\Syntax
  */
-interface QueryPart
+interface QueryPartInterface
 {
     /**
      * @return string

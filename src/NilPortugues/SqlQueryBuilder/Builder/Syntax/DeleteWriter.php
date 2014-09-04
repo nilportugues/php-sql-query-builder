@@ -15,7 +15,7 @@ use NilPortugues\SqlQueryBuilder\Manipulation\Delete;
 
 /**
  * Class DeleteWriter
- * @package NilPortugues\SqlQueryBuilder\Builder\Syntax
+ * @package NilPortugues\SqlQueryBuilder\BuilderInterface\Syntax
  */
 class DeleteWriter
 {

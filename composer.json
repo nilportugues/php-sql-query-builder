@@ -1,6 +1,6 @@
 {
     "name":"nilportugues/sql-query-builder",
-    "description":"An elegant lightweight and efficient SQL Query Builder supporting bindings and complicated query generation.",
+    "description":"An elegant lightweight and efficient SQL QueryInterface BuilderInterface supporting bindings and complicated query generation.",
     "keywords": [ "sql", "mysql", "query", "builder", "query builder", "orm"],
     "type":"library",
     "license":"MIT",
@@ -15,8 +15,13 @@
         }
     ],
     "autoload":{
-        "psr-0":{
-            "":"src/"
+        "psr-4":{
+            "NilPortugues\\":"src/NilPortugues"
+        }
+    },
+    "autoload-dev":{
+        "psr-4":{
+            "Tests\\NilPortugues\\":"tests/NilPortugues"
         }
     },
     "require":

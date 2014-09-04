@@ -1,15 +1,15 @@
-SQL Query Builder
+SQL QueryInterface BuilderInterface
 =================
 
 [![Build Status](https://travis-ci.org/nilportugues/sql-query-builder.png)](https://travis-ci.org/nilportugues/sql-query-builder) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/89ec1003-4227-43a2-8432-67a9fc2d3ba3/mini.png)](https://insight.sensiolabs.com/projects/89ec1003-4227-43a2-8432-67a9fc2d3ba3) [![Latest Stable Version](https://poser.pugx.org/nilportugues/sql-query-builder/v/stable.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![Total Downloads](https://poser.pugx.org/nilportugues/sql-query-builder/downloads.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![License](https://poser.pugx.org/nilportugues/sql-query-builder/license.svg)](https://packagist.org/packages/nilportugues/sql-query-builder)
 
-An elegant lightweight and efficient SQL Query Builder with fluid interface SQL syntax supporting bindings and complicated query generation.
+An elegant lightweight and efficient SQL QueryInterface BuilderInterface with fluid interface SQL syntax supporting bindings and complicated query generation.
 <a name="index_block"></a>
 
 * [1. Installation](#block1)
-* [2. The Builder](#block2)
-    * [2.1. Generic Builder](#block2.1)     
-    * [2.2. MySQL Builder](#block2.2)     
+* [2. The BuilderInterface](#block2)
+    * [2.1. Generic BuilderInterface](#block2.1)
+    * [2.2. MySQL BuilderInterface](#block2.2)
     * [2.3. Human Readable Output](#block2.3)     
 * [3. Building Queries](#block3)
     * [3.1. SELECT Statement](#block3.1)     
@@ -44,7 +44,7 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
 
 <a name="block1"></a>
 ## 1. Installation [↑](#index_block)
-The recommended way to install SQL Query Builder is through [Composer](http://getcomposer.org). Just create a ``composer.json`` file and run the ``php composer.phar install`` command to install it:
+The recommended way to install SQL QueryInterface BuilderInterface is through [Composer](http://getcomposer.org). Just create a ``composer.json`` file and run the ``php composer.phar install`` command to install it:
 
 ```json
     {
@@ -55,18 +55,18 @@ The recommended way to install SQL Query Builder is through [Composer](http://ge
 ```
 
 <a name="block2"></a>
-## 2. The Builder [↑](#index_block)
+## 2. The BuilderInterface [↑](#index_block)
 
-The SQL Query Builder allows to generate complex SQL queries standard using the `SQL-2003` dialect (default) and the `MySQL` dialect, that extends the `SQL-2003` dialect.
+The SQL QueryInterface BuilderInterface allows to generate complex SQL queries standard using the `SQL-2003` dialect (default) and the `MySQL` dialect, that extends the `SQL-2003` dialect.
 
 <a name="block2.1"></a>
-### 2.1. Generic Builder [↑](#index_block)
-The Generic Query Builder is the default builder for this class and writes standard SQL-2003.
+### 2.1. Generic BuilderInterface [↑](#index_block)
+The Generic QueryInterface BuilderInterface is the default builder for this class and writes standard SQL-2003.
 
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -80,13 +80,13 @@ SELECT user.* FROM user
 ```
 
 <a name="block2.2"></a>
-### 2.2. MySQL Builder [↑](#index_block) 
-The MySQL Query Builder has its own class, that inherits from the SQL-2003 builder. All columns will be wrapped with the tilde **`** sign.
+### 2.2. MySQL BuilderInterface [↑](#index_block)
+The MySQL QueryInterface BuilderInterface has its own class, that inherits from the SQL-2003 builder. All columns will be wrapped with the tilde **`** sign.
 
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\MySqlBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\MySqlBuilder;
 
 $builder = new MySqlBuilder(); 
 
@@ -102,16 +102,16 @@ SELECT user.* FROM `user`
 <a name="block2.3"></a>
 #### 2.3. Human Readable Output [↑](#index_block)
 
-Both Generic and MySQL Query Builder can write complex SQL queries. 
+Both Generic and MySQL QueryInterface BuilderInterface can write complex SQL queries.
 
-Every developer out there needs at some point revising the output of a complicated query, the SQL Query Builder includes a human-friendly output method, and therefore the `writeFormatted` method is there to aid the developer when need. 
+Every developer out there needs at some point revising the output of a complicated query, the SQL QueryInterface BuilderInterface includes a human-friendly output method, and therefore the `writeFormatted` method is there to aid the developer when need.
 
 Keep in mind `writeFormatted` is to be avoided at all cost in production mode as it adds unneeded overhead due to parsing and re-formatting of the generated statement.
 
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -145,7 +145,7 @@ More complicated examples can be found in the documentation.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -166,7 +166,7 @@ SELECT user.user_id, user.name, user.email FROM user
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -188,7 +188,7 @@ Default logical operator for filtering using `WHERE` conditions is `AND`.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -224,7 +224,7 @@ WHERE
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -265,7 +265,7 @@ Here's an example selecting both table and joined table columns and doing sortin
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -334,7 +334,7 @@ The `INSERT` statement is really straightforward.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -374,7 +374,7 @@ Important including the the `where` statement is critical, or all table rows wil
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -412,7 +412,7 @@ WHERE
 ```php
 <?php
 use NilPortugues\SqlQueryBuilder\Syntax\OrderBy;
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -461,7 +461,7 @@ Examples provided below.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -482,7 +482,7 @@ Important including the the `where` statement is critical, or all table rows wil
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -513,7 +513,7 @@ DELETE FROM user WHERE (user.user_id = :v1) LIMIT :v2
 ```php
 <?php
 use NilPortugues\SqlQueryBuilder\Syntax\OrderBy;
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -581,7 +581,7 @@ The following operators are available for filtering using WHERE conditionals:
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -607,7 +607,7 @@ Default logical operator for joining more than one `HAVING` condition is `AND`.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -655,7 +655,7 @@ Same operators used in the WHERE statement are available for HAVING operations.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -694,12 +694,12 @@ HAVING
 <a name="block4.5"></a>
 ### 4.5. Columns as SELECT statements [↑](#index_block)
 
-Sometimes, a column needs to be set as a column. SQL Query Builder got you covered on this one too! Check the example below.
+Sometimes, a column needs to be set as a column. SQL QueryInterface BuilderInterface got you covered on this one too! Check the example below.
 
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -758,7 +758,7 @@ There are time where you need to force the same column structure (eg: UNIONs) ev
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -792,7 +792,7 @@ Example for MAX function.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -824,7 +824,7 @@ Example for CURRENT_TIMESTAMP function.
 #### Usage:
 ```php
 <?php
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\BuilderInterface\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
@@ -875,7 +875,7 @@ Nil Portugués Calderó
 
 <a name="block7"></a>
 ## 7. License [↑](#index_block)
-SQL Query Builder is licensed under the MIT license.
+SQL QueryInterface BuilderInterface is licensed under the MIT license.
 
 ```
 Copyright (c) 2014 Nil Portugués Calderó

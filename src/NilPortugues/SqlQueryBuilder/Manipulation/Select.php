@@ -101,8 +101,8 @@ class Select extends BaseQuery
     protected $columnFuncs = array();
 
     /**
-     * @param string  $table
-     * @param array $columns
+     * @param string $table
+     * @param array  $columns
      */
     public function __construct($table = null, $columns = array(Column::ALL))
     {
@@ -148,11 +148,11 @@ class Select extends BaseQuery
     }
 
     /**
-     * @param       $table
-     * @param null  $selfColumn
-     * @param null  $refColumn
-     * @param array $columns
-     * @param string  $joinType
+     * @param        $table
+     * @param null   $selfColumn
+     * @param null   $refColumn
+     * @param array  $columns
+     * @param string $joinType
      *
      * @return Select
      */
@@ -400,7 +400,7 @@ class Select extends BaseQuery
     }
 
     /**
-     * Returns all the Where conditions to the Builder class in order to write the SQL WHERE statement.
+     * Returns all the Where conditions to the BuilderInterface class in order to write the SQL WHERE statement.
      *
      * @return array
      */
@@ -418,7 +418,6 @@ class Select extends BaseQuery
 
         return $wheres;
     }
-
 
     /**
      * @return array
@@ -457,7 +456,6 @@ class Select extends BaseQuery
     {
         return $this->isCount;
     }
-
 
     /**
      * @param integer $start
@@ -515,7 +513,6 @@ class Select extends BaseQuery
         return $this->joinCondition;
     }
 
-
     /**
      * @return string
      */
@@ -550,7 +547,7 @@ class Select extends BaseQuery
 
         if (!in_array($havingOperator, array(Where::CONJUNCTION_AND, Where::CONJUNCTION_OR))) {
             throw new QueryException(
-                "Invalid conjunction specified, must be one of AND or OR, but '" . $havingOperator . "' was found."
+                "Invalid conjunction specified, must be one of AND or OR, but '".$havingOperator."' was found."
             );
         }
 
@@ -566,7 +563,6 @@ class Select extends BaseQuery
     {
         return $this->havingOperator;
     }
-
 
     /**
      * @return $this

@@ -59,11 +59,11 @@ final class QueryFactory
     }
 
     /**
-     * @param Query $query
+     * @param QueryInterface $query
      *
      * @return Where
      */
-    public static function createWhere(Query $query)
+    public static function createWhere(QueryInterface $query)
     {
         return new Where($query);
     }

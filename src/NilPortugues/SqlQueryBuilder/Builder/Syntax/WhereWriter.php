@@ -10,7 +10,7 @@ use NilPortugues\SqlQueryBuilder\Syntax\Where;
 
 /**
  * Class WhereWriter
- * @package NilPortugues\SqlQueryBuilder\Builder\Syntax
+ * @package NilPortugues\SqlQueryBuilder\BuilderInterface\Syntax
  */
 class WhereWriter
 {
@@ -194,12 +194,12 @@ class WhereWriter
             function (&$between) {
 
                 $between = "("
-                    . $this->columnWriter->writeColumn($between["subject"])
-                    . " BETWEEN "
-                    . $this->writer->writePlaceholderValue($between["a"])
-                    . " AND "
-                    . $this->writer->writePlaceholderValue($between["b"])
-                    . ")";
+                    .$this->columnWriter->writeColumn($between["subject"])
+                    ." BETWEEN "
+                    .$this->writer->writePlaceholderValue($between["a"])
+                    ." AND "
+                    .$this->writer->writePlaceholderValue($between["b"])
+                    .")";
             }
         );
 
@@ -242,7 +242,7 @@ class WhereWriter
         } elseif ($subject instanceof Select) {
 
             $selectWriter = WriterFactory::createSelectWriter($this->writer, $this->placeholderWriter);
-            $str          = '(' . $selectWriter->writeSelect($subject) . ')';
+            $str          = '('.$selectWriter->writeSelect($subject).')';
 
         } else {
             $str = $this->writer->writePlaceholderValue($subject);
@@ -265,9 +265,9 @@ class WhereWriter
             $isNulls,
             function (&$isNull) {
                 $isNull = "("
-                    . $this->columnWriter->writeColumn($isNull["subject"])
-                    . $this->writer->writeIsNull()
-                    . ")";
+                    .$this->columnWriter->writeColumn($isNull["subject"])
+                    .$this->writer->writeIsNull()
+                    .")";
             }
         );
 
@@ -287,8 +287,8 @@ class WhereWriter
             $isNotNulls,
             function (&$isNotNull) {
                 $isNotNull =
-                    "(" . $this->columnWriter->writeColumn($isNotNull["subject"])
-                    . $this->writer->writeIsNotNull() . ")";
+                    "(".$this->columnWriter->writeColumn($isNotNull["subject"])
+                    .$this->writer->writeIsNotNull().")";
             }
         );
 
@@ -311,7 +311,7 @@ class WhereWriter
                 $column = $this->columnWriter->writeColumn($boolean["subject"]);
                 $value  = $this->placeholderWriter->add($boolean["value"]);
 
-                $boolean = "(ISNULL(" . $column . ", 0) = " . $value . ")";
+                $boolean = "(ISNULL(".$column.", 0) = ".$value.")";
             }
         );
 

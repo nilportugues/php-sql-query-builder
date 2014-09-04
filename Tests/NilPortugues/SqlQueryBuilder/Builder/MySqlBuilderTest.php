@@ -15,7 +15,7 @@ use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 
 /**
  * Class MySqlBuilderTest
- * @package Tests\NilPortugues\SqlQueryBuilder\Builder
+ * @package Tests\NilPortugues\SqlQueryBuilder\BuilderInterface
  */
 class MySqlBuilderTest extends \PHPUnit_Framework_TestCase
 {

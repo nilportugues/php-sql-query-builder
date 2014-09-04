@@ -14,7 +14,7 @@ use NilPortugues\SqlQueryBuilder\Builder\Syntax\PlaceholderWriter;
 
 /**
  * Class PlaceholderWriterTest
- * @package Tests\NilPortugues\SqlQueryBuilder\Builder
+ * @package Tests\NilPortugues\SqlQueryBuilder\BuilderInterface
  */
 class PlaceholderWriterTest extends \PHPUnit_Framework_TestCase
 {

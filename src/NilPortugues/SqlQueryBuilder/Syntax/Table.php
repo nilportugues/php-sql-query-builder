@@ -36,7 +36,7 @@ class Table
     protected $view = false;
 
     /**
-     * @param      $name
+     * @param        $name
      * @param string $schema
      */
     public function __construct($name, $schema = null)
@@ -100,7 +100,7 @@ class Table
         $alias  = ($this->alias) ? " AS {$this->alias}" : '';
         $schema = ($this->schema) ? "{$this->schema}." : '';
 
-        return $schema . $this->name . $alias;
+        return $schema.$this->name.$alias;
     }
 
     /**

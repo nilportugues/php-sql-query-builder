@@ -13,12 +13,12 @@ namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Syntax\Column;
-use NilPortugues\SqlQueryBuilder\Syntax\QueryPart;
+use NilPortugues\SqlQueryBuilder\Syntax\QueryPartInterface;
 use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
 
 /**
  * Class ColumnWriter
- * @package NilPortugues\SqlQueryBuilder\Builder\Syntax
+ * @package NilPortugues\SqlQueryBuilder\BuilderInterface\Syntax
  */
 class ColumnWriter
 {
@@ -33,11 +33,11 @@ class ColumnWriter
     }
 
     /**
-     * @param QueryPart $column
+     * @param QueryPartInterface $column
      *
      * @return string
      */
-    public function writeColumn(QueryPart $column)
+    public function writeColumn(QueryPartInterface $column)
     {
         $alias = $column->getTable()->getAlias();
         $table = ($alias) ? $this->writer->writeAlias($alias) : $this->writer->writeTable($column->getTable());
@@ -120,9 +120,9 @@ class ColumnWriter
             foreach ($funcAsColumns as $alias => $value) {
 
                 $funcName = $value['func'];
-                $funcArgs = (!empty($value['args'])) ? "(" . implode(', ', $value['args']) . ")" : '';
+                $funcArgs = (!empty($value['args'])) ? "(".implode(', ', $value['args']).")" : '';
 
-                $newFuncColumn = array($this->writer->writeAlias($alias) => $funcName . $funcArgs);
+                $newFuncColumn = array($this->writer->writeAlias($alias) => $funcName.$funcArgs);
                 $newColumns[]  = SyntaxFactory::createColumn($newFuncColumn, null);
             }
         }
@@ -138,7 +138,7 @@ class ColumnWriter
     public function writeColumnWithAlias(Column $column)
     {
         if (($alias = $column->getAlias()) && !$column->isAll()) {
-            return $this->writeColumn($column) . " AS " . $this->writer->writeAlias($alias);
+            return $this->writeColumn($column)." AS ".$this->writer->writeAlias($alias);
         }
 
         return $this->writeColumn($column);

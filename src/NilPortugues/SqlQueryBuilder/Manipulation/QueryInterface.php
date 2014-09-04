@@ -10,10 +10,10 @@
 namespace NilPortugues\SqlQueryBuilder\Manipulation;
 
 /**
- * Interface Query
+ * Interface QueryInterface
  * @package NilPortugues\SqlQueryBuilder\Manipulation
  */
-interface Query
+interface QueryInterface
 {
     /**
      * @return \NilPortugues\SqlQueryBuilder\Syntax\Table

@@ -9,18 +9,18 @@
  */
 namespace NilPortugues\SqlQueryBuilder\Builder;
 
-use NilPortugues\SqlQueryBuilder\Manipulation\Query;
+use NilPortugues\SqlQueryBuilder\Manipulation\QueryInterface;
 
 /**
- * Interface Builder
- * @package NilPortugues\SqlQueryBuilder\Builder
+ * Interface BuilderInterface
+ * @package NilPortugues\SqlQueryBuilder\BuilderInterface
  */
-interface Builder
+interface BuilderInterface
 {
     /**
-     * @param Query $query
+     * @param QueryInterface $query
      *
      * @return string
      */
-    public function write(Query $query);
+    public function write(QueryInterface $query);
 }

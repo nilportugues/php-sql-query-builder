@@ -14,7 +14,7 @@ use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
 /**
  * Class WriterFactory
- * @package NilPortugues\SqlQueryBuilder\Builder\Syntax
+ * @package NilPortugues\SqlQueryBuilder\BuilderInterface\Syntax
  */
 final class WriterFactory
 {

@@ -12,7 +12,7 @@ namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
 
 /**
  * Class PlaceholderWriter
- * @package NilPortugues\SqlQueryBuilder\Builder
+ * @package NilPortugues\SqlQueryBuilder\BuilderInterface
  */
 class PlaceholderWriter
 {
@@ -52,7 +52,7 @@ class PlaceholderWriter
      */
     public function add($value)
     {
-        $placeholderKey                      = ':v' . $this->counter;
+        $placeholderKey                      = ':v'.$this->counter;
         $this->placeholders[$placeholderKey] = $this->setValidSqlValue($value);
 
         $this->counter++;

@@ -11,7 +11,7 @@ namespace NilPortugues\SqlQueryBuilder\Builder;
 
 /**
  * Class BuilderException
- * @package NilPortugues\SqlQueryBuilder\Builder
+ * @package NilPortugues\SqlQueryBuilder\BuilderInterface
  */
 final class BuilderException extends \Exception
 {

@@ -59,7 +59,7 @@ class QueryFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function it_should_create_where_object()
     {
-        $mockClass = '\NilPortugues\SqlQueryBuilder\Manipulation\Query';
+        $mockClass = '\NilPortugues\SqlQueryBuilder\Manipulation\QueryInterface';
 
         $query = $this->getMockBuilder($mockClass)
             ->disableOriginalConstructor()

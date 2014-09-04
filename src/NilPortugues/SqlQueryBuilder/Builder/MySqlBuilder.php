@@ -66,6 +66,6 @@ class MySqlBuilder extends GenericBuilder
      */
     protected function wrapper($string, $char = '`')
     {
-        return $char . $string . $char;
+        return $char.$string.$char;
     }
 }

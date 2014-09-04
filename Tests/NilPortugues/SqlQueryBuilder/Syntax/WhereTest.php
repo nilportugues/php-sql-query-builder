@@ -227,8 +227,8 @@ class WhereTest extends \PHPUnit_Framework_TestCase
             0 => array(
                 'columns' => array('user_id'),
                 'values'  => array(1, 2, 3),
-                'mode'    => 'natural'
-            )
+                'mode'    => 'natural',
+            ),
         );
         $this->assertEquals($expected, $result);
     }
@@ -248,8 +248,8 @@ class WhereTest extends \PHPUnit_Framework_TestCase
             0 => array(
                 'columns' => array('user_id'),
                 'values'  => array(1, 2, 3),
-                'mode'    => 'boolean'
-            )
+                'mode'    => 'boolean',
+            ),
         );
         $this->assertEquals($expected, $result);
     }
@@ -269,8 +269,8 @@ class WhereTest extends \PHPUnit_Framework_TestCase
             0 => array(
                 'columns' => array('user_id'),
                 'values'  => array(1, 2, 3),
-                'mode'    => 'query_expansion'
-            )
+                'mode'    => 'query_expansion',
+            ),
         );
         $this->assertEquals($expected, $result);
     }
