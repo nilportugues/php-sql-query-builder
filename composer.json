@@ -41,7 +41,8 @@
         "pdepend/pdepend": "2.*",
         "phpmd/phpmd": "dev-master",
         "goatherd/phpcs_installer": "2.*@dev",
-        "squizlabs/php_codesniffer": "2.*@dev"
+        "squizlabs/php_codesniffer": "2.*@dev",
+        "satooshi/php-coveralls": "dev-master"
     },
     "config":
     {
