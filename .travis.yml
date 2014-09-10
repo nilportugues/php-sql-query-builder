@@ -12,7 +12,11 @@ matrix:
         - php: hhvm-nightly
   
 before_script:
+  - composer require --dev satooshi/php-coveralls:dev-master
   - composer install
-
+  
+after_script:
+  - php bin/coveralls -v
+  
 script: 
   - bin/phpunit --coverage-text
