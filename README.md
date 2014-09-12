@@ -28,6 +28,7 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
         * [3.4.1. Empty table with DELETE statement](#block3.4.1)
         * [3.4.2. Basic DELETE statement](#block3.4.2)
         * [3.4.3. Elaborated DELETE statement](#block3.4.3)     
+    * [3.5. INTERSECT Statement](#block3.5)     
 * [4. Advanced Quering](#block4)    
     * [4.1. Filtering using WHERE](#block4.1)
         * [4.1.1. Changing WHERE logical operator](#block4.2)     
@@ -388,13 +389,12 @@ echo $builder->write($query);
 SELECT COUNT(user.user_id) AS 'total_users' FROM user;
 ```
 
-
 <a name="block3.2"></a>
 ### 3.2. INSERT Statement [↑](#index_block)
 
 The `INSERT` statement is really straightforward.
 
-<a name="block3.3.1"></a>
+<a name="block3.2.1"></a>
 #### 3.2.1 Basic INSERT statement [↑](#index_block)
 
 #### Usage:
@@ -424,7 +424,6 @@ INSERT INTO user (user.user_id, user.name, user.contact) VALUES (:v1, :v2, :v3)
 ```php
 [':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com'];
 ```
-
 
 <a name="block3.3"></a>
 ### 3.3. UPDATE Statement [↑](#index_block)
@@ -609,6 +608,49 @@ ORDER BY
     user.user_id ASC 
 LIMIT :v4
 ```
+
+
+
+<a name="block3.5"></a>
+### 3.2. INTERSECT Statement [↑](#index_block)
+
+***
+   INTERSECT is not supported by MySQL. 
+   Same results can be achieved by using INNER JOIN statement instead.
+***
+
+The `INTERSECT` statement is really straightforward.
+
+<a name="block3.5.1"></a>
+#### 3.2.1 Basic INTERSECT statement [↑](#index_block)
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$builder = new GenericBuilder(); 
+
+$select1 = $builder->select()->setTable('user');
+$select2 = $builder->select()->setTable('user_emails');
+   
+$builder->intersect()
+    ->add($select1)
+    ->add($select2);
+   
+$sql = $builder->writeFormatted($query);    
+$values = $builder->getValues();
+```
+
+#### Output
+```sql
+SELECT user.* FROM user
+INTERSECT
+SELECT user_email.* FROM user_email
+```
+
+
+
 
 <a name="block4"></a>
 ## 4. Advanced Quering [↑](#index_block)
