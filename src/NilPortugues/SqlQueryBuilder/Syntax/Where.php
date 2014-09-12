@@ -30,6 +30,7 @@ class Where
     const OPERATOR_NOT_EQUAL             = '<>';
     const CONJUNCTION_AND                = 'AND';
     const CONJUNCTION_OR                 = 'OR';
+    const CONJUNCTION_EXISTS             = 'EXISTS';
 
     /**
      * @var array
@@ -92,6 +93,11 @@ class Where
     private $table;
 
     /**
+     * @var array
+     */
+    private $exists = array();
+
+    /**
      * @param QueryInterface $query
      */
     public function __construct(QueryInterface $query)
@@ -114,14 +120,15 @@ class Where
     public function isEmpty()
     {
         return (
-            !isset($this->comparisons)
-            && !isset($this->booleans)
-            && !isset($this->betweens)
-            && !isset($this->isNotNull)
-            && !isset($this->isNull)
-            && !isset($this->ins)
-            && !isset($this->notIns)
-            && !isset($this->subWheres)
+            (0 == count($this->comparisons))
+            && (0 == count($this->booleans))
+            && (0 == count($this->betweens))
+            && (0 == count($this->isNotNull))
+            && (0 == count($this->isNull))
+            && (0 == count($this->ins))
+            && (0 == count($this->notIns))
+            && (0 == count($this->subWheres))
+            && (0 == count($this->exists))
         );
     }
 
@@ -157,6 +164,24 @@ class Where
         $this->subWheres[] = $filter;
 
         return $filter;
+    }
+
+    /**
+     * @param string $operator
+     *
+     * @return $this
+     * @throws QueryException
+     */
+    public function conjunction($operator)
+    {
+        if (!in_array($operator, array(self::CONJUNCTION_AND, self::CONJUNCTION_OR))) {
+            throw new QueryException(
+                "Invalid conjunction specified, must be one of AND or OR, but '".$operator."' was found."
+            );
+        }
+        $this->conjunction = $operator;
+
+        return $this;
     }
 
     /**
@@ -440,6 +465,18 @@ class Where
     }
 
     /**
+     * @param Select $select
+     *
+     * @return $this
+     */
+    public function exists(Select $select)
+    {
+        $this->exists[] = $select;
+
+       return $this;
+    }
+
+    /**
      * @return array
      */
     public function getMatches()
@@ -461,24 +498,6 @@ class Where
     public function getNotIns()
     {
         return $this->notIns;
-    }
-
-    /**
-     * @param string $operator
-     *
-     * @return $this
-     * @throws QueryException
-     */
-    public function conjunction($operator)
-    {
-        if (!in_array($operator, array(self::CONJUNCTION_AND, self::CONJUNCTION_OR))) {
-            throw new QueryException(
-                "Invalid conjunction specified, must be one of AND or OR, but '".$operator."' was found."
-            );
-        }
-        $this->conjunction = $operator;
-
-        return $this;
     }
 
     /**
