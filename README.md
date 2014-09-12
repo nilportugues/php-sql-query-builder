@@ -18,6 +18,7 @@ An elegant lightweight and efficient SQL QueryInterface Builder with fluid inter
         * [3.1.3. SELECT with WHERE statement](#block3.1.3)
         * [3.1.4. Complex WHERE conditions](#block3.1.4)
         * [3.1.5. JOIN & LEFT/RIGHT/INNER/CROSS JOIN SELECT statements](#block3.1.5)
+        * [3.1.6. COUNT rows](#block3.1.6)
     * [3.2. INSERT Statement](#block3.2)
            * [3.2.1. Basic INSERT statement](#block3.2.1) 
     * [3.3. UPDATE Statement](#block3.3)
@@ -322,6 +323,71 @@ ORDER BY
     user.user_id DESC,
     news.created_at DESC;
 ```
+
+<a name="block3.1.6"></a>
+#### 3.1.6. COUNT rows [↑](#index_block)
+Counting rows comes in 3 possible ways, using the ALL selector `*`, stating a column or stating a column and its alias.
+
+#### 3.1.6.1. Count using ALL selector
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
+        ->setTable('user')
+        ->count()
+
+echo $builder->write($query);
+```
+
+#### Output:
+```sql
+SELECT COUNT(*) FROM user;
+```
+
+#### 3.1.6.2. Count using column as a selector
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
+        ->setTable('user')
+        ->count('user_id')
+
+echo $builder->write($query);
+```
+
+#### Output:
+```sql
+SELECT COUNT(user.user_id) FROM user;
+```
+
+#### 3.1.6.3. Count using column as a selector
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
+        ->setTable('user')
+        ->count('user_id', 'total_users')
+
+echo $builder->write($query);
+```
+
+#### Output:
+```sql
+SELECT COUNT(user.user_id) AS 'total_users' FROM user;
+```
+
 
 <a name="block3.2"></a>
 ### 3.2. INSERT Statement [↑](#index_block)

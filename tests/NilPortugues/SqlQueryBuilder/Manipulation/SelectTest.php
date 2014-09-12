@@ -482,6 +482,46 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_should_be_able_to_count_total_rows_setting_default_column()
+    {
+        $this->query
+            ->setTable('user')
+            ->count('user_id')
+            ->groupBy(array('user_id', 'name'))
+            ->having()
+            ->equals('user_id', 1)
+            ->equals('user_id', 2);
+
+        $expected = 'SELECT COUNT(user.user_id) FROM user GROUP BY user.user_id, user.name HAVING (user.user_id = :v1) AND (user.user_id = :v2)';
+
+        $this->assertSame($expected, $this->writer->write($this->query));
+        $expected = array(':v1' => 1, ':v2' => 2);
+        $this->assertEquals($expected, $this->writer->getValues());
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_be_able_to_count_total_rows_setting_default_column_with_alias()
+    {
+        $this->query
+            ->setTable('user')
+            ->count('user_id', 'total_users')
+            ->groupBy(array('user_id', 'name'))
+            ->having()
+            ->equals('user_id', 1)
+            ->equals('user_id', 2);
+
+        $expected = 'SELECT COUNT(user.user_id) AS \'total_users\' FROM user GROUP BY user.user_id, user.name HAVING (user.user_id = :v1) AND (user.user_id = :v2)';
+
+        $this->assertSame($expected, $this->writer->write($this->query));
+        $expected = array(':v1' => 1, ':v2' => 2);
+        $this->assertEquals($expected, $this->writer->getValues());
+    }
+
+    /**
+     * @test
+     */
     public function it_should_be_able_to_group_by_operator()
     {
         $this->query

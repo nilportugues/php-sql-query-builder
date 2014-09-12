@@ -439,11 +439,22 @@ class Select extends BaseQuery
     }
 
     /**
+     * @param string $columnName
+     * @param string $alias
+     *
      * @return $this
      */
-    public function count()
+    public function count($columnName = '*', $alias = '')
     {
-        $this->columns = array('COUNT(*)');
+        $count = 'COUNT(';
+        $count .= ($columnName !== '*') ? "$this->table.{$columnName}" : '*';
+        $count .=')';
+
+        if (isset($alias) && strlen($alias)>0) {
+            $count .= " AS '{$alias}'";
+        }
+
+        $this->columns = array($count);
         $this->isCount = true;
 
         return $this;
