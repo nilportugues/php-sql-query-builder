@@ -75,4 +75,12 @@ final class QueryFactory
     {
         return new Intersect();
     }
+
+    /**
+     * @return Minus
+     */
+    public static function createMinus()
+    {
+        return new Minus();
+    }
 }

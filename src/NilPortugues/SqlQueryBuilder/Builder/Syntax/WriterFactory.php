@@ -101,4 +101,14 @@ final class WriterFactory
     {
         return new IntersectWriter($writer);
     }
+
+    /**
+     * @param GenericBuilder $writer
+     *
+     * @return MinusWriter
+     */
+    public static function createMinusWriter(GenericBuilder $writer)
+    {
+        return new MinusWriter($writer);
+    }
 }

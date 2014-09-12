@@ -59,6 +59,11 @@ class GenericBuilder implements BuilderInterface
     private $intersectWriter;
 
     /**
+     * @var \NilPortugues\SqlQueryBuilder\Builder\Syntax\MinusWriter
+     */
+    private $minusWriter;
+
+    /**
      * @var \NilPortugues\SqlQueryFormatter\Formatter
      */
     private $sqlFormatter;
@@ -76,6 +81,7 @@ class GenericBuilder implements BuilderInterface
         $this->insertWriter = WriterFactory::createInsertWriter($this, $this->placeholderWriter);
         $this->whereWriter  = WriterFactory::createWhereWriter($this, $this->placeholderWriter);
         $this->intersectWriter = WriterFactory::createIntersectWriter($this);
+        $this->minusWriter = WriterFactory::createMinusWriter($this);
 
         $this->sqlFormatter = new Formatter();
     }
@@ -121,6 +127,14 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
+     * @return \NilPortugues\SqlQueryBuilder\Manipulation\Minus
+     */
+    public function minus()
+    {
+        return QueryFactory::createMinus();
+    }
+
+    /**
      * @return array
      */
     public function getValues()
@@ -158,6 +172,10 @@ class GenericBuilder implements BuilderInterface
 
             case 'INTERSECT':
                 $sql = $this->intersectWriter->writeIntersect($query);
+                break;
+
+            case 'MINUS':
+                $sql = $this->minusWriter->writeMinus($query);
                 break;
         }
 
