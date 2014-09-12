@@ -635,7 +635,7 @@ $builder = new GenericBuilder();
 $select1 = $builder->select()->setTable('user');
 $select2 = $builder->select()->setTable('user_emails');
    
-$builder->intersect()
+$query = $builder->intersect()
     ->add($select1)
     ->add($select2);
    
@@ -675,9 +675,7 @@ $builder = new GenericBuilder();
 $select1 = $builder->select()->setTable('user');
 $select2 = $builder->select()->setTable('user_emails');
    
-$builder->minus()
-    ->first($select1)
-    ->second($select2);
+$query = $builder->minus($select1, $select2);
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
