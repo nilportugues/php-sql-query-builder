@@ -38,7 +38,7 @@ class Intersect implements QueryInterface, QueryPartInterface
      *
      * @return $this
      */
-    public function intersect(Select $select)
+    public function add(Select $select)
     {
         $this->intersect[] = $select;
 

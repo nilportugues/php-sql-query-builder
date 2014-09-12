@@ -66,6 +66,15 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_should_create_intersect_object()
+    {
+        $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Intersect';
+        $this->assertInstanceOf($className, $this->writer->intersect());
+    }
+
+    /**
+     * @test
+     */
     public function it_should_ouput_human_readable_query()
     {
         $selectRole =  $this->writer->select();
