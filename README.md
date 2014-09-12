@@ -28,7 +28,8 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
         * [3.4.1. Empty table with DELETE statement](#block3.4.1)
         * [3.4.2. Basic DELETE statement](#block3.4.2)
         * [3.4.3. Elaborated DELETE statement](#block3.4.3)     
-    * [3.5. INTERSECT Statement](#block3.5)     
+    * [3.5. INTERSECT Statement](#block3.5)
+    * [3.6. MINUS Statement](#block3.6)
 * [4. Advanced Quering](#block4)    
     * [4.1. Filtering using WHERE](#block4.1)
         * [4.1.1. Changing WHERE logical operator](#block4.2)     
@@ -612,7 +613,7 @@ LIMIT :v4
 
 
 <a name="block3.5"></a>
-### 3.2. INTERSECT Statement [↑](#index_block)
+### 3.5. INTERSECT Statement [↑](#index_block)
 
 ***
    INTERSECT is not supported by MySQL. 
@@ -622,7 +623,7 @@ LIMIT :v4
 The `INTERSECT` statement is really straightforward.
 
 <a name="block3.5.1"></a>
-#### 3.2.1 Basic INTERSECT statement [↑](#index_block)
+#### 3.5.1 Basic INTERSECT statement [↑](#index_block)
 
 #### Usage:
 ```php
@@ -649,6 +650,45 @@ INTERSECT
 SELECT user_email.* FROM user_email
 ```
 
+
+<a name="block3.6"></a>
+### 3.6. MINUS Statement [↑](#index_block)
+
+***
+   MINUS is not supported by MySQL. 
+   Same results can be achieved by using a LEFT JOIN statement 
+   in combination with an IS NULL or NOT IN condition instead.
+***
+
+The `MINUS` statement is really straightforward.
+
+<a name="block3.6.1"></a>
+#### 3.6.1 Basic MINUS statement [↑](#index_block)
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$builder = new GenericBuilder(); 
+
+$select1 = $builder->select()->setTable('user');
+$select2 = $builder->select()->setTable('user_emails');
+   
+$builder->minus()
+    ->first($select1)
+    ->second($select2);
+   
+$sql = $builder->writeFormatted($query);    
+$values = $builder->getValues();
+```
+
+#### Output
+```sql
+SELECT user.* FROM user
+MINUS
+SELECT user_email.* FROM user_email
+```
 
 
 
