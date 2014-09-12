@@ -47,14 +47,34 @@ class IntersectTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_throw_exception_for_unsupported_operations()
+    public function it_should_get_part_name()
+    {
+        $this->assertSame('INTERSECT', $this->query->partName());
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_throw_exception_for_unsupported_get_table()
     {
         $this->setExpectedException($this->exceptionClass);
         $this->query->getTable();
+    }
 
+    /**
+     * @test
+     */
+    public function it_should_throw_exception_for_unsupported_get_where()
+    {
         $this->setExpectedException($this->exceptionClass);
         $this->query->getWhere();
+    }
 
+    /**
+     * @test
+     */
+    public function it_should_throw_exception_for_unsupported_where()
+    {
         $this->setExpectedException($this->exceptionClass);
         $this->query->where();
     }

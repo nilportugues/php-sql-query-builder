@@ -111,4 +111,24 @@ final class WriterFactory
     {
         return new MinusWriter($writer);
     }
+
+    /**
+     * @param GenericBuilder $writer
+     *
+     * @return UnionWriter
+     */
+    public static function createUnion(GenericBuilder $writer)
+    {
+        return new UnionWriter($writer);
+    }
+
+    /**
+     * @param GenericBuilder $writer
+     *
+     * @return UnionAllWriter
+     */
+    public static function createUnionAll(GenericBuilder $writer)
+    {
+        return new UnionAllWriter($writer);
+    }
 }

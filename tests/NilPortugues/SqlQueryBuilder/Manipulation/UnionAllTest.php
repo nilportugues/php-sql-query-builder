@@ -11,14 +11,14 @@
 namespace Tests\NilPortugues\SqlQueryBuilder\Manipulation;
 
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
-use NilPortugues\SqlQueryBuilder\Manipulation\Minus;
+use NilPortugues\SqlQueryBuilder\Manipulation\UnionAll;
 use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 
 /**
- * Class MinusTest
+ * Class UnionAllTest
  * @package Tests\NilPortugues\SqlQueryBuilder\Manipulation
  */
-class MinusTest extends \PHPUnit_Framework_TestCase
+class UnionAllTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var GenericBuilder
@@ -26,7 +26,7 @@ class MinusTest extends \PHPUnit_Framework_TestCase
     private $writer;
 
     /**
-     * @var Minus
+     * @var UnionAll
      */
     private $query;
 
@@ -41,7 +41,7 @@ class MinusTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->writer = new GenericBuilder();
-        $this->query  = new Minus(new Select('user'), new Select('user_email'));
+        $this->query  = new UnionAll();
     }
 
     /**
@@ -49,7 +49,7 @@ class MinusTest extends \PHPUnit_Framework_TestCase
      */
     public function it_should_get_part_name()
     {
-        $this->assertSame('MINUS', $this->query->partName());
+        $this->assertSame('UNION ALL', $this->query->partName());
     }
 
     /**
@@ -82,9 +82,16 @@ class MinusTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_get_minus_selects()
+    public function it_should_get_intersect_selects()
     {
-        $this->assertEquals(new Select('user'), $this->query->getFirst());
-        $this->assertEquals(new Select('user_email'), $this->query->getSecond());
+        $this->assertEquals(array(), $this->query->getUnions());
+
+        $select1 = new Select('user');
+        $select2 = new Select('user_email');
+
+        $this->query->add($select1);
+        $this->query->add($select2);
+
+        $this->assertEquals(array($select1, $select2), $this->query->getUnions());
     }
 }

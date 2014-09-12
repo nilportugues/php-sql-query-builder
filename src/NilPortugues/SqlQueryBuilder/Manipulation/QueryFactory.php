@@ -86,4 +86,20 @@ final class QueryFactory
     {
         return new Minus($first, $second);
     }
+
+    /**
+     * @return Union
+     */
+    public static function createUnion()
+    {
+        return new Union();
+    }
+
+    /**
+     * @return UnionAll
+     */
+    public static function createUnionAll()
+    {
+        return new UnionAll();
+    }
 }

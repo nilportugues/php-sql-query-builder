@@ -64,6 +64,16 @@ class GenericBuilder implements BuilderInterface
     private $minusWriter;
 
     /**
+     * @var \NilPortugues\SqlQueryBuilder\Builder\Syntax\UnionWriter
+     */
+    private $unionWriter;
+
+    /**
+     * @var \NilPortugues\SqlQueryBuilder\Builder\Syntax\UnionAllWriter
+     */
+    private $unionAllWriter;
+
+    /**
      * @var \NilPortugues\SqlQueryFormatter\Formatter
      */
     private $sqlFormatter;
@@ -82,6 +92,8 @@ class GenericBuilder implements BuilderInterface
         $this->whereWriter  = WriterFactory::createWhereWriter($this, $this->placeholderWriter);
         $this->intersectWriter = WriterFactory::createIntersectWriter($this);
         $this->minusWriter = WriterFactory::createMinusWriter($this);
+        $this->unionWriter = WriterFactory::createUnion($this);
+        $this->unionAllWriter = WriterFactory::createUnionAll($this);
 
         $this->sqlFormatter = new Formatter();
     }
@@ -124,6 +136,22 @@ class GenericBuilder implements BuilderInterface
     public function intersect()
     {
         return QueryFactory::createIntersect();
+    }
+
+    /**
+     * @return \NilPortugues\SqlQueryBuilder\Manipulation\Union
+     */
+    public function union()
+    {
+        return QueryFactory::createUnion();
+    }
+
+    /**
+     * @return \NilPortugues\SqlQueryBuilder\Manipulation\Union
+     */
+    public function unionAll()
+    {
+        return QueryFactory::createUnionAll();
     }
 
     /**
@@ -179,6 +207,14 @@ class GenericBuilder implements BuilderInterface
 
             case 'MINUS':
                 $sql = $this->minusWriter->writeMinus($query);
+                break;
+
+            case 'UNION':
+                $sql = $this->unionWriter->writeUnion($query);
+                break;
+
+            case 'UNION ALL':
+                $sql = $this->unionAllWriter->writeUnionAll($query);
                 break;
         }
 
