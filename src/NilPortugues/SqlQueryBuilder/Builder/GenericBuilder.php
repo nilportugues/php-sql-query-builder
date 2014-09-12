@@ -54,6 +54,11 @@ class GenericBuilder implements BuilderInterface
     private $whereWriter;
 
     /**
+     * @var \NilPortugues\SqlQueryBuilder\Builder\Syntax\IntersectWriter
+     */
+    private $intersectWriter;
+
+    /**
      * @var \NilPortugues\SqlQueryFormatter\Formatter
      */
     private $sqlFormatter;
@@ -70,6 +75,7 @@ class GenericBuilder implements BuilderInterface
         $this->deleteWriter = WriterFactory::createDeleteWriter($this, $this->placeholderWriter);
         $this->insertWriter = WriterFactory::createInsertWriter($this, $this->placeholderWriter);
         $this->whereWriter  = WriterFactory::createWhereWriter($this, $this->placeholderWriter);
+        $this->intersectWriter = WriterFactory::createIntersectWriter($this);
 
         $this->sqlFormatter = new Formatter();
     }
@@ -107,6 +113,14 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
+     * @return \NilPortugues\SqlQueryBuilder\Manipulation\Intersect
+     */
+    public function intersect()
+    {
+        return QueryFactory::createIntersect();
+    }
+
+    /**
      * @return array
      */
     public function getValues()
@@ -140,6 +154,10 @@ class GenericBuilder implements BuilderInterface
 
             case 'DELETE':
                 $sql = $this->deleteWriter->writeDelete($query);
+                break;
+
+            case 'INTERSECT':
+                $sql = $this->intersectWriter->writeIntersect($query);
                 break;
         }
 

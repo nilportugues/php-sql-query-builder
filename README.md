@@ -3,7 +3,7 @@ SQL Query Builder
 
 [![Build Status](https://travis-ci.org/nilportugues/sql-query-builder.png)](https://travis-ci.org/nilportugues/sql-query-builder) [![Coverage Status](https://img.shields.io/coveralls/nilportugues/sql-query-builder.svg)](https://coveralls.io/r/nilportugues/sql-query-builder) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/89ec1003-4227-43a2-8432-67a9fc2d3ba3/mini.png)](https://insight.sensiolabs.com/projects/89ec1003-4227-43a2-8432-67a9fc2d3ba3) [![Latest Stable Version](https://poser.pugx.org/nilportugues/sql-query-builder/v/stable.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![Total Downloads](https://poser.pugx.org/nilportugues/sql-query-builder/downloads.svg)](https://packagist.org/packages/nilportugues/sql-query-builder) [![License](https://poser.pugx.org/nilportugues/sql-query-builder/license.svg)](https://packagist.org/packages/nilportugues/sql-query-builder)
 
-An elegant lightweight and efficient SQL QueryInterface Builder with fluid interface SQL syntax supporting bindings and complicated query generation.
+An elegant lightweight and efficient SQL Query Builder with fluid interface SQL syntax supporting bindings and complicated query generation.
 <a name="index_block"></a>
 
 * [1. Installation](#block1)
@@ -45,7 +45,7 @@ An elegant lightweight and efficient SQL QueryInterface Builder with fluid inter
 
 <a name="block1"></a>
 ## 1. Installation [↑](#index_block)
-The recommended way to install SQL QueryInterface Builder is through [Composer](http://getcomposer.org). Just create a ``composer.json`` file and run the ``php composer.phar install`` command to install it:
+The recommended way to install SQL Query Builder is through [Composer](http://getcomposer.org). Just create a ``composer.json`` file and run the ``php composer.phar install`` command to install it:
 
 ```json
     {
@@ -58,11 +58,11 @@ The recommended way to install SQL QueryInterface Builder is through [Composer](
 <a name="block2"></a>
 ## 2. The Builder [↑](#index_block)
 
-The SQL QueryInterface Builder allows to generate complex SQL queries standard using the `SQL-2003` dialect (default) and the `MySQL` dialect, that extends the `SQL-2003` dialect.
+The SQL Query Builder allows to generate complex SQL queries standard using the `SQL-2003` dialect (default) and the `MySQL` dialect, that extends the `SQL-2003` dialect.
 
 <a name="block2.1"></a>
 ### 2.1. Generic Builder [↑](#index_block)
-The Generic QueryInterface Builder is the default builder for this class and writes standard SQL-2003.
+The Generic Query Builder is the default builder for this class and writes standard SQL-2003.
 
 #### Usage:
 ```php
@@ -82,7 +82,7 @@ SELECT user.* FROM user
 
 <a name="block2.2"></a>
 ### 2.2. MySQL Builder [↑](#index_block) 
-The MySQL QueryInterface Builder has its own class, that inherits from the SQL-2003 builder. All columns will be wrapped with the tilde **`** sign.
+The MySQL Query Builder has its own class, that inherits from the SQL-2003 builder. All columns will be wrapped with the tilde **`** sign.
 
 #### Usage:
 ```php
@@ -103,9 +103,9 @@ SELECT user.* FROM `user`
 <a name="block2.3"></a>
 #### 2.3. Human Readable Output [↑](#index_block)
 
-Both Generic and MySQL QueryInterface Builder can write complex SQL queries. 
+Both Generic and MySQL Query Builder can write complex SQL queries. 
 
-Every developer out there needs at some point revising the output of a complicated query, the SQL QueryInterface Builder includes a human-friendly output method, and therefore the `writeFormatted` method is there to aid the developer when need. 
+Every developer out there needs at some point revising the output of a complicated query, the SQL Query Builder includes a human-friendly output method, and therefore the `writeFormatted` method is there to aid the developer when need. 
 
 Keep in mind `writeFormatted` is to be avoided at all cost in production mode as it adds unneeded overhead due to parsing and re-formatting of the generated statement.
 
@@ -760,7 +760,7 @@ HAVING
 <a name="block4.5"></a>
 ### 4.5. Columns as SELECT statements [↑](#index_block)
 
-Sometimes, a column needs to be set as a column. SQL QueryInterface Builder got you covered on this one too! Check the example below.
+Sometimes, a column needs to be set as a column. SQL Query Builder got you covered on this one too! Check the example below.
 
 #### Usage:
 ```php
@@ -941,7 +941,7 @@ Nil Portugués Calderó
 
 <a name="block7"></a>
 ## 7. License [↑](#index_block)
-SQL QueryInterface Builder is licensed under the MIT license.
+SQL Query Builder is licensed under the MIT license.
 
 ```
 Copyright (c) 2014 Nil Portugués Calderó

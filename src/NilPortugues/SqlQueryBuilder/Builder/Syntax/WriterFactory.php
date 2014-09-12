@@ -91,4 +91,14 @@ final class WriterFactory
     {
         return new PlaceholderWriter();
     }
+
+    /**
+     * @param GenericBuilder $writer
+     *
+     * @return IntersectWriter
+     */
+    public static function createIntersectWriter(GenericBuilder $writer)
+    {
+        return new IntersectWriter($writer);
+    }
 }

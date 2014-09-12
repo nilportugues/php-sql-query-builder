@@ -67,4 +67,12 @@ final class QueryFactory
     {
         return new Where($query);
     }
+
+    /**
+     * @return Intersect
+     */
+    public static function createIntersect()
+    {
+        return new Intersect();
+    }
 }

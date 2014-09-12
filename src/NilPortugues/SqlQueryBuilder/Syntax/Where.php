@@ -348,8 +348,8 @@ class Where
     }
 
     /**
-     * @param array $columns
-     * @param array $values
+     * @param  array $columns
+     * @param  array $values
      * @return $this
      */
     public function matchWithQueryExpansion(array $columns, array $values)
@@ -365,7 +365,7 @@ class Where
 
     /**
      * @param $column
-     * @param array $values
+     * @param  array $values
      * @return $this
      */
     public function in($column, array $values)
@@ -377,7 +377,7 @@ class Where
 
     /**
      * @param $column
-     * @param array $values
+     * @param  array $values
      * @return $this
      */
     public function notIn($column, array $values)
