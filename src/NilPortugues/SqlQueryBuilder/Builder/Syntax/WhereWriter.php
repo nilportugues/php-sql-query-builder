@@ -72,7 +72,6 @@ class WhereWriter
         $notExists      = $this->writeNotExists($where);
         $subWheres   = $where->getSubWheres();
 
-
         array_walk(
             $subWheres,
             function (&$subWhere) {
@@ -332,7 +331,7 @@ class WhereWriter
     {
         $exists = array();
 
-        foreach($where->getExists() as $select) {
+        foreach ($where->getExists() as $select) {
             $exists[] = "EXISTS (".$this->writer->write($select).")";
         }
 
@@ -348,7 +347,7 @@ class WhereWriter
     {
         $exists = array();
 
-        foreach($where->getNotExists() as $select) {
+        foreach ($where->getNotExists() as $select) {
             $exists[] = "NOT EXISTS (".$this->writer->write($select).")";
         }
 

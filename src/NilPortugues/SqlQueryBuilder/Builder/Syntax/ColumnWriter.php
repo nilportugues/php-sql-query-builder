@@ -18,7 +18,7 @@ use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
 
 /**
  * Class ColumnWriter
- * @package NilPortugues\SqlQueryBuilder\BuilderInterface\Syntax
+ * @package NilPortugues\SqlQueryBuilder\Builder\Syntax
  */
 class ColumnWriter
 {

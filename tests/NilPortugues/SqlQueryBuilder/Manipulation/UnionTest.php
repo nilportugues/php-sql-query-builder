@@ -10,7 +10,6 @@
 
 namespace Tests\NilPortugues\SqlQueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 use NilPortugues\SqlQueryBuilder\Manipulation\Union;
 use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 
@@ -20,11 +19,6 @@ use NilPortugues\SqlQueryBuilder\Manipulation\Select;
  */
 class UnionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var GenericBuilder
-     */
-    private $writer;
-
     /**
      * @var Union
      */
@@ -40,7 +34,6 @@ class UnionTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->writer = new GenericBuilder();
         $this->query  = new Union();
     }
 

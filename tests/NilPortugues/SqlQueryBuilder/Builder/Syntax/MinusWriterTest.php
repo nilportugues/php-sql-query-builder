@@ -24,6 +24,11 @@ class MinusWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @var MinusWriter
      */
+    private $minusWriter;
+
+    /**
+     * @var GenericBuilder
+     */
     private $writer;
 
     /**
@@ -31,11 +36,13 @@ class MinusWriterTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->writer = new MinusWriter(new GenericBuilder());
+        $this->minusWriter = new MinusWriter(new GenericBuilder());
+        $this->writer = new GenericBuilder();
     }
 
     public function tearDown()
     {
+        $this->minusWriter = null;
         $this->writer = null;
     }
 
@@ -51,6 +58,21 @@ SELECT user.* FROM user
 MINUS
 SELECT user_email.* FROM user_email
 SQL;
-        $this->assertEquals($expected, $this->writer->writeMinus($minus));
+        $this->assertEquals($expected, $this->minusWriter->writeMinus($minus));
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_write_union_all_from_generic_builder()
+    {
+        $minus = $this->writer->minus(new Select('user'), new Select('user_email'));
+
+        $expected = <<<SQL
+SELECT user.* FROM user
+MINUS
+SELECT user_email.* FROM user_email
+SQL;
+        $this->assertEquals($expected, $this->writer->write($minus));
     }
 }

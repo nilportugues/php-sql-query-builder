@@ -24,6 +24,11 @@ class UnionAllWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @var UnionAllWriter
      */
+    private $unionAllWriter;
+
+    /**
+     * @var GenericBuilder
+     */
     private $writer;
 
     /**
@@ -31,11 +36,13 @@ class UnionAllWriterTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->writer = new UnionAllWriter(new GenericBuilder());
+        $this->unionAllWriter = new UnionAllWriter(new GenericBuilder());
+        $this->writer = new GenericBuilder();
     }
 
     public function tearDown()
     {
+        $this->unionAllWriter = null;
         $this->writer = null;
     }
 
@@ -54,6 +61,24 @@ SELECT user.* FROM user
 UNION ALL
 SELECT user_email.* FROM user_email
 SQL;
-        $this->assertEquals($expected, $this->writer->writeUnionAll($union));
+        $this->assertEquals($expected, $this->unionAllWriter->writeUnionAll($union));
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_write_union_all_from_generic_builder()
+    {
+        $unionAll = $this->writer->unionAll();
+
+        $unionAll->add(new Select('user'));
+        $unionAll->add(new Select('user_email'));
+
+        $expected = <<<SQL
+SELECT user.* FROM user
+UNION ALL
+SELECT user_email.* FROM user_email
+SQL;
+        $this->assertEquals($expected, $this->writer->write($unionAll));
     }
 }

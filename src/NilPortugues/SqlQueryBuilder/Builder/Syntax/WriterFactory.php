@@ -117,7 +117,7 @@ final class WriterFactory
      *
      * @return UnionWriter
      */
-    public static function createUnion(GenericBuilder $writer)
+    public static function createUnionWriter(GenericBuilder $writer)
     {
         return new UnionWriter($writer);
     }
@@ -127,7 +127,7 @@ final class WriterFactory
      *
      * @return UnionAllWriter
      */
-    public static function createUnionAll(GenericBuilder $writer)
+    public static function createUnionAllWriter(GenericBuilder $writer)
     {
         return new UnionAllWriter($writer);
     }

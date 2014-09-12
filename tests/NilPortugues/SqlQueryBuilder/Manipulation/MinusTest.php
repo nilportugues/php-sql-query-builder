@@ -10,7 +10,6 @@
 
 namespace Tests\NilPortugues\SqlQueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 use NilPortugues\SqlQueryBuilder\Manipulation\Minus;
 use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 
@@ -20,11 +19,6 @@ use NilPortugues\SqlQueryBuilder\Manipulation\Select;
  */
 class MinusTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var GenericBuilder
-     */
-    private $writer;
-
     /**
      * @var Minus
      */
@@ -40,7 +34,6 @@ class MinusTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->writer = new GenericBuilder();
         $this->query  = new Minus(new Select('user'), new Select('user_email'));
     }
 

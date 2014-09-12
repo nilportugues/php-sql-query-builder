@@ -10,7 +10,6 @@
 
 namespace Tests\NilPortugues\SqlQueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 use NilPortugues\SqlQueryBuilder\Manipulation\Insert;
 
 /**
@@ -20,61 +19,48 @@ use NilPortugues\SqlQueryBuilder\Manipulation\Insert;
 class InsertTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var GenericBuilder
-     */
-    private $writer;
-
-    /**
      * @var Insert
      */
     private $query;
-
-    /**
-     * @var string
-     */
-    private $exceptionClass = '\NilPortugues\SqlQueryBuilder\Manipulation\QueryException';
-
     /**
      *
      */
     protected function setUp()
     {
-        $this->writer = new GenericBuilder();
         $this->query  = new Insert();
     }
 
     /**
      * @test
      */
-    public function it_should_throw_query_exception_because_no_columns_were_defined()
+    public function it_should_get_part_name()
     {
-        $this->setExpectedException($this->exceptionClass, 'No columns were defined for the current schema.');
-
-        $this->query->setTable('user');
-        $this->writer->write($this->query);
+        $this->assertSame('INSERT', $this->query->partName());
     }
 
     /**
      * @test
      */
-    public function it_should_write_insert_query()
+    public function it_should_set_values()
     {
-        $valueArray = array(
-            'user_id' => 1,
-            'name'    => 'Nil',
-            'contact' => 'contact@nilportugues.com',
-        );
+        $values = ['user_id' => 1, 'username' => 'nilportugues'];
 
-        $this->query
-            ->setTable('user')
-            ->setValues($valueArray);
+        $this->query->setValues($values);
 
-        $expected = 'INSERT INTO user (user.user_id, user.name, user.contact) VALUES (:v1, :v2, :v3)';
+        $this->assertSame($values, $this->query->getValues());
+    }
 
-        $this->assertSame($expected, $this->writer->write($this->query));
-        $this->assertEquals(array_values($valueArray), array_values($this->query->getValues()));
+    /**
+     * @test
+     */
+    public function it_should_get_columns()
+    {
+        $values = ['user_id' => 1, 'username' => 'nilportugues'];
 
-        $expected = array(':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com');
-        $this->assertEquals($expected, $this->writer->getValues());
+        $this->query->setValues($values);
+
+        $columns = $this->query->getColumns();
+
+        $this->assertInstanceOf('NilPortugues\SqlQueryBuilder\Syntax\Column', $columns[0]);
     }
 }

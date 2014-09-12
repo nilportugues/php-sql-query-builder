@@ -22,20 +22,27 @@ use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 class IntersectWriterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var IntersectWriter
+     * @var GenericBuilder
      */
     private $writer;
+
+    /**
+     * @var IntersectWriter
+     */
+    private $intersectWriter;
 
     /**
      *
      */
     public function setUp()
     {
-        $this->writer = new IntersectWriter(new GenericBuilder());
+        $this->intersectWriter = new IntersectWriter(new GenericBuilder());
+        $this->writer = new GenericBuilder();
     }
 
     public function tearDown()
     {
+        $this->intersectWriter = null;
         $this->writer = null;
     }
 
@@ -54,6 +61,24 @@ SELECT user.* FROM user
 INTERSECT
 SELECT user_email.* FROM user_email
 SQL;
-        $this->assertEquals($expected, $this->writer->writeIntersect($intersect));
+        $this->assertEquals($expected, $this->intersectWriter->writeIntersect($intersect));
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_write_intersect_from_generic_builder()
+    {
+        $intersect = $this->writer->intersect();
+
+        $intersect->add(new Select('user'));
+        $intersect->add(new Select('user_email'));
+
+        $expected = <<<SQL
+SELECT user.* FROM user
+INTERSECT
+SELECT user_email.* FROM user_email
+SQL;
+        $this->assertEquals($expected, $this->writer->write($intersect));
     }
 }

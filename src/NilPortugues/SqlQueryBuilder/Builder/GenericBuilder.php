@@ -92,8 +92,8 @@ class GenericBuilder implements BuilderInterface
         $this->whereWriter  = WriterFactory::createWhereWriter($this, $this->placeholderWriter);
         $this->intersectWriter = WriterFactory::createIntersectWriter($this);
         $this->minusWriter = WriterFactory::createMinusWriter($this);
-        $this->unionWriter = WriterFactory::createUnion($this);
-        $this->unionAllWriter = WriterFactory::createUnionAll($this);
+        $this->unionWriter = WriterFactory::createUnionWriter($this);
+        $this->unionAllWriter = WriterFactory::createUnionAllWriter($this);
 
         $this->sqlFormatter = new Formatter();
     }
