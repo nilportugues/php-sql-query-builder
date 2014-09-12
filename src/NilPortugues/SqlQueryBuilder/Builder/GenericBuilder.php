@@ -127,11 +127,14 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
+     * @param \NilPortugues\SqlQueryBuilder\Manipulation\Select $first
+     * @param \NilPortugues\SqlQueryBuilder\Manipulation\Select $second
+     *
      * @return \NilPortugues\SqlQueryBuilder\Manipulation\Minus
      */
-    public function minus()
+    public function minus(Select $first, Select $second)
     {
-        return QueryFactory::createMinus();
+        return QueryFactory::createMinus($first, $second);
     }
 
     /**

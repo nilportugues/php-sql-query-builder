@@ -41,7 +41,7 @@ class MinusTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->writer = new GenericBuilder();
-        $this->query  = new Minus();
+        $this->query  = new Minus(new Select('user'), new Select('user_email'));
     }
 
     /**
@@ -64,16 +64,7 @@ class MinusTest extends \PHPUnit_Framework_TestCase
      */
     public function it_should_get_minus_selects()
     {
-        $this->assertEmpty($this->query->getFirst());
-        $this->assertEmpty($this->query->getSecond());
-
-        $select1 = new Select('user');
-        $select2 = new Select('user_email');
-
-        $this->query->first($select1);
-        $this->query->second($select2);
-
-        $this->assertEquals($select1, $this->query->getFirst());
-        $this->assertEquals($select2, $this->query->getSecond());
+        $this->assertEquals(new Select('user'), $this->query->getFirst());
+        $this->assertEquals(new Select('user_email'), $this->query->getSecond());
     }
 }

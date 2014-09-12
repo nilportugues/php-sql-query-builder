@@ -77,10 +77,13 @@ final class QueryFactory
     }
 
     /**
+     * @param Select $first
+     * @param Select $second
+     *
      * @return Minus
      */
-    public static function createMinus()
+    public static function createMinus(Select $first, Select $second)
     {
-        return new Minus();
+        return new Minus($first, $second);
     }
 }

@@ -38,28 +38,14 @@ class Minus implements QueryInterface, QueryPartInterface
         return 'MINUS';
     }
 
-    /**
-     * @param Select $select
-     *
-     * @return $this
+    /***
+     * @param Select $first
+     * @param Select $second
      */
-    public function first(Select $select)
+    public function __construct(Select $first, Select $second)
     {
-        $this->first = $select;
-
-        return $this;
-    }
-
-    /**
-     * @param Select $select
-     *
-     * @return $this
-     */
-    public function second(Select $select)
-    {
-        $this->second = $select;
-
-        return $this;
+        $this->first = $first;
+        $this->second = $second;
     }
 
     /**

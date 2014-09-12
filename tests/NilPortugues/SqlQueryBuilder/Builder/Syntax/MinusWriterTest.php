@@ -44,10 +44,7 @@ class MinusWriterTest extends \PHPUnit_Framework_TestCase
      */
     public function it_should_write_minus()
     {
-        $minus = new Minus();
-
-        $minus->first(new Select('user'));
-        $minus->second(new Select('user_email'));
+        $minus = new Minus(new Select('user'), new Select('user_email'));
 
         $expected = <<<SQL
 SELECT user.* FROM user
