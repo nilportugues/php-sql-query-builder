@@ -31,6 +31,7 @@ class Where
     const CONJUNCTION_AND                = 'AND';
     const CONJUNCTION_OR                 = 'OR';
     const CONJUNCTION_EXISTS             = 'EXISTS';
+    const CONJUNCTION_NOT_EXISTS         = 'NOT EXISTS';
 
     /**
      * @var array
@@ -96,6 +97,11 @@ class Where
      * @var array
      */
     private $exists = array();
+
+    /**
+     * @var array
+     */
+    private $notExists = array();
 
     /**
      * @param QueryInterface $query
@@ -477,6 +483,18 @@ class Where
     }
 
     /**
+     * @param Select $select
+     *
+     * @return $this
+     */
+    public function notExists(Select $select)
+    {
+        $this->notExists[] = $select;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getMatches()
@@ -538,5 +556,21 @@ class Where
     public function getNull()
     {
         return $this->isNull;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExists()
+    {
+        return $this->exists;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNotExists()
+    {
+        return $this->notExists;
     }
 }

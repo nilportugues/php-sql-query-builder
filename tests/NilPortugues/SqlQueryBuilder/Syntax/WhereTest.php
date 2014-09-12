@@ -63,7 +63,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
      */
     public function it_should_be_empty_on_construct()
     {
-        $this->assertEmpty($this->where->isEmpty());
+        $this->assertTrue($this->where->isEmpty());
     }
 
     /**

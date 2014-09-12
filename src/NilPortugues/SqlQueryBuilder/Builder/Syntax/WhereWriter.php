@@ -68,7 +68,10 @@ class WhereWriter
         $isNulls     = $this->writeWhereIsNulls($where);
         $isNotNulls  = $this->writeWhereIsNotNulls($where);
         $booleans    = $this->writeWhereBooleans($where);
+        $exists      = $this->writeExists($where);
+        $notExists      = $this->writeNotExists($where);
         $subWheres   = $where->getSubWheres();
+
 
         array_walk(
             $subWheres,
@@ -86,6 +89,8 @@ class WhereWriter
             $isNulls,
             $isNotNulls,
             $booleans,
+            $exists,
+            $notExists,
             $subWheres
         );
 
@@ -316,5 +321,37 @@ class WhereWriter
         );
 
         return $booleans;
+    }
+
+    /**
+     * @param Where $where
+     *
+     * @return array
+     */
+    private function writeExists(Where $where)
+    {
+        $exists = array();
+
+        foreach($where->getExists() as $select) {
+            $exists[] = "EXISTS (".$this->writer->write($select).")";
+        }
+
+        return $exists;
+    }
+
+    /**
+     * @param Where $where
+     *
+     * @return array
+     */
+    private function writeNotExists(Where $where)
+    {
+        $exists = array();
+
+        foreach($where->getNotExists() as $select) {
+            $exists[] = "NOT EXISTS (".$this->writer->write($select).")";
+        }
+
+        return $exists;
     }
 }
