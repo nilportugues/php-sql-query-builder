@@ -175,12 +175,16 @@ class GenericBuilder implements BuilderInterface
 
     /**
      * @param QueryInterface $query
+     * @param bool           $resetPlaceholders
      *
      * @return string
      */
-    public function write(QueryInterface $query)
+    public function write(QueryInterface $query, $resetPlaceholders = true)
     {
-        $this->placeholderWriter->reset();
+        if ($resetPlaceholders) {
+            $this->placeholderWriter->reset();
+        }
+
         $sql = '';
 
         switch ($query->partName()) {

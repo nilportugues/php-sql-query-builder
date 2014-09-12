@@ -332,7 +332,7 @@ class WhereWriter
         $exists = array();
 
         foreach ($where->getExists() as $select) {
-            $exists[] = "EXISTS (".$this->writer->write($select).")";
+            $exists[] = "EXISTS (".$this->writer->write($select, false).")";
         }
 
         return $exists;
@@ -348,7 +348,7 @@ class WhereWriter
         $exists = array();
 
         foreach ($where->getNotExists() as $select) {
-            $exists[] = "NOT EXISTS (".$this->writer->write($select).")";
+            $exists[] = "NOT EXISTS (".$this->writer->write($select, false).")";
         }
 
         return $exists;

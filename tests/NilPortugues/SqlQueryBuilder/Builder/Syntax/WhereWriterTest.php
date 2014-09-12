@@ -475,4 +475,52 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
         $expected = array(':v1' => 'Nil');
         $this->assertEquals($expected, $this->writer->getValues());
     }
+
+    /**
+     * @test
+     */
+    public function it_should_be_able_to_do_where_exists()
+    {
+        $select = new Select('banned_user');
+        $select->where()->equals('user_id', 1);
+
+        $this->query
+            ->setTable('user')
+            ->setColumns(array('user_id', 'role_id'))
+            ->where()
+            ->exists($select)
+            ->equals('user', 'Nil');
+
+        $expected = 'SELECT user.user_id, user.role_id FROM user WHERE (user.user = :v1) AND '.
+            'EXISTS (SELECT banned_user.* FROM banned_user WHERE (banned_user.user_id = :v2))';
+
+        $this->assertSame($expected, $this->writer->write($this->query));
+
+        $expected = array(':v1' => 'Nil', ':v2' => 1);
+        $this->assertEquals($expected, $this->writer->getValues());
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_be_able_to_do_where_not_exists()
+    {
+        $select = new Select('banned_user');
+        $select->where()->equals('user_id', 1);
+
+        $this->query
+            ->setTable('user')
+            ->setColumns(array('user_id', 'role_id'))
+            ->where()
+            ->notExists($select)
+            ->equals('user', 'Nil');
+
+        $expected = 'SELECT user.user_id, user.role_id FROM user WHERE (user.user = :v1) AND '.
+            'NOT EXISTS (SELECT banned_user.* FROM banned_user WHERE (banned_user.user_id = :v2))';
+
+        $this->assertSame($expected, $this->writer->write($this->query));
+
+        $expected = array(':v1' => 'Nil', ':v2' => 1);
+        $this->assertEquals($expected, $this->writer->getValues());
+    }
 }
