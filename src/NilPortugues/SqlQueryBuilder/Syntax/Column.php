@@ -35,11 +35,11 @@ class Column implements QueryPartInterface
     protected $alias;
 
     /**
-     * @param             $name
-     * @param null|string $table
-     * @param null|string $alias
+     * @param string $name
+     * @param string $table
+     * @param string $alias
      */
-    public function __construct($name, $table, $alias = null)
+    public function __construct($name, $table, $alias = '')
     {
         $this->setName($name);
         $this->setTable($table);
@@ -111,7 +111,7 @@ class Column implements QueryPartInterface
      */
     public function setAlias($alias)
     {
-        if (is_null($alias)) {
+        if (0 == strlen($alias)) {
             $this->alias = null;
 
             return $this;
