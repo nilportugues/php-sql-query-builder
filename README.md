@@ -785,7 +785,9 @@ The following operators are available for filtering using WHERE conditionals:
     public function between($column, $a, $b);
     public function isNull($column);
     public function isNotNull($column);
-    public function addBitClause($column, $value);
+    public function exists(Select $select);
+    public function notExists(Select $select);
+    public function addBitClause($column, $value);    
 ```
 
 <a name="block4.2"></a>
