@@ -691,13 +691,13 @@ SELECT user_email.* FROM user_email
 ```
 
 
-<a name="block3.6"></a>
-### 3.6. UNION Statement [↑](#index_block)
+<a name="block3.7"></a>
+### 3.7. UNION Statement [↑](#index_block)
 
 The `UNION` statement is really straightforward.
 
-<a name="block3.6.1"></a>
-#### 3.6.1 Basic UNION statement [↑](#index_block)
+<a name="block3.7.1"></a>
+#### 3.7.1 Basic UNION statement [↑](#index_block)
 
 #### Usage:
 ```php
@@ -724,13 +724,13 @@ UNION
 SELECT user_email.* FROM user_email
 ```
 
-<a name="block3.7"></a>
-### 3.7. UNION ALL Statement [↑](#index_block)
+<a name="block3.8"></a>
+### 3.8. UNION ALL Statement [↑](#index_block)
 
 The `UNION ALL` statement is really straightforward.
 
-<a name="block3.7.1"></a>
-#### 3.7.1 Basic UNION ALL statement [↑](#index_block)
+<a name="block3.8.1"></a>
+#### 3.8.1 Basic UNION ALL statement [↑](#index_block)
 
 #### Usage:
 ```php
