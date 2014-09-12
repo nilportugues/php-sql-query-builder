@@ -30,6 +30,8 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
         * [3.4.3. Elaborated DELETE statement](#block3.4.3)     
     * [3.5. INTERSECT Statement](#block3.5)
     * [3.6. MINUS Statement](#block3.6)
+    * [3.7. UNION Statement](#block3.7)
+    * [3.8. UNION ALL Statement](#block3.8)
 * [4. Advanced Quering](#block4)    
     * [4.1. Filtering using WHERE](#block4.1)
         * [4.1.1. Changing WHERE logical operator](#block4.2)     
@@ -685,6 +687,73 @@ $values = $builder->getValues();
 ```sql
 SELECT user.* FROM user
 MINUS
+SELECT user_email.* FROM user_email
+```
+
+
+<a name="block3.6"></a>
+### 3.6. UNION Statement [↑](#index_block)
+
+The `UNION` statement is really straightforward.
+
+<a name="block3.6.1"></a>
+#### 3.6.1 Basic UNION statement [↑](#index_block)
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$builder = new GenericBuilder(); 
+
+$select1 = $builder->select()->setTable('user');
+$select2 = $builder->select()->setTable('user_emails');
+   
+$query = $builder->union()
+    ->add($select1)
+    ->add($select2);
+   
+$sql = $builder->writeFormatted($query);    
+$values = $builder->getValues();
+```
+
+#### Output
+```sql
+SELECT user.* FROM user
+UNION
+SELECT user_email.* FROM user_email
+```
+
+<a name="block3.7"></a>
+### 3.7. UNION ALL Statement [↑](#index_block)
+
+The `UNION ALL` statement is really straightforward.
+
+<a name="block3.7.1"></a>
+#### 3.7.1 Basic UNION ALL statement [↑](#index_block)
+
+#### Usage:
+```php
+<?php
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+
+$builder = new GenericBuilder(); 
+
+$select1 = $builder->select()->setTable('user');
+$select2 = $builder->select()->setTable('user_emails');
+   
+$query = $builder->unionAll()
+    ->add($select1)
+    ->add($select2);
+   
+$sql = $builder->writeFormatted($query);    
+$values = $builder->getValues();
+```
+
+#### Output
+```sql
+SELECT user.* FROM user
+UNION ALL
 SELECT user_email.* FROM user_email
 ```
 
