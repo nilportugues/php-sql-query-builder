@@ -68,7 +68,7 @@ The SQL Query Builder allows to generate complex SQL queries standard using the 
 ### 2.1. Generic Builder [↑](#index_block)
 The Generic Query Builder is the default builder for this class and writes standard SQL-2003.
 
-**All column aliases are be escaped using the `'` sign by default.**
+**All column aliases are escaped using the `'` sign by default.**
 
 #### Usage:
 ```php
@@ -90,7 +90,7 @@ SELECT user.* FROM user
 ### 2.2. MySQL Builder [↑](#index_block) 
 The MySQL Query Builder has its own class, that inherits from the SQL-2003 builder. All columns will be wrapped with the tilde **`** sign.
 
-**All table and column aliases are be escaped using the tilde sign by default.**
+**All table and column aliases are escaped using the tilde sign by default.**
 
 #### Usage:
 ```php
