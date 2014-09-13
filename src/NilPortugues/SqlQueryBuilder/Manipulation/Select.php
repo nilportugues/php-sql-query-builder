@@ -355,8 +355,8 @@ class Select extends BaseQuery
     /**
      * Allows setting a value to the select statement.
      *
-     * @param $value
-     * @param $alias
+     * @param string $value
+     * @param string $alias
      *
      * @return $this
      */
@@ -378,9 +378,9 @@ class Select extends BaseQuery
     /**
      * Allows calculation on columns using predefined SQL functions.
      *
-     * @param       $funcName
-     * @param array $arguments
-     * @param       $alias
+     * @param       string $funcName
+     * @param string[] $arguments
+     * @param       string $alias
      *
      * @return $this
      */
@@ -533,7 +533,7 @@ class Select extends BaseQuery
     }
 
     /**
-     * @param $joinType
+     * @param string|null $joinType
      *
      * @return $this
      */

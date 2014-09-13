@@ -363,8 +363,8 @@ class Where
     }
 
     /**
-     * @param  array $columns
-     * @param  array $values
+     * @param  string[] $columns
+     * @param  integer[] $values
      * @return $this
      */
     public function matchBoolean(array $columns, array $values)
@@ -379,8 +379,8 @@ class Where
     }
 
     /**
-     * @param  array $columns
-     * @param  array $values
+     * @param  string[] $columns
+     * @param  integer[] $values
      * @return $this
      */
     public function matchWithQueryExpansion(array $columns, array $values)
@@ -395,8 +395,8 @@ class Where
     }
 
     /**
-     * @param $column
-     * @param  array $values
+     * @param string $column
+     * @param  integer[] $values
      * @return $this
      */
     public function in($column, array $values)
@@ -407,8 +407,8 @@ class Where
     }
 
     /**
-     * @param $column
-     * @param  array $values
+     * @param string $column
+     * @param  integer[] $values
      * @return $this
      */
     public function notIn($column, array $values)
@@ -419,9 +419,9 @@ class Where
     }
 
     /**
-     * @param $column
-     * @param $a
-     * @param $b
+     * @param string $column
+     * @param integer $a
+     * @param integer $b
      * @return $this
      */
     public function between($column, $a, $b)
@@ -446,7 +446,7 @@ class Where
     }
 
     /**
-     * @param $column
+     * @param string $column
      * @return $this
      */
     public function isNotNull($column)
@@ -458,8 +458,8 @@ class Where
     }
 
     /**
-     * @param $column
-     * @param $value
+     * @param string $column
+     * @param integer $value
      * @return $this
      */
     public function addBitClause($column, $value)

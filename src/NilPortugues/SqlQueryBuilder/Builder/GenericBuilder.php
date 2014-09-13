@@ -147,7 +147,7 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
-     * @return \NilPortugues\SqlQueryBuilder\Manipulation\Union
+     * @return \NilPortugues\SqlQueryBuilder\Manipulation\UnionAll
      */
     public function unionAll()
     {
