@@ -23,6 +23,16 @@ use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
 class ColumnWriter
 {
     /**
+     * @var \NilPortugues\SqlQueryBuilder\Builder\GenericBuilder
+     */
+    private $writer;
+
+    /**
+     * @var PlaceholderWriter
+     */
+    private $placeholderWriter;
+
+    /**
      * @param GenericBuilder    $writer
      * @param PlaceholderWriter $placeholderWriter
      */

@@ -31,6 +31,11 @@ class UpdateWriter
     private $placeholderWriter;
 
     /**
+     * @var ColumnWriter
+     */
+    private $columnWriter;
+
+    /**
      * @param GenericBuilder    $writer
      * @param PlaceholderWriter $placeholder
      */

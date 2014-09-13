@@ -26,6 +26,11 @@ class InsertWriter
     private $writer;
 
     /**
+     * @var ColumnWriter
+     */
+    private $columnWriter;
+
+    /**
      * @param GenericBuilder    $writer
      * @param PlaceholderWriter $placeholder
      */
