@@ -279,7 +279,7 @@ class GenericBuilder implements BuilderInterface
     /**
      * @param $alias
      *
-     * @return mixed
+     * @return string
      */
     public function writeColumnAlias($alias)
     {
