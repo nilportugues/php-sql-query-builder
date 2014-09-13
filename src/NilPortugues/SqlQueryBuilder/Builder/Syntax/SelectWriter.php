@@ -63,7 +63,6 @@ class SelectWriter
             $selectAsColumn = '('.$selectAsColumn.')';
         }
 
-        $alias  = $this->writer->writeAlias($alias);
         $column = array($alias => $selectAsColumn);
 
         return SyntaxFactory::createColumn($column, null);

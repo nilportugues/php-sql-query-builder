@@ -40,7 +40,7 @@ class ColumnWriter
     public function writeColumn(QueryPartInterface $column)
     {
         $alias = $column->getTable()->getAlias();
-        $table = ($alias) ? $this->writer->writeAlias($alias) : $this->writer->writeTable($column->getTable());
+        $table = ($alias) ? $this->writer->writeTableAlias($alias) : $this->writer->writeTable($column->getTable());
 
         $columnString = (empty($table)) ? '' : "{$table}.";
         $columnString .= $this->writer->writeColumnName($column);
@@ -96,7 +96,7 @@ class ColumnWriter
 
             foreach ($valueAsColumns as $alias => $value) {
                 $value          = $this->writer->writePlaceholderValue($value);
-                $newValueColumn = array($this->writer->writeAlias($alias) => $value);
+                $newValueColumn = array($alias => $value);
 
                 $newColumns[] = SyntaxFactory::createColumn($newValueColumn, null);
             }
@@ -122,7 +122,7 @@ class ColumnWriter
                 $funcName = $value['func'];
                 $funcArgs = (!empty($value['args'])) ? "(".implode(', ', $value['args']).")" : '';
 
-                $newFuncColumn = array($this->writer->writeAlias($alias) => $funcName.$funcArgs);
+                $newFuncColumn = array( $alias => $funcName.$funcArgs);
                 $newColumns[]  = SyntaxFactory::createColumn($newFuncColumn, null);
             }
         }
@@ -138,7 +138,7 @@ class ColumnWriter
     public function writeColumnWithAlias(Column $column)
     {
         if (($alias = $column->getAlias()) && !$column->isAll()) {
-            return $this->writeColumn($column)." AS ".$this->writer->writeAlias($alias);
+            return $this->writeColumn($column)." AS ".$this->writer->writeColumnAlias($alias);
         }
 
         return $this->writeColumn($column);

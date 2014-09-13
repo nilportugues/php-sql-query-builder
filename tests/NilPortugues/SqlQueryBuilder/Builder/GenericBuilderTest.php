@@ -135,7 +135,7 @@ SELECT
         LIMIT
             :v2,
             :v3
-    ) AS user_role,
+    ) AS 'user_role',
     (
         SELECT
             role.role_name
@@ -146,7 +146,7 @@ SELECT
         LIMIT
             :v5,
             :v6
-    ) AS role
+    ) AS 'role'
 FROM
     user
 WHERE

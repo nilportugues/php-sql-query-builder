@@ -260,7 +260,7 @@ class GenericBuilder implements BuilderInterface
      */
     public function writeTableWithAlias(Table $table)
     {
-        $alias  = ($table->getAlias()) ? " AS {$this->writeAlias($table->getAlias())}" : '';
+        $alias  = ($table->getAlias()) ? " AS {$this->writeTableAlias($table->getAlias())}" : '';
         $schema = ($table->getSchema()) ? "{$table->getSchema()}." : '';
 
         return $schema.$this->writeTableName($table).$alias;
@@ -271,9 +271,19 @@ class GenericBuilder implements BuilderInterface
      *
      * @return mixed
      */
-    public function writeAlias($alias)
+    public function writeTableAlias($alias)
     {
         return $alias;
+    }
+
+    /**
+     * @param $alias
+     *
+     * @return mixed
+     */
+    public function writeColumnAlias($alias)
+    {
+        return "'{$alias}'";
     }
 
     /**
