@@ -1082,7 +1082,7 @@ To run the test suite, you need [Composer](http://getcomposer.org):
 
 ```bash
     php composer.phar install --dev
-    vendor/bin/phpunit
+    php bin/phpunit
 ```
 
 
