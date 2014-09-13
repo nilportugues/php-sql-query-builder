@@ -16,6 +16,11 @@ namespace NilPortugues\SqlQueryBuilder\Manipulation;
 interface QueryInterface
 {
     /**
+     * @return string
+     */
+    public function partName();
+
+    /**
      * @return \NilPortugues\SqlQueryBuilder\Syntax\Table
      */
     public function getTable();

@@ -22,7 +22,7 @@ use NilPortugues\SqlQueryBuilder\Syntax\Where;
 abstract class BaseQuery implements QueryInterface, QueryPartInterface
 {
     /**
-     * @var Table
+     * @var string
      */
     protected $table;
 
@@ -98,7 +98,7 @@ abstract class BaseQuery implements QueryInterface, QueryPartInterface
      */
     public function setTable($table)
     {
-        $this->table = $table;
+        $this->table = (string) $table;
 
         return $this;
     }

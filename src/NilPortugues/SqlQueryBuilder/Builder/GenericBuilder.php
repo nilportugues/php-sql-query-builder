@@ -248,7 +248,7 @@ class GenericBuilder implements BuilderInterface
         $sql .= "JOIN ";
         $sql .= $this->writeTableWithAlias($select->getTable());
         $sql .= " ON ";
-        $sql .= $this->whereWriter->writeWhere($select->getJoinCondition(), 1);
+        $sql .= $this->whereWriter->writeWhere($select->getJoinCondition());
 
         return $sql;
     }
@@ -277,9 +277,9 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
-     * @param $alias
+     * @param string $alias
      *
-     * @return mixed
+     * @return string
      */
     public function writeColumnAlias($alias)
     {
