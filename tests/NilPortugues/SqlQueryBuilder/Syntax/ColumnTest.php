@@ -92,6 +92,6 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException($this->queryException);
 
-        $column = new Column("*", "user", "userId");
+        new Column("*", "user", "userId");
     }
 }
