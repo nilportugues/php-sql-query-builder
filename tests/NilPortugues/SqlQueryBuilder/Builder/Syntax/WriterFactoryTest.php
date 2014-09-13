@@ -104,7 +104,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function it_should_create_placeholder_writer()
     {
-        $writer = WriterFactory::createPlaceholderWriter($this->writer, $this->placeholder);
+        $writer = WriterFactory::createPlaceholderWriter();
 
         $this->assertSame('NilPortugues\SqlQueryBuilder\Builder\Syntax\PlaceholderWriter', get_class($writer));
     }
@@ -114,7 +114,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function it_should_create_intersect_writer()
     {
-        $writer = WriterFactory::createIntersectWriter($this->writer, $this->placeholder);
+        $writer = WriterFactory::createIntersectWriter($this->writer);
 
         $this->assertSame('NilPortugues\SqlQueryBuilder\Builder\Syntax\IntersectWriter', get_class($writer));
     }
@@ -124,7 +124,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function it_should_create_minus_writer()
     {
-        $writer = WriterFactory::createMinusWriter($this->writer, $this->placeholder);
+        $writer = WriterFactory::createMinusWriter($this->writer);
 
         $this->assertSame('NilPortugues\SqlQueryBuilder\Builder\Syntax\MinusWriter', get_class($writer));
     }
@@ -134,7 +134,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function it_should_create_union()
     {
-        $writer = WriterFactory::createUnionWriter($this->writer, $this->placeholder);
+        $writer = WriterFactory::createUnionWriter($this->writer);
 
         $this->assertSame('NilPortugues\SqlQueryBuilder\Builder\Syntax\UnionWriter', get_class($writer));
     }
@@ -144,7 +144,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function it_should_create_union_all()
     {
-        $writer = WriterFactory::createUnionAllWriter($this->writer, $this->placeholder);
+        $writer = WriterFactory::createUnionAllWriter($this->writer);
 
         $this->assertSame('NilPortugues\SqlQueryBuilder\Builder\Syntax\UnionAllWriter', get_class($writer));
     }
