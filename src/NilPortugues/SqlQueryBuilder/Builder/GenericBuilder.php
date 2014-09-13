@@ -277,7 +277,7 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
-     * @param $alias
+     * @param string $alias
      *
      * @return string
      */
