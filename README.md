@@ -68,6 +68,8 @@ The SQL Query Builder allows to generate complex SQL queries standard using the 
 ### 2.1. Generic Builder [↑](#index_block)
 The Generic Query Builder is the default builder for this class and writes standard SQL-2003.
 
+**All column aliases are be escaped using the `'` sign by default.**
+
 #### Usage:
 ```php
 <?php
@@ -87,6 +89,8 @@ SELECT user.* FROM user
 <a name="block2.2"></a>
 ### 2.2. MySQL Builder [↑](#index_block) 
 The MySQL Query Builder has its own class, that inherits from the SQL-2003 builder. All columns will be wrapped with the tilde **`** sign.
+
+**All table and column aliases are be escaped using the tilde sign by default.**
 
 #### Usage:
 ```php
@@ -183,7 +187,7 @@ echo $builder->write($query);
 ```
 #### Output:
 ```sql
-SELECT user.user_id AS userId, user.name AS username, user.email AS email FROM user
+SELECT user.user_id AS 'userId', user.name AS 'username', user.email AS 'email' FROM user
 ```
 <a name="block3.1.3"></a>
 #### 3.1.3. SELECT with WHERE statement [↑](#index_block)
@@ -213,9 +217,9 @@ echo $builder->writeFormatted($query);
 #### Output:
 ```sql
 SELECT 
-    user.user_id AS userId,
-    user.name AS username,
-    user.email AS email 
+    user.user_id AS 'userId',
+    user.name AS 'username',
+    user.email AS 'email'
 FROM 
     user 
 WHERE 
@@ -305,11 +309,11 @@ echo $builder->writeFormatted($query);
 #### Output:
 ```sql
 SELECT 
-    user.user_id AS userId,
-    user.name AS username,
-    user.email AS email,
+    user.user_id AS 'userId',
+    user.name AS 'username',
+    user.email AS 'email',
     user.created_at,
-    news.title AS newsTitle,
+    news.title AS 'newsTitle',
     news.body,
     news.created_at,
     news.updated_at 
@@ -847,9 +851,9 @@ $values = $builder->getValues();
 #### Output:
 ```sql
 SELECT 
-    user.user_id AS userId,
-    user.name AS username,
-    user.email AS email,
+    user.user_id AS 'userId',
+    user.name AS 'username',
+    user.email AS 'email',
     user.created_at 
 FROM 
     user 
@@ -895,9 +899,9 @@ $values = $builder->getValues();
 #### Output:
 ```sql
 SELECT 
-    user.user_id AS userId,
-    user.name AS username,
-    user.email AS email,
+    user.user_id AS 'userId',
+    user.name AS 'username',
+    user.email AS 'email',
     user.created_at 
 FROM 
     user 
@@ -951,7 +955,7 @@ SELECT
         WHERE 
             (role.role_id = :v1) 
         LIMIT :v2, :v3
-    ) AS user_role, 
+    ) AS 'user_role', 
     (
         SELECT 
             role.role_name  
@@ -960,7 +964,7 @@ SELECT
         WHERE 
             (role.role_id = :v4) 
         LIMIT :v5, :v6
-    ) AS role 
+    ) AS 'role' 
 FROM 
     user 
 WHERE 
@@ -994,7 +998,7 @@ $values = $builder->getValues();
 SELECT 
     user.user_id,
     user.username,
-    :v1 AS priority 
+    :v1 AS 'priority' 
 FROM 
     user 
 WHERE
@@ -1029,7 +1033,7 @@ $values = $builder->getValues();
 SELECT 
     user.user_id,
     user.username,
-    MAX(user_id) AS max_id 
+    MAX(user_id) AS 'max_id'
 FROM 
     user
 WHERE
@@ -1061,7 +1065,7 @@ $values = $builder->getValues();
 SELECT 
     user.user_id,
     user.username,
-    CURRENT_TIMESTAMP AS server_time 
+    CURRENT_TIMESTAMP AS 'server_time' 
 FROM 
     user 
 WHERE
