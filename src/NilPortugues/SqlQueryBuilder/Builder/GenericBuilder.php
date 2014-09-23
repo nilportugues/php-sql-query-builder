@@ -9,14 +9,6 @@
  */
 namespace NilPortugues\SqlQueryBuilder\Builder;
 
-use NilPortugues\SqlQueryBuilder\Builder\Syntax\DeleteWriter;
-use NilPortugues\SqlQueryBuilder\Builder\Syntax\InsertWriter;
-use NilPortugues\SqlQueryBuilder\Builder\Syntax\IntersectWriter;
-use NilPortugues\SqlQueryBuilder\Builder\Syntax\MinusWriter;
-use NilPortugues\SqlQueryBuilder\Builder\Syntax\SelectWriter;
-use NilPortugues\SqlQueryBuilder\Builder\Syntax\UnionAllWriter;
-use NilPortugues\SqlQueryBuilder\Builder\Syntax\UnionWriter;
-use NilPortugues\SqlQueryBuilder\Builder\Syntax\UpdateWriter;
 use NilPortugues\SqlQueryBuilder\Builder\Syntax\WriterFactory;
 use NilPortugues\SqlQueryBuilder\Manipulation\Delete;
 use NilPortugues\SqlQueryBuilder\Manipulation\QueryInterface;
@@ -189,7 +181,7 @@ class GenericBuilder implements BuilderInterface
         switch ($query->partName()) {
 
             case 'SELECT':
-                if (false === ($this->selectWriter instanceof SelectWriter)) {
+                if (false === ($this->selectWriter instanceof Syntax\SelectWriter)) {
                     $this->selectWriter = WriterFactory::createSelectWriter($this, $this->placeholderWriter);
                 }
 
@@ -197,7 +189,7 @@ class GenericBuilder implements BuilderInterface
                 break;
 
             case 'INSERT':
-                if (false === ($this->insertWriter instanceof InsertWriter)) {
+                if (false === ($this->insertWriter instanceof Syntax\InsertWriter)) {
                     $this->insertWriter = WriterFactory::createInsertWriter($this, $this->placeholderWriter);
                 }
 
@@ -205,7 +197,7 @@ class GenericBuilder implements BuilderInterface
                 break;
 
             case 'UPDATE':
-                if (false === ($this->updateWriter instanceof UpdateWriter)) {
+                if (false === ($this->updateWriter instanceof Syntax\UpdateWriter)) {
                     $this->updateWriter = WriterFactory::createUpdateWriter($this, $this->placeholderWriter);
                 }
 
@@ -213,7 +205,7 @@ class GenericBuilder implements BuilderInterface
                 break;
 
             case 'DELETE':
-                if (false === ($this->deleteWriter instanceof DeleteWriter)) {
+                if (false === ($this->deleteWriter instanceof Syntax\DeleteWriter)) {
                     $this->deleteWriter = WriterFactory::createDeleteWriter($this, $this->placeholderWriter);
                 }
 
@@ -221,7 +213,7 @@ class GenericBuilder implements BuilderInterface
                 break;
 
             case 'INTERSECT':
-                if (false === ($this->intersectWriter instanceof IntersectWriter)) {
+                if (false === ($this->intersectWriter instanceof Syntax\IntersectWriter)) {
                     $this->intersectWriter = WriterFactory::createIntersectWriter($this);
                 }
 
@@ -229,7 +221,7 @@ class GenericBuilder implements BuilderInterface
                 break;
 
             case 'MINUS':
-                if (false === ($this->minusWriter instanceof MinusWriter)) {
+                if (false === ($this->minusWriter instanceof Syntax\MinusWriter)) {
                     $this->minusWriter = WriterFactory::createMinusWriter($this);
                 }
 
@@ -237,14 +229,14 @@ class GenericBuilder implements BuilderInterface
                 break;
 
             case 'UNION':
-                if (false === ($this->unionWriter instanceof UnionWriter)) {
+                if (false === ($this->unionWriter instanceof Syntax\UnionWriter)) {
                     $this->unionWriter = WriterFactory::createUnionWriter($this);
                 }
                 $sql = $this->unionWriter->writeUnion($query);
                 break;
 
             case 'UNION ALL':
-                if (false === ($this->unionAllWriter instanceof UnionAllWriter)) {
+                if (false === ($this->unionAllWriter instanceof Syntax\UnionAllWriter)) {
                     $this->unionAllWriter = WriterFactory::createUnionAllWriter($this);
                 }
                 $sql = $this->unionAllWriter->writeUnionAll($query);
