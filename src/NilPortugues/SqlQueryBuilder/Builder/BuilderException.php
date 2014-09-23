@@ -15,5 +15,4 @@ namespace NilPortugues\SqlQueryBuilder\Builder;
  */
 final class BuilderException extends \Exception
 {
-
 }

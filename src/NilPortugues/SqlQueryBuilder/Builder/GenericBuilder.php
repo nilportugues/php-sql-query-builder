@@ -9,7 +9,16 @@
  */
 namespace NilPortugues\SqlQueryBuilder\Builder;
 
+use NilPortugues\SqlQueryBuilder\Builder\Syntax\DeleteWriter;
+use NilPortugues\SqlQueryBuilder\Builder\Syntax\InsertWriter;
+use NilPortugues\SqlQueryBuilder\Builder\Syntax\IntersectWriter;
+use NilPortugues\SqlQueryBuilder\Builder\Syntax\MinusWriter;
+use NilPortugues\SqlQueryBuilder\Builder\Syntax\SelectWriter;
+use NilPortugues\SqlQueryBuilder\Builder\Syntax\UnionAllWriter;
+use NilPortugues\SqlQueryBuilder\Builder\Syntax\UnionWriter;
+use NilPortugues\SqlQueryBuilder\Builder\Syntax\UpdateWriter;
 use NilPortugues\SqlQueryBuilder\Builder\Syntax\WriterFactory;
+use NilPortugues\SqlQueryBuilder\Manipulation\Delete;
 use NilPortugues\SqlQueryBuilder\Manipulation\QueryInterface;
 use NilPortugues\SqlQueryBuilder\Manipulation\QueryFactory;
 use NilPortugues\SqlQueryBuilder\Manipulation\Select;
@@ -84,16 +93,6 @@ class GenericBuilder implements BuilderInterface
     public function __construct()
     {
         $this->placeholderWriter = WriterFactory::createPlaceholderWriter();
-
-        $this->selectWriter = WriterFactory::createSelectWriter($this, $this->placeholderWriter);
-        $this->updateWriter = WriterFactory::createUpdateWriter($this, $this->placeholderWriter);
-        $this->deleteWriter = WriterFactory::createDeleteWriter($this, $this->placeholderWriter);
-        $this->insertWriter = WriterFactory::createInsertWriter($this, $this->placeholderWriter);
-        $this->whereWriter  = WriterFactory::createWhereWriter($this, $this->placeholderWriter);
-        $this->intersectWriter = WriterFactory::createIntersectWriter($this);
-        $this->minusWriter = WriterFactory::createMinusWriter($this);
-        $this->unionWriter = WriterFactory::createUnionWriter($this);
-        $this->unionAllWriter = WriterFactory::createUnionAllWriter($this);
 
         $this->sqlFormatter = new Formatter();
     }
@@ -190,34 +189,64 @@ class GenericBuilder implements BuilderInterface
         switch ($query->partName()) {
 
             case 'SELECT':
+                if (false === ($this->selectWriter instanceof SelectWriter)) {
+                    $this->selectWriter = WriterFactory::createSelectWriter($this, $this->placeholderWriter);
+                }
+
                 $sql = $this->selectWriter->writeSelect($query);
                 break;
 
             case 'INSERT':
+                if (false === ($this->insertWriter instanceof InsertWriter)) {
+                    $this->insertWriter = WriterFactory::createInsertWriter($this, $this->placeholderWriter);
+                }
+
                 $sql = $this->insertWriter->writeInsert($query);
                 break;
 
             case 'UPDATE':
+                if (false === ($this->updateWriter instanceof UpdateWriter)) {
+                    $this->updateWriter = WriterFactory::createUpdateWriter($this, $this->placeholderWriter);
+                }
+
                 $sql = $this->updateWriter->writeUpdate($query);
                 break;
 
             case 'DELETE':
+                if (false === ($this->deleteWriter instanceof DeleteWriter)) {
+                    $this->deleteWriter = WriterFactory::createDeleteWriter($this, $this->placeholderWriter);
+                }
+
                 $sql = $this->deleteWriter->writeDelete($query);
                 break;
 
             case 'INTERSECT':
+                if (false === ($this->intersectWriter instanceof IntersectWriter)) {
+                    $this->intersectWriter = WriterFactory::createIntersectWriter($this);
+                }
+
                 $sql = $this->intersectWriter->writeIntersect($query);
                 break;
 
             case 'MINUS':
+                if (false === ($this->minusWriter instanceof MinusWriter)) {
+                    $this->minusWriter = WriterFactory::createMinusWriter($this);
+                }
+
                 $sql = $this->minusWriter->writeMinus($query);
                 break;
 
             case 'UNION':
+                if (false === ($this->unionWriter instanceof UnionWriter)) {
+                    $this->unionWriter = WriterFactory::createUnionWriter($this);
+                }
                 $sql = $this->unionWriter->writeUnion($query);
                 break;
 
             case 'UNION ALL':
+                if (false === ($this->unionAllWriter instanceof UnionAllWriter)) {
+                    $this->unionAllWriter = WriterFactory::createUnionAllWriter($this);
+                }
                 $sql = $this->unionAllWriter->writeUnionAll($query);
                 break;
         }
@@ -244,6 +273,10 @@ class GenericBuilder implements BuilderInterface
      */
     public function writeJoin(Select $select)
     {
+        if (false === ($this->whereWriter instanceof Delete)) {
+            $this->whereWriter  = WriterFactory::createWhereWriter($this, $this->placeholderWriter);
+        }
+
         $sql = ($select->getJoinType()) ? "{$select->getJoinType()} " : "";
         $sql .= "JOIN ";
         $sql .= $this->writeTableWithAlias($select->getTable());

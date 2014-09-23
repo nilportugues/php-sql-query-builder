@@ -363,7 +363,7 @@ class Where
     }
 
     /**
-     * @param  string[] $columns
+     * @param  string[]  $columns
      * @param  integer[] $values
      * @return $this
      */
@@ -379,7 +379,7 @@ class Where
     }
 
     /**
-     * @param  string[] $columns
+     * @param  string[]  $columns
      * @param  integer[] $values
      * @return $this
      */
@@ -388,14 +388,14 @@ class Where
         $this->match[] = array(
             'columns' => $columns,
             'values'  => $values,
-            'mode'    => 'query_expansion'
+            'mode'    => 'query_expansion',
         );
 
         return $this;
     }
 
     /**
-     * @param string $column
+     * @param  string    $column
      * @param  integer[] $values
      * @return $this
      */
@@ -407,7 +407,7 @@ class Where
     }
 
     /**
-     * @param string $column
+     * @param  string    $column
      * @param  integer[] $values
      * @return $this
      */
@@ -419,9 +419,9 @@ class Where
     }
 
     /**
-     * @param string $column
-     * @param integer $a
-     * @param integer $b
+     * @param  string  $column
+     * @param  integer $a
+     * @param  integer $b
      * @return $this
      */
     public function between($column, $a, $b)
@@ -446,7 +446,7 @@ class Where
     }
 
     /**
-     * @param string $column
+     * @param  string $column
      * @return $this
      */
     public function isNotNull($column)
@@ -458,8 +458,8 @@ class Where
     }
 
     /**
-     * @param string $column
-     * @param integer $value
+     * @param  string  $column
+     * @param  integer $value
      * @return $this
      */
     public function addBitClause($column, $value)
@@ -479,7 +479,7 @@ class Where
     {
         $this->exists[] = $select;
 
-       return $this;
+        return $this;
     }
 
     /**

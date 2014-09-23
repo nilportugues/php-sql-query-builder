@@ -28,7 +28,6 @@ final class SyntaxFactory
         $createdColumns = array();
 
         foreach ($arguments as $index => $column) {
-
             if (!is_object($column)) {
                 $newColumn = array($column);
                 $column    = self::createColumn($newColumn, $table);

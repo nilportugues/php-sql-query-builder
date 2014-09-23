@@ -107,7 +107,6 @@ class SelectWriter
     public function writeSelectColumns(Select $select)
     {
         if ($select->isCount() === false) {
-
             $tableColumns    = $select->getAllColumns();
             $selectAsColumns = $this->columnWriter->writeSelectsAsColumns($select);
             $valueAsColumns  = $this->columnWriter->writeValueAsColumns($select);
@@ -123,9 +122,7 @@ class SelectWriter
             );
 
             $columnList = implode(", ", $columns);
-
         } else {
-
             $columns    = $select->getColumns();
             $column     = array_pop($columns);
             $columnList = $column->getName();
@@ -155,7 +152,6 @@ class SelectWriter
         $joins = $select->getAllJoins();
 
         if (!empty($joins)) {
-
             array_walk(
                 $joins,
                 function (&$join) {
@@ -182,7 +178,6 @@ class SelectWriter
         $wheres = array_filter($wheres);
 
         if (count($wheres) > 0) {
-
             $str       = "WHERE ";
             $separator = " ".$this->writer->writeConjunction($select->getWhereOperator())." ";
 
@@ -221,7 +216,6 @@ class SelectWriter
     {
         $str = "";
         if (count($select->getGroupBy())) {
-
             $groupCols = $select->getGroupBy();
 
             array_walk(
@@ -248,7 +242,6 @@ class SelectWriter
         $str = "";
 
         if (count($havingArray = $select->getAllHavings()) > 0) {
-
             $placeholder = $this->placeholderWriter;
             $writer      = $this->writer;
 
@@ -280,7 +273,6 @@ class SelectWriter
     {
         $str = "";
         if (count($select->getAllOrderBy())) {
-
             $orderByArray = $select->getAllOrderBy();
             array_walk(
                 $orderByArray,

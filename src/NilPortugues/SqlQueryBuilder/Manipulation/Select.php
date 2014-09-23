@@ -168,7 +168,6 @@ class Select extends BaseQuery
         $key      = $table->getCompleteName();
 
         if (!isset($this->joins[$key])) {
-
             $select = QueryFactory::createSelect($table);
             $select->setColumns($columns);
             $select->setJoinType($joinType);
@@ -176,7 +175,6 @@ class Select extends BaseQuery
         }
 
         return $this->joins[$key];
-
     }
 
     /**
@@ -206,7 +204,6 @@ class Select extends BaseQuery
         $key = $select->getTable()->getCompleteName();
 
         if (!isset($this->joins[$key])) {
-
             $newColumn = array($selfColumn);
             $select->joinCondition()->equals($refColumn, SyntaxFactory::createColumn($newColumn, $this->getTable()));
             $this->joins[$key] = $select;
@@ -378,9 +375,9 @@ class Select extends BaseQuery
     /**
      * Allows calculation on columns using predefined SQL functions.
      *
-     * @param       string $funcName
+     * @param string   $funcName
      * @param string[] $arguments
-     * @param       string $alias
+     * @param string   $alias
      *
      * @return $this
      */
@@ -448,7 +445,7 @@ class Select extends BaseQuery
     {
         $count = 'COUNT(';
         $count .= ($columnName !== '*') ? "$this->table.{$columnName}" : '*';
-        $count .=')';
+        $count .= ')';
 
         if (isset($alias) && strlen($alias)>0) {
             $count .= " AS '{$alias}'";

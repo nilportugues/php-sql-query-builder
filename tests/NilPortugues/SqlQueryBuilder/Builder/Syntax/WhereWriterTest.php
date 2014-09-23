@@ -61,7 +61,6 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
      */
     public function it_should_allow_where_or_conditions()
     {
-
         $this->query
             ->setTable('user')
             ->where('OR')
@@ -272,7 +271,6 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
 
         $expected = array(':v1' => 1, ':v2' => 2);
         $this->assertEquals($expected, $this->writer->getValues());
-
     }
 
     /**

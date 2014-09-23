@@ -68,7 +68,6 @@ class ColumnWriter
         $selectAsColumns = $select->getColumnSelects();
 
         if (!empty($selectAsColumns)) {
-
             $selectWriter = WriterFactory::createSelectWriter($this->writer, $this->placeholderWriter);
 
             array_walk(
@@ -103,7 +102,6 @@ class ColumnWriter
         $newColumns     = array();
 
         if (!empty($valueAsColumns)) {
-
             foreach ($valueAsColumns as $alias => $value) {
                 $value          = $this->writer->writePlaceholderValue($value);
                 $newValueColumn = array($alias => $value);
@@ -126,9 +124,7 @@ class ColumnWriter
         $newColumns    = array();
 
         if (!empty($funcAsColumns)) {
-
             foreach ($funcAsColumns as $alias => $value) {
-
                 $funcName = $value['func'];
                 $funcArgs = (!empty($value['args'])) ? "(".implode(', ', $value['args']).")" : '';
 
@@ -153,5 +149,4 @@ class ColumnWriter
 
         return $this->writeColumn($column);
     }
-
 }

@@ -37,7 +37,6 @@ class DeleteWriter
     {
         $this->writer            = $writer;
         $this->placeholderWriter = $placeholder;
-
     }
 
     /**

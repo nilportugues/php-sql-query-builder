@@ -87,6 +87,5 @@ SQL;
 
         $expected = array(':v1' => 10, ':v2' => 20, ':v3' => 30, ':v4' => 1);
         $this->assertEquals($expected, $this->writer->getValues());
-
     }
 }

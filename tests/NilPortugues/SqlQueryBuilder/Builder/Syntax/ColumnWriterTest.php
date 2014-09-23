@@ -102,7 +102,6 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
      */
     public function it_should_be_able_to_write_column_as_a_select_statement()
     {
-
         $selectRole = new Select();
         $selectRole
             ->setTable('role')
@@ -147,7 +146,6 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
 
         $expected = array(':v1' => 10, ':v2' => 1);
         $this->assertEquals($expected, $this->writer->getValues());
-
     }
 
     /**

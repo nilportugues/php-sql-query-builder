@@ -15,5 +15,4 @@ namespace NilPortugues\SqlQueryBuilder\Manipulation;
  */
 final class QueryException extends \Exception
 {
-
 }

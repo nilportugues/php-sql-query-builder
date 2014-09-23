@@ -15,7 +15,6 @@ namespace NilPortugues\SqlQueryBuilder\Manipulation;
  */
 class Delete extends BaseQuery
 {
-
     /**
      * @var int
      */

@@ -111,7 +111,6 @@ class WhereWriter
         $matches = array();
 
         foreach ($where->getMatches() as $values) {
-
             $columns = SyntaxFactory::createColumns($values['columns'], $where->getTable());
 
             $columnNames = array();
@@ -152,7 +151,6 @@ class WhereWriter
         $ins = array();
 
         foreach ($where->getIns() as $column => $values) {
-
             $newColumn = array($column);
             $column    = SyntaxFactory::createColumn($newColumn, $where->getTable());
             $column    = $this->columnWriter->writeColumn($column);
@@ -176,7 +174,6 @@ class WhereWriter
         $notIns = $where->getNotIns();
 
         foreach ($notIns as $column => &$values) {
-
             $newColumn = array($column);
             $column    = SyntaxFactory::createColumn($newColumn, $where->getTable());
             $column    = $this->columnWriter->writeColumn($column);
@@ -247,15 +244,11 @@ class WhereWriter
     {
         if ($subject instanceof Column) {
             $str = $this->columnWriter->writeColumn($subject);
-
         } elseif ($subject instanceof Select) {
-
             $selectWriter = WriterFactory::createSelectWriter($this->writer, $this->placeholderWriter);
             $str          = '('.$selectWriter->writeSelect($subject).')';
-
         } else {
             $str = $this->writer->writePlaceholderValue($subject);
-
         }
 
         return $str;

@@ -30,7 +30,6 @@ class MySqlBuilderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->writer = new MySqlBuilder();
-
     }
 
     /**
@@ -39,7 +38,6 @@ class MySqlBuilderTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $this->writer = null;
-
     }
 
     /**

@@ -349,7 +349,6 @@ class SelectWriterTest extends \PHPUnit_Framework_TestCase
         $this->query->setTable('user');
 
         for ($i = 1; $i <= 5; $i++) {
-
             //Select QueryInterface for "news" table
             $select = new Select();
             $select

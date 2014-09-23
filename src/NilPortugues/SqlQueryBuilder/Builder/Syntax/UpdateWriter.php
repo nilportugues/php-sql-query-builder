@@ -67,7 +67,6 @@ class UpdateWriter
         );
 
         if (!is_null($update->getWhere())) {
-
             $whereWriter = WriterFactory::createWhereWriter($this->writer, $this->placeholderWriter);
             $parts[]     = " WHERE {$whereWriter->writeWhere($update->getWhere())}";
         }
@@ -89,7 +88,6 @@ class UpdateWriter
     {
         $assigns = array();
         foreach ($update->getValues() as $column => $value) {
-
             $newColumn = array($column);
             $column    = $this->columnWriter->writeColumn(SyntaxFactory::createColumn($newColumn, $update->getTable()));
 
