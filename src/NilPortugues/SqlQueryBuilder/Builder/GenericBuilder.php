@@ -85,8 +85,6 @@ class GenericBuilder implements BuilderInterface
     public function __construct()
     {
         $this->placeholderWriter = WriterFactory::createPlaceholderWriter();
-
-        $this->sqlFormatter = new Formatter();
     }
 
     /**
@@ -255,6 +253,10 @@ class GenericBuilder implements BuilderInterface
      */
     public function writeFormatted(QueryInterface $query)
     {
+        if (false === ($this->sqlFormatter instanceof Formatter)) {
+            $this->sqlFormatter = new Formatter();
+        }
+        
         return $this->sqlFormatter->format($this->write($query));
     }
 
