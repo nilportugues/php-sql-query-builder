@@ -207,7 +207,7 @@ $query = $builder->select()
         'userId' => 'user_id',
         'username' => 'name',
         'email' => 'email'
-    ]);
+    ])
     ->where()
     ->greaterThan('user_id', 5)
     ->notLike('username', 'John');
