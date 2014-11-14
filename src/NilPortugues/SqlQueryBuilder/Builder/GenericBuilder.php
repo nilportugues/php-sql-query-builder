@@ -10,6 +10,7 @@
 namespace NilPortugues\SqlQueryBuilder\Builder;
 
 use NilPortugues\SqlQueryBuilder\Builder\Syntax\WriterFactory;
+use NilPortugues\SqlQueryBuilder\Manipulation\BaseQuery;
 use NilPortugues\SqlQueryBuilder\Manipulation\Delete;
 use NilPortugues\SqlQueryBuilder\Manipulation\QueryInterface;
 use NilPortugues\SqlQueryBuilder\Manipulation\QueryFactory;
@@ -92,7 +93,7 @@ class GenericBuilder implements BuilderInterface
      */
     public function select()
     {
-        return QueryFactory::createSelect();
+        return $this->injectBuilder(QueryFactory::createSelect());
     }
 
     /**
@@ -100,7 +101,7 @@ class GenericBuilder implements BuilderInterface
      */
     public function insert()
     {
-        return QueryFactory::createInsert();
+        return $this->injectBuilder(QueryFactory::createInsert());
     }
 
     /**
@@ -108,7 +109,7 @@ class GenericBuilder implements BuilderInterface
      */
     public function update()
     {
-        return QueryFactory::createUpdate();
+        return $this->injectBuilder(QueryFactory::createUpdate());
     }
 
     /**
@@ -116,7 +117,16 @@ class GenericBuilder implements BuilderInterface
      */
     public function delete()
     {
-        return QueryFactory::createDelete();
+        return $this->injectBuilder(QueryFactory::createDelete());
+    }
+
+    /**
+     * @param \NilPortugues\SqlQueryBuilder\Manipulation\BaseQuery
+     * @return \NilPortugues\SqlQueryBuilder\Manipulation\BaseQuery
+     */
+    protected function injectBuilder(BaseQuery $query)
+    {
+        return $query->setBuilder($this);
     }
 
     /**

@@ -23,4 +23,11 @@ interface BuilderInterface
      * @return string
      */
     public function write(QueryInterface $query);
+
+    /**
+     * @param QueryInterface $query
+     *
+     * @return string
+     */
+    public function writeFormatted(QueryInterface $query);
 }
