@@ -20,32 +20,35 @@ final class QueryFactory
 {
     /**
      * @param string $table
+     * @param array  $columns
      *
      * @return Select
      */
-    public static function createSelect($table = null)
+    public static function createSelect($table = null, array $columns = null)
     {
-        return static::addTableToQuery(new Select(), $table);
+        return new Select($table, $columns);
     }
 
     /**
      * @param string $table
+     * @param array  $values
      *
      * @return Insert
      */
-    public static function createInsert($table = null)
+    public static function createInsert($table = null, array $values = null)
     {
-        return static::addTableToQuery(new Insert(), $table);
+        return new Insert($table, $values);
     }
 
     /**
      * @param string $table
+     * @param array  $values
      *
      * @return Update
      */
-    public static function createUpdate($table = null)
+    public static function createUpdate($table = null, array $values = null)
     {
-        return static::addTableToQuery(new Update(), $table);
+        return new Update($table, $values);
     }
 
     /**
@@ -55,7 +58,7 @@ final class QueryFactory
      */
     public static function createDelete($table = null)
     {
-        return static::addTableToQuery(new Delete(), $table);
+        return new Delete($table);
     }
 
     /**
@@ -101,20 +104,5 @@ final class QueryFactory
     public static function createUnionAll()
     {
         return new UnionAll();
-    }
-
-    /**
-     * @param  NilPortugues\SqlQueryBuilder\Manipulation\BaseQuery $query
-     * @param  string $table
-     *
-     * @return NilPortugues\SqlQueryBuilder\Manipulation\BaseQuery
-     */
-    private static function addTableToQuery(BaseQuery $query, $table = null)
-    {
-        if ($table) {
-            $query->setTable($table);
-        }
-
-        return $query;
     }
 }

@@ -21,6 +21,16 @@ class Delete extends BaseQuery
     protected $limitStart;
 
     /**
+     * @param string $table
+     */
+    public function __construct($table = null)
+    {
+        if (isset($table)) {
+            $this->setTable($table);
+        }
+    }
+
+    /**
      * @return string
      */
     public function partName()
