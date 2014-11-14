@@ -183,6 +183,19 @@ QUERY;
     /**
      * @test
      */
+    public function it_should_write_formatted_when_getting_formatted_sql()
+    {
+        $query = $this->writer->select()
+            ->setTable('user');
+
+        $formatted = true;
+        $expected  = $this->writer->writeFormatted($query);
+
+        $this->assertSame($expected, $query->getSql($formatted));
+    }
+    /**
+     * @test
+     */
     public function it_should_write_sql_when_cast_to_string()
     {
         $query = $this->writer->select()
