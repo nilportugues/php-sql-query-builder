@@ -103,6 +103,23 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_can_accept_a_table_name_for_select_insert_update_delete_queries()
+    {
+        $table = 'users';
+        $queries = [
+            'select' => $this->writer->select($table),
+            'insert' => $this->writer->insert($table),
+            'update' => $this->writer->update($table),
+            'delete' => $this->writer->delete($table),
+        ];
+        foreach ($queries as $type => $query) {
+            $this->assertEquals($table, $query->getTable()->getName(), "Checking table in $type query");
+        }
+    }
+
+    /**
+     * @test
+     */
     public function it_should_ouput_human_readable_query()
     {
         $selectRole =  $this->writer->select();
