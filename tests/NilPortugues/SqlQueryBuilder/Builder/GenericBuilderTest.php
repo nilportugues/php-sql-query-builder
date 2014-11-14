@@ -105,7 +105,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function it_can_accept_a_table_name_for_select_insert_update_delete_queries()
     {
-        $table = 'users';
+        $table = 'user';
         $queries = [
             'select' => $this->writer->select($table),
             'insert' => $this->writer->insert($table),
@@ -115,6 +115,26 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
         foreach ($queries as $type => $query) {
             $this->assertEquals($table, $query->getTable()->getName(), "Checking table in $type query");
         }
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_accept_a_table_and_columns_for_select()
+    {
+        $table    = 'user';
+        $columns  = ['id', 'role'];
+        $expected = <<<QUERY
+SELECT
+    user.id,
+    user.role
+FROM
+    user
+
+QUERY;
+
+        $select = $this->writer->select($table, $columns);
+        $this->assertSame($expected, $this->writer->writeFormatted($select));
     }
 
     /**
