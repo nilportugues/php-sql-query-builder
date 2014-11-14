@@ -156,4 +156,40 @@ QUERY;
 
         $this->assertSame($expected, $this->writer->writeFormatted($select));
     }
+
+    /**
+     * @test
+     */
+    public function it_should_inject_the_builder()
+    {
+        $query = $this->writer->select();
+
+        $this->assertSame($this->writer, $query->getBuilder());
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_write_when_getting_sql()
+    {
+        $query = $this->writer->select()
+            ->setTable('user');
+
+        $expected = $this->writer->write($query);
+
+        $this->assertSame($expected, $query->getSql());
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_write_sql_when_cast_to_string()
+    {
+        $query = $this->writer->select()
+            ->setTable('user');
+
+        $expected = $this->writer->write($query);
+
+        $this->assertSame($expected, (string) $query);
+    }
 }
