@@ -140,6 +140,24 @@ QUERY;
     /**
      * @test
      */
+    public function it_can_accept_a_table_and_values_for_insert()
+    {
+        $table    = 'user';
+        $values   = ['id' => 1, 'role' => 'admin'];
+        $expected = <<<QUERY
+INSERT INTO user (user.id, user.role)
+VALUES
+    (:v1, :v2)
+
+QUERY;
+
+        $insert = $this->writer->insert($table, $values);
+        $this->assertSame($expected, $this->writer->writeFormatted($insert));
+    }
+
+    /**
+     * @test
+     */
     public function it_should_ouput_human_readable_query()
     {
         $selectRole =  $this->writer->select();
