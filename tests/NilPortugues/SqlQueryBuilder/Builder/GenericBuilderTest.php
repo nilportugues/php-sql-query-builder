@@ -158,6 +158,26 @@ QUERY;
     /**
      * @test
      */
+    public function it_can_accept_a_table_and_values_for_update()
+    {
+        $table    = 'user';
+        $values   = ['id' => 1, 'role' => 'super-admin'];
+        $expected = <<<QUERY
+UPDATE
+    user
+SET
+    user.id = :v1,
+    user.role = :v2
+
+QUERY;
+
+        $update = $this->writer->update($table, $values);
+        $this->assertSame($expected, $this->writer->writeFormatted($update));
+    }
+
+    /**
+     * @test
+     */
     public function it_should_ouput_human_readable_query()
     {
         $selectRole =  $this->writer->select();
