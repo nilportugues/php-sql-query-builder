@@ -139,10 +139,10 @@ class Select extends BaseQuery
     }
 
     /**
-     * @param       $table
-     * @param null  $selfColumn
-     * @param null  $refColumn
-     * @param array $columns
+     * @param string $table
+     * @param string $selfColumn
+     * @param string $refColumn
+     * @param array  $columns
      *
      * @return Select
      */
@@ -152,9 +152,9 @@ class Select extends BaseQuery
     }
 
     /**
-     * @param        $table
-     * @param null   $selfColumn
-     * @param null   $refColumn
+     * @param string $table
+     * @param string $selfColumn
+     * @param string $refColumn
      * @param array  $columns
      * @param string $joinType
      *
@@ -167,18 +167,14 @@ class Select extends BaseQuery
         $columns = array(),
         $joinType = null
     ) {
-        $newTable = array($table);
-        $table    = SyntaxFactory::createTable($newTable);
-        $key      = $table->getCompleteName();
-
-        if (!isset($this->joins[$key])) {
+        if (!isset($this->joins[$table])) {
             $select = QueryFactory::createSelect($table);
             $select->setColumns($columns);
             $select->setJoinType($joinType);
             $this->addJoin($select, $selfColumn, $refColumn);
         }
 
-        return $this->joins[$key];
+        return $this->joins[$table];
     }
 
     /**
@@ -205,15 +201,15 @@ class Select extends BaseQuery
     public function addJoin(Select $select, $selfColumn, $refColumn)
     {
         $select->isJoin(true);
-        $key = $select->getTable()->getCompleteName();
+        $table = $select->getTable()->getName();
 
-        if (!isset($this->joins[$key])) {
+        if (!isset($this->joins[$table])) {
             $newColumn = array($selfColumn);
             $select->joinCondition()->equals($refColumn, SyntaxFactory::createColumn($newColumn, $this->getTable()));
-            $this->joins[$key] = $select;
+            $this->joins[$table] = $select;
         }
 
-        return $this->joins[$key];
+        return $this->joins[$table];
     }
 
     /**

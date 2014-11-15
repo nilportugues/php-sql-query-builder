@@ -9,7 +9,6 @@
  */
 namespace NilPortugues\SqlQueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Syntax\Table;
 use NilPortugues\SqlQueryBuilder\Syntax\Where;
 
 /**
