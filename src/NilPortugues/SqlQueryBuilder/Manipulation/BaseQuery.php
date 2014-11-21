@@ -15,12 +15,20 @@ use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
 use NilPortugues\SqlQueryBuilder\Syntax\Table;
 use NilPortugues\SqlQueryBuilder\Syntax\Where;
 
+// Builder injects itself into query for convestion to SQL string.
+use NilPortugues\SqlQueryBuilder\Builder\BuilderInterface;
+
 /**
  * Class BaseQuery
  * @package NilPortugues\SqlQueryBuilder
  */
 abstract class BaseQuery implements QueryInterface, QueryPartInterface
 {
+    /**
+     * @var NilPortugues\SqlQueryBuilder\Builder\BuilderInterface
+     */
+    private $builder;
+
     /**
      * @var string
      */
@@ -66,6 +74,59 @@ abstract class BaseQuery implements QueryInterface, QueryPartInterface
         }
 
         return $this->where;
+    }
+
+    /**
+     * Stores the builder that created this query.
+     *
+     * @param  BuilderInterface $builder
+     * @return $this
+     */
+    final public function setBuilder(BuilderInterface $builder)
+    {
+        $this->builder = $builder;
+        return $this;
+    }
+
+    /**
+     * @return BuilderInterface
+     * @throws RuntimeException  when builder has not been injected
+     */
+    final public function getBuilder()
+    {
+        if (!$this->builder) {
+            throw new \RuntimeException('Query builder has not been injected with setBuilder');
+        }
+        return $this->builder;
+    }
+
+    /**
+     * Converts this query into an SQL string by using the injected builder.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        try {
+            return $this->getSql();
+        } catch (\Exception $e) {
+            return sprintf('[%s] %s', get_class($e), $e->getMessage());
+        }
+    }
+
+    /**
+     * Converts this query into an SQL string by using the injected builder.
+     * Optionally can return the SQL with formatted structure.
+     *
+     * @param  boolean $formatted
+     * @return string
+     */
+    public function getSql($formatted = false)
+    {
+        if ($formatted) {
+            return $this->getBuilder()->writeFormatted($this);
+        }
+        return $this->getBuilder()->write($this);
     }
 
     /**
