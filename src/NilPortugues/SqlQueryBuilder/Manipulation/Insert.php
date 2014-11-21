@@ -23,6 +23,21 @@ class Insert extends BaseQuery
     protected $values = array();
 
     /**
+     * @param string $table
+     * @param array  $values
+     */
+    public function __construct($table = null, array $values = null)
+    {
+        if (isset($table)) {
+            $this->setTable($table);
+        }
+
+        if (!empty($values)) {
+            $this->setValues($values);
+        }
+    }
+
+    /**
      * @return string
      */
     public function partName()
