@@ -103,6 +103,81 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_can_accept_a_table_name_for_select_insert_update_delete_queries()
+    {
+        $table = 'user';
+        $queries = [
+            'select' => $this->writer->select($table),
+            'insert' => $this->writer->insert($table),
+            'update' => $this->writer->update($table),
+            'delete' => $this->writer->delete($table),
+        ];
+        foreach ($queries as $type => $query) {
+            $this->assertEquals($table, $query->getTable()->getName(), "Checking table in $type query");
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_accept_a_table_and_columns_for_select()
+    {
+        $table    = 'user';
+        $columns  = ['id', 'role'];
+        $expected = <<<QUERY
+SELECT
+    user.id,
+    user.role
+FROM
+    user
+
+QUERY;
+
+        $select = $this->writer->select($table, $columns);
+        $this->assertSame($expected, $this->writer->writeFormatted($select));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_accept_a_table_and_values_for_insert()
+    {
+        $table    = 'user';
+        $values   = ['id' => 1, 'role' => 'admin'];
+        $expected = <<<QUERY
+INSERT INTO user (user.id, user.role)
+VALUES
+    (:v1, :v2)
+
+QUERY;
+
+        $insert = $this->writer->insert($table, $values);
+        $this->assertSame($expected, $this->writer->writeFormatted($insert));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_accept_a_table_and_values_for_update()
+    {
+        $table    = 'user';
+        $values   = ['id' => 1, 'role' => 'super-admin'];
+        $expected = <<<QUERY
+UPDATE
+    user
+SET
+    user.id = :v1,
+    user.role = :v2
+
+QUERY;
+
+        $update = $this->writer->update($table, $values);
+        $this->assertSame($expected, $this->writer->writeFormatted($update));
+    }
+
+    /**
+     * @test
+     */
     public function it_should_ouput_human_readable_query()
     {
         $selectRole =  $this->writer->select();

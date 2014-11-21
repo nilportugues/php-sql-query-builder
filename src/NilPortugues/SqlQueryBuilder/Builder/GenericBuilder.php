@@ -89,33 +89,44 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
+     * @param  string $table
+     * @param  array  $columns
+     *
      * @return \NilPortugues\SqlQueryBuilder\Manipulation\Select
      */
-    public function select()
+    public function select($table = null, array $columns = null)
     {
         return $this->injectBuilder(QueryFactory::createSelect());
     }
 
     /**
+     * @param  string $table
+     * @param  string $values
+     *
      * @return \NilPortugues\SqlQueryBuilder\Manipulation\Insert
      */
-    public function insert()
+    public function insert($table = null, array $values = null)
     {
         return $this->injectBuilder(QueryFactory::createInsert());
     }
 
     /**
+     * @param  string $table
+     * @param  string $values
+     *
      * @return \NilPortugues\SqlQueryBuilder\Manipulation\Update
      */
-    public function update()
+    public function update($table = null, array $values = null)
     {
         return $this->injectBuilder(QueryFactory::createUpdate());
     }
 
     /**
+     * @param  string $table
+     *
      * @return \NilPortugues\SqlQueryBuilder\Manipulation\Delete
      */
-    public function delete()
+    public function delete($table = null)
     {
         return $this->injectBuilder(QueryFactory::createDelete());
     }

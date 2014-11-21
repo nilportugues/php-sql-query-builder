@@ -19,43 +19,46 @@ use NilPortugues\SqlQueryBuilder\Syntax\Where;
 final class QueryFactory
 {
     /**
-     * @param Table $table
+     * @param string $table
+     * @param array  $columns
      *
      * @return Select
      */
-    public static function createSelect(Table $table = null)
+    public static function createSelect($table = null, array $columns = null)
     {
-        $object = new Select();
-
-        if (!is_null($table)) {
-            $object->setTable($table);
-        }
-
-        return $object;
+        return new Select($table, $columns);
     }
 
     /**
+     * @param string $table
+     * @param array  $values
+     *
      * @return Insert
      */
-    public static function createInsert()
+    public static function createInsert($table = null, array $values = null)
     {
-        return new Insert();
+        return new Insert($table, $values);
     }
 
     /**
+     * @param string $table
+     * @param array  $values
+     *
      * @return Update
      */
-    public static function createUpdate()
+    public static function createUpdate($table = null, array $values = null)
     {
-        return new Update();
+        return new Update($table, $values);
     }
 
     /**
+     * @param string $table
+     *
      * @return Delete
      */
-    public static function createDelete()
+    public static function createDelete($table = null)
     {
-        return new Delete();
+        return new Delete($table);
     }
 
     /**

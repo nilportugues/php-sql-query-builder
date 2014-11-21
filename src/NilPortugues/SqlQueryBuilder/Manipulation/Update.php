@@ -31,6 +31,20 @@ class Update extends BaseQuery
     protected $orderBy = array();
 
     /**
+     * @param string $table
+     */
+    public function __construct($table = null, array $values = null)
+    {
+        if (isset($table)) {
+            $this->setTable($table);
+        }
+
+        if (!empty($values)) {
+            $this->setValues($values);
+        }
+    }
+
+    /**
      * @return string
      */
     public function partName()

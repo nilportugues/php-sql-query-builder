@@ -104,10 +104,14 @@ class Select extends BaseQuery
      * @param string $table
      * @param array  $columns
      */
-    public function __construct($table = null, $columns = array(Column::ALL))
+    public function __construct($table = null, array $columns = null)
     {
         if (isset($table)) {
             $this->setTable($table);
+        }
+
+        if (!isset($columns)) {
+            $columns = array(Column::ALL);
         }
 
         if (count($columns)) {
