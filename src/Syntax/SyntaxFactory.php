@@ -68,22 +68,24 @@ final class SyntaxFactory
     /**
      * Creates a Table object.
      *
-     * @param array $table
+     * @param string|array $table
      *
      * @return Table
      */
-    public static function createTable(array &$table)
+    public static function createTable($table)
     {
-        $tableName = array_values($table);
-        $tableName = $tableName[0];
-
-        $tableAlias = array_keys($table);
-        $tableAlias = $tableAlias[0];
+        if (is_array($table)) {
+            $tableName  = current($table);
+            $tableAlias = key($table);
+        } else {
+            $tableName  = $table;
+        }
 
         $newTable = new Table($tableName);
 
-        $alias = (!is_numeric($tableAlias)) ? $tableAlias : null;
-        $newTable->setAlias($alias);
+        if (isset($tableAlias) && !is_numeric($tableAlias)) {
+            $newTable->setAlias($tableAlias);
+        }
 
         return $newTable;
     }
