@@ -16,12 +16,12 @@
     ],
     "autoload":{
         "psr-4":{
-            "NilPortugues\\":"src/NilPortugues"
+            "NilPortugues\\SqlQueryBuilder\\":"src/"
         }
     },
     "autoload-dev":{
         "psr-4":{
-            "Tests\\NilPortugues\\":"tests/NilPortugues"
+            "Tests\\NilPortugues\\SqlQueryBuilder\\":"tests/"
         }
     },
     "require":
@@ -52,6 +52,5 @@
         "branch-alias": {
             "dev-master": "1.0.x-dev"
         }
-    }    
+    }
 }
- 
