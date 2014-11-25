@@ -12,6 +12,12 @@
             "email":"contact@nilportugues.com",
             "homepage":"http://nilportugues.com",
             "role":"Lead Developer"
+        },
+        {
+            "name":"Woody Gilk",
+            "email":"woody.gilk@gmail.com",
+            "homepage":"http://shadowhand.me/",
+            "role":"Contributor"
         }
     ],
     "autoload":{
