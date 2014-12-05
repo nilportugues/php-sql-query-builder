@@ -25,7 +25,12 @@ use NilPortugues\SqlQueryBuilder\Builder\BuilderInterface;
 abstract class BaseQuery implements QueryInterface, QueryPartInterface
 {
     /**
-     * @var NilPortugues\SqlQueryBuilder\Builder\BuilderInterface
+     * @var string
+     */
+    protected $comment = '';
+
+    /**
+     * @var \NilPortugues\SqlQueryBuilder\Builder\BuilderInterface
      */
     private $builder;
 
@@ -85,18 +90,20 @@ abstract class BaseQuery implements QueryInterface, QueryPartInterface
     final public function setBuilder(BuilderInterface $builder)
     {
         $this->builder = $builder;
+
         return $this;
     }
 
     /**
      * @return BuilderInterface
-     * @throws RuntimeException  when builder has not been injected
+     * @throws \RuntimeException when builder has not been injected
      */
     final public function getBuilder()
     {
         if (!$this->builder) {
             throw new \RuntimeException('Query builder has not been injected with setBuilder');
         }
+
         return $this->builder;
     }
 
@@ -126,6 +133,7 @@ abstract class BaseQuery implements QueryInterface, QueryPartInterface
         if ($formatted) {
             return $this->getBuilder()->writeFormatted($this);
         }
+
         return $this->getBuilder()->write($this);
     }
 
@@ -236,5 +244,33 @@ abstract class BaseQuery implements QueryInterface, QueryPartInterface
     public function getLimitStart()
     {
         return $this->limitStart;
+    }
+
+    /**
+     * @param $comment
+     * @return $this
+     */
+    public function setComment($comment)
+    {
+        $comments = explode("\n", $comment);
+        foreach ($comments as &$line) {
+            $line = "-- {$line}";
+        }
+
+        $this->comment = implode("", $comments);
+
+        if (strlen($this->comment)>0) {
+            $this->comment .= "\n";
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->comment;
     }
 }

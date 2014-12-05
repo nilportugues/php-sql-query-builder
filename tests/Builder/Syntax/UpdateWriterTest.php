@@ -84,6 +84,26 @@ class UpdateWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_should_be_able_to_write_comment_in_query()
+    {
+        $this->query
+            ->setTable('user')
+            ->setValues($this->valueArray)
+            ->setComment('This is a comment');
+
+        $expected = <<<SQL
+-- This is a comment
+UPDATE user SET  user.user_id = :v1, user.name = :v2, user.contact = :v3
+SQL;
+        $this->assertSame($expected, $this->writer->write($this->query));
+
+        $expected = array(':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com');
+        $this->assertEquals($expected, $this->writer->getValues());
+    }
+
+    /**
+     * @test
+     */
     public function it_should_write_update_query_with_where_constrain()
     {
         $this->query

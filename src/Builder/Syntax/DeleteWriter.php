@@ -49,6 +49,11 @@ class DeleteWriter
         $table = $this->writer->writeTable($delete->getTable());
         $parts = array("DELETE FROM {$table}");
 
+        $comment = '';
+        if ('' !== $delete->getComment()) {
+            $comment = $delete->getComment();
+        }
+
         if ($delete->getWhere()) {
             $whereWriter = WriterFactory::createWhereWriter($this->writer, $this->placeholderWriter);
             $parts[]     = "WHERE {$whereWriter->writeWhere($delete->getWhere())}";
@@ -59,6 +64,6 @@ class DeleteWriter
             $parts[] = "LIMIT {$start}";
         }
 
-        return implode(" ", $parts);
+        return $comment.implode(" ", $parts);
     }
 }

@@ -77,4 +77,29 @@ class InsertWriterTest extends \PHPUnit_Framework_TestCase
         $expected = array(':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com');
         $this->assertEquals($expected, $this->writer->getValues());
     }
+
+    /**
+     * @test
+     */
+    public function it_should_be_able_to_write_comment_in_query()
+    {
+        $valueArray = array(
+            'user_id' => 1,
+            'name'    => 'Nil',
+            'contact' => 'contact@nilportugues.com',
+        );
+
+        $this->query
+            ->setTable('user')
+            ->setComment('This is a comment')
+            ->setValues($valueArray);
+
+        $expected = "-- This is a comment\n".'INSERT INTO user (user.user_id, user.name, user.contact) VALUES (:v1, :v2, :v3)';
+
+        $this->assertSame($expected, $this->writer->write($this->query));
+        $this->assertEquals(array_values($valueArray), array_values($this->query->getValues()));
+
+        $expected = array(':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com');
+        $this->assertEquals($expected, $this->writer->getValues());
+    }
 }

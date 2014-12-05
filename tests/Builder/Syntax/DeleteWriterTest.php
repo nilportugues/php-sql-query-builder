@@ -68,6 +68,22 @@ class DeleteWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_should_be_able_to_write_comment_in_query()
+    {
+        $this->query
+            ->setTable('user')
+            ->setComment('This is a comment');
+
+        $expected = <<<SQL
+-- This is a comment
+DELETE FROM user
+SQL;
+        $this->assertSame($expected, $this->writer->write($this->query));
+    }
+
+    /**
+     * @test
+     */
     public function it_should_write_delete_row_with_where_condition_and_limit_1()
     {
         $this->query->setTable('user');

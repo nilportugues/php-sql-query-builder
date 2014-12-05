@@ -60,8 +60,12 @@ class UpdateWriter
             throw new QueryException('No values to update in Update query.');
         }
 
-        $parts = array
-        (
+        $comment = '';
+        if ('' !== $update->getComment()) {
+            $comment = $update->getComment();
+        }
+
+        $parts = array(
             "UPDATE ".$this->writer->writeTable($update->getTable())." SET ",
             $this->writeUpdateValues($update),
         );
@@ -76,7 +80,7 @@ class UpdateWriter
             $parts[] = "LIMIT {$start}";
         }
 
-        return implode(" ", $parts);
+        return $comment.implode(" ", $parts);
     }
 
     /**

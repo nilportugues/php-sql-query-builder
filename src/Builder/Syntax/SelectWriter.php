@@ -79,7 +79,12 @@ class SelectWriter
             return $this->writer->writeJoin($select);
         }
 
-        $parts = array("SELECT");
+        $comment = '';
+        if ('' !== $select->getComment()) {
+            $comment = $select->getComment();
+        }
+
+        $parts = ["SELECT"];
 
         if ($select->isDistinct()) {
             $parts[] = "DISTINCT";
@@ -96,7 +101,7 @@ class SelectWriter
 
         $parts = array_filter($parts);
 
-        return implode(" ", $parts);
+        return $comment.implode(" ", $parts);
     }
 
     /**

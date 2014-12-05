@@ -73,6 +73,11 @@ class InsertWriter
         $values  = implode(", ", $values);
         $table   = $this->writer->writeTable($insert->getTable());
 
-        return "INSERT INTO {$table} ($columns) VALUES ($values)";
+        $comment = '';
+        if ('' !== $insert->getComment()) {
+            $comment = $insert->getComment();
+        }
+
+        return $comment."INSERT INTO {$table} ($columns) VALUES ($values)";
     }
 }

@@ -113,7 +113,6 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
             'delete' => $this->writer->delete($table),
         ];
 
-
         foreach ($queries as $type => $query) {
             $this->assertEquals($table, $query->getTable()->getName(), "Checking table in $type query");
         }

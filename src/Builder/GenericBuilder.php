@@ -89,8 +89,8 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
-     * @param  string $table
-     * @param  array  $columns
+     * @param string $table
+     * @param array  $columns
      *
      * @return \NilPortugues\SqlQueryBuilder\Manipulation\Select
      */
@@ -100,8 +100,8 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
-     * @param  string $table
-     * @param  string $values
+     * @param string $table
+     * @param string $values
      *
      * @return \NilPortugues\SqlQueryBuilder\Manipulation\Insert
      */
@@ -111,8 +111,8 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
-     * @param  string $table
-     * @param  string $values
+     * @param string $table
+     * @param string $values
      *
      * @return \NilPortugues\SqlQueryBuilder\Manipulation\Update
      */
@@ -122,7 +122,7 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
-     * @param  string $table
+     * @param string $table
      *
      * @return \NilPortugues\SqlQueryBuilder\Manipulation\Delete
      */
@@ -277,7 +277,7 @@ class GenericBuilder implements BuilderInterface
         if (false === ($this->sqlFormatter instanceof Formatter)) {
             $this->sqlFormatter = new Formatter();
         }
-        
+
         return $this->sqlFormatter->format($this->write($query));
     }
 

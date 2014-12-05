@@ -71,6 +71,22 @@ class SelectWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_should_be_able_to_write_comment_in_query()
+    {
+        $this->query = new Select('user');
+        $this->query->setComment('This is a comment');
+
+        $expected = <<<SQL
+-- This is a comment
+SELECT user.* FROM user
+SQL;
+
+        $this->assertSame($expected, $this->writer->write($this->query));
+    }
+
+    /**
+     * @test
+     */
     public function it_should_throw_exception_when_getting_columns_but_no_table_is_set()
     {
         $this->setExpectedException($this->exceptionClass);

@@ -160,7 +160,7 @@ class Select extends BaseQuery
      *
      * @return Select
      */
-    public function join(
+    public function implode(
         $table,
         $selfColumn = null,
         $refColumn = null,
