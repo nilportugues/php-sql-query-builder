@@ -252,14 +252,14 @@ abstract class BaseQuery implements QueryInterface, QueryPartInterface
      */
     public function setComment($comment)
     {
-        $comments = explode("\n", $comment);
-        foreach ($comments as &$line) {
-            $line = "-- {$line}";
-        }
+        // Make each line of the comment prefixed with "--",
+        // and remove any trailing whitespace.
+        $comment = '-- ' . str_replace("\n", "\n-- ", rtrim($comment));
 
-        $this->comment = implode("", $comments);
+        // Trim off any trailing "-- ", to ensure that the comment is valid.
+        $this->comment = rtrim($comment, '- ');
 
-        if (strlen($this->comment)>0) {
+        if ($this->comment) {
             $this->comment .= "\n";
         }
 
