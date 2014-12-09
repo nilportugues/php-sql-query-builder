@@ -114,7 +114,7 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
-     * @param  string      $table
+     * @param  string    $table
      * @param  array     $values
      * @return BaseQuery
      */
@@ -124,7 +124,7 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
-     * @param  string      $table
+     * @param  string    $table
      * @param  array     $values
      * @return BaseQuery
      */

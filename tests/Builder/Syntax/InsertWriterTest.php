@@ -46,7 +46,7 @@ class InsertWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_throw_query_exception_because_no_columns_were_defined()
+    public function itShouldThrowQueryExceptionBecauseNoColumnsWereDefined()
     {
         $this->setExpectedException($this->exceptionClass, 'No columns were defined for the current schema.');
 
@@ -57,7 +57,7 @@ class InsertWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_write_insert_query()
+    public function itShouldWriteInsertQuery()
     {
         $valueArray = array(
             'user_id' => 1,
@@ -81,7 +81,7 @@ class InsertWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_write_comment_in_query()
+    public function itShouldBeAbleToWriteCommentInQuery()
     {
         $valueArray = array(
             'user_id' => 1,

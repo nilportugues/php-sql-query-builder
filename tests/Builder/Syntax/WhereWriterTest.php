@@ -41,7 +41,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_allow_where_conditions()
+    public function itShouldAllowWhereConditions()
     {
         $this->query
             ->setTable('user')
@@ -59,7 +59,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_allow_where_or_conditions()
+    public function itShouldAllowWhereOrConditions()
     {
         $this->query
             ->setTable('user')
@@ -79,7 +79,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_let_where_statement_not_be_equal_to()
+    public function itShouldBeAbleToLetWhereStatementNotBeEqualTo()
     {
         $column = 'user_id';
         $value  = 1;
@@ -99,7 +99,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_let_where_statement_be_greater_than()
+    public function itShouldBeAbleToLetWhereStatementBeGreaterThan()
     {
         $column = 'user_id';
         $value  = 1;
@@ -119,7 +119,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_let_where_statement_be_greater_than_or_equal()
+    public function itShouldBeAbleToLetWhereStatementBeGreaterThanOrEqual()
     {
         $column = 'user_id';
         $value  = 1;
@@ -139,7 +139,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_let_where_statement_be_less_than()
+    public function itShouldBeAbleToLetWhereStatementBeLessThan()
     {
         $column = 'user_id';
         $value  = 1;
@@ -159,7 +159,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_let_where_statement_be_less_than_or_equal()
+    public function itShouldBeAbleToLetWhereStatementBeLessThanOrEqual()
     {
         $column = 'user_id';
         $value  = 1;
@@ -179,7 +179,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_let_where_statement_be_like()
+    public function itShouldBeAbleToLetWhereStatementBeLike()
     {
         $column = 'user_id';
         $value  = 1;
@@ -199,7 +199,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_let_where_statement_be_not_like()
+    public function itShouldBeAbleToLetWhereStatementBeNotLike()
     {
         $column = 'user_id';
         $value  = 1;
@@ -219,7 +219,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_let_where_statement_accumulate_in_conditions()
+    public function itShouldBeAbleToLetWhereStatementAccumulateInConditions()
     {
         $column = 'user_id';
 
@@ -238,7 +238,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_let_where_statement_accumulate_not_in_conditions()
+    public function itShouldBeAbleToLetWhereStatementAccumulateNotInConditions()
     {
         $column = 'user_id';
 
@@ -257,7 +257,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_let_where_statement_write_between_conditions()
+    public function itShouldBeAbleToLetWhereStatementWriteBetweenConditions()
     {
         $column = 'user_id';
 
@@ -276,7 +276,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_let_where_statement_set_null_value_condition()
+    public function itShouldBeAbleToLetWhereStatementSetNullValueCondition()
     {
         $column = 'user_id';
 
@@ -295,7 +295,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_let_where_statement_set_is_not_null_value_condition()
+    public function itShouldBeAbleToLetWhereStatementSetIsNotNullValueCondition()
     {
         $column = 'user_id';
 
@@ -314,7 +314,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_let_where_statement_set_bit_clause_value_condition()
+    public function itShouldBeAbleToLetWhereStatementSetBitClauseValueCondition()
     {
         $column = 'user_id';
 
@@ -333,7 +333,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_let_where_statement_subconditions()
+    public function itShouldBeAbleToLetWhereStatementSubconditions()
     {
         $column = 'user_id';
 
@@ -358,7 +358,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_allow_select_where_but_not_write_condition()
+    public function itShouldAllowSelectWhereButNotWriteCondition()
     {
         $table1 = new Select('Table1');
         $table1
@@ -371,7 +371,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_allow_having_conditions()
+    public function itShouldAllowHavingConditions()
     {
         $this->query
             ->setTable('user')
@@ -389,7 +389,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_use_select_statements_in_where()
+    public function itShouldBeAbleToUseSelectStatementsInWhere()
     {
         $selectRole = new Select();
         $selectRole
@@ -417,7 +417,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_select_with_full_match_search_using_match_in_natural_mode()
+    public function itShouldBeAbleToSelectWithFullMatchSearchUsingMatchInNaturalMode()
     {
         $this->query
             ->setTable('user')
@@ -437,7 +437,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_select_with_full_match_search_using_match_in_boolean_mode()
+    public function itShouldBeAbleToSelectWithFullMatchSearchUsingMatchInBooleanMode()
     {
         $this->query
             ->setTable('user')
@@ -457,7 +457,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_select_with_full_match_search_using_match_in_query_expansion_mode()
+    public function itShouldBeAbleToSelectWithFullMatchSearchUsingMatchInQueryExpansionMode()
     {
         $this->query
             ->setTable('user')
@@ -477,7 +477,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_do_where_exists()
+    public function itShouldBeAbleToDoWhereExists()
     {
         $select = new Select('banned_user');
         $select->where()->equals('user_id', 1);
@@ -501,7 +501,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_do_where_not_exists()
+    public function itShouldBeAbleToDoWhereNotExists()
     {
         $select = new Select('banned_user');
         $select->where()->equals('user_id', 1);

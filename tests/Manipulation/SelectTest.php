@@ -32,7 +32,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_get_part_name()
+    public function itShouldGetPartName()
     {
         $this->assertSame('SELECT', $this->query->partName());
     }

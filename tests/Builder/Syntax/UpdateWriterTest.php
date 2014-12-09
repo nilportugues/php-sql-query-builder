@@ -57,7 +57,7 @@ class UpdateWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_throw_query_exception()
+    public function itShouldThrowQueryException()
     {
         $this->setExpectedException($this->exceptionClass);
 
@@ -68,7 +68,7 @@ class UpdateWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_write_update_query()
+    public function itShouldWriteUpdateQuery()
     {
         $this->query
             ->setTable('user')
@@ -84,7 +84,7 @@ class UpdateWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_write_comment_in_query()
+    public function itShouldBeAbleToWriteCommentInQuery()
     {
         $this->query
             ->setTable('user')
@@ -104,7 +104,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_write_update_query_with_where_constrain()
+    public function itShouldWriteUpdateQueryWithWhereConstrain()
     {
         $this->query
             ->setTable('user')
@@ -122,7 +122,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_write_update_query_with_where_constrain_and_limit_1()
+    public function itShouldWriteUpdateQueryWithWhereConstrainAndLimit1()
     {
         $this->query
             ->setTable('user')

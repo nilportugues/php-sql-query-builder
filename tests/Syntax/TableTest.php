@@ -28,7 +28,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_null_if_table_name_has_no_alias()
+    public function itShouldReturnNullIfTableNameHasNoAlias()
     {
         $table = new Table("user");
         $this->assertNull($table->getAlias());
@@ -37,7 +37,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_alias_if_table_name_alias_has_been_set()
+    public function itShouldReturnAliasIfTableNameAliasHasBeenSet()
     {
         $table = new Table("user");
         $table->setAlias("u");
@@ -47,7 +47,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_null_if_schema_not_set()
+    public function itShouldReturnNullIfSchemaNotSet()
     {
         $table = new Table("user");
         $this->assertNull($table->getSchema());
@@ -56,7 +56,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_schema_if_schema_has_value()
+    public function itShouldReturnSchemaIfSchemaHasValue()
     {
         $table = new Table("user", "website");
         $this->assertEquals("website", $table->getSchema());
@@ -65,7 +65,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_the_complete_name()
+    public function itShouldReturnTheCompleteName()
     {
         $table = new Table("user");
 
@@ -78,7 +78,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_false_on_is_view()
+    public function itShouldReturnFalseOnIsView()
     {
         $table = new Table("user_status");
         $this->assertFalse($table->isView());
@@ -87,7 +87,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_true_on_is_view()
+    public function itShouldReturnTrueOnIsView()
     {
         $table = new Table("user_status");
         $table->setView(true);

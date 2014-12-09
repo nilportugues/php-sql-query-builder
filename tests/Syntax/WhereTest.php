@@ -54,7 +54,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_clonable()
+    public function itShouldBeCloneable()
     {
         $this->assertEquals($this->where, clone $this->where);
     }
@@ -62,7 +62,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_empty_on_construct()
+    public function itShouldBeEmptyOnConstruct()
     {
         $this->assertTrue($this->where->isEmpty());
     }
@@ -70,7 +70,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_default_conjuction_AND()
+    public function itShouldReturnDefaultConjuctionAnd()
     {
         $this->assertSame('AND', $this->where->getConjunction());
     }
@@ -78,7 +78,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_default_sub_where()
+    public function itShouldReturnDefaultSubWhere()
     {
         $this->assertSame(array(), $this->where->getSubWheres());
     }
@@ -86,7 +86,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_sub_filter()
+    public function itShouldReturnSubFilter()
     {
         $filter = $this->where->subWhere();
 
@@ -97,7 +97,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_the_same_eq_and_equal()
+    public function itShouldReturnTheSameEqAndEqual()
     {
         $column = 'user_id';
         $value  = 1;
@@ -111,7 +111,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_not_be_equal_to()
+    public function itShouldNotBeEqualTo()
     {
         $column = 'user_id';
         $value  = 1;
@@ -126,7 +126,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_greater_than()
+    public function itShouldBeGreaterThan()
     {
         $column = 'user_id';
         $value  = 1;
@@ -141,7 +141,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_greater_than_or_equal()
+    public function itShouldBeGreaterThanOrEqual()
     {
         $column = 'user_id';
         $value  = 1;
@@ -156,7 +156,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_less_than()
+    public function itShouldBeLessThan()
     {
         $column = 'user_id';
         $value  = 1;
@@ -171,7 +171,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_less_than_or_equal()
+    public function itShouldBeLessThanOrEqual()
     {
         $column = 'user_id';
         $value  = 1;
@@ -186,7 +186,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_like()
+    public function itShouldBeLike()
     {
         $column = 'user_id';
         $value  = 1;
@@ -201,7 +201,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_not_like()
+    public function itShouldBeNotLike()
     {
         $column = 'user_id';
         $value  = 1;
@@ -216,7 +216,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_accumulate_match_conditions()
+    public function itShouldAccumulateMatchConditions()
     {
         $column = array('user_id');
 
@@ -237,7 +237,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_accumulate_match_boolean_conditions()
+    public function itShouldAccumulateMatchBooleanConditions()
     {
         $column = array('user_id');
 
@@ -258,7 +258,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_accumulate_match_query_expansion_conditions()
+    public function itShouldAccumulateMatchQueryExpansionConditions()
     {
         $column = array('user_id');
 
@@ -279,7 +279,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_accumulate_in_conditions()
+    public function itShouldAccumulateInConditions()
     {
         $column = 'user_id';
 
@@ -294,7 +294,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_accumulate_not_in_conditions()
+    public function itShouldAccumulateNotInConditions()
     {
         $column = 'user_id';
 
@@ -309,7 +309,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_write_between_conditions()
+    public function itShouldWriteBetweenConditions()
     {
         $column = 'user_id';
 
@@ -325,7 +325,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_set_null_value_condition()
+    public function itShouldSetNullValueCondition()
     {
         $column = 'user_id';
 
@@ -339,7 +339,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_set_is_not_null_value_condition()
+    public function itShouldSetIsNotNullValueCondition()
     {
         $column = 'user_id';
 
@@ -353,7 +353,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_set_bit_clause_value_condition()
+    public function itShouldSetBitClauseValueCondition()
     {
         $column = 'user_id';
 
@@ -368,7 +368,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_change_AND_to_OR_operator()
+    public function ItShouldChangeAndToOrOperator()
     {
         $result = $this->where->conjunction('OR');
         $this->assertEquals('OR', $result->getConjunction());
@@ -377,7 +377,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_throw_exception_on_unknown_conjunction()
+    public function itShouldThrowExceptionOnUnknownConjunction()
     {
         $this->setExpectedException($this->queryException);
         $this->where->conjunction('NOT_VALID_CONJUNCTION');
@@ -386,7 +386,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_set_exists_condition()
+    public function itShouldSetExistsCondition()
     {
         $select1 = new Select('user');
         $select1->where()->equals('user_id', 10);
@@ -399,7 +399,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_set_not_exists_condition()
+    public function itShouldSetNotExistsCondition()
     {
         $select1 = new Select('user');
         $select1->where()->equals('user_id', 10);

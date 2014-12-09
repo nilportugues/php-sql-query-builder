@@ -49,7 +49,7 @@ class MinusWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_write_minus()
+    public function itShouldWriteMinus()
     {
         $minus = new Minus(new Select('user'), new Select('user_email'));
 
@@ -64,7 +64,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_write_union_all_from_generic_builder()
+    public function itShouldWriteUnionAllFromGenericBuilder()
     {
         $minus = $this->writer->minus(new Select('user'), new Select('user_email'));
 

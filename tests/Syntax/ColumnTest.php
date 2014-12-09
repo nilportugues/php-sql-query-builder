@@ -32,7 +32,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_part_name()
+    public function itShouldReturnPartName()
     {
         $column = new Column("id", "user");
 
@@ -42,7 +42,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_construct()
+    public function itShouldConstruct()
     {
         $column = new Column("id", "user");
 
@@ -54,7 +54,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_set_column_name()
+    public function itShouldSetColumnName()
     {
         $column = new Column("id", "user");
 
@@ -65,7 +65,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_set_table_name()
+    public function itShouldSetTableName()
     {
         $tableName = "user";
 
@@ -79,7 +79,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_set_alias_name()
+    public function itShouldSetAliasName()
     {
         $column = new Column("user_id", "user", "userId");
         $this->assertEquals("userId", $column->getAlias());
@@ -88,7 +88,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_throw_exception_if_alias_on_all_selection()
+    public function itShouldThrowExceptionIfAliasOnAllSelection()
     {
         $this->setExpectedException($this->queryException);
 

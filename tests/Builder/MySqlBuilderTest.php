@@ -43,7 +43,7 @@ class MySqlBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_wrap_table_names()
+    public function itShouldWrapTableNames()
     {
         $query = new Select('user');
 
@@ -54,7 +54,7 @@ class MySqlBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_wrap_column_names()
+    public function itShouldWrapColumnNames()
     {
         $query = new Select('user', array('user_id', 'name'));
 
@@ -65,7 +65,7 @@ class MySqlBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_wrap_column_alias()
+    public function itShouldWrapColumnAlias()
     {
         $query = new Select('user', array('userId' => 'user_id', 'name' => 'name'));
 

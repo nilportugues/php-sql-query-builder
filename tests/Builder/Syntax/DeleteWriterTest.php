@@ -41,7 +41,7 @@ class DeleteWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_write_delete_all_table_contents_query()
+    public function itShouldWriteDeleteAllTableContentsQuery()
     {
         $this->query->setTable('user');
 
@@ -52,7 +52,7 @@ class DeleteWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_write_delete_row_limit_1()
+    public function itShouldWriteDeleteRowLimit1()
     {
         $this->query
             ->setTable('user')
@@ -68,7 +68,7 @@ class DeleteWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_write_comment_in_query()
+    public function itShouldBeAbleToWriteCommentInQuery()
     {
         $this->query
             ->setTable('user')
@@ -84,7 +84,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_write_delete_row_with_where_condition_and_limit_1()
+    public function itShouldWriteDeleteRowWithWhereConditionAndLimit1()
     {
         $this->query->setTable('user');
 

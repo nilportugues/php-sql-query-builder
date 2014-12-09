@@ -31,7 +31,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_select_object()
+    public function itShouldCreateSelectObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Select';
         $this->assertInstanceOf($className, $this->writer->select());
@@ -40,7 +40,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_insert_object()
+    public function itShouldCreateInsertObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Insert';
         $this->assertInstanceOf($className, $this->writer->insert());
@@ -49,7 +49,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_update_object()
+    public function itShouldCreateUpdateObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Update';
         $this->assertInstanceOf($className, $this->writer->update());
@@ -58,7 +58,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_delete_object()
+    public function itShouldCreateDeleteObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Delete';
         $this->assertInstanceOf($className, $this->writer->delete());
@@ -67,7 +67,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_intersect_object()
+    public function itShouldCreateIntersectObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Intersect';
         $this->assertInstanceOf($className, $this->writer->intersect());
@@ -76,7 +76,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_minus_object()
+    public function itShouldCreateMinusObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Minus';
         $this->assertInstanceOf($className, $this->writer->minus(new Select('table1'), new Select('table2')));
@@ -85,7 +85,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_union_object()
+    public function itShouldCreateUnionObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Union';
         $this->assertInstanceOf($className, $this->writer->union());
@@ -94,7 +94,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_union_all_object()
+    public function itShouldCreateUnionAllObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\UnionAll';
         $this->assertInstanceOf($className, $this->writer->unionAll());
@@ -103,7 +103,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_can_accept_a_table_name_for_select_insert_update_delete_queries()
+    public function itCanAcceptATableNameForSelectInsertUpdateDeleteQueries()
     {
         $table = 'user';
         $queries = [
@@ -121,7 +121,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_can_accept_a_table_and_columns_for_select()
+    public function itCanAcceptATableAndColumnsForSelect()
     {
         $table    = 'user';
         $columns  = ['id', 'role'];
@@ -141,7 +141,7 @@ QUERY;
     /**
      * @test
      */
-    public function it_can_accept_a_table_and_values_for_insert()
+    public function itCanAcceptATableAndValuesForInsert()
     {
         $table    = 'user';
         $values   = ['id' => 1, 'role' => 'admin'];
@@ -159,7 +159,7 @@ QUERY;
     /**
      * @test
      */
-    public function it_can_accept_a_table_and_values_for_update()
+    public function itCanAcceptATableAndValuesForUpdate()
     {
         $table    = 'user';
         $values   = ['id' => 1, 'role' => 'super-admin'];
@@ -179,7 +179,7 @@ QUERY;
     /**
      * @test
      */
-    public function it_should_ouput_human_readable_query()
+    public function itShouldOutputHumanReadableQuery()
     {
         $selectRole =  $this->writer->select();
         $selectRole
@@ -246,7 +246,7 @@ QUERY;
     /**
      * @test
      */
-    public function it_should_write_when_getting_sql()
+    public function itShouldWriteWhenGettingSql()
     {
         $query = $this->writer->select()
             ->setTable('user');
@@ -259,7 +259,7 @@ QUERY;
     /**
      * @test
      */
-    public function it_should_write_formatted_when_getting_formatted_sql()
+    public function itShouldWriteFormattedWhenGettingFormattedSql()
     {
         $query = $this->writer->select()
             ->setTable('user');
@@ -272,7 +272,7 @@ QUERY;
     /**
      * @test
      */
-    public function it_should_write_sql_when_cast_to_string()
+    public function itShouldWriteSqlWhenCastToString()
     {
         $query = $this->writer->select()
             ->setTable('user');

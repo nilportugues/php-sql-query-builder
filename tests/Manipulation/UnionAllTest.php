@@ -40,7 +40,7 @@ class UnionAllTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_get_part_name()
+    public function itShouldGetPartName()
     {
         $this->assertSame('UNION ALL', $this->query->partName());
     }
@@ -48,7 +48,7 @@ class UnionAllTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_throw_exception_for_unsupported_get_table()
+    public function itShouldThrowExceptionForUnsupportedGetTable()
     {
         $this->setExpectedException($this->exceptionClass);
         $this->query->getTable();
@@ -57,7 +57,7 @@ class UnionAllTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_throw_exception_for_unsupported_get_where()
+    public function itShouldThrowExceptionForUnsupportedGetWhere()
     {
         $this->setExpectedException($this->exceptionClass);
         $this->query->getWhere();
@@ -66,7 +66,7 @@ class UnionAllTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_throw_exception_for_unsupported_where()
+    public function itShouldThrowExceptionForUnsupportedWhere()
     {
         $this->setExpectedException($this->exceptionClass);
         $this->query->where();
@@ -75,7 +75,7 @@ class UnionAllTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_get_intersect_selects()
+    public function itShouldGetIntersectSelects()
     {
         $this->assertEquals(array(), $this->query->getUnions());
 

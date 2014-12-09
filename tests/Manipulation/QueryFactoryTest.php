@@ -22,7 +22,7 @@ class QueryFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_select_object()
+    public function itShouldCreateSelectObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Select';
         $this->assertInstanceOf($className, QueryFactory::createSelect());
@@ -31,7 +31,7 @@ class QueryFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_insert_object()
+    public function itShouldCreateInsertObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Insert';
         $this->assertInstanceOf($className, QueryFactory::createInsert());
@@ -40,7 +40,7 @@ class QueryFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_update_object()
+    public function itShouldCreateUpdateObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Update';
         $this->assertInstanceOf($className, QueryFactory::createUpdate());
@@ -49,7 +49,7 @@ class QueryFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_delete_object()
+    public function itShouldCreateDeleteObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Delete';
         $this->assertInstanceOf($className, QueryFactory::createDelete());
@@ -58,7 +58,7 @@ class QueryFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_minus_object()
+    public function itShouldCreateMinusObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Minus';
         $this->assertInstanceOf($className, QueryFactory::createMinus(new Select('table1'), new Select('table2')));
@@ -67,7 +67,7 @@ class QueryFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_union_object()
+    public function itShouldCreateUnionObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Union';
         $this->assertInstanceOf($className, QueryFactory::createUnion());
@@ -76,7 +76,7 @@ class QueryFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_union_all_object()
+    public function itShouldCreateUnionAllObject()
     {
         $className = '\NilPortugues\SqlQueryBuilder\Manipulation\UnionAll';
         $this->assertInstanceOf($className, QueryFactory::createUnionAll());
@@ -85,7 +85,7 @@ class QueryFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_where_object()
+    public function itShouldCreateWhereObject()
     {
         $mockClass = '\NilPortugues\SqlQueryBuilder\Manipulation\QueryInterface';
 

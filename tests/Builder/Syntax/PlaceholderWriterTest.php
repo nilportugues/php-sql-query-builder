@@ -34,7 +34,7 @@ class PlaceholderWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_add_value_and_return_placeholder()
+    public function itShouldAddValueAndReturnPlaceholder()
     {
         $result = $this->writer->add(1);
         $this->assertEquals(':v1', $result);
@@ -43,7 +43,7 @@ class PlaceholderWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_add_value_and_get_returns_array_holding_placeholder_data()
+    public function itShouldAddValueAndGetReturnsArrayHoldingPlaceholderData()
     {
         $this->writer->add(1);
         $this->assertEquals(array(':v1' => 1), $this->writer->get());
@@ -52,7 +52,7 @@ class PlaceholderWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_translate_php_null_to_sql_null_value()
+    public function itShouldTranslatePhpNullToSqlNullValue()
     {
         $this->writer->add('');
         $this->writer->add(null);
@@ -63,7 +63,7 @@ class PlaceholderWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_translate_php_bool_to_sql_bool_value()
+    public function itShouldTranslatePhpBoolToSqlBoolValue()
     {
         $this->writer->add(true);
         $this->writer->add(false);

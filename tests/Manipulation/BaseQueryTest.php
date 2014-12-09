@@ -46,7 +46,7 @@ class BaseQueryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_set_table_name()
+    public function itShouldBeAbleToSetTableName()
     {
         $this->assertSame('tablename', $this->query->getTable()->getName());
     }
@@ -54,7 +54,7 @@ class BaseQueryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_get_where()
+    public function itShouldGetWhere()
     {
         $this->assertNull($this->query->getWhere());
 
@@ -65,7 +65,7 @@ class BaseQueryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_get_where_operator()
+    public function itShouldGetWhereOperator()
     {
         $this->assertSame('AND', $this->query->getWhereOperator());
 

@@ -49,7 +49,7 @@ class UnionAllWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_write_intersects()
+    public function itShouldWriteIntersects()
     {
         $union = new UnionAll();
 
@@ -67,7 +67,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_write_union_all_from_generic_builder()
+    public function itShouldWriteUnionAllFromGenericBuilder()
     {
         $unionAll = $this->writer->unionAll();
 

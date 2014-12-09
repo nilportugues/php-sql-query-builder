@@ -47,7 +47,7 @@ class SelectWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_cloneable_without_keeping_references()
+    public function itShouldBeCloneableWithoutKeepingReferences()
     {
         $query1 = new Select('user');
         $query2 = clone $query1;
@@ -59,7 +59,7 @@ class SelectWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_constructed_with_constructor()
+    public function itShouldBeConstructedWithConstructor()
     {
         $this->query = new Select('user');
 
@@ -71,7 +71,7 @@ class SelectWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_write_comment_in_query()
+    public function itShouldBeAbleToWriteCommentInQuery()
     {
         $this->query = new Select('user');
         $this->query->setComment('This is a comment');
@@ -87,7 +87,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_throw_exception_when_getting_columns_but_no_table_is_set()
+    public function itShouldThrowExceptionWhenGettingColumnsButNoTableIsSet()
     {
         $this->setExpectedException($this->exceptionClass);
 
@@ -98,7 +98,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_constructed_with_constructor_with_columns()
+    public function itShouldBeConstructedWithConstructorWithColumns()
     {
         $this->query = new Select('user', array('user_id', 'name'));
 
@@ -110,7 +110,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_select_all()
+    public function itShouldSelectAll()
     {
         $this->query->setTable('user');
 
@@ -122,7 +122,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_select_all_distinct()
+    public function itShouldSelectAllDistinct()
     {
         $this->query->setTable('user')->distinct();
 
@@ -134,7 +134,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_select_all_with_limit_1()
+    public function itShouldSelectAllWithLimit1()
     {
         $this->query->setTable('user')->limit(1);
 
@@ -149,7 +149,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_select_all_with_limit_1_offset_2()
+    public function itShouldSelectAllWithLimit1Offset2()
     {
         $this->query->setTable('user')->limit(1, 2);
 
@@ -164,7 +164,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_select_all_get_first_20()
+    public function itShouldSelectAllGetFirst20()
     {
         $this->query->setTable('user')->limit(0, 20);
 
@@ -179,7 +179,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_allow_column_alias()
+    public function itShouldAllowColumnAlias()
     {
         $this->query
             ->setTable('user')
@@ -199,7 +199,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_allow_column_order()
+    public function itShouldAllowColumnOrder()
     {
         $this->query
             ->setTable('user')
@@ -213,7 +213,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_allow_column_order_using_column_alias()
+    public function itShouldAllowColumnOrderUsingColumnAlias()
     {
         $tableName = 'user';
         $this->query
@@ -238,7 +238,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_able_to_do_a_left_join()
+    public function itShouldBeAbleToDoALeftJoin()
     {
         $this->query
             ->setTable('user')
@@ -252,7 +252,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_able_to_do_a_right_join()
+    public function itShouldBeAbleToDoARightJoin()
     {
         $this->query
             ->setTable('user')
@@ -266,7 +266,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_able_to_do_a_inner_join()
+    public function itShouldBeAbleToDoAInnerJoin()
     {
         $this->query
             ->setTable('user')
@@ -280,7 +280,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_able_to_do_a_cross_join()
+    public function itShouldBeAbleToDoACrossJoin()
     {
         $this->query
             ->setTable('user')
@@ -294,7 +294,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_able_to_do_a_left_join_with_order_by_on_joined_table()
+    public function itShouldBeAbleToDoALeftJoinWithOrderByOnJoinedTable()
     {
         $this->query
             ->setTable('user')
@@ -320,7 +320,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_able_to_do_a_join()
+    public function itShouldBeAbleToDoAJoin()
     {
         $this->query
             ->setTable('user')
@@ -334,7 +334,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_able_to_do_a_join_with_order_by_on_joined_table()
+    public function itShouldBeAbleToDoAJoinWithOrderByOnJoinedTable()
     {
         $this->query
             ->setTable('user')
@@ -360,7 +360,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_able_to_do_an_add_with_multiple_joins()
+    public function itShouldBeAbleToDoAnAddWithMultipleJoins()
     {
         $this->query->setTable('user');
 
@@ -386,7 +386,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_able_to_on()
+    public function itShouldBeAbleToOn()
     {
         $this->query
             ->setTable('user')
@@ -420,7 +420,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_able_to_count_total_rows()
+    public function itShouldBeAbleToCountTotalRows()
     {
         $this->query
             ->setTable('user')
@@ -440,7 +440,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_able_to_count_total_rows_setting_default_column()
+    public function itShouldBeAbleToCountTotalRowsSettingDefaultColumn()
     {
         $this->query
             ->setTable('user')
@@ -460,7 +460,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_able_to_count_total_rows_setting_default_column_with_alias()
+    public function itShouldBeAbleToCountTotalRowsSettingDefaultColumnWithAlias()
     {
         $this->query
             ->setTable('user')
@@ -480,7 +480,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_able_to_group_by_operator()
+    public function itShouldBeAbleToGroupByOperator()
     {
         $this->query
             ->setTable('user')
@@ -508,7 +508,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_throw_exception_invalid_having_conjunction()
+    public function itShouldThrowExceptionInvalidHavingConjunction()
     {
         $this->setExpectedException($this->exceptionClass);
 
@@ -529,7 +529,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_be_able_to_set_having_operator_to_OR()
+    public function itShouldBeAbleToSetHavingOperatorToOr()
     {
         $this->query
             ->setTable('user')
@@ -557,7 +557,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_allow_select_query_to_act_as_a_column()
+    public function itShouldAllowSelectQueryToActAsAColumn()
     {
         $table1 = new Select('Table1');
         $table1
@@ -581,7 +581,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_write_join()
+    public function itShouldWriteJoin()
     {
         $this->query
             ->isJoin(true)

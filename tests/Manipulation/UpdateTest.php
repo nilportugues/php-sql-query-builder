@@ -33,7 +33,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_get_part_name()
+    public function itShouldGetPartName()
     {
         $this->assertSame('UPDATE', $this->query->partName());
     }
@@ -41,7 +41,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_limit_1()
+    public function itShouldReturnLimit1()
     {
         $this->query->limit(1);
 
@@ -51,7 +51,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_values()
+    public function itShouldReturnValues()
     {
         $values = ['user_id' => 1];
 

@@ -40,7 +40,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_get_part_name()
+    public function itShouldGetPartName()
     {
         $this->assertSame('DELETE', $this->query->partName());
     }
@@ -48,7 +48,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_return_limit_1()
+    public function itShouldReturnLimit1()
     {
         $this->query->limit(1);
 

@@ -27,7 +27,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_construct_order_by()
+    public function itShouldConstructOrderBy()
     {
         $column = new Column("registration_date", "user");
         $order  = new OrderBy($column, OrderBy::ASC);
@@ -39,7 +39,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_get_order_by_direction()
+    public function itShouldGetOrderByDirection()
     {
         $column = new Column("registration_date", "user");
         $order  = new OrderBy($column, OrderBy::ASC);
@@ -53,7 +53,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_throw_exception_if_direction_not_valid()
+    public function itShouldThrowExceptionIfDirectionNotValid()
     {
         $column = new Column("registration_date", "user");
         $order  = new OrderBy($column, OrderBy::ASC);

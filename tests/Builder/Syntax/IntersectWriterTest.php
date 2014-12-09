@@ -49,7 +49,7 @@ class IntersectWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_write_intersects()
+    public function itShouldWriteIntersects()
     {
         $intersect = new Intersect();
 
@@ -67,7 +67,7 @@ SQL;
     /**
      * @test
      */
-    public function it_should_write_intersect_from_generic_builder()
+    public function itShouldWriteIntersectFromGenericBuilder()
     {
         $intersect = $this->writer->intersect();
 

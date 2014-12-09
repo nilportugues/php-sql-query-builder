@@ -50,7 +50,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_write_column()
+    public function itShouldWriteColumn()
     {
         $column = new Column('user_id', 'user');
 
@@ -62,7 +62,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_write_value_as_columns()
+    public function itShouldWriteValueAsColumns()
     {
         $select = new Select('user');
         $select->setValueAsColumn('1', 'user_id');
@@ -75,7 +75,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_write_func_as_columns()
+    public function itShouldWriteFuncAsColumns()
     {
         $select = new Select('user');
         $select->setFunctionAsColumn('MAX', ['user_id'], 'max_value');
@@ -88,7 +88,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_write_column_with_alias()
+    public function itShouldWriteColumnWithAlias()
     {
         $column = new Column('user_id', 'user', 'userId');
 
@@ -100,7 +100,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_write_column_as_a_select_statement()
+    public function itShouldBeAbleToWriteColumnAsASelectStatement()
     {
         $selectRole = new Select();
         $selectRole
@@ -132,7 +132,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_write_column_as_a_value_statement()
+    public function itShouldBeAbleToWriteColumnAsAValueStatement()
     {
         $this->query
             ->setTable('user')
@@ -151,7 +151,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_write_column_as_a_func_with_brackets_statement()
+    public function itShouldBeAbleToWriteColumnAsAFuncWithBracketsStatement()
     {
         $this->query
             ->setTable('user')
@@ -170,7 +170,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_be_able_to_write_column_as_a_func_without_brackets_statement()
+    public function itShouldBeAbleToWriteColumnAsAFuncWithoutBracketsStatement()
     {
         $this->query
             ->setTable('user')

@@ -42,7 +42,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_column_writer()
+    public function itShouldCreateColumnWriter()
     {
         $writer = WriterFactory::createColumnWriter($this->writer, $this->placeholder);
 
@@ -52,7 +52,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_where__writer()
+    public function itShouldCreateWhereWriter()
     {
         $writer = WriterFactory::createWhereWriter($this->writer, $this->placeholder);
 
@@ -62,7 +62,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_select_writer()
+    public function itShouldCreateSelectWriter()
     {
         $writer = WriterFactory::createSelectWriter($this->writer, $this->placeholder);
 
@@ -72,7 +72,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_insert_writer()
+    public function itShouldCreateInsertWriter()
     {
         $writer = WriterFactory::createInsertWriter($this->writer, $this->placeholder);
 
@@ -82,7 +82,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_update_writer()
+    public function itShouldCreateUpdateWriter()
     {
         $writer = WriterFactory::createUpdateWriter($this->writer, $this->placeholder);
 
@@ -92,7 +92,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_delete_writer()
+    public function itShouldCreateDeleteWriter()
     {
         $writer = WriterFactory::createDeleteWriter($this->writer, $this->placeholder);
 
@@ -102,7 +102,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_placeholder_writer()
+    public function itShouldCreatePlaceholderWriter()
     {
         $writer = WriterFactory::createPlaceholderWriter();
 
@@ -112,7 +112,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_intersect_writer()
+    public function itShouldCreateIntersectWriter()
     {
         $writer = WriterFactory::createIntersectWriter($this->writer);
 
@@ -122,7 +122,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_minus_writer()
+    public function itShouldCreateMinusWriter()
     {
         $writer = WriterFactory::createMinusWriter($this->writer);
 
@@ -132,7 +132,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_union()
+    public function itShouldCreateUnion()
     {
         $writer = WriterFactory::createUnionWriter($this->writer);
 
@@ -142,7 +142,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_create_union_all()
+    public function itShouldCreateUnionAll()
     {
         $writer = WriterFactory::createUnionAllWriter($this->writer);
 

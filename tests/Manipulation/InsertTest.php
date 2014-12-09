@@ -33,7 +33,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_get_part_name()
+    public function itShouldGetPartName()
     {
         $this->assertSame('INSERT', $this->query->partName());
     }
@@ -41,7 +41,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_set_values()
+    public function itShouldSetValues()
     {
         $values = ['user_id' => 1, 'username' => 'nilportugues'];
 
@@ -53,7 +53,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_get_columns()
+    public function itShouldGetColumns()
     {
         $values = ['user_id' => 1, 'username' => 'nilportugues'];
 
