@@ -247,7 +247,7 @@ abstract class BaseQuery implements QueryInterface, QueryPartInterface
     }
 
     /**
-     * @param $comment
+     * @param string $comment
      * @return $this
      */
     public function setComment($comment)

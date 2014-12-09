@@ -142,7 +142,7 @@ class Select extends BaseQuery
      * @param string $table
      * @param string $selfColumn
      * @param string $refColumn
-     * @param array  $columns
+     * @param string[]  $columns
      *
      * @return Select
      */
@@ -227,10 +227,10 @@ class Select extends BaseQuery
     }
 
     /**
-     * @param       $table
-     * @param null  $selfColumn
-     * @param null  $refColumn
-     * @param array $columns
+     * @param       string $table
+     * @param string  $selfColumn
+     * @param string  $refColumn
+     * @param string[] $columns
      *
      * @internal param null $selectClass
      *
@@ -242,10 +242,10 @@ class Select extends BaseQuery
     }
 
     /**
-     * @param       $table
-     * @param null  $selfColumn
-     * @param null  $refColumn
-     * @param array $columns
+     * @param       string $table
+     * @param string  $selfColumn
+     * @param string  $refColumn
+     * @param string[] $columns
      *
      * @return Select
      */
@@ -255,10 +255,10 @@ class Select extends BaseQuery
     }
 
     /**
-     * @param       $table
-     * @param null  $selfColumn
-     * @param null  $refColumn
-     * @param array $columns
+     * @param       string $table
+     * @param string  $selfColumn
+     * @param string  $refColumn
+     * @param string[] $columns
      *
      * @return Select
      */
@@ -502,7 +502,7 @@ class Select extends BaseQuery
     }
 
     /**
-     * @param array $columns
+     * @param string[] $columns
      *
      * @return $this
      */
