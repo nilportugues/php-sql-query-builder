@@ -61,7 +61,7 @@ SELECT user.* FROM user
 UNION
 SELECT user_email.* FROM user_email
 SQL;
-        $this->assertEquals($expected, $this->unionWriter->writeUnion($union));
+        $this->assertEquals($expected, $this->unionWriter->write($union));
     }
 
     /**

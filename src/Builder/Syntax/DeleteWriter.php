@@ -44,7 +44,7 @@ class DeleteWriter
      *
      * @return string
      */
-    public function writeDelete(Delete $delete)
+    public function write(Delete $delete)
     {
         $table = $this->writer->writeTable($delete->getTable());
         $parts = array("DELETE FROM {$table}");

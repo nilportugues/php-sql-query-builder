@@ -53,7 +53,7 @@ class UpdateWriter
      * @throws QueryException
      * @return string
      */
-    public function writeUpdate(Update $update)
+    public function write(Update $update)
     {
         $values = $update->getValues();
         if (empty($values)) {

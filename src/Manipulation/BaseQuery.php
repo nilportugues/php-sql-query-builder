@@ -254,7 +254,7 @@ abstract class BaseQuery implements QueryInterface, QueryPartInterface
     {
         // Make each line of the comment prefixed with "--",
         // and remove any trailing whitespace.
-        $comment = '-- ' . str_replace("\n", "\n-- ", rtrim($comment));
+        $comment = '-- '.str_replace("\n", "\n-- ", rtrim($comment));
 
         // Trim off any trailing "-- ", to ensure that the comment is valid.
         $this->comment = rtrim($comment, '- ');

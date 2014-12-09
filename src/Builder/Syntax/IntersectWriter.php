@@ -37,7 +37,7 @@ class IntersectWriter
      *
      * @return string
      */
-    public function writeIntersect(Intersect $intersect)
+    public function write(Intersect $intersect)
     {
         $intersectSelects = array();
 

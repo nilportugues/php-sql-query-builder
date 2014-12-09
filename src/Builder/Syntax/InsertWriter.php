@@ -46,7 +46,7 @@ class InsertWriter
      * @throws QueryException
      * @return string
      */
-    public function writeInsert(Insert $insert)
+    public function write(Insert $insert)
     {
         $columns = $insert->getColumns();
         $values  = $insert->getValues();

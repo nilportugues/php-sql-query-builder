@@ -58,7 +58,7 @@ SELECT user.* FROM user
 MINUS
 SELECT user_email.* FROM user_email
 SQL;
-        $this->assertEquals($expected, $this->minusWriter->writeMinus($minus));
+        $this->assertEquals($expected, $this->minusWriter->write($minus));
     }
 
     /**

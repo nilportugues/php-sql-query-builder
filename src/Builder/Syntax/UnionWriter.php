@@ -37,7 +37,7 @@ class UnionWriter
      *
      * @return string
      */
-    public function writeUnion(Union $intersect)
+    public function write(Union $intersect)
     {
         $unionSelects = array();
 

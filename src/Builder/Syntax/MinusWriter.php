@@ -37,7 +37,7 @@ class MinusWriter
      *
      * @return string
      */
-    public function writeMinus(Minus $minus)
+    public function write(Minus $minus)
     {
         $first = $this->writer->write($minus->getFirst());
         $second = $this->writer->write($minus->getSecond());

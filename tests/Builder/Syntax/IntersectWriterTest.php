@@ -61,7 +61,7 @@ SELECT user.* FROM user
 INTERSECT
 SELECT user_email.* FROM user_email
 SQL;
-        $this->assertEquals($expected, $this->intersectWriter->writeIntersect($intersect));
+        $this->assertEquals($expected, $this->intersectWriter->write($intersect));
     }
 
     /**

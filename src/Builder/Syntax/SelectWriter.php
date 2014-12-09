@@ -57,7 +57,7 @@ class SelectWriter
      */
     public function selectToColumn($alias, Select $select)
     {
-        $selectAsColumn = $this->writeSelect($select);
+        $selectAsColumn = $this->write($select);
 
         if (!empty($selectAsColumn)) {
             $selectAsColumn = '('.$selectAsColumn.')';
@@ -73,7 +73,7 @@ class SelectWriter
      *
      * @return string
      */
-    public function writeSelect(Select $select)
+    public function write(Select $select)
     {
         if ($select->isJoinSelect()) {
             return $this->writer->writeJoin($select);

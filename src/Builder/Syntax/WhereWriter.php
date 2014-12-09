@@ -246,7 +246,7 @@ class WhereWriter
             $str = $this->columnWriter->writeColumn($subject);
         } elseif ($subject instanceof Select) {
             $selectWriter = WriterFactory::createSelectWriter($this->writer, $this->placeholderWriter);
-            $str          = '('.$selectWriter->writeSelect($subject).')';
+            $str          = '('.$selectWriter->write($subject).')';
         } else {
             $str = $this->writer->writePlaceholderValue($subject);
         }
