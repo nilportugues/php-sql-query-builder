@@ -155,7 +155,7 @@ class Select extends BaseQuery
      * @param string $table
      * @param string $selfColumn
      * @param string $refColumn
-     * @param array  $columns
+     * @param string[]  $columns
      * @param string $joinType
      *
      * @return Select
