@@ -196,8 +196,7 @@ class GenericBuilder implements BuilderInterface
     public function writeFormatted(QueryInterface $query)
     {
         if (null === $this->sqlFormatter) {
-            $this->sqlFormatter = new \ReflectionClass($this->sqlFormatterClass);
-            $this->sqlFormatter = $this->sqlFormatter->newInstance();
+            $this->sqlFormatter = (new \ReflectionClass($this->sqlFormatterClass))->newInstance();
         }
 
         return $this->sqlFormatter->format($this->write($query));
@@ -208,6 +207,7 @@ class GenericBuilder implements BuilderInterface
      * @param bool           $resetPlaceholders
      *
      * @return string
+     * @throws \RuntimeException
      */
     public function write(QueryInterface $query, $resetPlaceholders = true)
     {
