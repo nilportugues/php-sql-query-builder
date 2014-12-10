@@ -13,7 +13,6 @@ namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Syntax\Column;
-use NilPortugues\SqlQueryBuilder\Syntax\QueryPartInterface;
 use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
 
 /**
@@ -43,11 +42,11 @@ class ColumnWriter
     }
 
     /**
-     * @param QueryPartInterface $column
+     * @param Column $column
      *
      * @return string
      */
-    public function writeColumn(QueryPartInterface $column)
+    public function writeColumn(Column $column)
     {
         $alias = $column->getTable()->getAlias();
         $table = ($alias) ? $this->writer->writeTableAlias($alias) : $this->writer->writeTable($column->getTable());
@@ -73,8 +72,8 @@ class ColumnWriter
             array_walk(
                 $selectAsColumns,
                 function (&$column) use (&$selectWriter) {
-                    $key = array_keys($column);
-                    $key = array_pop($key);
+                    $keys = array_keys($column);
+                    $key = array_pop($keys);
 
                     $values = array_values($column);
                     $value  = $values[0];
