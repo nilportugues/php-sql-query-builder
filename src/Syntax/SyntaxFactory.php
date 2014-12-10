@@ -62,7 +62,7 @@ final class SyntaxFactory
             $columnAlias = null;
         }
 
-        return new Column($columnName, $table, $columnAlias);
+        return new Column($columnName, (string) $table, $columnAlias);
     }
 
     /**

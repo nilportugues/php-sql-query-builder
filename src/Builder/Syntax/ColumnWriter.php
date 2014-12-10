@@ -76,9 +76,11 @@ class ColumnWriter
                     $key = array_pop($keys);
 
                     $values = array_values($column);
+
                     $value  = $values[0];
 
                     if (is_numeric($key)) {
+                        /** @var Column $value */
                         $key = $this->writer->writeTableName($value->getTable());
                     }
 

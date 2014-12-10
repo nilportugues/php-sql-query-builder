@@ -32,6 +32,7 @@ class Update extends BaseQuery
 
     /**
      * @param string $table
+     * @param array  $values
      */
     public function __construct($table = null, array $values = null)
     {
