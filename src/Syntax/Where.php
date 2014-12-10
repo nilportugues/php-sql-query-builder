@@ -255,7 +255,7 @@ class Where
     /**
      * @param $column
      *
-     * @return Column
+     * @return Column|Select
      */
     private function prepareColumn($column)
     {
