@@ -218,13 +218,7 @@ class GenericBuilder implements BuilderInterface
         $queryPart = $query->partName();
 
         if (false === empty($this->queryWriterArray[$queryPart])) {
-            if (null === $this->queryWriterInstances[$queryPart]) {
-                $this->queryWriterInstances[$queryPart] = call_user_func_array(
-                    explode('::', $this->queryWriterArray[$queryPart]),
-                    [$this, $this->placeholderWriter]
-                );
-            }
-
+            $this->createQueryObject($queryPart);
             return $this->queryWriterInstances[$queryPart]->write($query);
         }
 
@@ -386,5 +380,18 @@ class GenericBuilder implements BuilderInterface
     protected function writeColumnAll()
     {
         return '*';
+    }
+
+    /**
+     * @param $queryPart
+     */
+    protected function createQueryObject($queryPart)
+    {
+        if (null === $this->queryWriterInstances[$queryPart]) {
+            $this->queryWriterInstances[$queryPart] = call_user_func_array(
+                explode('::', $this->queryWriterArray[$queryPart]),
+                [$this, $this->placeholderWriter]
+            );
+        }
     }
 }

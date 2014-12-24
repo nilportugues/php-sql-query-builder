@@ -346,17 +346,28 @@ class Where
     }
 
     /**
-     * @param           $column
-     * @param integer[] $values
-     *
+     * @param string[]  $columns
+     * @param mixed[] $values
      * @return static
      */
     public function match(array $columns, array $values)
     {
+        return $this->genericMatch($columns, $values, 'natural');
+    }
+
+    /**
+     * @param array $columns
+     * @param mixed[] $values
+     * @param string $mode
+     *
+     * @return $this
+     */
+    protected function genericMatch(array &$columns, array &$values, $mode)
+    {
         $this->match[] = array(
             'columns' => $columns,
             'values'  => $values,
-            'mode'    => 'natural',
+            'mode'    => $mode,
         );
 
         return $this;
@@ -364,34 +375,22 @@ class Where
 
     /**
      * @param  string[]  $columns
-     * @param  integer[] $values
+     * @param  mixed[] $values
      * @return $this
      */
     public function matchBoolean(array $columns, array $values)
     {
-        $this->match[] = array(
-            'columns' => $columns,
-            'values'  => $values,
-            'mode'    => 'boolean',
-        );
-
-        return $this;
+        return $this->genericMatch($columns, $values, 'boolean');
     }
 
     /**
      * @param  string[]  $columns
-     * @param  integer[] $values
+     * @param  mixed[] $values
      * @return $this
      */
     public function matchWithQueryExpansion(array $columns, array $values)
     {
-        $this->match[] = array(
-            'columns' => $columns,
-            'values'  => $values,
-            'mode'    => 'query_expansion',
-        );
-
-        return $this;
+        return $this->genericMatch($columns, $values, 'query_expansion');
     }
 
     /**
