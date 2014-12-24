@@ -18,35 +18,8 @@ use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
  * Class UpdateWriter
  * @package NilPortugues\SqlQueryBuilder\BuilderInterface\Syntax
  */
-class UpdateWriter
+class UpdateWriter extends AbstractBaseWriter
 {
-    /**
-     * @var GenericBuilder
-     */
-    private $writer;
-
-    /**
-     * @var PlaceholderWriter
-     */
-    private $placeholderWriter;
-
-    /**
-     * @var ColumnWriter
-     */
-    private $columnWriter;
-
-    /**
-     * @param GenericBuilder    $writer
-     * @param PlaceholderWriter $placeholder
-     */
-    public function __construct(GenericBuilder $writer, PlaceholderWriter $placeholder)
-    {
-        $this->writer            = $writer;
-        $this->placeholderWriter = $placeholder;
-
-        $this->columnWriter = WriterFactory::createColumnWriter($writer, $placeholder);
-    }
-
     /**
      * @param Update $update
      *

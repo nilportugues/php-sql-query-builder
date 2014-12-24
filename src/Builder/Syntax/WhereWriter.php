@@ -12,35 +12,8 @@ use NilPortugues\SqlQueryBuilder\Syntax\Where;
  * Class WhereWriter
  * @package NilPortugues\SqlQueryBuilder\BuilderInterface\Syntax
  */
-class WhereWriter
+class WhereWriter extends AbstractBaseWriter
 {
-    /**
-     * @var GenericBuilder
-     */
-    private $writer;
-
-    /**
-     * @var PlaceholderWriter
-     */
-    private $placeholderWriter;
-
-    /**
-     * @var ColumnWriter
-     */
-    private $columnWriter;
-
-    /**
-     * @param GenericBuilder    $writer
-     * @param PlaceholderWriter $placeholder
-     */
-    public function __construct(GenericBuilder $writer, PlaceholderWriter $placeholder)
-    {
-        $this->writer            = $writer;
-        $this->placeholderWriter = $placeholder;
-
-        $this->columnWriter = WriterFactory::createColumnWriter($writer, $placeholder);
-    }
-
     /**
      * @param Where $where
      *
