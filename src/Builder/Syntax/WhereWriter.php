@@ -94,11 +94,7 @@ class WhereWriter extends AbstractBaseWriter
         foreach ($where->getMatches() as $values) {
             $columns = SyntaxFactory::createColumns($values['columns'], $where->getTable());
 
-            $columnNames = [];
-            foreach ($columns as &$column) {
-                $columnNames[] = $this->columnWriter->writeColumn($column);
-            }
-            $columnNames = implode(', ', $columnNames);
+            $columnNames = $this->getColumnNames($columns);
 
             $columnValues = array(implode(" ", $values['values']));
             $columnValues = implode(", ", $this->writer->writeValues($columnValues));
@@ -112,6 +108,22 @@ class WhereWriter extends AbstractBaseWriter
         }
 
         return $matches;
+    }
+
+    /**
+     * @param $columns
+     *
+     * @return array
+     */
+    protected function getColumnNames($columns)
+    {
+        $columnNames = [];
+        foreach ($columns as &$column) {
+            $columnNames[] = $this->columnWriter->writeColumn($column);
+        }
+        $columnNames = implode(', ', $columnNames);
+
+        return $columnNames;
     }
 
     /**
@@ -237,16 +249,6 @@ class WhereWriter extends AbstractBaseWriter
     }
 
     /**
-     * @param Where $where
-     *
-     * @return array
-     */
-    protected function writeWhereIsNotNulls(Where $where)
-    {
-        return $this->writeWhereIsNullable($where, 'getNotNull', 'writeIsNotNull');
-    }
-
-    /**
      * @param Where  $where
      * @param string $getMethod
      * @param string $writeMethod
@@ -267,6 +269,16 @@ class WhereWriter extends AbstractBaseWriter
         );
 
         return $collection;
+    }
+
+    /**
+     * @param Where $where
+     *
+     * @return array
+     */
+    protected function writeWhereIsNotNulls(Where $where)
+    {
+        return $this->writeWhereIsNullable($where, 'getNotNull', 'writeIsNotNull');
     }
 
     /**
