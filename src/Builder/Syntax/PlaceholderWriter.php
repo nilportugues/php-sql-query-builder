@@ -67,18 +67,23 @@ class PlaceholderWriter
      */
     protected function setValidSqlValue($value)
     {
+        $value = $this->writeNullSqlString($value);
+        $value = $this->writeStringAsSqlString($value);
+        $value = $this->writeBooleanSqlString($value);
+
+        return $value;
+    }
+
+    /**
+     * @param $value
+     *
+     * @return string
+     */
+    protected function writeNullSqlString($value)
+    {
         if (is_null($value) || (is_string($value) && empty($value))) {
             $value = $this->writeNull();
         }
-
-        if (is_string($value)) {
-            $value = $this->writeString($value);
-        }
-
-        if (is_bool($value)) {
-            $value = $this->writeBoolean($value);
-        }
-
         return $value;
     }
 
@@ -91,12 +96,38 @@ class PlaceholderWriter
     }
 
     /**
+     * @param $value
+     *
+     * @return string
+     */
+    protected function writeStringAsSqlString($value)
+    {
+        if (is_string($value)) {
+            $value = $this->writeString($value);
+        }
+        return $value;
+    }
+
+    /**
      * @param string $value
      *
      * @return string
      */
     protected function writeString($value)
     {
+        return $value;
+    }
+
+    /**
+     * @param $value
+     *
+     * @return string
+     */
+    protected function writeBooleanSqlString($value)
+    {
+        if (is_bool($value)) {
+            $value = $this->writeBoolean($value);
+        }
         return $value;
     }
 
