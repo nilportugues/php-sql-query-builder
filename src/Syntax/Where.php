@@ -356,7 +356,7 @@ class Where
     }
 
     /**
-     * @param array   $columns
+     * @param string[]   $columns
      * @param mixed[] $values
      * @param string  $mode
      *
