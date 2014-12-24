@@ -296,12 +296,24 @@ class WhereWriter extends AbstractBaseWriter
      *
      * @return array
      */
-    private function writeExists(Where $where)
+    protected function writeExists(Where $where)
+    {
+        return $this->writeExistence($where, 'getExists', 'EXISTS');
+    }
+
+    /**
+     * @param Where $where
+     * @param string $method
+     * @param string $operation
+     *
+     * @return array
+     */
+    protected function writeExistence(Where $where, $method, $operation)
     {
         $exists = [];
 
-        foreach ($where->getExists() as $select) {
-            $exists[] = "EXISTS (".$this->writer->write($select, false).")";
+        foreach ($where->$method() as $select) {
+            $exists[] = "$operation (".$this->writer->write($select, false).")";
         }
 
         return $exists;
@@ -312,14 +324,8 @@ class WhereWriter extends AbstractBaseWriter
      *
      * @return array
      */
-    private function writeNotExists(Where $where)
+    protected function writeNotExists(Where $where)
     {
-        $exists = [];
-
-        foreach ($where->getNotExists() as $select) {
-            $exists[] = "NOT EXISTS (".$this->writer->write($select, false).")";
-        }
-
-        return $exists;
+        return $this->writeExistence($where, 'getNotExists', 'NOT EXISTS');
     }
 }
