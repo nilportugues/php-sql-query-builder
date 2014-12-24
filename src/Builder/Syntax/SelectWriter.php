@@ -125,19 +125,33 @@ class SelectWriter extends AbstractBaseWriter
      */
     public function writeSelectJoins(Select $select)
     {
+        return $this->writeSelectAggrupation($select, $this->writer, 'getAllJoins', 'writeJoin', " ");
+    }
+
+    /**
+     * @param Select $select
+     * @param string $writer
+     * @param string $getMethod
+     * @param string $writeMethod
+     * @param string $glue
+     * @param string $prepend
+     *
+     * @return string
+     */
+    protected function writeSelectAggrupation(Select $select, $writer, $getMethod, $writeMethod, $glue, $prepend = '')
+    {
         $str   = "";
-        $joins = $select->getAllJoins();
+        $joins = $select->$getMethod();
 
         if (!empty($joins)) {
             array_walk(
                 $joins,
-                function (&$join) {
-                    $join = $this->writer->writeJoin($join);
+                function (&$join) use ($writer, $writeMethod) {
+                    $join = $writer->$writeMethod($join);
                 }
             );
 
-            $separator = " ";
-            $str       = implode($separator, $joins);
+            $str = $prepend.implode($glue, $joins);
         }
 
         return $str;
@@ -191,22 +205,7 @@ class SelectWriter extends AbstractBaseWriter
      */
     public function writeSelectGroupBy(Select $select)
     {
-        $str = "";
-        if (count($select->getGroupBy())) {
-            $groupCols = $select->getGroupBy();
-
-            array_walk(
-                $groupCols,
-                function (&$column) {
-                    $column = $this->columnWriter->writeColumn($column);
-                }
-            );
-
-            $str = "GROUP BY ";
-            $str .= implode(", ", $groupCols);
-        }
-
-        return $str;
+        return $this->writeSelectAggrupation($select, $this->columnWriter, 'getGroupBy', 'writeColumn', ", ", "GROUP BY ");
     }
 
     /**
