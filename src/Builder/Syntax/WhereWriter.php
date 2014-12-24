@@ -14,6 +14,15 @@ use NilPortugues\SqlQueryBuilder\Syntax\Where;
 class WhereWriter extends AbstractBaseWriter
 {
     /**
+     * @var array
+     */
+    protected $matchMode = [
+        'natural' => "(MATCH({{columnNames}}) AGAINST({{columnValues}}))",
+        'boolean' => "(MATCH({{columnNames}}) AGAINST({{columnValues}} IN BOOLEAN MODE))",
+        'query_expansion' => "(MATCH({{columnNames}}) AGAINST({{columnValues}} WITH QUERY EXPANSION))"
+    ];
+
+    /**
      * @param Where $where
      *
      * @return string
@@ -91,23 +100,15 @@ class WhereWriter extends AbstractBaseWriter
             }
             $columnNames = implode(', ', $columnNames);
 
-            $columnValues = $values['values'];
-            $columnValues = array(implode(" ", $columnValues));
+            $columnValues = array(implode(" ", $values['values']));
             $columnValues = implode(", ", $this->writer->writeValues($columnValues));
 
-            switch ($values['mode']) {
-                case 'natural':
-                    $matches[] = "(MATCH({$columnNames}) AGAINST({$columnValues}))";
-                    break;
+            $matches[] = str_replace(
+                ['{{columnNames}}', '{{columnValues}}'],
+                [$columnNames, $columnValues],
+                $this->matchMode[$values['mode']]
+            );
 
-                case 'boolean':
-                    $matches[] = "(MATCH({$columnNames}) AGAINST({$columnValues} IN BOOLEAN MODE))";
-                    break;
-
-                case 'query_expansion':
-                    $matches[] = "(MATCH({$columnNames}) AGAINST({$columnValues} WITH QUERY EXPANSION))";
-                    break;
-            }
         }
 
         return $matches;

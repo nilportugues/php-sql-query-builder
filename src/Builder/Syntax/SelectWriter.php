@@ -100,7 +100,7 @@ class SelectWriter extends AbstractBaseWriter
 
             return implode(", ", $columns);
         }
-        
+
         $columns    = $select->getColumns();
         $column     = array_pop($columns);
         $columnList = $column->getName();
