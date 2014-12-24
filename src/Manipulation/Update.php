@@ -13,13 +13,8 @@ namespace NilPortugues\SqlQueryBuilder\Manipulation;
  * Class Update
  * @package NilPortugues\SqlQueryBuilder\Manipulation
  */
-class Update extends BaseQuery
+class Update extends AbstractCreationalQuery
 {
-    /**
-     * @var array
-     */
-    protected $values = array();
-
     /**
      * @var int
      */
@@ -28,22 +23,7 @@ class Update extends BaseQuery
     /**
      * @var array
      */
-    protected $orderBy = array();
-
-    /**
-     * @param string $table
-     * @param array  $values
-     */
-    public function __construct($table = null, array $values = null)
-    {
-        if (isset($table)) {
-            $this->setTable($table);
-        }
-
-        if (!empty($values)) {
-            $this->setValues($values);
-        }
-    }
+    protected $orderBy = [];
 
     /**
      * @return string
@@ -51,26 +31,6 @@ class Update extends BaseQuery
     public function partName()
     {
         return 'UPDATE';
-    }
-
-    /**
-     * @param array $values
-     *
-     * @return $this
-     */
-    public function setValues(array $values)
-    {
-        $this->values = array_filter($values);
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getValues()
-    {
-        return $this->values;
     }
 
     /**

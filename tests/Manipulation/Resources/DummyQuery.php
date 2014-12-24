@@ -10,13 +10,13 @@
 
 namespace Tests\NilPortugues\SqlQueryBuilder\Manipulation\Resources;
 
-use NilPortugues\SqlQueryBuilder\Manipulation\BaseQuery;
+use NilPortugues\SqlQueryBuilder\Manipulation\AbstractBaseQuery;
 
 /**
  * Class DummyQuery
  * @package Tests\NilPortugues\SqlQueryBuilder\Manipulation\Resources
  */
-class DummyQuery extends BaseQuery
+class DummyQuery extends AbstractBaseQuery
 {
     /**
      * @return string

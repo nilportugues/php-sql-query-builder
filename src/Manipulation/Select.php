@@ -18,7 +18,7 @@ use NilPortugues\SqlQueryBuilder\Syntax\Where;
  * Class Select
  * @package NilPortugues\SqlQueryBuilder\Manipulation
  */
-class Select extends BaseQuery
+class Select extends AbstractBaseQuery
 {
     const JOIN_LEFT  = 'LEFT';
     const JOIN_RIGHT = 'RIGHT';
@@ -152,11 +152,11 @@ class Select extends BaseQuery
     }
 
     /**
-     * @param string $table
-     * @param string $selfColumn
-     * @param string $refColumn
-     * @param string[]  $columns
-     * @param string $joinType
+     * @param string   $table
+     * @param string   $selfColumn
+     * @param string   $refColumn
+     * @param string[] $columns
+     * @param string   $joinType
      *
      * @return Select
      */

@@ -19,10 +19,10 @@ use NilPortugues\SqlQueryBuilder\Syntax\Where;
 use NilPortugues\SqlQueryBuilder\Builder\BuilderInterface;
 
 /**
- * Class BaseQuery
+ * Class AbstractBaseQuery
  * @package NilPortugues\SqlQueryBuilder
  */
-abstract class BaseQuery implements QueryInterface, QueryPartInterface
+abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
 {
     /**
      * @var string

@@ -10,7 +10,7 @@
 namespace NilPortugues\SqlQueryBuilder\Builder;
 
 use NilPortugues\SqlQueryBuilder\Builder\Syntax\WriterFactory;
-use NilPortugues\SqlQueryBuilder\Manipulation\BaseQuery;
+use NilPortugues\SqlQueryBuilder\Manipulation\AbstractBaseQuery;
 use NilPortugues\SqlQueryBuilder\Manipulation\QueryInterface;
 use NilPortugues\SqlQueryBuilder\Manipulation\QueryFactory;
 use NilPortugues\SqlQueryBuilder\Manipulation\Select;
@@ -105,18 +105,20 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
-     * @param \NilPortugues\SqlQueryBuilder\Manipulation\BaseQuery
-     * @return \NilPortugues\SqlQueryBuilder\Manipulation\BaseQuery
+     * @param \NilPortugues\SqlQueryBuilder\Manipulation\AbstractBaseQuery
+     *
+*@return \NilPortugues\SqlQueryBuilder\Manipulation\AbstractBaseQuery
      */
-    protected function injectBuilder(BaseQuery $query)
+    protected function injectBuilder(AbstractBaseQuery $query)
     {
         return $query->setBuilder($this);
     }
 
     /**
-     * @param  string    $table
-     * @param  array     $values
-     * @return BaseQuery
+     * @param string $table
+     * @param array  $values
+     *
+*@return AbstractBaseQuery
      */
     public function insert($table = null, array $values = null)
     {
@@ -124,9 +126,10 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
-     * @param  string    $table
-     * @param  array     $values
-     * @return BaseQuery
+     * @param string $table
+     * @param array  $values
+     *
+*@return AbstractBaseQuery
      */
     public function update($table = null, array $values = null)
     {
@@ -219,6 +222,7 @@ class GenericBuilder implements BuilderInterface
 
         if (false === empty($this->queryWriterArray[$queryPart])) {
             $this->createQueryObject($queryPart);
+
             return $this->queryWriterInstances[$queryPart]->write($query);
         }
 

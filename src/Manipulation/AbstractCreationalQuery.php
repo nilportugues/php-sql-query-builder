@@ -1,59 +1,57 @@
 <?php
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
- * Date: 6/3/14
- * Time: 12:07 AM
+ * Date: 12/24/14
+ * Time: 12:30 PM
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\SqlQueryBuilder\Manipulation;
 
 /**
- * Class Delete
+ * Class AbstractCreationalQuery
  * @package NilPortugues\SqlQueryBuilder\Manipulation
  */
-class Delete extends AbstractBaseQuery
+abstract class AbstractCreationalQuery extends AbstractBaseQuery
 {
     /**
-     * @var int
+     * @var array
      */
-    protected $limitStart;
+    protected $values = [];
 
     /**
      * @param string $table
+     * @param array  $values
      */
-    public function __construct($table = null)
+    public function __construct($table = null, array $values = null)
     {
         if (isset($table)) {
             $this->setTable($table);
         }
+
+        if (!empty($values)) {
+            $this->setValues($values);
+        }
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function partName()
+    public function getValues()
     {
-        return 'DELETE';
+        return $this->values;
     }
 
     /**
-     * @return int
-     */
-    public function getLimitStart()
-    {
-        return $this->limitStart;
-    }
-
-    /**
-     * @param integer $start
+     * @param array $values
      *
      * @return $this
      */
-    public function limit($start)
+    public function setValues(array $values)
     {
-        $this->limitStart = $start;
+        $this->values = array_filter($values);
 
         return $this;
     }

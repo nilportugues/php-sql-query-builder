@@ -346,8 +346,8 @@ class Where
     }
 
     /**
-     * @param string[]  $columns
-     * @param mixed[] $values
+     * @param  string[] $columns
+     * @param  mixed[]  $values
      * @return static
      */
     public function match(array $columns, array $values)
@@ -356,9 +356,9 @@ class Where
     }
 
     /**
-     * @param array $columns
+     * @param array   $columns
      * @param mixed[] $values
-     * @param string $mode
+     * @param string  $mode
      *
      * @return $this
      */
@@ -374,8 +374,8 @@ class Where
     }
 
     /**
-     * @param  string[]  $columns
-     * @param  mixed[] $values
+     * @param  string[] $columns
+     * @param  mixed[]  $values
      * @return $this
      */
     public function matchBoolean(array $columns, array $values)
@@ -384,8 +384,8 @@ class Where
     }
 
     /**
-     * @param  string[]  $columns
-     * @param  mixed[] $values
+     * @param  string[] $columns
+     * @param  mixed[]  $values
      * @return $this
      */
     public function matchWithQueryExpansion(array $columns, array $values)

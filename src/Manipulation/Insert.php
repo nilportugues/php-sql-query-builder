@@ -15,54 +15,14 @@ use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
  * Class Insert
  * @package NilPortugues\SqlQueryBuilder\Manipulation
  */
-class Insert extends BaseQuery
+class Insert extends AbstractCreationalQuery
 {
-    /**
-     * @var array
-     */
-    protected $values = array();
-
-    /**
-     * @param string $table
-     * @param array  $values
-     */
-    public function __construct($table = null, array $values = null)
-    {
-        if (isset($table)) {
-            $this->setTable($table);
-        }
-
-        if (!empty($values)) {
-            $this->setValues($values);
-        }
-    }
-
     /**
      * @return string
      */
     public function partName()
     {
         return 'INSERT';
-    }
-
-    /**
-     * @return array
-     */
-    public function getValues()
-    {
-        return $this->values;
-    }
-
-    /**
-     * @param array $values
-     *
-     * @return $this
-     */
-    public function setValues(array $values)
-    {
-        $this->values = array_filter($values);
-
-        return $this;
     }
 
     /**
