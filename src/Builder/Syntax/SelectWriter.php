@@ -130,7 +130,7 @@ class SelectWriter extends AbstractBaseWriter
 
     /**
      * @param Select $select
-     * @param string $writer
+     * @param $writer
      * @param string $getMethod
      * @param string $writeMethod
      * @param string $glue
