@@ -148,9 +148,21 @@ class WhereWriter
      */
     protected function writeWhereIns(Where $where)
     {
-        $ins = array();
+        return $this->writeWhereIn($where, 'getIns', 'IN');
+    }
 
-        foreach ($where->getIns() as $column => $values) {
+    /**
+     * @param Where $where
+     * @param string $method
+     * @param string $operation
+     *
+     * @return array
+     */
+    protected function writeWhereIn(Where $where, $method, $operation)
+    {
+        $collection = [];
+
+        foreach ($where->$method() as $column => $values) {
             $newColumn = array($column);
             $column    = SyntaxFactory::createColumn($newColumn, $where->getTable());
             $column    = $this->columnWriter->writeColumn($column);
@@ -158,10 +170,10 @@ class WhereWriter
             $values = $this->writer->writeValues($values);
             $values = implode(", ", $values);
 
-            $ins[] = "({$column} IN ({$values}))";
+            $collection[] = "({$column} $operation ({$values}))";
         }
 
-        return $ins;
+        return $collection;
     }
 
     /**
@@ -171,20 +183,7 @@ class WhereWriter
      */
     protected function writeWhereNotIns(Where $where)
     {
-        $notIns = $where->getNotIns();
-
-        foreach ($notIns as $column => &$values) {
-            $newColumn = array($column);
-            $column    = SyntaxFactory::createColumn($newColumn, $where->getTable());
-            $column    = $this->columnWriter->writeColumn($column);
-
-            $values = $this->writer->writeValues($values);
-            $values = implode(", ", $values);
-
-            $values = "({$column} NOT IN ({$values}))";
-        }
-
-        return $notIns;
+        return $this->writeWhereIn($where, 'getNotIns', 'NOT IN');
     }
 
     /**
