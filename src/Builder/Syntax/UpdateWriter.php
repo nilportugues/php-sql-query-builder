@@ -9,7 +9,6 @@
  */
 namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 use NilPortugues\SqlQueryBuilder\Manipulation\QueryException;
 use NilPortugues\SqlQueryBuilder\Manipulation\Update;
 use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
