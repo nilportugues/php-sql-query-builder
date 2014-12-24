@@ -10,28 +10,14 @@
 
 namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 use NilPortugues\SqlQueryBuilder\Manipulation\Intersect;
 
 /**
  * Class IntersectWriter
  * @package NilPortugues\SqlQueryBuilder\Builder\Syntax
  */
-class IntersectWriter
+class IntersectWriter extends AbstractSetWriter
 {
-    /**
-     * @var GenericBuilder
-     */
-    private $writer;
-
-    /**
-     * @param GenericBuilder $writer
-     */
-    public function __construct(GenericBuilder $writer)
-    {
-        $this->writer = $writer;
-    }
-
     /**
      * @param Intersect $intersect
      *
@@ -39,12 +25,6 @@ class IntersectWriter
      */
     public function write(Intersect $intersect)
     {
-        $intersectSelects = array();
-
-        foreach ($intersect->getIntersects() as $select) {
-            $intersectSelects[] = $this->writer->write($select);
-        }
-
-        return implode("\n".Intersect::INTERSECT."\n", $intersectSelects);
+        return $this->abstractWrite($intersect, 'getIntersects', Intersect::INTERSECT);
     }
 }

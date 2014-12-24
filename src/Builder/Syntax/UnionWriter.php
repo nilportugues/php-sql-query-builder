@@ -10,41 +10,21 @@
 
 namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 use NilPortugues\SqlQueryBuilder\Manipulation\Union;
 
 /**
  * Class UnionWriter
  * @package NilPortugues\SqlQueryBuilder\Builder\Syntax
  */
-class UnionWriter
+class UnionWriter extends AbstractSetWriter
 {
     /**
-     * @var GenericBuilder
-     */
-    private $writer;
-
-    /**
-     * @param GenericBuilder $writer
-     */
-    public function __construct(GenericBuilder $writer)
-    {
-        $this->writer = $writer;
-    }
-
-    /**
-     * @param Union $intersect
+     * @param Union $union
      *
      * @return string
      */
-    public function write(Union $intersect)
+    public function write(Union $union)
     {
-        $unionSelects = array();
-
-        foreach ($intersect->getUnions() as $select) {
-            $unionSelects[] = $this->writer->write($select);
-        }
-
-        return implode("\n".Union::UNION."\n", $unionSelects);
+        return $this->abstractWrite($union, 'getUnions', Union::UNION);
     }
 }

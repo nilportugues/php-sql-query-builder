@@ -362,9 +362,9 @@ class Where
     }
 
     /**
-     * @param string[]   $columns
-     * @param mixed[] $values
-     * @param string  $mode
+     * @param string[] $columns
+     * @param mixed[]  $values
+     * @param string   $mode
      *
      * @return $this
      */
