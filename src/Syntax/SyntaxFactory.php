@@ -68,7 +68,7 @@ final class SyntaxFactory
     /**
      * Creates a Table object.
      *
-     * @param string|array $table
+     * @param string[] $table
      *
      * @return Table
      */

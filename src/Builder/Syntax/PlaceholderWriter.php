@@ -63,7 +63,7 @@ class PlaceholderWriter
     /**
      * @param $value
      *
-     * @return mixed
+     * @return string
      */
     protected function setValidSqlValue($value)
     {
@@ -96,7 +96,7 @@ class PlaceholderWriter
     }
 
     /**
-     * @param $value
+     * @param string $value
      *
      * @return string
      */
@@ -119,7 +119,7 @@ class PlaceholderWriter
     }
 
     /**
-     * @param $value
+     * @param string $value
      *
      * @return string
      */

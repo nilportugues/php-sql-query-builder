@@ -10,7 +10,6 @@
 
 namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Syntax\Column;
 use NilPortugues\SqlQueryBuilder\Syntax\OrderBy;
