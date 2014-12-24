@@ -12,7 +12,6 @@ namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
 
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 
-
 /**
  * Class AbstractBaseWriter
  * @package NilPortugues\SqlQueryBuilder\Builder\Syntax
@@ -45,4 +44,4 @@ abstract class AbstractBaseWriter
 
         $this->columnWriter = WriterFactory::createColumnWriter($writer, $placeholder);
     }
-} 
+}

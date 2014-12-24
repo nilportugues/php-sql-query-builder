@@ -23,7 +23,7 @@ class Intersect implements QueryInterface, QueryPartInterface
     /**
      * @var array
      */
-    private $intersect = array();
+    private $intersect = [];
 
     /**
      * @return string

@@ -38,12 +38,12 @@ class Select extends AbstractBaseQuery
     /**
      * @var array
      */
-    protected $columns = array();
+    protected $columns = [];
 
     /**
      * @var array
      */
-    protected $groupBy = array();
+    protected $groupBy = [];
 
     /**
      * @var string
@@ -88,17 +88,17 @@ class Select extends AbstractBaseQuery
     /**
      * @var array
      */
-    protected $columnSelects = array();
+    protected $columnSelects = [];
 
     /**
      * @var array
      */
-    protected $columnValues = array();
+    protected $columnValues = [];
 
     /**
      * @var array
      */
-    protected $columnFuncs = array();
+    protected $columnFuncs = [];
 
     /**
      * @param string $table
@@ -146,7 +146,7 @@ class Select extends AbstractBaseQuery
      *
      * @return Select
      */
-    public function leftJoin($table, $selfColumn = null, $refColumn = null, $columns = array())
+    public function leftJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
     {
         return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_LEFT);
     }
@@ -164,7 +164,7 @@ class Select extends AbstractBaseQuery
         $table,
         $selfColumn = null,
         $refColumn = null,
-        $columns = array(),
+        $columns = [],
         $joinType = null
     ) {
         if (!isset($this->joins[$table])) {
@@ -236,7 +236,7 @@ class Select extends AbstractBaseQuery
      *
      * @return Select
      */
-    public function rightJoin($table, $selfColumn = null, $refColumn = null, $columns = array())
+    public function rightJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
     {
         return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_RIGHT);
     }
@@ -249,7 +249,7 @@ class Select extends AbstractBaseQuery
      *
      * @return Select
      */
-    public function crossJoin($table, $selfColumn = null, $refColumn = null, $columns = array())
+    public function crossJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
     {
         return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_CROSS);
     }
@@ -262,7 +262,7 @@ class Select extends AbstractBaseQuery
      *
      * @return Select
      */
-    public function innerJoin($table, $selfColumn = null, $refColumn = null, $columns = array())
+    public function innerJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
     {
         return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_INNER);
     }
@@ -403,17 +403,7 @@ class Select extends AbstractBaseQuery
      */
     public function getAllWheres()
     {
-        $wheres = array();
-
-        if (!is_null($this->where)) {
-            $wheres[] = $this->where;
-        }
-
-        foreach ($this->joins as $join) {
-            $wheres = array_merge($wheres, $join->getAllWheres());
-        }
-
-        return $wheres;
+        return $this->getAllOperation($this->where, 'getAllWheres');
     }
 
     /**
@@ -421,18 +411,28 @@ class Select extends AbstractBaseQuery
      */
     public function getAllHavings()
     {
-        $havings = array();
+        return $this->getAllOperation($this->having, 'getAllHavings');
+    }
 
-        if (!is_null($this->having)) {
-            $havings[] = $this->having;
+    /**
+     * @param null|Where $data
+     * @param string     $operation
+     *
+     * @return array
+     */
+    protected function getAllOperation($data, $operation)
+    {
+        $collection = [];
+
+        if (!is_null($data)) {
+            $collection[] = $data;
         }
 
-        /** @var $join Select */
         foreach ($this->joins as $join) {
-            $havings = array_merge($havings, $join->getAllHavings());
+            $collection = array_merge($collection, $join->$operation());
         }
 
-        return $havings;
+        return $collection;
     }
 
     /**

@@ -62,7 +62,7 @@ class UpdateWriter extends AbstractBaseWriter
      */
     private function writeUpdateValues(Update $update)
     {
-        $assigns = array();
+        $assigns = [];
         foreach ($update->getValues() as $column => $value) {
             $newColumn = array($column);
             $column    = $this->columnWriter->writeColumn(SyntaxFactory::createColumn($newColumn, $update->getTable()));

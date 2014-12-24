@@ -24,7 +24,7 @@ class PlaceholderWriter
     /**
      * @var array
      */
-    protected $placeholders = array();
+    protected $placeholders = [];
 
     /**
      * @return array
@@ -40,7 +40,7 @@ class PlaceholderWriter
     public function reset()
     {
         $this->counter      = 1;
-        $this->placeholders = array();
+        $this->placeholders = [];
 
         return $this;
     }
@@ -84,6 +84,7 @@ class PlaceholderWriter
         if (is_null($value) || (is_string($value) && empty($value))) {
             $value = $this->writeNull();
         }
+
         return $value;
     }
 
@@ -105,6 +106,7 @@ class PlaceholderWriter
         if (is_string($value)) {
             $value = $this->writeString($value);
         }
+
         return $value;
     }
 
@@ -128,6 +130,7 @@ class PlaceholderWriter
         if (is_bool($value)) {
             $value = $this->writeBoolean($value);
         }
+
         return $value;
     }
 

@@ -52,7 +52,7 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     /**
      * @var array
      */
-    protected $joins = array();
+    protected $joins = [];
 
     /**
      * @var int
@@ -67,7 +67,7 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     /**
      * @var array
      */
-    protected $orderBy = array();
+    protected $orderBy = [];
 
     /**
      * @return Where

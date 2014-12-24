@@ -80,12 +80,12 @@ class WhereWriter extends AbstractBaseWriter
      */
     protected function writeWhereMatches(Where $where)
     {
-        $matches = array();
+        $matches = [];
 
         foreach ($where->getMatches() as $values) {
             $columns = SyntaxFactory::createColumns($values['columns'], $where->getTable());
 
-            $columnNames = array();
+            $columnNames = [];
             foreach ($columns as &$column) {
                 $columnNames[] = $this->columnWriter->writeColumn($column);
             }
@@ -124,7 +124,7 @@ class WhereWriter extends AbstractBaseWriter
     }
 
     /**
-     * @param Where $where
+     * @param Where  $where
      * @param string $method
      * @param string $operation
      *
@@ -298,7 +298,7 @@ class WhereWriter extends AbstractBaseWriter
      */
     private function writeExists(Where $where)
     {
-        $exists = array();
+        $exists = [];
 
         foreach ($where->getExists() as $select) {
             $exists[] = "EXISTS (".$this->writer->write($select, false).")";
@@ -314,7 +314,7 @@ class WhereWriter extends AbstractBaseWriter
      */
     private function writeNotExists(Where $where)
     {
-        $exists = array();
+        $exists = [];
 
         foreach ($where->getNotExists() as $select) {
             $exists[] = "NOT EXISTS (".$this->writer->write($select, false).")";

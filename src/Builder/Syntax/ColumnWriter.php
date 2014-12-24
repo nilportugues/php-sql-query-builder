@@ -100,7 +100,7 @@ class ColumnWriter
     public function writeValueAsColumns(Select $select)
     {
         $valueAsColumns = $select->getColumnValues();
-        $newColumns     = array();
+        $newColumns     = [];
 
         if (!empty($valueAsColumns)) {
             foreach ($valueAsColumns as $alias => $value) {
@@ -122,7 +122,7 @@ class ColumnWriter
     public function writeFuncAsColumns(Select $select)
     {
         $funcAsColumns = $select->getColumnFuncs();
-        $newColumns    = array();
+        $newColumns    = [];
 
         if (!empty($funcAsColumns)) {
             foreach ($funcAsColumns as $alias => $value) {

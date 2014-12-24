@@ -25,7 +25,7 @@ final class SyntaxFactory
      */
     public static function createColumns(array &$arguments, $table = null)
     {
-        $createdColumns = array();
+        $createdColumns = [];
 
         foreach ($arguments as $index => $column) {
             if (!is_object($column)) {
