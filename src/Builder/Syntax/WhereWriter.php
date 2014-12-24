@@ -232,19 +232,7 @@ class WhereWriter extends AbstractBaseWriter
      */
     protected function writeWhereIsNulls(Where $where)
     {
-        $isNulls = $where->getNull();
-
-        array_walk(
-            $isNulls,
-            function (&$isNull) {
-                $isNull = "("
-                    .$this->columnWriter->writeColumn($isNull["subject"])
-                    .$this->writer->writeIsNull()
-                    .")";
-            }
-        );
-
-        return $isNulls;
+        return $this->writeWhereIsNullable($where, 'getNull', 'writeIsNull');
     }
 
     /**
@@ -254,18 +242,30 @@ class WhereWriter extends AbstractBaseWriter
      */
     protected function writeWhereIsNotNulls(Where $where)
     {
-        $isNotNulls = $where->getNotNull();
+        return $this->writeWhereIsNullable($where, 'getNotNull', 'writeIsNotNull');
+    }
+
+    /**
+     * @param Where  $where
+     * @param string $getMethod
+     * @param string $writeMethod
+     *
+     * @return array
+     */
+    protected function writeWhereIsNullable(Where $where, $getMethod, $writeMethod)
+    {
+        $collection = $where->$getMethod();
 
         array_walk(
-            $isNotNulls,
-            function (&$isNotNull) {
-                $isNotNull =
-                    "(".$this->columnWriter->writeColumn($isNotNull["subject"])
-                    .$this->writer->writeIsNotNull().")";
+            $collection,
+            function (&$collection) use ($writeMethod) {
+                $collection =
+                    "(".$this->columnWriter->writeColumn($collection["subject"])
+                    .$this->writer->$writeMethod().")";
             }
         );
 
-        return $isNotNulls;
+        return $collection;
     }
 
     /**
@@ -302,7 +302,7 @@ class WhereWriter extends AbstractBaseWriter
     }
 
     /**
-     * @param Where $where
+     * @param Where  $where
      * @param string $method
      * @param string $operation
      *
