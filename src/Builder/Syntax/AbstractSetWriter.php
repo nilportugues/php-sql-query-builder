@@ -33,7 +33,7 @@ abstract class AbstractSetWriter
 
     /**
      * @param $setClass
-     * @param $setOperation
+     * @param string $setOperation
      * @param $glue
      *
      * @return string

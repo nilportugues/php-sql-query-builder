@@ -83,7 +83,7 @@ class Column implements QueryPartInterface
     }
 
     /**
-     * @param string|Table $table
+     * @param string $table
      *
      * @return $this
      */
