@@ -98,12 +98,13 @@ class SelectWriter extends AbstractBaseWriter
                 }
             );
 
-            $columnList = implode(", ", $columns);
-        } else {
-            $columns    = $select->getColumns();
-            $column     = array_pop($columns);
-            $columnList = $column->getName();
+            return implode(", ", $columns);
         }
+        
+        $columns    = $select->getColumns();
+        $column     = array_pop($columns);
+        $columnList = $column->getName();
+
 
         return $columnList;
     }
