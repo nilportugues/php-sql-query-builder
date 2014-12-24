@@ -387,7 +387,7 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
-     * @param $queryPart
+     * @param string $queryPart
      */
     protected function createQueryObject($queryPart)
     {

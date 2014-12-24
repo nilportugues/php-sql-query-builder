@@ -35,7 +35,7 @@ class OrderBy
 
     /**
      * @param Column $column
-     * @param        $direction
+     * @param        string $direction
      */
     public function __construct(Column $column, $direction)
     {
