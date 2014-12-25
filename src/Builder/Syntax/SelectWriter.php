@@ -10,6 +10,7 @@
 
 namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
 
+use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
 use NilPortugues\SqlQueryBuilder\Manipulation\Select;
 use NilPortugues\SqlQueryBuilder\Syntax\Column;
 use NilPortugues\SqlQueryBuilder\Syntax\OrderBy;
@@ -219,29 +220,48 @@ class SelectWriter extends AbstractBaseWriter
      */
     public function writeSelectHaving(Select $select)
     {
-        $str = "";
+        $str         = "";
+        $havingArray = $select->getAllHavings();
 
-        if (count($havingArray = $select->getAllHavings()) > 0) {
+        if (count($havingArray) > 0) {
             $placeholder = $this->placeholderWriter;
             $writer      = $this->writer;
 
-            array_walk(
-                $havingArray,
-                function (&$having) use ($select, $writer, $placeholder) {
-
-                    $whereWriter = WriterFactory::createWhereWriter($writer, $placeholder);
-                    $clauses     = $whereWriter->writeWhereClauses($having);
-                    $having      = implode($this->writer->writeConjunction($select->getHavingOperator()), $clauses);
-                }
-            );
-
             $str       = "HAVING ";
             $separator = " " . $select->getHavingOperator() . " ";
+            $havingArray = $this->getHavingConditions($havingArray, $select, $writer, $placeholder);
 
             $str .= implode($separator, $havingArray);
         }
 
         return $str;
+    }
+
+    /**
+     * @param array             $havingArray
+     * @param Select            $select
+     * @param GenericBuilder    $writer
+     * @param PlaceholderWriter $placeholder
+     *
+     * @return mixed
+     */
+    protected function getHavingConditions(
+        array &$havingArray,
+        Select $select,
+        GenericBuilder $writer,
+        PlaceholderWriter $placeholder
+    ) {
+        array_walk(
+            $havingArray,
+            function (&$having) use ($select, $writer, $placeholder) {
+
+                $whereWriter = WriterFactory::createWhereWriter($writer, $placeholder);
+                $clauses     = $whereWriter->writeWhereClauses($having);
+                $having      = implode($this->writer->writeConjunction($select->getHavingOperator()), $clauses);
+            }
+        );
+
+        return $havingArray;
     }
 
     /**
@@ -287,7 +307,7 @@ class SelectWriter extends AbstractBaseWriter
      */
     protected function writeSelectLimit(Select $select)
     {
-        $mask  = $this->getStartingLimit($select) . $this->getLimitCount($select);
+        $mask = $this->getStartingLimit($select) . $this->getLimitCount($select);
 
         $limit = '';
 
