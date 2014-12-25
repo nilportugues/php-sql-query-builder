@@ -28,11 +28,6 @@ class Select extends AbstractBaseQuery
     /**
      * @var array
      */
-    protected $columns = [];
-
-    /**
-     * @var array
-     */
     protected $groupBy = [];
 
     /**
@@ -61,26 +56,6 @@ class Select extends AbstractBaseQuery
     protected $where;
 
     /**
-     * @var bool
-     */
-    protected $isCount = false;
-
-    /**
-     * @var array
-     */
-    protected $columnSelects = [];
-
-    /**
-     * @var array
-     */
-    protected $columnValues = [];
-
-    /**
-     * @var array
-     */
-    protected $columnFuncs = [];
-
-    /**
      * @var JoinQuery
      */
     protected $joinQuery;
@@ -95,15 +70,8 @@ class Select extends AbstractBaseQuery
             $this->setTable($table);
         }
 
-        if (!isset($columns)) {
-            $columns = array(Column::ALL);
-        }
-
-        if (count($columns)) {
-            $this->setColumns($columns);
-        }
-
-        $this->joinQuery = new JoinQuery($this);
+        $this->joinQuery   = new JoinQuery($this);
+        $this->columnQuery = new ColumnQuery($this, $this->joinQuery, $columns);
     }
 
     /**
@@ -254,14 +222,7 @@ class Select extends AbstractBaseQuery
      */
     public function getAllColumns()
     {
-        $columns = $this->getColumns();
-
-        foreach ($this->joinQuery->getJoins() as $join) {
-            $joinCols = $join->getAllColumns();
-            $columns  = array_merge($columns, $joinCols);
-        }
-
-        return $columns;
+        return $this->columnQuery->getAllColumns();
     }
 
     /**
@@ -270,11 +231,7 @@ class Select extends AbstractBaseQuery
      */
     public function getColumns()
     {
-        if (is_null($this->table)) {
-            throw new QueryException("No table specified for the Select instance");
-        }
-
-        return SyntaxFactory::createColumns($this->columns, $this->getTable());
+        return $this->columnQuery->getColumns();
     }
 
     /**
@@ -287,9 +244,7 @@ class Select extends AbstractBaseQuery
      */
     public function setColumns(array $columns)
     {
-        $this->columns = $columns;
-
-        return $this;
+        return $this->columnQuery->setColumns($columns);
     }
 
     /**
@@ -301,9 +256,7 @@ class Select extends AbstractBaseQuery
      */
     public function setSelectAsColumn(array $column)
     {
-        $this->columnSelects[] = $column;
-
-        return $this;
+        return $this->columnQuery->setSelectAsColumn($column);
     }
 
     /**
@@ -311,7 +264,7 @@ class Select extends AbstractBaseQuery
      */
     public function getColumnSelects()
     {
-        return $this->columnSelects;
+        return $this->columnQuery->getColumnSelects();
     }
 
     /**
@@ -324,9 +277,7 @@ class Select extends AbstractBaseQuery
      */
     public function setValueAsColumn($value, $alias)
     {
-        $this->columnValues[$alias] = $value;
-
-        return $this;
+        return $this->columnQuery->setValueAsColumn($value, $alias);
     }
 
     /**
@@ -334,7 +285,7 @@ class Select extends AbstractBaseQuery
      */
     public function getColumnValues()
     {
-        return $this->columnValues;
+        return $this->columnQuery->getColumnValues();
     }
 
     /**
@@ -348,9 +299,7 @@ class Select extends AbstractBaseQuery
      */
     public function setFunctionAsColumn($funcName, array $arguments, $alias)
     {
-        $this->columnFuncs[$alias] = ['func' => $funcName, 'args' => $arguments];
-
-        return $this;
+        return $this->columnQuery->setFunctionAsColumn($funcName, $arguments, $alias);
     }
 
     /**
@@ -358,7 +307,7 @@ class Select extends AbstractBaseQuery
      */
     public function getColumnFuncs()
     {
-        return $this->columnFuncs;
+        return $this->columnQuery->getColumnFuncs();
     }
 
     /**
@@ -408,18 +357,7 @@ class Select extends AbstractBaseQuery
      */
     public function count($columnName = '*', $alias = '')
     {
-        $count = 'COUNT(';
-        $count .= ($columnName !== '*') ? "$this->table.{$columnName}" : '*';
-        $count .= ')';
-
-        if (isset($alias) && strlen($alias)>0) {
-            $count .= " AS '{$alias}'";
-        }
-
-        $this->columns = array($count);
-        $this->isCount = true;
-
-        return $this;
+        return $this->columnQuery->count($columnName, $alias);
     }
 
     /**
@@ -427,12 +365,12 @@ class Select extends AbstractBaseQuery
      */
     public function isCount()
     {
-        return $this->isCount;
+        return $this->columnQuery->isCount();
     }
 
     /**
      * @param integer $start
-     * @param $count
+     * @param         $count
      *
      * @return $this
      */
@@ -514,7 +452,7 @@ class Select extends AbstractBaseQuery
 
         if (!in_array($havingOperator, array(Where::CONJUNCTION_AND, Where::CONJUNCTION_OR))) {
             throw new QueryException(
-                "Invalid conjunction specified, must be one of AND or OR, but '".$havingOperator."' was found."
+                "Invalid conjunction specified, must be one of AND or OR, but '" . $havingOperator . "' was found."
             );
         }
 
