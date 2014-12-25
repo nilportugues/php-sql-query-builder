@@ -118,6 +118,7 @@ class SelectWriter extends AbstractBaseWriter
                 $column = $this->columnWriter->writeColumnWithAlias($column);
             }
         );
+
         return $columns;
     }
 

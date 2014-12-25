@@ -42,22 +42,6 @@ class ColumnWriter
     }
 
     /**
-     * @param Column $column
-     *
-     * @return string
-     */
-    public function writeColumn(Column $column)
-    {
-        $alias = $column->getTable()->getAlias();
-        $table = ($alias) ? $this->writer->writeTableAlias($alias) : $this->writer->writeTable($column->getTable());
-
-        $columnString = (empty($table)) ? '' : "{$table}.";
-        $columnString .= $this->writer->writeColumnName($column);
-
-        return $columnString;
-    }
-
-    /**
      * @param Select $select
      *
      * @return array
@@ -68,26 +52,36 @@ class ColumnWriter
 
         if (!empty($selectAsColumns)) {
             $selectWriter = WriterFactory::createSelectWriter($this->writer, $this->placeholderWriter);
-
-            array_walk(
-                $selectAsColumns,
-                function (&$column) use (&$selectWriter) {
-                    $keys = array_keys($column);
-                    $key = array_pop($keys);
-
-                    $values = array_values($column);
-
-                    $value  = $values[0];
-
-                    if (is_numeric($key)) {
-                        /** @var Column $value */
-                        $key = $this->writer->writeTableName($value->getTable());
-                    }
-
-                    $column = $selectWriter->selectToColumn($key, $value);
-                }
-            );
+            $selectAsColumns = $this->selectColumnToQuery($selectAsColumns, $selectWriter);
         }
+
+        return $selectAsColumns;
+    }
+
+    /**
+     * @param array        $selectAsColumns
+     * @param SelectWriter $selectWriter
+     *
+     * @return mixed
+     */
+    protected function selectColumnToQuery(array &$selectAsColumns, SelectWriter $selectWriter)
+    {
+        array_walk(
+            $selectAsColumns,
+            function (&$column) use (&$selectWriter) {
+                $keys = array_keys($column);
+                $key  = array_pop($keys);
+
+                $values = array_values($column);
+                $value  = $values[0];
+
+                if (is_numeric($key)) {
+                    /** @var Column $value */
+                    $key = $this->writer->writeTableName($value->getTable());
+                }
+                $column = $selectWriter->selectToColumn($key, $value);
+            }
+        );
 
         return $selectAsColumns;
     }
@@ -149,5 +143,21 @@ class ColumnWriter
         }
 
         return $this->writeColumn($column);
+    }
+
+    /**
+     * @param Column $column
+     *
+     * @return string
+     */
+    public function writeColumn(Column $column)
+    {
+        $alias = $column->getTable()->getAlias();
+        $table = ($alias) ? $this->writer->writeTableAlias($alias) : $this->writer->writeTable($column->getTable());
+
+        $columnString = (empty($table)) ? '' : "{$table}.";
+        $columnString .= $this->writer->writeColumnName($column);
+
+        return $columnString;
     }
 }
