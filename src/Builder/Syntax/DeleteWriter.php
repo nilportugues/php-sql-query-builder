@@ -55,11 +55,7 @@ class DeleteWriter
         }
 
         AbstractBaseWriter::writeWhereCondition($delete, $this->writer, $this->placeholderWriter, $parts);
-
-        if (!is_null($delete->getLimitStart())) {
-            $start   = $this->placeholderWriter->add($delete->getLimitStart());
-            $parts[] = "LIMIT {$start}";
-        }
+        AbstractBaseWriter::writeLimitCondition($delete, $this->placeholderWriter, $parts);
 
         return $comment.implode(" ", $parts);
     }

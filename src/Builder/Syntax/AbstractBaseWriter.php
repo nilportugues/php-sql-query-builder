@@ -46,16 +46,29 @@ abstract class AbstractBaseWriter
     }
 
     /**
-     * @param       $class
-     * @param       $writer
-     * @param       $placeholderWriter
-     * @param array $parts
+     * @param                   $class
+     * @param                   $writer
+     * @param PlaceholderWriter $placeholderWriter
+     * @param array             $parts
      */
-    public static function writeWhereCondition($class, $writer, $placeholderWriter, array &$parts)
+    public static function writeWhereCondition($class, $writer, PlaceholderWriter $placeholderWriter, array &$parts)
     {
         if (!is_null($class->getWhere())) {
             $whereWriter = WriterFactory::createWhereWriter($writer, $placeholderWriter);
             $parts[]     = "WHERE {$whereWriter->writeWhere($class->getWhere())}";
+        }
+    }
+
+    /**
+     * @param                   $class
+     * @param PlaceholderWriter $placeholderWriter
+     * @param array             $parts
+     */
+    public static function writeLimitCondition($class, PlaceholderWriter $placeholderWriter, array &$parts)
+    {
+        if (!is_null($class->getLimitStart())) {
+            $start   = $placeholderWriter->add($class->getLimitStart());
+            $parts[] = "LIMIT {$start}";
         }
     }
 }

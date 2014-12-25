@@ -43,11 +43,7 @@ class UpdateWriter extends AbstractBaseWriter
         );
 
         AbstractBaseWriter::writeWhereCondition($update, $this->writer, $this->placeholderWriter, $parts);
-
-        if (!is_null($update->getLimitStart())) {
-            $start   = $this->placeholderWriter->add($update->getLimitStart());
-            $parts[] = "LIMIT {$start}";
-        }
+        AbstractBaseWriter::writeLimitCondition($update, $this->placeholderWriter, $parts);
 
         return $comment.implode(" ", $parts);
     }
