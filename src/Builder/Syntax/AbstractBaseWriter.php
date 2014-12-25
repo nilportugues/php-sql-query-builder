@@ -62,7 +62,7 @@ abstract class AbstractBaseWriter
 
     /**
      * @param                   $class
-     * @param                   $writer
+     * @param                   GenericBuilder $writer
      * @param PlaceholderWriter $placeholderWriter
      * @param array             $parts
      */
