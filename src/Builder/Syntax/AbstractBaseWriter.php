@@ -44,4 +44,18 @@ abstract class AbstractBaseWriter
 
         $this->columnWriter = WriterFactory::createColumnWriter($writer, $placeholder);
     }
+
+    /**
+     * @param       $class
+     * @param       $writer
+     * @param       $placeholderWriter
+     * @param array $parts
+     */
+    public static function writeWhereCondition($class, $writer, $placeholderWriter, array &$parts)
+    {
+        if (!is_null($class->getWhere())) {
+            $whereWriter = WriterFactory::createWhereWriter($writer, $placeholderWriter);
+            $parts[]     = "WHERE {$whereWriter->writeWhere($class->getWhere())}";
+        }
+    }
 }

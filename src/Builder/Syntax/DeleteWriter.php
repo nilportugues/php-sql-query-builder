@@ -54,10 +54,7 @@ class DeleteWriter
             $comment = $delete->getComment();
         }
 
-        if ($delete->getWhere()) {
-            $whereWriter = WriterFactory::createWhereWriter($this->writer, $this->placeholderWriter);
-            $parts[]     = "WHERE {$whereWriter->writeWhere($delete->getWhere())}";
-        }
+        AbstractBaseWriter::writeWhereCondition($delete, $this->writer, $this->placeholderWriter, $parts);
 
         if (!is_null($delete->getLimitStart())) {
             $start   = $this->placeholderWriter->add($delete->getLimitStart());

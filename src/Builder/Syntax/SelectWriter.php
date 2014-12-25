@@ -291,6 +291,7 @@ class SelectWriter extends AbstractBaseWriter
     protected function writeSelectLimit(Select $select)
     {
         $mask  = $this->getStartingLimit($select) . $this->getLimitCount($select);
+
         $limit = '';
 
         if ($mask !== "00") {
@@ -310,7 +311,7 @@ class SelectWriter extends AbstractBaseWriter
      */
     protected function getStartingLimit(Select $select)
     {
-        return (null === $select->getLimitStart() || 0 === $select->getLimitStart()) ? '0' : '1';
+        return (null === $select->getLimitStart() || 0 == $select->getLimitStart()) ? '0' : '1';
     }
 
     /**

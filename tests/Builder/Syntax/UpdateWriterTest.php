@@ -112,7 +112,7 @@ SQL;
             ->where()
             ->equals('user_id', 1);
 
-        $expected = 'UPDATE user SET  user.user_id = :v1, user.name = :v2, user.contact = :v3  WHERE (user.user_id = :v4)';
+        $expected = 'UPDATE user SET  user.user_id = :v1, user.name = :v2, user.contact = :v3 WHERE (user.user_id = :v4)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
         $expected = array(':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com', ':v4' => 1);
@@ -132,7 +132,7 @@ SQL;
 
         $this->query->limit(1);
 
-        $expected = 'UPDATE user SET  user.user_id = :v1, user.name = :v2, user.contact = :v3  WHERE (user.user_id = :v4) LIMIT :v5';
+        $expected = 'UPDATE user SET  user.user_id = :v1, user.name = :v2, user.contact = :v3 WHERE (user.user_id = :v4) LIMIT :v5';
         $this->assertSame($expected, $this->writer->write($this->query));
 
         $expected = array(':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com', ':v4' => 1, ':v5' => 1);

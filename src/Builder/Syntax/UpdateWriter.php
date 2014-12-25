@@ -42,10 +42,7 @@ class UpdateWriter extends AbstractBaseWriter
             $this->writeUpdateValues($update),
         );
 
-        if (!is_null($update->getWhere())) {
-            $whereWriter = WriterFactory::createWhereWriter($this->writer, $this->placeholderWriter);
-            $parts[]     = " WHERE {$whereWriter->writeWhere($update->getWhere())}";
-        }
+        AbstractBaseWriter::writeWhereCondition($update, $this->writer, $this->placeholderWriter, $parts);
 
         if (!is_null($update->getLimitStart())) {
             $start   = $this->placeholderWriter->add($update->getLimitStart());

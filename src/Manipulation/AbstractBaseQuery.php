@@ -235,7 +235,7 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
      */
     public function getLimitCount()
     {
-        return (int) $this->limitCount;
+        return $this->limitCount;
     }
 
     /**
@@ -243,7 +243,7 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
      */
     public function getLimitStart()
     {
-        return (int) $this->limitStart;
+        return $this->limitStart;
     }
 
     /**
