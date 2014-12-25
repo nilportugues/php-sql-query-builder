@@ -52,8 +52,16 @@ class SelectWriter extends AbstractBaseWriter
             return $this->writer->writeJoin($select);
         }
 
-        $comment = AbstractBaseWriter::writeQueryComment($select);
+        return $this->writeSelectQuery($select);
+    }
 
+    /**
+     * @param Select $select
+     *
+     * @return string
+     */
+    protected function writeSelectQuery(Select $select)
+    {
         $parts = ["SELECT"];
 
         if ($select->isDistinct()) {
@@ -69,7 +77,7 @@ class SelectWriter extends AbstractBaseWriter
         $this->writeSelectOrderBy($select, $parts);
         $this->writeSelectLimit($select, $parts);
 
-        return $comment . implode(" ", array_filter($parts));
+        return AbstractBaseWriter::writeQueryComment($select) . implode(" ", array_filter($parts));
     }
 
     /**
