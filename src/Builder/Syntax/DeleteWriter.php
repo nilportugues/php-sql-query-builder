@@ -49,14 +49,11 @@ class DeleteWriter
         $table = $this->writer->writeTable($delete->getTable());
         $parts = array("DELETE FROM {$table}");
 
-        $comment = '';
-        if ('' !== $delete->getComment()) {
-            $comment = $delete->getComment();
-        }
-
         AbstractBaseWriter::writeWhereCondition($delete, $this->writer, $this->placeholderWriter, $parts);
         AbstractBaseWriter::writeLimitCondition($delete, $this->placeholderWriter, $parts);
+        $comment = AbstractBaseWriter::writeQueryComment($delete);
 
         return $comment.implode(" ", $parts);
     }
+
 }

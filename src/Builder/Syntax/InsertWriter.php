@@ -49,35 +49,55 @@ class InsertWriter
     public function write(Insert $insert)
     {
         $columns = $insert->getColumns();
-        $values  = $insert->getValues();
 
         if (empty($columns)) {
             throw new QueryException('No columns were defined for the current schema.');
         }
 
-        array_walk(
-            $columns,
-            function (&$column) {
-                $column = $this->columnWriter->writeColumn($column);
-            }
-        );
-
-        array_walk(
-            $values,
-            function (&$value) {
-                $value = $this->writer->writePlaceholderValue($value);
-            }
-        );
-
-        $columns = implode(", ", $columns);
-        $values  = implode(", ", $values);
+        $columns = $this->writeQueryColumns($columns);
+        $values = $this->writeQueryValues($insert->getValues());
         $table   = $this->writer->writeTable($insert->getTable());
-
-        $comment = '';
-        if ('' !== $insert->getComment()) {
-            $comment = $insert->getComment();
-        }
+        $comment = AbstractBaseWriter::writeQueryComment($insert);
 
         return $comment."INSERT INTO {$table} ($columns) VALUES ($values)";
+    }
+
+    /**
+     * @param $columns
+     *
+     * @return string
+     */
+    protected function writeQueryColumns($columns)
+    {
+        return $this->writeCommaSeparatedValues($columns, $this->columnWriter, 'writeColumn');
+    }
+
+    /**
+     * @param $collection
+     * @param $writer
+     * @param $method
+     *
+     * @return string
+     */
+    protected function writeCommaSeparatedValues($collection, $writer, $method)
+    {
+        array_walk(
+            $collection,
+            function (&$data) use ($writer, $method) {
+                $data = $writer->$method($data);
+            }
+        );
+
+        return implode(", ", $collection);
+    }
+
+    /**
+     * @param $values
+     *
+     * @return string
+     */
+    protected function writeQueryValues($values)
+    {
+        return $this->writeCommaSeparatedValues($values, $this->writer, 'writePlaceholderValue');
     }
 }

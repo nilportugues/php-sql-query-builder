@@ -32,11 +32,6 @@ class UpdateWriter extends AbstractBaseWriter
             throw new QueryException('No values to update in Update query.');
         }
 
-        $comment = '';
-        if ('' !== $update->getComment()) {
-            $comment = $update->getComment();
-        }
-
         $parts = array(
             "UPDATE ".$this->writer->writeTable($update->getTable())." SET ",
             $this->writeUpdateValues($update),
@@ -44,6 +39,7 @@ class UpdateWriter extends AbstractBaseWriter
 
         AbstractBaseWriter::writeWhereCondition($update, $this->writer, $this->placeholderWriter, $parts);
         AbstractBaseWriter::writeLimitCondition($update, $this->placeholderWriter, $parts);
+        $comment = AbstractBaseWriter::writeQueryComment($update);
 
         return $comment.implode(" ", $parts);
     }

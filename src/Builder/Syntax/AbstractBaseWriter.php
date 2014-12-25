@@ -46,6 +46,21 @@ abstract class AbstractBaseWriter
     }
 
     /**
+     * @param $class
+     *
+     * @return string
+     */
+    public static function writeQueryComment($class)
+    {
+        $comment = '';
+        if ('' !== $class->getComment()) {
+            $comment = $class->getComment();
+        }
+
+        return $comment;
+    }
+
+    /**
      * @param                   $class
      * @param                   $writer
      * @param PlaceholderWriter $placeholderWriter

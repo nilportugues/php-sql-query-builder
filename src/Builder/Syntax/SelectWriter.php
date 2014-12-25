@@ -51,10 +51,7 @@ class SelectWriter extends AbstractBaseWriter
             return $this->writer->writeJoin($select);
         }
 
-        $comment = '';
-        if ('' !== $select->getComment()) {
-            $comment = $select->getComment();
-        }
+        $comment = AbstractBaseWriter::writeQueryComment($select);
 
         $parts = ["SELECT"];
 
