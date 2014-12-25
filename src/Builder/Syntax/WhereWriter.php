@@ -17,8 +17,8 @@ class WhereWriter extends AbstractBaseWriter
      * @var array
      */
     protected $matchMode = [
-        'natural' => "(MATCH({{columnNames}}) AGAINST({{columnValues}}))",
-        'boolean' => "(MATCH({{columnNames}}) AGAINST({{columnValues}} IN BOOLEAN MODE))",
+        'natural'         => "(MATCH({{columnNames}}) AGAINST({{columnValues}}))",
+        'boolean'         => "(MATCH({{columnNames}}) AGAINST({{columnValues}} IN BOOLEAN MODE))",
         'query_expansion' => "(MATCH({{columnNames}}) AGAINST({{columnValues}} WITH QUERY EXPANSION))"
     ];
 
@@ -55,17 +55,10 @@ class WhereWriter extends AbstractBaseWriter
         $isNotNulls  = $this->writeWhereIsNotNulls($where);
         $booleans    = $this->writeWhereBooleans($where);
         $exists      = $this->writeExists($where);
-        $notExists      = $this->writeNotExists($where);
-        $subWheres   = $where->getSubWheres();
+        $notExists   = $this->writeNotExists($where);
+        $subWheres   = $this->writeSubWheres($where);
 
-        array_walk(
-            $subWheres,
-            function (&$subWhere) {
-                $subWhere = "({$this->writeWhere($subWhere)})";
-            }
-        );
-
-        $clauses = array_merge(
+        return array_merge(
             $matches,
             $ins,
             $notIns,
@@ -78,8 +71,6 @@ class WhereWriter extends AbstractBaseWriter
             $notExists,
             $subWheres
         );
-
-        return $clauses;
     }
 
     /**
@@ -184,12 +175,12 @@ class WhereWriter extends AbstractBaseWriter
             function (&$between) {
 
                 $between = "("
-                    .$this->columnWriter->writeColumn($between["subject"])
-                    ." BETWEEN "
-                    .$this->writer->writePlaceholderValue($between["a"])
-                    ." AND "
-                    .$this->writer->writePlaceholderValue($between["b"])
-                    .")";
+                    . $this->columnWriter->writeColumn($between["subject"])
+                    . " BETWEEN "
+                    . $this->writer->writePlaceholderValue($between["a"])
+                    . " AND "
+                    . $this->writer->writePlaceholderValue($between["b"])
+                    . ")";
             }
         );
 
@@ -230,7 +221,7 @@ class WhereWriter extends AbstractBaseWriter
             $str = $this->columnWriter->writeColumn($subject);
         } elseif ($subject instanceof Select) {
             $selectWriter = WriterFactory::createSelectWriter($this->writer, $this->placeholderWriter);
-            $str          = '('.$selectWriter->write($subject).')';
+            $str          = '(' . $selectWriter->write($subject) . ')';
         } else {
             $str = $this->writer->writePlaceholderValue($subject);
         }
@@ -263,8 +254,8 @@ class WhereWriter extends AbstractBaseWriter
             $collection,
             function (&$collection) use ($writeMethod) {
                 $collection =
-                    "(".$this->columnWriter->writeColumn($collection["subject"])
-                    .$this->writer->$writeMethod().")";
+                    "(" . $this->columnWriter->writeColumn($collection["subject"])
+                    . $this->writer->$writeMethod() . ")";
             }
         );
 
@@ -297,7 +288,7 @@ class WhereWriter extends AbstractBaseWriter
                 $column = $this->columnWriter->writeColumn($boolean["subject"]);
                 $value  = $this->placeholderWriter->add($boolean["value"]);
 
-                $boolean = "(ISNULL(".$column.", 0) = ".$value.")";
+                $boolean = "(ISNULL(" . $column . ", 0) = " . $value . ")";
             }
         );
 
@@ -326,7 +317,7 @@ class WhereWriter extends AbstractBaseWriter
         $exists = [];
 
         foreach ($where->$method() as $select) {
-            $exists[] = "$operation (".$this->writer->write($select, false).")";
+            $exists[] = "$operation (" . $this->writer->write($select, false) . ")";
         }
 
         return $exists;
@@ -340,5 +331,24 @@ class WhereWriter extends AbstractBaseWriter
     protected function writeNotExists(Where $where)
     {
         return $this->writeExistence($where, 'getNotExists', 'NOT EXISTS');
+    }
+
+    /**
+     * @param Where $where
+     *
+     * @return array
+     */
+    protected function writeSubWheres(Where $where)
+    {
+        $subWheres = $where->getSubWheres();
+
+        array_walk(
+            $subWheres,
+            function (&$subWhere) {
+                $subWhere = "({$this->writeWhere($subWhere)})";
+            }
+        );
+
+        return $subWheres;
     }
 }
