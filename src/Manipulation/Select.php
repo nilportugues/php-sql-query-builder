@@ -184,7 +184,7 @@ class Select extends AbstractBaseQuery
      *
      * @param bool $isJoin
      *
-     * @return $this
+     * @return JoinQuery
      */
     public function isJoin($isJoin = true)
     {

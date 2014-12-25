@@ -94,7 +94,7 @@ class WhereWriter extends AbstractBaseWriter
     /**
      * @param $columns
      *
-     * @return array
+     * @return string
      */
     protected function getColumnNames($columns)
     {

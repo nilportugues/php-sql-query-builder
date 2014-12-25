@@ -82,7 +82,7 @@ class SelectWriter extends AbstractBaseWriter
 
     /**
      * @param Select $select
-     * @param array  $parts
+     * @param string[]  $parts
      *
      * @return $this
      */

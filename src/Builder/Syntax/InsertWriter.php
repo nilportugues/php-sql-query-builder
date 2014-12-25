@@ -75,7 +75,7 @@ class InsertWriter
     /**
      * @param $collection
      * @param $writer
-     * @param $method
+     * @param string $method
      *
      * @return string
      */
