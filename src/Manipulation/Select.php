@@ -238,9 +238,9 @@ class Select extends AbstractBaseQuery
      * Sets the column names used to write the SELECT statement.
      * If key is set, key is the column's alias. Value is always the column names.
      *
-     * @param array $columns
+     * @param string[] $columns
      *
-     * @return $this
+     * @return ColumnQuery
      */
     public function setColumns(array $columns)
     {
@@ -252,7 +252,7 @@ class Select extends AbstractBaseQuery
      *
      * @param array $column
      *
-     * @return $this
+     * @return ColumnQuery
      */
     public function setSelectAsColumn(array $column)
     {
@@ -273,7 +273,7 @@ class Select extends AbstractBaseQuery
      * @param string $value
      * @param string $alias
      *
-     * @return $this
+     * @return ColumnQuery
      */
     public function setValueAsColumn($value, $alias)
     {
@@ -295,7 +295,7 @@ class Select extends AbstractBaseQuery
      * @param string[] $arguments
      * @param string   $alias
      *
-     * @return $this
+     * @return ColumnQuery
      */
     public function setFunctionAsColumn($funcName, array $arguments, $alias)
     {
@@ -353,7 +353,7 @@ class Select extends AbstractBaseQuery
      * @param string $columnName
      * @param string $alias
      *
-     * @return $this
+     * @return ColumnQuery
      */
     public function count($columnName = '*', $alias = '')
     {

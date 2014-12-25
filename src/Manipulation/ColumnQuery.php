@@ -78,7 +78,7 @@ class ColumnQuery
      * @param     $start
      * @param int $count
      *
-     * @return $this
+     * @return Select
      */
     public function limit($start, $count = 0)
     {
@@ -100,7 +100,7 @@ class ColumnQuery
      * @param string $direction
      * @param null   $table
      *
-     * @return $this
+     * @return Select
      */
     public function orderBy($column, $direction = OrderBy::ASC, $table = null)
     {
@@ -110,7 +110,7 @@ class ColumnQuery
     /**
      * @param string[] $columns
      *
-     * @return $this
+     * @return Select
      */
     public function groupBy(array $columns)
     {
