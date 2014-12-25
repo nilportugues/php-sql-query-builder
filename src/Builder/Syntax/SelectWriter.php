@@ -60,26 +60,25 @@ class SelectWriter extends AbstractBaseWriter
             $parts[] = "DISTINCT";
         }
 
-        $parts[] = $this->writeSelectColumns($select);
-        $parts[] = $this->writeSelectFrom($select);
-        $parts[] = $this->writeSelectJoins($select);
-        $parts[] = $this->writeSelectWhere($select);
-        $parts[] = $this->writeSelectGroupBy($select);
-        $parts[] = $this->writeSelectHaving($select);
-        $parts[] = $this->writeSelectOrderBy($select);
-        $parts[] = $this->writeSelectLimit($select);
+        $this->writeSelectColumns($select, $parts);
+        $this->writeSelectFrom($select, $parts);
+        $this->writeSelectJoins($select, $parts);
+        $this->writeSelectWhere($select, $parts);
+        $this->writeSelectGroupBy($select, $parts);
+        $this->writeSelectHaving($select, $parts);
+        $this->writeSelectOrderBy($select, $parts);
+        $this->writeSelectLimit($select, $parts);
 
-        $parts = array_filter($parts);
-
-        return $comment . implode(" ", $parts);
+        return $comment . implode(" ", array_filter($parts));
     }
 
     /**
      * @param Select $select
+     * @param array  $parts
      *
-     * @return string
+     * @return $this
      */
-    public function writeSelectColumns(Select $select)
+    public function writeSelectColumns(Select $select, array &$parts)
     {
         if ($select->isCount() === false) {
 
@@ -90,14 +89,16 @@ class SelectWriter extends AbstractBaseWriter
                 $this->columnWriter->writeFuncAsColumns($select)
             );
 
-            return implode(", ", $columns);
+            $parts = array_merge($parts, [implode(", ", $columns)]);
+            return $this;
         }
 
         $columns    = $select->getColumns();
         $column     = array_pop($columns);
         $columnList = $column->getName();
 
-        return $columnList;
+        $parts = array_merge($parts, [$columnList]);
+        return $this;
     }
 
     /**
@@ -124,22 +125,34 @@ class SelectWriter extends AbstractBaseWriter
 
     /**
      * @param Select $select
+     * @param array  $parts
      *
-     * @return string
+     * @return $this
      */
-    public function writeSelectFrom(Select $select)
+    public function writeSelectFrom(Select $select, array &$parts)
     {
-        return "FROM " . $this->writer->writeTableWithAlias($select->getTable());
+        $parts = array_merge(
+            $parts,
+            ["FROM " . $this->writer->writeTableWithAlias($select->getTable())]
+        );
+
+        return $this;
     }
 
     /**
      * @param Select $select
+     * @param array  $parts
      *
-     * @return string
+     * @return $this
      */
-    public function writeSelectJoins(Select $select)
+    public function writeSelectJoins(Select $select, array &$parts)
     {
-        return $this->writeSelectAggrupation($select, $this->writer, 'getAllJoins', 'writeJoin', " ");
+        $parts = array_merge(
+            $parts,
+            [$this->writeSelectAggrupation($select, $this->writer, 'getAllJoins', 'writeJoin', " ")]
+        );
+
+        return $this;
     }
 
     /**
@@ -173,10 +186,11 @@ class SelectWriter extends AbstractBaseWriter
 
     /**
      * @param Select $select
+     * @param array  $parts
      *
-     * @return string
+     * @return $this
      */
-    public function writeSelectWhere(Select $select)
+    public function writeSelectWhere(Select $select, array &$parts)
     {
         $str    = "";
         $wheres = $this->writeSelectWheres($select->getAllWheres());
@@ -189,7 +203,9 @@ class SelectWriter extends AbstractBaseWriter
             $str .= implode($separator, $wheres);
         }
 
-        return $str;
+        $parts = array_merge($parts, [$str]);
+
+        return $this;
     }
 
     /**
@@ -214,12 +230,13 @@ class SelectWriter extends AbstractBaseWriter
 
     /**
      * @param Select $select
+     * @param array  $parts
      *
-     * @return string
+     * @return $this
      */
-    public function writeSelectGroupBy(Select $select)
+    public function writeSelectGroupBy(Select $select, array &$parts)
     {
-        return $this->writeSelectAggrupation(
+        $groupBy = $this->writeSelectAggrupation(
             $select,
             $this->columnWriter,
             'getGroupBy',
@@ -227,14 +244,19 @@ class SelectWriter extends AbstractBaseWriter
             ", ",
             "GROUP BY "
         );
+
+        $parts = array_merge($parts, [$groupBy]);
+
+        return $this;
     }
 
     /**
      * @param Select $select
+     * @param array  $parts
      *
-     * @return string
+     * @return $this
      */
-    public function writeSelectHaving(Select $select)
+    public function writeSelectHaving(Select $select, array &$parts)
     {
         $str         = "";
         $havingArray = $select->getAllHavings();
@@ -250,7 +272,9 @@ class SelectWriter extends AbstractBaseWriter
             $str .= implode($separator, $havingArray);
         }
 
-        return $str;
+        $parts = array_merge($parts, [$str]);
+
+        return $this;
     }
 
     /**
@@ -282,10 +306,11 @@ class SelectWriter extends AbstractBaseWriter
 
     /**
      * @param Select $select
+     * @param array  $parts
      *
-     * @return string
+     * @return $this
      */
-    protected function writeSelectOrderBy(Select $select)
+    protected function writeSelectOrderBy(Select $select, array &$parts)
     {
         $str = "";
         if (count($select->getAllOrderBy())) {
@@ -301,7 +326,9 @@ class SelectWriter extends AbstractBaseWriter
             $str .= implode(", ", $orderByArray);
         }
 
-        return $str;
+        $parts = array_merge($parts, [$str]);
+
+        return $this;
     }
 
     /**
@@ -318,10 +345,11 @@ class SelectWriter extends AbstractBaseWriter
 
     /**
      * @param Select $select
+     * @param array  $parts
      *
-     * @return string
+     * @return $this
      */
-    protected function writeSelectLimit(Select $select)
+    protected function writeSelectLimit(Select $select, array &$parts)
     {
         $mask = $this->getStartingLimit($select) . $this->getLimitCount($select);
 
@@ -334,7 +362,9 @@ class SelectWriter extends AbstractBaseWriter
             $limit = "LIMIT {$start}, {$count}";
         }
 
-        return $limit;
+        $parts = array_merge($parts, [$limit]);
+
+        return $this;
     }
 
     /**

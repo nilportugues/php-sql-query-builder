@@ -102,7 +102,7 @@ class WhereWriter extends AbstractBaseWriter
         foreach ($columns as &$column) {
             $columnNames[] = $this->columnWriter->writeColumn($column);
         }
-        
+
         return implode(', ', $columnNames);
     }
 
