@@ -82,18 +82,12 @@ class SelectWriter extends AbstractBaseWriter
     public function writeSelectColumns(Select $select)
     {
         if ($select->isCount() === false) {
-            $tableColumns    = $select->getAllColumns();
-            $selectAsColumns = $this->columnWriter->writeSelectsAsColumns($select);
-            $valueAsColumns  = $this->columnWriter->writeValueAsColumns($select);
-            $funcAsColumns   = $this->columnWriter->writeFuncAsColumns($select);
 
-            $columns = array_merge($tableColumns, $selectAsColumns, $valueAsColumns, $funcAsColumns);
-
-            array_walk(
-                $columns,
-                function (&$column) {
-                    $column = $this->columnWriter->writeColumnWithAlias($column);
-                }
+            $columns = $this->writeColumnAlias(
+                $select->getAllColumns(),
+                $this->columnWriter->writeSelectsAsColumns($select),
+                $this->columnWriter->writeValueAsColumns($select),
+                $this->columnWriter->writeFuncAsColumns($select)
             );
 
             return implode(", ", $columns);
@@ -104,6 +98,27 @@ class SelectWriter extends AbstractBaseWriter
         $columnList = $column->getName();
 
         return $columnList;
+    }
+
+    /**
+     * @param $tableColumns
+     * @param $selectAsColumns
+     * @param $valueAsColumns
+     * @param $funcAsColumns
+     *
+     * @return array
+     */
+    protected function writeColumnAlias($tableColumns, $selectAsColumns, $valueAsColumns, $funcAsColumns)
+    {
+        $columns = array_merge($tableColumns, $selectAsColumns, $valueAsColumns, $funcAsColumns);
+
+        array_walk(
+            $columns,
+            function (&$column) {
+                $column = $this->columnWriter->writeColumnWithAlias($column);
+            }
+        );
+        return $columns;
     }
 
     /**
@@ -227,8 +242,8 @@ class SelectWriter extends AbstractBaseWriter
             $placeholder = $this->placeholderWriter;
             $writer      = $this->writer;
 
-            $str       = "HAVING ";
-            $separator = " " . $select->getHavingOperator() . " ";
+            $str         = "HAVING ";
+            $separator   = " " . $select->getHavingOperator() . " ";
             $havingArray = $this->getHavingConditions($havingArray, $select, $writer, $placeholder);
 
             $str .= implode($separator, $havingArray);
