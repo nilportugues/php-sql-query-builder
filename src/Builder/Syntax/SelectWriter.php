@@ -98,6 +98,7 @@ class SelectWriter extends AbstractBaseWriter
             );
 
             $parts = array_merge($parts, [implode(", ", $columns)]);
+
             return $this;
         }
 
@@ -106,6 +107,7 @@ class SelectWriter extends AbstractBaseWriter
         $columnList = $column->getName();
 
         $parts = array_merge($parts, [$columnList]);
+
         return $this;
     }
 

@@ -217,20 +217,6 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     }
 
     /**
-     * @return array
-     */
-    public function getAllOrderBy()
-    {
-        $order = $this->orderBy;
-
-        foreach ($this->joins as $join) {
-            $order = array_merge($order, $join->getAllOrderBy());
-        }
-
-        return $order;
-    }
-
-    /**
      * @return int
      */
     public function getLimitCount()

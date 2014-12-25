@@ -20,20 +20,10 @@ use NilPortugues\SqlQueryBuilder\Syntax\Where;
  */
 class Select extends AbstractBaseQuery
 {
-    const JOIN_LEFT  = 'LEFT';
-    const JOIN_RIGHT = 'RIGHT';
-    const JOIN_INNER = 'INNER';
-    const JOIN_CROSS = 'CROSS';
-
     /**
      * @var Table
      */
     protected $table;
-
-    /**
-     * @var Where
-     */
-    protected $joinCondition;
 
     /**
      * @var array
@@ -49,16 +39,6 @@ class Select extends AbstractBaseQuery
      * @var string
      */
     protected $camelCaseTableName = "";
-
-    /**
-     * @var bool
-     */
-    protected $isJoin = false;
-
-    /**
-     * @var string
-     */
-    protected $joinType;
 
     /**
      * @var Where
@@ -101,6 +81,11 @@ class Select extends AbstractBaseQuery
     protected $columnFuncs = [];
 
     /**
+     * @var JoinQuery
+     */
+    protected $joinQuery;
+
+    /**
      * @param string $table
      * @param array  $columns
      */
@@ -117,6 +102,8 @@ class Select extends AbstractBaseQuery
         if (count($columns)) {
             $this->setColumns($columns);
         }
+
+        $this->joinQuery = new JoinQuery($this);
     }
 
     /**
@@ -148,7 +135,7 @@ class Select extends AbstractBaseQuery
      */
     public function leftJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
     {
-        return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_LEFT);
+        return $this->joinQuery->leftJoin($table, $selfColumn, $refColumn, $columns);
     }
 
     /**
@@ -167,14 +154,7 @@ class Select extends AbstractBaseQuery
         $columns = [],
         $joinType = null
     ) {
-        if (!isset($this->joins[$table])) {
-            $select = QueryFactory::createSelect($table);
-            $select->setColumns($columns);
-            $select->setJoinType($joinType);
-            $this->addJoin($select, $selfColumn, $refColumn);
-        }
-
-        return $this->joins[$table];
+        return $this->joinQuery->join($table, $selfColumn, $refColumn, $columns, $joinType);
     }
 
     /**
@@ -184,11 +164,7 @@ class Select extends AbstractBaseQuery
      */
     public function joinCondition()
     {
-        if (!isset($this->joinCondition)) {
-            $this->joinCondition = QueryFactory::createWhere($this);
-        }
-
-        return $this->joinCondition;
+        return $this->joinQuery->joinCondition();
     }
 
     /**
@@ -200,16 +176,7 @@ class Select extends AbstractBaseQuery
      */
     public function addJoin(Select $select, $selfColumn, $refColumn)
     {
-        $select->isJoin(true);
-        $table = $select->getTable()->getName();
-
-        if (!isset($this->joins[$table])) {
-            $newColumn = array($selfColumn);
-            $select->joinCondition()->equals($refColumn, SyntaxFactory::createColumn($newColumn, $this->getTable()));
-            $this->joins[$table] = $select;
-        }
-
-        return $this->joins[$table];
+        return $this->joinQuery->addJoin($select, $selfColumn, $refColumn);
     }
 
     /**
@@ -221,9 +188,7 @@ class Select extends AbstractBaseQuery
      */
     public function isJoin($isJoin = true)
     {
-        $this->isJoin = $isJoin;
-
-        return $this;
+        return $this->joinQuery->isJoin($isJoin);
     }
 
     /**
@@ -238,7 +203,7 @@ class Select extends AbstractBaseQuery
      */
     public function rightJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
     {
-        return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_RIGHT);
+        return $this->joinQuery->rightJoin($table, $selfColumn, $refColumn, $columns);
     }
 
     /**
@@ -251,7 +216,7 @@ class Select extends AbstractBaseQuery
      */
     public function crossJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
     {
-        return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_CROSS);
+        return $this->joinQuery->crossJoin($table, $selfColumn, $refColumn, $columns);
     }
 
     /**
@@ -264,7 +229,7 @@ class Select extends AbstractBaseQuery
      */
     public function innerJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
     {
-        return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_INNER);
+        return $this->joinQuery->innerJoin($table, $selfColumn, $refColumn, $columns);
     }
 
     /**
@@ -273,7 +238,7 @@ class Select extends AbstractBaseQuery
      */
     public function on()
     {
-        return $this->joinCondition();
+        return $this->joinQuery->joinCondition();
     }
 
     /**
@@ -281,7 +246,7 @@ class Select extends AbstractBaseQuery
      */
     public function isJoinSelect()
     {
-        return $this->isJoin;
+        return $this->joinQuery->getIsJoin();
     }
 
     /**
@@ -291,7 +256,7 @@ class Select extends AbstractBaseQuery
     {
         $columns = $this->getColumns();
 
-        foreach ($this->joins as $join) {
+        foreach ($this->joinQuery->getJoins() as $join) {
             $joinCols = $join->getAllColumns();
             $columns  = array_merge($columns, $joinCols);
         }
@@ -383,7 +348,7 @@ class Select extends AbstractBaseQuery
      */
     public function setFunctionAsColumn($funcName, array $arguments, $alias)
     {
-        $this->columnFuncs[$alias] = array('func' => $funcName, 'args' => $arguments);
+        $this->columnFuncs[$alias] = ['func' => $funcName, 'args' => $arguments];
 
         return $this;
     }
@@ -407,14 +372,6 @@ class Select extends AbstractBaseQuery
     }
 
     /**
-     * @return array
-     */
-    public function getAllHavings()
-    {
-        return $this->getAllOperation($this->having, 'getAllHavings');
-    }
-
-    /**
      * @param null|Where $data
      * @param string     $operation
      *
@@ -428,11 +385,19 @@ class Select extends AbstractBaseQuery
             $collection[] = $data;
         }
 
-        foreach ($this->joins as $join) {
+        foreach ($this->joinQuery->getJoins() as $join) {
             $collection = array_merge($collection, $join->$operation());
         }
 
         return $collection;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllHavings()
+    {
+        return $this->getAllOperation($this->having, 'getAllHavings');
     }
 
     /**
@@ -484,13 +449,7 @@ class Select extends AbstractBaseQuery
      */
     public function getAllJoins()
     {
-        $joins = $this->joins;
-
-        foreach ($this->joins as $join) {
-            $joins = array_merge($joins, $join->getAllJoins());
-        }
-
-        return $joins;
+        return $this->joinQuery->getAllJoins();
     }
 
     /**
@@ -518,7 +477,7 @@ class Select extends AbstractBaseQuery
      */
     public function getJoinCondition()
     {
-        return $this->joinCondition;
+        return $this->joinQuery->getJoinCondition();
     }
 
     /**
@@ -526,7 +485,7 @@ class Select extends AbstractBaseQuery
      */
     public function getJoinType()
     {
-        return $this->joinType;
+        return $this->joinQuery->getJoinType();
     }
 
     /**
@@ -536,7 +495,7 @@ class Select extends AbstractBaseQuery
      */
     public function setJoinType($joinType)
     {
-        $this->joinType = $joinType;
+        $this->joinQuery->setJoinType($joinType);
 
         return $this;
     }
@@ -588,5 +547,19 @@ class Select extends AbstractBaseQuery
     public function isDistinct()
     {
         return $this->isDistinct;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllOrderBy()
+    {
+        $order = $this->orderBy;
+
+        foreach ($this->joinQuery->getJoins() as $join) {
+            $order = array_merge($order, $join->getAllOrderBy());
+        }
+
+        return $order;
     }
 }
