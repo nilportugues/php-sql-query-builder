@@ -61,6 +61,12 @@ class Select extends AbstractBaseQuery
     protected $joinQuery;
 
     /**
+     * @var ColumnQuery
+     */
+    protected $columnQuery;
+
+
+    /**
      * @param string $table
      * @param array  $columns
      */
