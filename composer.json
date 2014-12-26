@@ -33,7 +33,7 @@
     "require":
     {
         "php": ">=5.4",
-        "nilportugues/sql-query-formatter" : "1.0.0"
+        "nilportugues/sql-query-formatter" : "1.1.0"
     },
     "require-dev":
     {
