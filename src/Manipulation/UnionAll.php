@@ -25,5 +25,4 @@ class UnionAll extends AbstractSetQuery
     {
         return 'UNION ALL';
     }
-
 }

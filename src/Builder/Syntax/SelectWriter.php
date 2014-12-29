@@ -89,7 +89,6 @@ class SelectWriter extends AbstractBaseWriter
     public function writeSelectColumns(Select $select, array &$parts)
     {
         if ($select->isCount() === false) {
-
             $columns = $this->writeColumnAlias(
                 $select->getAllColumns(),
                 $this->columnWriter->writeSelectsAsColumns($select),

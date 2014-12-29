@@ -85,7 +85,6 @@ class WhereWriter extends AbstractBaseWriter
                 [$columnNames, $columnValues],
                 $this->matchMode[$values['mode']]
             );
-
         }
 
         $whereArray = array_merge($whereArray, $matches);

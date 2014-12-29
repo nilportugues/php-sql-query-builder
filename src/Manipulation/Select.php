@@ -161,7 +161,7 @@ class Select extends AbstractBaseQuery
      */
     public function isJoin($isJoin = true)
     {
-        return $this->joinQuery->isJoin($isJoin);
+        return $this->joinQuery->setJoin($isJoin);
     }
 
     /**
@@ -219,7 +219,7 @@ class Select extends AbstractBaseQuery
      */
     public function isJoinSelect()
     {
-        return $this->joinQuery->getIsJoin();
+        return $this->joinQuery->isJoin();
     }
 
     /**

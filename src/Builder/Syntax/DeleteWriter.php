@@ -55,5 +55,4 @@ class DeleteWriter
 
         return $comment.implode(" ", $parts);
     }
-
 }

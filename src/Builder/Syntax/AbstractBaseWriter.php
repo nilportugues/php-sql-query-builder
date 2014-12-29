@@ -11,6 +11,7 @@
 namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
 
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\Manipulation\AbstractBaseQuery;
 
 /**
  * Class AbstractBaseWriter
@@ -46,11 +47,11 @@ abstract class AbstractBaseWriter
     }
 
     /**
-     * @param $class
+     * @param AbstractBaseQuery $class
      *
      * @return string
      */
-    public static function writeQueryComment($class)
+    public static function writeQueryComment(AbstractBaseQuery $class)
     {
         $comment = '';
         if ('' !== $class->getComment()) {
@@ -61,13 +62,17 @@ abstract class AbstractBaseWriter
     }
 
     /**
-     * @param                   $class
+     * @param AbstractBaseQuery $class
      * @param                   GenericBuilder $writer
      * @param PlaceholderWriter $placeholderWriter
      * @param array             $parts
      */
-    public static function writeWhereCondition($class, $writer, PlaceholderWriter $placeholderWriter, array &$parts)
-    {
+    public static function writeWhereCondition(
+        AbstractBaseQuery $class,
+        $writer, PlaceholderWriter
+        $placeholderWriter,
+        array &$parts
+    ) {
         if (!is_null($class->getWhere())) {
             $whereWriter = WriterFactory::createWhereWriter($writer, $placeholderWriter);
             $parts[]     = "WHERE {$whereWriter->writeWhere($class->getWhere())}";
@@ -75,12 +80,15 @@ abstract class AbstractBaseWriter
     }
 
     /**
-     * @param                   $class
+     * @param AbstractBaseQuery $class
      * @param PlaceholderWriter $placeholderWriter
      * @param array             $parts
      */
-    public static function writeLimitCondition($class, PlaceholderWriter $placeholderWriter, array &$parts)
-    {
+    public static function writeLimitCondition(
+        AbstractBaseQuery $class,
+        PlaceholderWriter $placeholderWriter,
+        array &$parts
+    ) {
         if (!is_null($class->getLimitStart())) {
             $start   = $placeholderWriter->add($class->getLimitStart());
             $parts[] = "LIMIT {$start}";

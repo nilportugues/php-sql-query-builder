@@ -11,6 +11,7 @@
 namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
 
 use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\SqlQueryBuilder\Syntax\QueryPartInterface;
 
 /**
  * Class AbstractSetWriter
@@ -32,13 +33,13 @@ abstract class AbstractSetWriter
     }
 
     /**
-     * @param $setClass
+     * @param QueryPartInterface $setClass
      * @param string $setOperation
      * @param $glue
      *
      * @return string
      */
-    protected function abstractWrite($setClass, $setOperation, $glue)
+    protected function abstractWrite(QueryPartInterface $setClass, $setOperation, $glue)
     {
         $selects = [];
 

@@ -139,7 +139,7 @@ class JoinQuery
      *
      * @return $this
      */
-    public function isJoin($isJoin = true)
+    public function setJoin($isJoin = true)
     {
         $this->isJoin = $isJoin;
 
@@ -221,7 +221,7 @@ class JoinQuery
     /**
      * @return boolean
      */
-    public function getIsJoin()
+    public function isJoin()
     {
         return $this->isJoin;
     }

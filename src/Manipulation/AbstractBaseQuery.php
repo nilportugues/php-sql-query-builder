@@ -14,7 +14,6 @@ use NilPortugues\SqlQueryBuilder\Syntax\QueryPartInterface;
 use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
 use NilPortugues\SqlQueryBuilder\Syntax\Table;
 use NilPortugues\SqlQueryBuilder\Syntax\Where;
-
 // Builder injects itself into query for convestion to SQL string.
 use NilPortugues\SqlQueryBuilder\Builder\BuilderInterface;
 
