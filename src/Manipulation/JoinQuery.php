@@ -227,18 +227,6 @@ class JoinQuery
     }
 
     /**
-     * @param boolean $isJoin
-     *
-     * @return $this
-     */
-    public function setIsJoin($isJoin)
-    {
-        $this->isJoin = $isJoin;
-
-        return $this;
-    }
-
-    /**
      * @return \NilPortugues\SqlQueryBuilder\Syntax\Where
      */
     public function getJoinCondition()
