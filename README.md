@@ -49,14 +49,10 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
 
 <a name="block1"></a>
 ## 1. Installation [↑](#index_block)
-The recommended way to install SQL Query Builder is through [Composer](http://getcomposer.org). Just create a ``composer.json`` file and run the ``php composer.phar install`` command to install it:
+The recommended way to install the SQL Query Builder is through [Composer](http://getcomposer.org). Run the following command to install it:
 
-```json
-    {
-        "require": {
-            "nilportugues/sql-query-builder": "1.0.1"
-        }
-    }
+```sh
+php composer.phar require nilportugues/sql-query-builder
 ```
 
 <a name="block2"></a>
