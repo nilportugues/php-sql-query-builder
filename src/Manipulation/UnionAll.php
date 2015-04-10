@@ -8,11 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
 /**
  * Class UnionAll
- * @package NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Sql\QueryBuilder\Manipulation
  */
 class UnionAll extends AbstractSetQuery
 {

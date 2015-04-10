@@ -8,15 +8,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Syntax;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
-use NilPortugues\SqlQueryBuilder\Syntax\Where;
-use Tests\NilPortugues\SqlQueryBuilder\Manipulation\Resources\DummyQuery;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
+use NilPortugues\Tests\Sql\QueryBuilder\Manipulation\Resources\DummyQuery;
 
 /**
  * Class WhereTest
- * @package Tests\NilPortugues\SqlQueryBuilder\Syntax
+ * @package NilPortugues\Tests\Sql\QueryBuilder\Syntax
  */
 class WhereTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,17 +28,17 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $whereClass = '\NilPortugues\SqlQueryBuilder\Syntax\Where';
+    protected $whereClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Where';
 
     /**
      * @var string
      */
-    protected $columnClass = '\NilPortugues\SqlQueryBuilder\Syntax\Column';
+    protected $columnClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Column';
 
     /**
      * @var string
      */
-    protected $queryException = '\NilPortugues\SqlQueryBuilder\Manipulation\QueryException';
+    protected $queryException = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
 
     /**
      *

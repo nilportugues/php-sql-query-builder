@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
-use NilPortugues\SqlQueryBuilder\Manipulation\Minus;
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Minus;
 
 /**
  * Class MinusWriter
- * @package NilPortugues\SqlQueryBuilder\Builder\Syntax
+ * @package NilPortugues\Sql\QueryBuilder\Builder\Syntax
  */
 class MinusWriter
 {

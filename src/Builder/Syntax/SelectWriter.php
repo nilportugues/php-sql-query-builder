@@ -8,17 +8,17 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
-use NilPortugues\SqlQueryBuilder\Syntax\Column;
-use NilPortugues\SqlQueryBuilder\Syntax\OrderBy;
-use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Syntax\Column;
+use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
+use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 
 /**
  * Class SelectWriter
- * @package NilPortugues\SqlQueryBuilder\BuilderInterface\Syntax
+ * @package NilPortugues\Sql\QueryBuilder\BuilderInterface\Syntax
  */
 class SelectWriter extends AbstractBaseWriter
 {
@@ -81,8 +81,8 @@ class SelectWriter extends AbstractBaseWriter
     }
 
     /**
-     * @param Select $select
-     * @param string[]  $parts
+     * @param Select   $select
+     * @param string[] $parts
      *
      * @return $this
      */
@@ -133,8 +133,8 @@ class SelectWriter extends AbstractBaseWriter
     }
 
     /**
-     * @param Select $select
-     * @param string[]  $parts
+     * @param Select   $select
+     * @param string[] $parts
      *
      * @return $this
      */

@@ -8,17 +8,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
-use NilPortugues\SqlQueryBuilder\Builder\Syntax\ColumnWriter;
-use NilPortugues\SqlQueryBuilder\Builder\Syntax\PlaceholderWriter;
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
-use NilPortugues\SqlQueryBuilder\Syntax\Column;
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\ColumnWriter;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\PlaceholderWriter;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 
 /**
  * Class ColumnWriterTest
- * @package Tests\NilPortugues\SqlQueryBuilder\Builder\Syntax
+ * @package NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax
  */
 class ColumnWriterTest extends \PHPUnit_Framework_TestCase
 {
@@ -69,7 +69,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->columnWriter->writeValueAsColumns($select);
 
-        $this->assertInstanceOf('NilPortugues\SqlQueryBuilder\Syntax\Column', $result[0]);
+        $this->assertInstanceOf('NilPortugues\Sql\QueryBuilder\Syntax\Column', $result[0]);
     }
 
     /**
@@ -82,7 +82,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->columnWriter->writeFuncAsColumns($select);
 
-        $this->assertInstanceOf('NilPortugues\SqlQueryBuilder\Syntax\Column', $result[0]);
+        $this->assertInstanceOf('NilPortugues\Sql\QueryBuilder\Syntax\Column', $result[0]);
     }
 
     /**

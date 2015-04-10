@@ -7,14 +7,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace NilPortugues\SqlQueryBuilder\Builder;
+namespace NilPortugues\Sql\QueryBuilder\Builder;
 
-use NilPortugues\SqlQueryBuilder\Syntax\Column;
-use NilPortugues\SqlQueryBuilder\Syntax\Table;
+use NilPortugues\Sql\QueryBuilder\Syntax\Column;
+use NilPortugues\Sql\QueryBuilder\Syntax\Table;
 
 /**
  * Class MySqlBuilder
- * @package NilPortugues\SqlQueryBuilder\Renderer
+ * @package NilPortugues\Sql\QueryBuilder\Renderer
  */
 class MySqlBuilder extends GenericBuilder
 {

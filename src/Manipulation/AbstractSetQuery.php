@@ -8,13 +8,13 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Syntax\QueryPartInterface;
+use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
 
 /**
  * Class AbstractSetQuery
- * @package NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Sql\QueryBuilder\Manipulation
  */
 abstract class AbstractSetQuery implements QueryInterface, QueryPartInterface
 {
@@ -45,7 +45,7 @@ abstract class AbstractSetQuery implements QueryInterface, QueryPartInterface
 
     /**
      * @throws QueryException
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Table
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Table
      */
     public function getTable()
     {
@@ -56,7 +56,7 @@ abstract class AbstractSetQuery implements QueryInterface, QueryPartInterface
 
     /**
      * @throws QueryException
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Where
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
     public function getWhere()
     {
@@ -67,7 +67,7 @@ abstract class AbstractSetQuery implements QueryInterface, QueryPartInterface
 
     /**
      * @throws QueryException
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Where
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
     public function where()
     {

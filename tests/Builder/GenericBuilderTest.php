@@ -8,10 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Builder;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Builder;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 class GenericBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +33,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldCreateSelectObject()
     {
-        $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Select';
+        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\Select';
         $this->assertInstanceOf($className, $this->writer->select());
     }
 
@@ -42,7 +42,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldCreateInsertObject()
     {
-        $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Insert';
+        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\Insert';
         $this->assertInstanceOf($className, $this->writer->insert());
     }
 
@@ -51,7 +51,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldCreateUpdateObject()
     {
-        $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Update';
+        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\Update';
         $this->assertInstanceOf($className, $this->writer->update());
     }
 
@@ -60,7 +60,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldCreateDeleteObject()
     {
-        $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Delete';
+        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\Delete';
         $this->assertInstanceOf($className, $this->writer->delete());
     }
 
@@ -69,7 +69,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldCreateIntersectObject()
     {
-        $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Intersect';
+        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\Intersect';
         $this->assertInstanceOf($className, $this->writer->intersect());
     }
 
@@ -78,7 +78,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldCreateMinusObject()
     {
-        $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Minus';
+        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\Minus';
         $this->assertInstanceOf($className, $this->writer->minus(new Select('table1'), new Select('table2')));
     }
 
@@ -87,7 +87,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldCreateUnionObject()
     {
-        $className = '\NilPortugues\SqlQueryBuilder\Manipulation\Union';
+        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\Union';
         $this->assertInstanceOf($className, $this->writer->union());
     }
 
@@ -96,7 +96,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldCreateUnionAllObject()
     {
-        $className = '\NilPortugues\SqlQueryBuilder\Manipulation\UnionAll';
+        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\UnionAll';
         $this->assertInstanceOf($className, $this->writer->unionAll());
     }
 

@@ -8,15 +8,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
-use NilPortugues\SqlQueryBuilder\Syntax\OrderBy;
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
 
 /**
  * Class SelectWriterTest
- * @package Tests\NilPortugues\SqlQueryBuilder\Builder\Syntax
+ * @package NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax
  */
 class SelectWriterTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +33,7 @@ class SelectWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    private $exceptionClass = '\NilPortugues\SqlQueryBuilder\Manipulation\QueryException';
+    private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
 
     /**
      *

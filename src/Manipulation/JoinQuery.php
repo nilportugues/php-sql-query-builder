@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
-use NilPortugues\SqlQueryBuilder\Syntax\Where;
+use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 
 /**
  * Class JoinQuery
- * @package NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Sql\QueryBuilder\Manipulation
  */
 class JoinQuery
 {
@@ -227,7 +227,7 @@ class JoinQuery
     }
 
     /**
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Where
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
     public function getJoinCondition()
     {
@@ -235,7 +235,7 @@ class JoinQuery
     }
 
     /**
-     * @param \NilPortugues\SqlQueryBuilder\Syntax\Where $joinCondition
+     * @param \NilPortugues\Sql\QueryBuilder\Syntax\Where $joinCondition
      *
      * @return $this
      */

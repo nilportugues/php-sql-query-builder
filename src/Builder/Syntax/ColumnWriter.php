@@ -8,21 +8,21 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
-use NilPortugues\SqlQueryBuilder\Syntax\Column;
-use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Syntax\Column;
+use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 
 /**
  * Class ColumnWriter
- * @package NilPortugues\SqlQueryBuilder\Builder\Syntax
+ * @package NilPortugues\Sql\QueryBuilder\Builder\Syntax
  */
 class ColumnWriter
 {
     /**
-     * @var \NilPortugues\SqlQueryBuilder\Builder\GenericBuilder
+     * @var \NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder
      */
     private $writer;
 

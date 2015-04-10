@@ -13,7 +13,6 @@
          stopOnSkipped="false"
          syntaxCheck="true"
          bootstrap="vendor/autoload.php"
-         strict="true"
          verbose="true">
 
     <php>

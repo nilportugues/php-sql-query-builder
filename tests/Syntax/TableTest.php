@@ -7,9 +7,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Tests\NilPortugues\SqlQueryBuilder\Syntax;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Syntax\Table;
+use NilPortugues\Sql\QueryBuilder\Syntax\Table;
 
 /**
  * Class TableTest

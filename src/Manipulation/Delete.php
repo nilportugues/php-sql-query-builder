@@ -7,11 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
 /**
  * Class Delete
- * @package NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Sql\QueryBuilder\Manipulation
  */
 class Delete extends AbstractBaseQuery
 {

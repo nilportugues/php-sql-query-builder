@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
-use NilPortugues\SqlQueryBuilder\Syntax\QueryPartInterface;
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
 
 /**
  * Class AbstractSetWriter
- * @package NilPortugues\SqlQueryBuilder\Builder\Syntax
+ * @package NilPortugues\Sql\QueryBuilder\Builder\Syntax
  */
 abstract class AbstractSetWriter
 {
@@ -34,7 +34,7 @@ abstract class AbstractSetWriter
 
     /**
      * @param QueryPartInterface $setClass
-     * @param string $setOperation
+     * @param string             $setOperation
      * @param $glue
      *
      * @return string

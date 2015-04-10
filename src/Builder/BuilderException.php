@@ -7,11 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace NilPortugues\SqlQueryBuilder\Builder;
+namespace NilPortugues\Sql\QueryBuilder\Builder;
 
 /**
  * Class BuilderException
- * @package NilPortugues\SqlQueryBuilder\BuilderInterface
+ * @package NilPortugues\Sql\QueryBuilder\BuilderInterface
  */
 final class BuilderException extends \Exception
 {

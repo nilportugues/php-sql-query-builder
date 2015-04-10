@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
-use NilPortugues\SqlQueryBuilder\Manipulation\Update;
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Update;
 
 /**
  * Class UpdateWriterTest
- * @package Tests\NilPortugues\SqlQueryBuilder\Builder\Syntax
+ * @package NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax
  */
 class UpdateWriterTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,7 +37,7 @@ class UpdateWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    private $exceptionClass = '\NilPortugues\SqlQueryBuilder\Manipulation\QueryException';
+    private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
 
     /**
      *

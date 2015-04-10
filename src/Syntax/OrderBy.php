@@ -7,11 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace NilPortugues\SqlQueryBuilder\Syntax;
+namespace NilPortugues\Sql\QueryBuilder\Syntax;
 
 /**
  * Class OrderBy
- * @package NilPortugues\SqlQueryBuilder\Syntax
+ * @package NilPortugues\Sql\QueryBuilder\Syntax
  */
 class OrderBy
 {

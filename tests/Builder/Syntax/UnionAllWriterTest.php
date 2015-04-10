@@ -8,16 +8,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
-use NilPortugues\SqlQueryBuilder\Builder\Syntax\UnionAllWriter;
-use NilPortugues\SqlQueryBuilder\Manipulation\UnionAll;
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\UnionAllWriter;
+use NilPortugues\Sql\QueryBuilder\Manipulation\UnionAll;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 /**
  * Class UnionAllWriterTest
- * @package Tests\NilPortugues\SqlQueryBuilder\Builder\Syntax
+ * @package NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax
  */
 class UnionAllWriterTest extends \PHPUnit_Framework_TestCase
 {

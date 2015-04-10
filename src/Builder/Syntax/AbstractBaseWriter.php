@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
-use NilPortugues\SqlQueryBuilder\Manipulation\AbstractBaseQuery;
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+use NilPortugues\Sql\QueryBuilder\Manipulation\AbstractBaseQuery;
 
 /**
  * Class AbstractBaseWriter
- * @package NilPortugues\SqlQueryBuilder\Builder\Syntax
+ * @package NilPortugues\Sql\QueryBuilder\Builder\Syntax
  */
 abstract class AbstractBaseWriter
 {
@@ -63,7 +63,7 @@ abstract class AbstractBaseWriter
 
     /**
      * @param AbstractBaseQuery $class
-     * @param                   GenericBuilder $writer
+     * @param GenericBuilder    $writer
      * @param PlaceholderWriter $placeholderWriter
      * @param array             $parts
      */

@@ -7,19 +7,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Syntax\OrderBy;
-use NilPortugues\SqlQueryBuilder\Syntax\QueryPartInterface;
-use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
-use NilPortugues\SqlQueryBuilder\Syntax\Table;
-use NilPortugues\SqlQueryBuilder\Syntax\Where;
+use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
+use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
+use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
+use NilPortugues\Sql\QueryBuilder\Syntax\Table;
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 // Builder injects itself into query for convestion to SQL string.
-use NilPortugues\SqlQueryBuilder\Builder\BuilderInterface;
+use NilPortugues\Sql\QueryBuilder\Builder\BuilderInterface;
 
 /**
  * Class AbstractBaseQuery
- * @package NilPortugues\SqlQueryBuilder
+ * @package NilPortugues\Sql\QueryBuilder
  */
 abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
 {
@@ -29,7 +29,7 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     protected $comment = '';
 
     /**
-     * @var \NilPortugues\SqlQueryBuilder\Builder\BuilderInterface
+     * @var \NilPortugues\Sql\QueryBuilder\Builder\BuilderInterface
      */
     private $builder;
 

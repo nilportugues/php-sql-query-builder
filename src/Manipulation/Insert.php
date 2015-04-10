@@ -7,13 +7,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
+use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 
 /**
  * Class Insert
- * @package NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Sql\QueryBuilder\Manipulation
  */
 class Insert extends AbstractCreationalQuery
 {

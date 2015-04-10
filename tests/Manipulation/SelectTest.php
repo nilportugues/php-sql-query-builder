@@ -8,13 +8,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 /**
  * Class SelectTest
- * @package Tests\NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Tests\Sql\QueryBuilder\Manipulation
  */
 class SelectTest extends \PHPUnit_Framework_TestCase
 {

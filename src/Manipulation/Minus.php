@@ -8,13 +8,13 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Syntax\QueryPartInterface;
+use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
 
 /**
  * Class Minus
- * @package NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Sql\QueryBuilder\Manipulation
  */
 class Minus implements QueryInterface, QueryPartInterface
 {
@@ -49,7 +49,7 @@ class Minus implements QueryInterface, QueryPartInterface
     }
 
     /**
-     * @return \NilPortugues\SqlQueryBuilder\Manipulation\Select
+     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\Select
      */
     public function getFirst()
     {
@@ -57,7 +57,7 @@ class Minus implements QueryInterface, QueryPartInterface
     }
 
     /**
-     * @return \NilPortugues\SqlQueryBuilder\Manipulation\Select
+     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\Select
      */
     public function getSecond()
     {
@@ -66,7 +66,7 @@ class Minus implements QueryInterface, QueryPartInterface
 
     /**
      * @throws QueryException
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Table
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Table
      */
     public function getTable()
     {
@@ -75,7 +75,7 @@ class Minus implements QueryInterface, QueryPartInterface
 
     /**
      * @throws QueryException
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Where
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
     public function getWhere()
     {
@@ -84,7 +84,7 @@ class Minus implements QueryInterface, QueryPartInterface
 
     /**
      * @throws QueryException
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Where
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
     public function where()
     {

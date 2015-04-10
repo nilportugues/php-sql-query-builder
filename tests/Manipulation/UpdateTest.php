@@ -8,13 +8,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Manipulation\Update;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Update;
 
 /**
  * Class UpdateTest
- * @package Tests\NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Tests\Sql\QueryBuilder\Manipulation
  */
 class UpdateTest extends \PHPUnit_Framework_TestCase
 {

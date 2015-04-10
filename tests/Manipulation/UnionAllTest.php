@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Manipulation\UnionAll;
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Manipulation\UnionAll;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 /**
  * Class UnionAllTest
- * @package Tests\NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Tests\Sql\QueryBuilder\Manipulation
  */
 class UnionAllTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ class UnionAllTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    private $exceptionClass = '\NilPortugues\SqlQueryBuilder\Manipulation\QueryException';
+    private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
 
     /**
      *

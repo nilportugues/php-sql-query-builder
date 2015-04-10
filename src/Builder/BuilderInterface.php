@@ -7,13 +7,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace NilPortugues\SqlQueryBuilder\Builder;
+namespace NilPortugues\Sql\QueryBuilder\Builder;
 
-use NilPortugues\SqlQueryBuilder\Manipulation\QueryInterface;
+use NilPortugues\Sql\QueryBuilder\Manipulation\QueryInterface;
 
 /**
  * Interface BuilderInterface
- * @package NilPortugues\SqlQueryBuilder\BuilderInterface
+ * @package NilPortugues\Sql\QueryBuilder\BuilderInterface
  */
 interface BuilderInterface
 {

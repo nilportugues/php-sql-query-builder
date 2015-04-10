@@ -8,21 +8,21 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Syntax;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Syntax\Column;
-use NilPortugues\SqlQueryBuilder\Syntax\OrderBy;
+use NilPortugues\Sql\QueryBuilder\Syntax\Column;
+use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
 
 /**
  * Class OrderByTest
- * @package Tests\NilPortugues\SqlQueryBuilder\Syntax
+ * @package NilPortugues\Tests\Sql\QueryBuilder\Syntax
  */
 class OrderByTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
      */
-    protected $columnClass = '\NilPortugues\SqlQueryBuilder\Syntax\Column';
+    protected $columnClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Column';
 
     /**
      * @test

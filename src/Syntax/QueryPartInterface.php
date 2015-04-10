@@ -8,11 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\SqlQueryBuilder\Syntax;
+namespace NilPortugues\Sql\QueryBuilder\Syntax;
 
 /**
  * Interface QueryPartInterface
- * @package NilPortugues\SqlQueryBuilder\Syntax
+ * @package NilPortugues\Sql\QueryBuilder\Syntax
  */
 interface QueryPartInterface
 {

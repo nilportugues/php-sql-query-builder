@@ -7,15 +7,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Manipulation\QueryException;
-use NilPortugues\SqlQueryBuilder\Manipulation\Update;
-use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
+use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Update;
+use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 
 /**
  * Class UpdateWriter
- * @package NilPortugues\SqlQueryBuilder\BuilderInterface\Syntax
+ * @package NilPortugues\Sql\QueryBuilder\BuilderInterface\Syntax
  */
 class UpdateWriter extends AbstractBaseWriter
 {

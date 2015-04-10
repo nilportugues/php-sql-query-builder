@@ -8,13 +8,13 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 
 /**
  * Class WriterFactory
- * @package NilPortugues\SqlQueryBuilder\BuilderInterface\Syntax
+ * @package NilPortugues\Sql\QueryBuilder\BuilderInterface\Syntax
  */
 final class WriterFactory
 {

@@ -8,13 +8,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\Syntax\PlaceholderWriter;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\PlaceholderWriter;
 
 /**
  * Class PlaceholderWriterTest
- * @package Tests\NilPortugues\SqlQueryBuilder\Builder\Syntax
+ * @package NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax
  */
 class PlaceholderWriterTest extends \PHPUnit_Framework_TestCase
 {

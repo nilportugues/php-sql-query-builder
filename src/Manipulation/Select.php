@@ -7,15 +7,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
-use NilPortugues\SqlQueryBuilder\Syntax\Table;
-use NilPortugues\SqlQueryBuilder\Syntax\Where;
+use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
+use NilPortugues\Sql\QueryBuilder\Syntax\Table;
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 
 /**
  * Class Select
- * @package NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Sql\QueryBuilder\Manipulation
  */
 class Select extends AbstractBaseQuery
 {
@@ -63,7 +63,6 @@ class Select extends AbstractBaseQuery
      * @var ColumnQuery
      */
     protected $columnQuery;
-
 
     /**
      * @param string $table
@@ -231,7 +230,7 @@ class Select extends AbstractBaseQuery
     }
 
     /**
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Column
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Column
      * @throws QueryException
      */
     public function getColumns()

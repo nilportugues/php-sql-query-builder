@@ -8,11 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 
 /**
  * Class PlaceholderWriter
- * @package NilPortugues\SqlQueryBuilder\BuilderInterface
+ * @package NilPortugues\Sql\QueryBuilder\BuilderInterface
  */
 class PlaceholderWriter
 {

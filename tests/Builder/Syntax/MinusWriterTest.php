@@ -8,16 +8,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Builder\GenericBuilder;
-use NilPortugues\SqlQueryBuilder\Builder\Syntax\MinusWriter;
-use NilPortugues\SqlQueryBuilder\Manipulation\Minus;
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\MinusWriter;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Minus;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 /**
  * Class MinusWriterTest
- * @package Tests\NilPortugues\SqlQueryBuilder\Builder\Syntax
+ * @package NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax
  */
 class MinusWriterTest extends \PHPUnit_Framework_TestCase
 {

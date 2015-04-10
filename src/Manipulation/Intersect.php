@@ -8,13 +8,13 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Syntax\QueryPartInterface;
+use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
 
 /**
  * Class Intersect
- * @package NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Sql\QueryBuilder\Manipulation
  */
 class Intersect implements QueryInterface, QueryPartInterface
 {
@@ -55,7 +55,7 @@ class Intersect implements QueryInterface, QueryPartInterface
 
     /**
      * @throws QueryException
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Table
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Table
      */
     public function getTable()
     {
@@ -64,7 +64,7 @@ class Intersect implements QueryInterface, QueryPartInterface
 
     /**
      * @throws QueryException
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Where
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
     public function getWhere()
     {
@@ -73,7 +73,7 @@ class Intersect implements QueryInterface, QueryPartInterface
 
     /**
      * @throws QueryException
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Where
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
     public function where()
     {

@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Builder;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Builder;
 
-use NilPortugues\SqlQueryBuilder\Builder\MySqlBuilder;
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Builder\MySqlBuilder;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 /**
  * Class MySqlBuilderTest
- * @package Tests\NilPortugues\SqlQueryBuilder\BuilderInterface
+ * @package NilPortugues\Tests\Sql\QueryBuilder\BuilderInterface
  */
 class MySqlBuilderTest extends \PHPUnit_Framework_TestCase
 {

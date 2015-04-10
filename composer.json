@@ -22,18 +22,18 @@
     ],
     "autoload":{
         "psr-4":{
-            "NilPortugues\\SqlQueryBuilder\\":"src/"
+            "NilPortugues\\Sql\\QueryBuilder\\":"src/"
         }
     },
     "autoload-dev":{
         "psr-4":{
-            "Tests\\NilPortugues\\SqlQueryBuilder\\":"tests/"
+            "NilPortugues\\Tests\\Sql\\QueryBuilder\\":"tests/"
         }
     },
     "require":
     {
         "php": ">=5.4",
-        "nilportugues/sql-query-formatter" : "1.1.0"
+        "nilportugues/sql-query-formatter": "~1.2"
     },
     "require-dev":
     {

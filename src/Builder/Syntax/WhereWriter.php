@@ -1,15 +1,15 @@
 <?php
 
-namespace NilPortugues\SqlQueryBuilder\Builder\Syntax;
+namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
-use NilPortugues\SqlQueryBuilder\Syntax\Column;
-use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
-use NilPortugues\SqlQueryBuilder\Syntax\Where;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Syntax\Column;
+use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 
 /**
  * Class WhereWriter
- * @package NilPortugues\SqlQueryBuilder\BuilderInterface\Syntax
+ * @package NilPortugues\Sql\QueryBuilder\BuilderInterface\Syntax
  */
 class WhereWriter extends AbstractBaseWriter
 {

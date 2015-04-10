@@ -7,16 +7,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace NilPortugues\SqlQueryBuilder\Syntax;
+namespace NilPortugues\Sql\QueryBuilder\Syntax;
 
-use NilPortugues\SqlQueryBuilder\Manipulation\QueryInterface;
-use NilPortugues\SqlQueryBuilder\Manipulation\QueryException;
-use NilPortugues\SqlQueryBuilder\Manipulation\QueryFactory;
-use NilPortugues\SqlQueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Manipulation\QueryInterface;
+use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
+use NilPortugues\Sql\QueryBuilder\Manipulation\QueryFactory;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 /**
  * Class Where
- * @package NilPortugues\SqlQueryBuilder\Syntax
+ * @package NilPortugues\Sql\QueryBuilder\Syntax
  */
 class Where
 {

@@ -8,13 +8,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Manipulation\Resources;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation\Resources;
 
-use NilPortugues\SqlQueryBuilder\Manipulation\AbstractBaseQuery;
+use NilPortugues\Sql\QueryBuilder\Manipulation\AbstractBaseQuery;
 
 /**
  * Class DummyQuery
- * @package Tests\NilPortugues\SqlQueryBuilder\Manipulation\Resources
+ * @package NilPortugues\Tests\Sql\QueryBuilder\Manipulation\Resources
  */
 class DummyQuery extends AbstractBaseQuery
 {

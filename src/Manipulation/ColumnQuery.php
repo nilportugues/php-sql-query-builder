@@ -8,15 +8,15 @@
  * file that was distributed with this source code.
  */
 
-namespace NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
-use NilPortugues\SqlQueryBuilder\Syntax\Column;
-use NilPortugues\SqlQueryBuilder\Syntax\OrderBy;
-use NilPortugues\SqlQueryBuilder\Syntax\SyntaxFactory;
+use NilPortugues\Sql\QueryBuilder\Syntax\Column;
+use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
+use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 
 /**
  * Class ColumnQuery
- * @package NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Sql\QueryBuilder\Manipulation
  */
 class ColumnQuery
 {
@@ -88,7 +88,7 @@ class ColumnQuery
     /**
      * @param string $whereOperator
      *
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Where
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
     public function where($whereOperator = 'AND')
     {
@@ -234,7 +234,7 @@ class ColumnQuery
     }
 
     /**
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Column
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Column
      * @throws QueryException
      */
     public function getColumns()

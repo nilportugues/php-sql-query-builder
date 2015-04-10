@@ -7,11 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace NilPortugues\SqlQueryBuilder\Syntax;
+namespace NilPortugues\Sql\QueryBuilder\Syntax;
 
 /**
  * Class SyntaxFactory
- * @package NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Sql\QueryBuilder\Manipulation
  */
 final class SyntaxFactory
 {

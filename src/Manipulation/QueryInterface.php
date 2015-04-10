@@ -7,11 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
 /**
  * Interface QueryInterface
- * @package NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Sql\QueryBuilder\Manipulation
  */
 interface QueryInterface
 {
@@ -21,17 +21,17 @@ interface QueryInterface
     public function partName();
 
     /**
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Table
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Table
      */
     public function getTable();
 
     /**
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Where
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
     public function getWhere();
 
     /**
-     * @return \NilPortugues\SqlQueryBuilder\Syntax\Where
+     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
     public function where();
 }

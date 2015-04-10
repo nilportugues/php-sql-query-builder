@@ -8,23 +8,23 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\NilPortugues\SqlQueryBuilder\Manipulation;
+namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
 /**
  * Class BaseQueryTest
- * @package Tests\NilPortugues\SqlQueryBuilder\Manipulation
+ * @package NilPortugues\Tests\Sql\QueryBuilder\Manipulation
  */
 class BaseQueryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Tests\NilPortugues\SqlQueryBuilder\Manipulation\Resources\DummyQuery
+     * @var \NilPortugues\Tests\Sql\QueryBuilder\Manipulation\Resources\DummyQuery
      */
     private $query;
 
     /**
      * @var string
      */
-    private $whereClass = '\NilPortugues\SqlQueryBuilder\Syntax\Where';
+    private $whereClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Where';
 
     /**
      *
