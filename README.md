@@ -121,8 +121,7 @@ use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 
 $builder = new GenericBuilder(); 
 
-$query = $builder->select()->setTable('user');    
-$builder = new GenericBuilder();    
+$query = $builder->select()->setTable('user');  
 
 echo $builder->writeFormatted($query);    
 
