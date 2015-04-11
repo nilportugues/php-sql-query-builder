@@ -42,9 +42,10 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
     * [4.5. Columns as SELECT statements](#block4.5)        
     * [4.6. Columns being Values](#block4.6)
     * [4.7. Columns using FUNCTIONS](#block4.7)
-* [5. Quality Code](#block5)
-* [6. Author](#block6)
-* [7. License](#block7)
+* [5. Commenting queries](#block5)
+* [6. Quality Code](#block6)
+* [7. Author](#block7)
+* [8. License](#block8)
 
 
 <a name="block1"></a>
@@ -1068,10 +1069,37 @@ WHERE
     (user.user_id = :v1)
 ```
 
-
-
 <a name="block5"></a>
-## 5. Quality Code [↑](#index_block)
+## 5. Commenting queries [↑](#index_block)
+The query builder allows adding comments to all query methods by using the `setComment` method.
+
+Some useful use cases examples can be : 
+
+ - Explain difficult queries or why of its existence. 
+ - Finding slow queries from its comments.
+
+#### Usage:
+```php
+<?php
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+
+$builder = new GenericBuilder(); 
+
+$query = $builder->select()
+    ->setTable('user')
+    ->setComment('This is a comment');
+    
+$sql = $builder->write($query);   
+```
+
+#### Output:
+```sql
+-- This is a comment
+SELECT user.* FROM user
+```
+
+<a name="block6"></a>
+## 6. Quality Code [↑](#index_block)
 Testing has been done using PHPUnit and [Travis-CI](https://travis-ci.org). All code has been tested to be compatible from PHP 5.4 up to PHP 5.6 and [HHVM](http://hhvm.com/).
 
 To run the test suite, you need [Composer](http://getcomposer.org):
@@ -1082,16 +1110,16 @@ To run the test suite, you need [Composer](http://getcomposer.org):
 ```
 
 
-<a name="block6"></a>
-## 6. Author [↑](#index_block)
+<a name="block7"></a>
+## 7. Author [↑](#index_block)
 Nil Portugués Calderó
 
  - <contact@nilportugues.com>
  - [http://nilportugues.com](http://nilportugues.com)
 
 
-<a name="block7"></a>
-## 7. License [↑](#index_block)
+<a name="block8"></a>
+## 8. License [↑](#index_block)
 SQL Query Builder is licensed under the MIT license.
 
 ```
