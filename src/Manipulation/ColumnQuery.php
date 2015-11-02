@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 12/25/14
- * Time: 12:12 PM
+ * Time: 12:12 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,8 +15,7 @@ use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
 use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 
 /**
- * Class ColumnQuery
- * @package NilPortugues\Sql\QueryBuilder\Manipulation
+ * Class ColumnQuery.
  */
 class ColumnQuery
 {
@@ -62,14 +61,14 @@ class ColumnQuery
      */
     public function __construct(Select $select, JoinQuery $joinQuery, array $columns = null)
     {
-        $this->select    = $select;
+        $this->select = $select;
         $this->joinQuery = $joinQuery;
 
         if (!isset($columns)) {
             $columns = array(Column::ALL);
         }
 
-        if (count($columns)) {
+        if (\count($columns)) {
             $this->setColumns($columns);
         }
     }
@@ -200,7 +199,7 @@ class ColumnQuery
         $count .= ($columnName !== '*') ? "$table.{$columnName}" : '*';
         $count .= ')';
 
-        if (isset($alias) && strlen($alias) > 0) {
+        if (isset($alias) && \strlen($alias) > 0) {
             $count .= " AS '{$alias}'";
         }
 
@@ -227,7 +226,7 @@ class ColumnQuery
 
         foreach ($this->joinQuery->getJoins() as $join) {
             $joinCols = $join->getAllColumns();
-            $columns  = array_merge($columns, $joinCols);
+            $columns = \array_merge($columns, $joinCols);
         }
 
         return $columns;
@@ -235,12 +234,13 @@ class ColumnQuery
 
     /**
      * @return \NilPortugues\Sql\QueryBuilder\Syntax\Column
+     *
      * @throws QueryException
      */
     public function getColumns()
     {
-        if (is_null($this->select->getTable())) {
-            throw new QueryException("No table specified for the Select instance");
+        if (\is_null($this->select->getTable())) {
+            throw new QueryException('No table specified for the Select instance');
         }
 
         return SyntaxFactory::createColumns($this->columns, $this->select->getTable());

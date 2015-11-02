@@ -2,20 +2,20 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
- * Time: 12:07 AM
+ * Time: 12:07 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Sql\QueryBuilder\Syntax;
 
 /**
- * Class OrderBy
- * @package NilPortugues\Sql\QueryBuilder\Syntax
+ * Class OrderBy.
  */
 class OrderBy
 {
-    const ASC  = 'ASC';
+    const ASC = 'ASC';
     const DESC = 'DESC';
 
     /**
@@ -29,7 +29,7 @@ class OrderBy
     protected $direction;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $useAlias;
 
@@ -75,6 +75,7 @@ class OrderBy
      * @param string $direction
      *
      * @throws \InvalidArgumentException
+     *
      * @return $this
      */
     public function setDirection($direction)

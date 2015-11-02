@@ -2,11 +2,12 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
- * Time: 12:07 AM
+ * Time: 12:07 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Sql\QueryBuilder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Manipulation\QueryInterface;
@@ -15,23 +16,22 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\QueryFactory;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 /**
- * Class Where
- * @package NilPortugues\Sql\QueryBuilder\Syntax
+ * Class Where.
  */
 class Where
 {
     const OPERATOR_GREATER_THAN_OR_EQUAL = '>=';
-    const OPERATOR_GREATER_THAN          = '>';
-    const OPERATOR_LESS_THAN_OR_EQUAL    = '<=';
-    const OPERATOR_LESS_THAN             = '<';
-    const OPERATOR_LIKE                  = 'LIKE';
-    const OPERATOR_NOT_LIKE              = 'NOT LIKE';
-    const OPERATOR_EQUAL                 = '=';
-    const OPERATOR_NOT_EQUAL             = '<>';
-    const CONJUNCTION_AND                = 'AND';
-    const CONJUNCTION_OR                 = 'OR';
-    const CONJUNCTION_EXISTS             = 'EXISTS';
-    const CONJUNCTION_NOT_EXISTS         = 'NOT EXISTS';
+    const OPERATOR_GREATER_THAN = '>';
+    const OPERATOR_LESS_THAN_OR_EQUAL = '<=';
+    const OPERATOR_LESS_THAN = '<';
+    const OPERATOR_LIKE = 'LIKE';
+    const OPERATOR_NOT_LIKE = 'NOT LIKE';
+    const OPERATOR_EQUAL = '=';
+    const OPERATOR_NOT_EQUAL = '<>';
+    const CONJUNCTION_AND = 'AND';
+    const CONJUNCTION_OR = 'OR';
+    const CONJUNCTION_EXISTS = 'EXISTS';
+    const CONJUNCTION_NOT_EXISTS = 'NOT EXISTS';
 
     /**
      * @var array
@@ -84,7 +84,7 @@ class Where
     private $conjunction = self::CONJUNCTION_AND;
 
     /**
-     * @var  QueryInterface
+     * @var QueryInterface
      */
     private $query;
 
@@ -112,12 +112,13 @@ class Where
     }
 
     /**
-     * Deep copy for nested references
+     * Deep copy for nested references.
+     *
      * @return mixed
      */
     public function __clone()
     {
-        return unserialize(serialize($this));
+        return \unserialize(\serialize($this));
     }
 
     /**
@@ -125,7 +126,7 @@ class Where
      */
     public function isEmpty()
     {
-        $empty = array_merge(
+        $empty = \array_merge(
             $this->comparisons,
             $this->booleans,
             $this->betweens,
@@ -137,7 +138,7 @@ class Where
             $this->exists
         );
 
-        return 0 == count($empty);
+        return 0 == \count($empty);
     }
 
     /**
@@ -177,11 +178,12 @@ class Where
      * @param string $operator
      *
      * @return $this
+     *
      * @throws QueryException
      */
     public function conjunction($operator)
     {
-        if (false === in_array($operator, [self::CONJUNCTION_AND, self::CONJUNCTION_OR])) {
+        if (false === \in_array($operator, [self::CONJUNCTION_AND, self::CONJUNCTION_OR])) {
             throw new QueryException(
                 "Invalid conjunction specified, must be one of AND or OR, but '".$operator."' was found."
             );
@@ -200,7 +202,7 @@ class Where
     }
 
     /**
-     * Used for subWhere query building
+     * Used for subWhere query building.
      *
      * @param Table $table string
      *
@@ -214,10 +216,10 @@ class Where
     }
 
     /**
-     * equals alias
+     * equals alias.
      *
      * @param $column
-     * @param integer $value
+     * @param int $value
      *
      * @return static
      */
@@ -249,9 +251,9 @@ class Where
         $column = $this->prepareColumn($column);
 
         $this->comparisons[] = [
-            "subject" => $column,
-            "conjunction" => $operator,
-            "target" => $value
+            'subject' => $column,
+            'conjunction' => $operator,
+            'target' => $value,
         ];
 
         return $this;
@@ -275,8 +277,8 @@ class Where
     }
 
     /**
-     * @param string  $column
-     * @param integer $value
+     * @param string $column
+     * @param int    $value
      *
      * @return static
      */
@@ -286,8 +288,8 @@ class Where
     }
 
     /**
-     * @param string  $column
-     * @param integer $value
+     * @param string $column
+     * @param int    $value
      *
      * @return static
      */
@@ -297,8 +299,8 @@ class Where
     }
 
     /**
-     * @param string  $column
-     * @param integer $value
+     * @param string $column
+     * @param int    $value
      *
      * @return static
      */
@@ -308,8 +310,8 @@ class Where
     }
 
     /**
-     * @param string  $column
-     * @param integer $value
+     * @param string $column
+     * @param int    $value
      *
      * @return static
      */
@@ -319,8 +321,8 @@ class Where
     }
 
     /**
-     * @param string  $column
-     * @param integer $value
+     * @param string $column
+     * @param int    $value
      *
      * @return static
      */
@@ -341,8 +343,8 @@ class Where
     }
 
     /**
-     * @param string  $column
-     * @param integer $value
+     * @param string $column
+     * @param int    $value
      *
      * @return static
      */
@@ -352,8 +354,9 @@ class Where
     }
 
     /**
-     * @param  string[] $columns
-     * @param  mixed[]  $values
+     * @param string[] $columns
+     * @param mixed[]  $values
+     *
      * @return static
      */
     public function match(array $columns, array $values)
@@ -372,16 +375,17 @@ class Where
     {
         $this->match[] = [
             'columns' => $columns,
-            'values'  => $values,
-            'mode'    => $mode,
+            'values' => $values,
+            'mode' => $mode,
         ];
 
         return $this;
     }
 
     /**
-     * @param  string[] $columns
-     * @param  mixed[]  $values
+     * @param string[] $columns
+     * @param mixed[]  $values
+     *
      * @return $this
      */
     public function matchBoolean(array $columns, array $values)
@@ -390,8 +394,9 @@ class Where
     }
 
     /**
-     * @param  string[] $columns
-     * @param  mixed[]  $values
+     * @param string[] $columns
+     * @param mixed[]  $values
+     *
      * @return $this
      */
     public function matchWithQueryExpansion(array $columns, array $values)
@@ -400,8 +405,9 @@ class Where
     }
 
     /**
-     * @param  string    $column
-     * @param  integer[] $values
+     * @param string    $column
+     * @param integer[] $values
+     *
      * @return $this
      */
     public function in($column, array $values)
@@ -412,8 +418,9 @@ class Where
     }
 
     /**
-     * @param  string    $column
-     * @param  integer[] $values
+     * @param string    $column
+     * @param integer[] $values
+     *
      * @return $this
      */
     public function notIn($column, array $values)
@@ -424,15 +431,16 @@ class Where
     }
 
     /**
-     * @param  string  $column
-     * @param  integer $a
-     * @param  integer $b
+     * @param string $column
+     * @param int    $a
+     * @param int    $b
+     *
      * @return $this
      */
     public function between($column, $a, $b)
     {
-        $column           = $this->prepareColumn($column);
-        $this->betweens[] = ["subject" => $column, "a" => $a, "b" => $b];
+        $column = $this->prepareColumn($column);
+        $this->betweens[] = ['subject' => $column, 'a' => $a, 'b' => $b];
 
         return $this;
     }
@@ -444,33 +452,35 @@ class Where
      */
     public function isNull($column)
     {
-        $column         = $this->prepareColumn($column);
-        $this->isNull[] = ["subject" => $column];
+        $column = $this->prepareColumn($column);
+        $this->isNull[] = ['subject' => $column];
 
         return $this;
     }
 
     /**
-     * @param  string $column
+     * @param string $column
+     *
      * @return $this
      */
     public function isNotNull($column)
     {
-        $column            = $this->prepareColumn($column);
-        $this->isNotNull[] = ["subject" => $column];
+        $column = $this->prepareColumn($column);
+        $this->isNotNull[] = ['subject' => $column];
 
         return $this;
     }
 
     /**
-     * @param  string  $column
-     * @param  integer $value
+     * @param string $column
+     * @param int    $value
+     *
      * @return $this
      */
     public function addBitClause($column, $value)
     {
-        $column           = $this->prepareColumn($column);
-        $this->booleans[] = ["subject" => $column, "value" => $value];
+        $column = $this->prepareColumn($column);
+        $this->booleans[] = ['subject' => $column, 'value' => $value];
 
         return $this;
     }

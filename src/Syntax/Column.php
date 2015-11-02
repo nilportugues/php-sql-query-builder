@@ -2,18 +2,18 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
- * Time: 12:07 AM
+ * Time: 12:07 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Sql\QueryBuilder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
 
 /**
- * Class Column
- * @package NilPortugues\Sql\QueryBuilder\Syntax
+ * Class Column.
  */
 class Column implements QueryPartInterface
 {
@@ -89,7 +89,7 @@ class Column implements QueryPartInterface
      */
     public function setTable($table)
     {
-        $newTable    = array($table);
+        $newTable = array($table);
         $this->table = SyntaxFactory::createTable($newTable);
 
         return $this;
@@ -107,11 +107,12 @@ class Column implements QueryPartInterface
      * @param null|string $alias
      *
      * @return $this
+     *
      * @throws QueryException
      */
     public function setAlias($alias)
     {
-        if (0 == strlen($alias)) {
+        if (0 == \strlen($alias)) {
             $this->alias = null;
 
             return $this;
@@ -127,7 +128,8 @@ class Column implements QueryPartInterface
     }
 
     /**
-     * Check whether column name is '*' or not
+     * Check whether column name is '*' or not.
+     *
      * @return bool
      */
     public function isAll()

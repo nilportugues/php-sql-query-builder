@@ -2,11 +2,12 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
- * Time: 12:07 AM
+ * Time: 12:07 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
 use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
@@ -18,8 +19,7 @@ use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 use NilPortugues\Sql\QueryBuilder\Builder\BuilderInterface;
 
 /**
- * Class AbstractBaseQuery
- * @package NilPortugues\Sql\QueryBuilder
+ * Class AbstractBaseQuery.
  */
 abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
 {
@@ -41,7 +41,7 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     /**
      * @var string
      */
-    protected $whereOperator = "AND";
+    protected $whereOperator = 'AND';
 
     /**
      * @var Where
@@ -83,7 +83,8 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     /**
      * Stores the builder that created this query.
      *
-     * @param  BuilderInterface $builder
+     * @param BuilderInterface $builder
+     *
      * @return $this
      */
     final public function setBuilder(BuilderInterface $builder)
@@ -95,6 +96,7 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
 
     /**
      * @return BuilderInterface
+     *
      * @throws \RuntimeException when builder has not been injected
      */
     final public function getBuilder()
@@ -116,7 +118,7 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
         try {
             return $this->getSql();
         } catch (\Exception $e) {
-            return sprintf('[%s] %s', get_class($e), $e->getMessage());
+            return \sprintf('[%s] %s', \get_class($e), $e->getMessage());
         }
     }
 
@@ -124,7 +126,8 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
      * Converts this query into an SQL string by using the injected builder.
      * Optionally can return the SQL with formatted structure.
      *
-     * @param  boolean $formatted
+     * @param bool $formatted
+     *
      * @return string
      */
     public function getSql($formatted = false)
@@ -156,7 +159,7 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     {
         $newTable = array($this->table);
 
-        return is_null($this->table) ? null : SyntaxFactory::createTable($newTable);
+        return \is_null($this->table) ? null : SyntaxFactory::createTable($newTable);
     }
 
     /**
@@ -208,8 +211,8 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
      */
     public function orderBy($column, $direction = OrderBy::ASC, $table = null)
     {
-        $newColumn       = array($column);
-        $column          = SyntaxFactory::createColumn($newColumn, is_null($table) ? $this->getTable() : $table);
+        $newColumn = array($column);
+        $column = SyntaxFactory::createColumn($newColumn, \is_null($table) ? $this->getTable() : $table);
         $this->orderBy[] = new OrderBy($column, $direction);
 
         return $this;
@@ -232,17 +235,18 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     }
 
     /**
-     * @param  string $comment
+     * @param string $comment
+     *
      * @return $this
      */
     public function setComment($comment)
     {
         // Make each line of the comment prefixed with "--",
         // and remove any trailing whitespace.
-        $comment = '-- '.str_replace("\n", "\n-- ", rtrim($comment));
+        $comment = '-- '.str_replace("\n", "\n-- ", \rtrim($comment));
 
         // Trim off any trailing "-- ", to ensure that the comment is valid.
-        $this->comment = rtrim($comment, '- ');
+        $this->comment = \rtrim($comment, '- ');
 
         if ($this->comment) {
             $this->comment .= "\n";

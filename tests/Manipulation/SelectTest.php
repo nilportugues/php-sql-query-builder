@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
- * Time: 1:36 AM
+ * Time: 1:36 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,8 +13,7 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 /**
- * Class SelectTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\Manipulation
+ * Class SelectTest.
  */
 class SelectTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +26,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->query  = new Select();
+        $this->query = new Select();
     }
     /**
      * @test

@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 12/24/14
- * Time: 1:14 PM
+ * Time: 1:14 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,8 +14,7 @@ use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\AbstractBaseQuery;
 
 /**
- * Class AbstractBaseWriter
- * @package NilPortugues\Sql\QueryBuilder\Builder\Syntax
+ * Class AbstractBaseWriter.
  */
 abstract class AbstractBaseWriter
 {
@@ -40,7 +39,7 @@ abstract class AbstractBaseWriter
      */
     public function __construct(GenericBuilder $writer, PlaceholderWriter $placeholder)
     {
-        $this->writer            = $writer;
+        $this->writer = $writer;
         $this->placeholderWriter = $placeholder;
 
         $this->columnWriter = WriterFactory::createColumnWriter($writer, $placeholder);
@@ -75,7 +74,7 @@ abstract class AbstractBaseWriter
     ) {
         if (!is_null($class->getWhere())) {
             $whereWriter = WriterFactory::createWhereWriter($writer, $placeholderWriter);
-            $parts[]     = "WHERE {$whereWriter->writeWhere($class->getWhere())}";
+            $parts[] = "WHERE {$whereWriter->writeWhere($class->getWhere())}";
         }
     }
 
@@ -90,7 +89,7 @@ abstract class AbstractBaseWriter
         array &$parts
     ) {
         if (!is_null($class->getLimitStart())) {
-            $start   = $placeholderWriter->add($class->getLimitStart());
+            $start = $placeholderWriter->add($class->getLimitStart());
             $parts[] = "LIMIT {$start}";
         }
     }

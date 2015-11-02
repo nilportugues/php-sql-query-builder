@@ -2,16 +2,16 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
- * Time: 12:07 AM
+ * Time: 12:07 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Sql\QueryBuilder\Syntax;
 
 /**
- * Class SyntaxFactory
- * @package NilPortugues\Sql\QueryBuilder\Manipulation
+ * Class SyntaxFactory.
  */
 final class SyntaxFactory
 {
@@ -30,7 +30,7 @@ final class SyntaxFactory
         foreach ($arguments as $index => $column) {
             if (!is_object($column)) {
                 $newColumn = array($column);
-                $column    = self::createColumn($newColumn, $table);
+                $column = self::createColumn($newColumn, $table);
                 if (!is_numeric($index)) {
                     $column->setAlias($index);
                 }
@@ -39,7 +39,7 @@ final class SyntaxFactory
             }
         }
 
-        return array_filter($createdColumns);
+        return \array_filter($createdColumns);
     }
 
     /**
@@ -52,13 +52,13 @@ final class SyntaxFactory
      */
     public static function createColumn(array &$argument, $table = null)
     {
-        $columnName = array_values($argument);
+        $columnName = \array_values($argument);
         $columnName = $columnName[0];
 
-        $columnAlias = array_keys($argument);
+        $columnAlias = \array_keys($argument);
         $columnAlias = $columnAlias[0];
 
-        if (is_numeric($columnAlias) || strpos($columnName, '*') !== false) {
+        if (\is_numeric($columnAlias) || \strpos($columnName, '*') !== false) {
             $columnAlias = null;
         }
 
@@ -74,11 +74,11 @@ final class SyntaxFactory
      */
     public static function createTable($table)
     {
-        if (is_array($table)) {
-            $tableName  = current($table);
-            $tableAlias = key($table);
+        if (\is_array($table)) {
+            $tableName = \current($table);
+            $tableAlias = \key($table);
         } else {
-            $tableName  = $table;
+            $tableName = $table;
         }
 
         $newTable = new Table($tableName);

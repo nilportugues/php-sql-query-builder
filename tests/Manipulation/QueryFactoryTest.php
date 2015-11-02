@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/16/14
- * Time: 8:50 PM
+ * Time: 8:50 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,8 +14,7 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\QueryFactory;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 /**
- * Class QueryFactoryTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\Manipulation
+ * Class QueryFactoryTest.
  */
 class QueryFactoryTest extends \PHPUnit_Framework_TestCase
 {

@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
- * Time: 10:45 PM
+ * Time: 10:45 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,8 +14,7 @@ use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Insert;
 
 /**
- * Class InsertWriterTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax
+ * Class InsertWriterTest.
  */
 class InsertWriterTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,7 +39,7 @@ class InsertWriterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->writer = new GenericBuilder();
-        $this->query  = new Insert();
+        $this->query = new Insert();
     }
 
     /**
@@ -61,7 +60,7 @@ class InsertWriterTest extends \PHPUnit_Framework_TestCase
     {
         $valueArray = array(
             'user_id' => 1,
-            'name'    => 'Nil',
+            'name' => 'Nil',
             'contact' => 'contact@nilportugues.com',
         );
 
@@ -72,7 +71,7 @@ class InsertWriterTest extends \PHPUnit_Framework_TestCase
         $expected = 'INSERT INTO user (user.user_id, user.name, user.contact) VALUES (:v1, :v2, :v3)';
 
         $this->assertSame($expected, $this->writer->write($this->query));
-        $this->assertEquals(array_values($valueArray), array_values($this->query->getValues()));
+        $this->assertEquals(\array_values($valueArray), \array_values($this->query->getValues()));
 
         $expected = array(':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com');
         $this->assertEquals($expected, $this->writer->getValues());
@@ -85,7 +84,7 @@ class InsertWriterTest extends \PHPUnit_Framework_TestCase
     {
         $valueArray = array(
             'user_id' => 1,
-            'name'    => 'Nil',
+            'name' => 'Nil',
             'contact' => 'contact@nilportugues.com',
         );
 
@@ -97,7 +96,7 @@ class InsertWriterTest extends \PHPUnit_Framework_TestCase
         $expected = "-- This is a comment\n".'INSERT INTO user (user.user_id, user.name, user.contact) VALUES (:v1, :v2, :v3)';
 
         $this->assertSame($expected, $this->writer->write($this->query));
-        $this->assertEquals(array_values($valueArray), array_values($this->query->getValues()));
+        $this->assertEquals(\array_values($valueArray), \array_values($this->query->getValues()));
 
         $expected = array(':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com');
         $this->assertEquals($expected, $this->writer->getValues());

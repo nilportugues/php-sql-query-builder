@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/16/14
- * Time: 8:56 PM
+ * Time: 8:56 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -123,8 +123,8 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function itCanAcceptATableAndColumnsForSelect()
     {
-        $table    = 'user';
-        $columns  = ['id', 'role'];
+        $table = 'user';
+        $columns = ['id', 'role'];
         $expected = <<<QUERY
 SELECT
     user.id,
@@ -143,8 +143,8 @@ QUERY;
      */
     public function itCanAcceptATableAndValuesForInsert()
     {
-        $table    = 'user';
-        $values   = ['id' => 1, 'role' => 'admin'];
+        $table = 'user';
+        $values = ['id' => 1, 'role' => 'admin'];
         $expected = <<<QUERY
 INSERT INTO user (user.id, user.role)
 VALUES
@@ -161,8 +161,8 @@ QUERY;
      */
     public function itCanAcceptATableAndValuesForUpdate()
     {
-        $table    = 'user';
-        $values   = ['id' => 1, 'role' => 'super-admin'];
+        $table = 'user';
+        $values = ['id' => 1, 'role' => 'super-admin'];
         $expected = <<<QUERY
 UPDATE
     user
@@ -181,7 +181,7 @@ QUERY;
      */
     public function itShouldOutputHumanReadableQuery()
     {
-        $selectRole =  $this->writer->select();
+        $selectRole = $this->writer->select();
         $selectRole
             ->setTable('role')
             ->setColumns(array('role_name'))
@@ -265,7 +265,7 @@ QUERY;
             ->setTable('user');
 
         $formatted = true;
-        $expected  = $this->writer->writeFormatted($query);
+        $expected = $this->writer->writeFormatted($query);
 
         $this->assertSame($expected, $query->getSql($formatted));
     }

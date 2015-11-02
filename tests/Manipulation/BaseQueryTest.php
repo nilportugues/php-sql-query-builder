@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/7/14
- * Time: 11:44 PM
+ * Time: 11:44 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,8 +11,7 @@
 namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
 /**
- * Class BaseQueryTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\Manipulation
+ * Class BaseQueryTest.
  */
 class BaseQueryTest extends \PHPUnit_Framework_TestCase
 {

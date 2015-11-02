@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/11/14
- * Time: 1:50 AM
+ * Time: 1:50 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,8 +14,7 @@ use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Delete;
 
 /**
- * Class DeleteWriter
- * @package NilPortugues\Sql\QueryBuilder\BuilderInterface\Syntax
+ * Class DeleteWriter.
  */
 class DeleteWriter
 {
@@ -35,7 +34,7 @@ class DeleteWriter
      */
     public function __construct(GenericBuilder $writer, PlaceholderWriter $placeholder)
     {
-        $this->writer            = $writer;
+        $this->writer = $writer;
         $this->placeholderWriter = $placeholder;
     }
 
@@ -53,6 +52,6 @@ class DeleteWriter
         AbstractBaseWriter::writeLimitCondition($delete, $this->placeholderWriter, $parts);
         $comment = AbstractBaseWriter::writeQueryComment($delete);
 
-        return $comment.implode(" ", $parts);
+        return $comment.implode(' ', $parts);
     }
 }

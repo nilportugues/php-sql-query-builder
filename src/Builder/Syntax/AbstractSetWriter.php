@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 12/24/14
- * Time: 12:55 PM
+ * Time: 12:55 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,8 +14,7 @@ use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
 
 /**
- * Class AbstractSetWriter
- * @package NilPortugues\Sql\QueryBuilder\Builder\Syntax
+ * Class AbstractSetWriter.
  */
 abstract class AbstractSetWriter
 {
@@ -47,6 +46,6 @@ abstract class AbstractSetWriter
             $selects[] = $this->writer->write($select);
         }
 
-        return implode("\n".$glue."\n", $selects);
+        return \implode("\n".$glue."\n", $selects);
     }
 }

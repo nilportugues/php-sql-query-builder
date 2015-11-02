@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
- * Time: 7:26 PM
+ * Time: 7:26 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,8 +14,7 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\Minus;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 /**
- * Class MinusTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\Manipulation
+ * Class MinusTest.
  */
 class MinusTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,7 +33,7 @@ class MinusTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->query  = new Minus(new Select('user'), new Select('user_email'));
+        $this->query = new Minus(new Select('user'), new Select('user_email'));
     }
 
     /**

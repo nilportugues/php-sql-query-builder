@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/12/14
- * Time: 1:28 AM
+ * Time: 1:28 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,8 +16,7 @@ use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 
 /**
- * Class ColumnWriter
- * @package NilPortugues\Sql\QueryBuilder\Builder\Syntax
+ * Class ColumnWriter.
  */
 class ColumnWriter
 {
@@ -37,7 +36,7 @@ class ColumnWriter
      */
     public function __construct(GenericBuilder $writer, PlaceholderWriter $placeholderWriter)
     {
-        $this->writer            = $writer;
+        $this->writer = $writer;
         $this->placeholderWriter = $placeholderWriter;
     }
 
@@ -66,17 +65,17 @@ class ColumnWriter
      */
     protected function selectColumnToQuery(array &$selectAsColumns, SelectWriter $selectWriter)
     {
-        array_walk(
+        \array_walk(
             $selectAsColumns,
             function (&$column) use (&$selectWriter) {
-                $keys = array_keys($column);
-                $key  = array_pop($keys);
+                $keys = \array_keys($column);
+                $key = \array_pop($keys);
 
-                $values = array_values($column);
-                $value  = $values[0];
+                $values = \array_values($column);
+                $value = $values[0];
 
-                if (is_numeric($key)) {
-                    /** @var Column $value */
+                if (\is_numeric($key)) {
+                    /* @var Column $value */
                     $key = $this->writer->writeTableName($value->getTable());
                 }
                 $column = $selectWriter->selectToColumn($key, $value);
@@ -94,11 +93,11 @@ class ColumnWriter
     public function writeValueAsColumns(Select $select)
     {
         $valueAsColumns = $select->getColumnValues();
-        $newColumns     = [];
+        $newColumns = [];
 
         if (!empty($valueAsColumns)) {
             foreach ($valueAsColumns as $alias => $value) {
-                $value          = $this->writer->writePlaceholderValue($value);
+                $value = $this->writer->writePlaceholderValue($value);
                 $newValueColumn = array($alias => $value);
 
                 $newColumns[] = SyntaxFactory::createColumn($newValueColumn, null);
@@ -116,15 +115,15 @@ class ColumnWriter
     public function writeFuncAsColumns(Select $select)
     {
         $funcAsColumns = $select->getColumnFuncs();
-        $newColumns    = [];
+        $newColumns = [];
 
         if (!empty($funcAsColumns)) {
             foreach ($funcAsColumns as $alias => $value) {
                 $funcName = $value['func'];
-                $funcArgs = (!empty($value['args'])) ? "(".implode(', ', $value['args']).")" : '';
+                $funcArgs = (!empty($value['args'])) ? '('.implode(', ', $value['args']).')' : '';
 
-                $newFuncColumn = array( $alias => $funcName.$funcArgs);
-                $newColumns[]  = SyntaxFactory::createColumn($newFuncColumn, null);
+                $newFuncColumn = array($alias => $funcName.$funcArgs);
+                $newColumns[] = SyntaxFactory::createColumn($newFuncColumn, null);
             }
         }
 
@@ -139,7 +138,7 @@ class ColumnWriter
     public function writeColumnWithAlias(Column $column)
     {
         if (($alias = $column->getAlias()) && !$column->isAll()) {
-            return $this->writeColumn($column)." AS ".$this->writer->writeColumnAlias($alias);
+            return $this->writeColumn($column).' AS '.$this->writer->writeColumnAlias($alias);
         }
 
         return $this->writeColumn($column);

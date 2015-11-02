@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
- * Time: 7:11 PM
+ * Time: 7:11 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,8 +13,7 @@ namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
 
 /**
- * Class Minus
- * @package NilPortugues\Sql\QueryBuilder\Manipulation
+ * Class Minus.
  */
 class Minus implements QueryInterface, QueryPartInterface
 {
@@ -66,6 +65,7 @@ class Minus implements QueryInterface, QueryPartInterface
 
     /**
      * @throws QueryException
+     *
      * @return \NilPortugues\Sql\QueryBuilder\Syntax\Table
      */
     public function getTable()
@@ -75,6 +75,7 @@ class Minus implements QueryInterface, QueryPartInterface
 
     /**
      * @throws QueryException
+     *
      * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
     public function getWhere()
@@ -84,6 +85,7 @@ class Minus implements QueryInterface, QueryPartInterface
 
     /**
      * @throws QueryException
+     *
      * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
     public function where()

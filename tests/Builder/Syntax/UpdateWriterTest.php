@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
- * Time: 10:47 PM
+ * Time: 10:47 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,8 +14,7 @@ use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Update;
 
 /**
- * Class UpdateWriterTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax
+ * Class UpdateWriterTest.
  */
 class UpdateWriterTest extends \PHPUnit_Framework_TestCase
 {
@@ -45,11 +44,11 @@ class UpdateWriterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->writer = new GenericBuilder();
-        $this->query  = new Update();
+        $this->query = new Update();
 
         $this->valueArray = array(
             'user_id' => 1,
-            'name'    => 'Nil',
+            'name' => 'Nil',
             'contact' => 'contact@nilportugues.com',
         );
     }

@@ -2,11 +2,12 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/11/14
- * Time: 1:51 AM
+ * Time: 1:51 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
@@ -14,8 +15,7 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\Update;
 use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 
 /**
- * Class UpdateWriter
- * @package NilPortugues\Sql\QueryBuilder\BuilderInterface\Syntax
+ * Class UpdateWriter.
  */
 class UpdateWriter extends AbstractBaseWriter
 {
@@ -23,6 +23,7 @@ class UpdateWriter extends AbstractBaseWriter
      * @param Update $update
      *
      * @throws QueryException
+     *
      * @return string
      */
     public function write(Update $update)
@@ -33,7 +34,7 @@ class UpdateWriter extends AbstractBaseWriter
         }
 
         $parts = array(
-            "UPDATE ".$this->writer->writeTable($update->getTable())." SET ",
+            'UPDATE '.$this->writer->writeTable($update->getTable()).' SET ',
             $this->writeUpdateValues($update),
         );
 
@@ -41,7 +42,7 @@ class UpdateWriter extends AbstractBaseWriter
         AbstractBaseWriter::writeLimitCondition($update, $this->placeholderWriter, $parts);
         $comment = AbstractBaseWriter::writeQueryComment($update);
 
-        return $comment.implode(" ", $parts);
+        return $comment.implode(' ', $parts);
     }
 
     /**
@@ -54,13 +55,13 @@ class UpdateWriter extends AbstractBaseWriter
         $assigns = [];
         foreach ($update->getValues() as $column => $value) {
             $newColumn = array($column);
-            $column    = $this->columnWriter->writeColumn(SyntaxFactory::createColumn($newColumn, $update->getTable()));
+            $column = $this->columnWriter->writeColumn(SyntaxFactory::createColumn($newColumn, $update->getTable()));
 
             $value = $this->writer->writePlaceholderValue($value);
 
             $assigns[] = "$column = $value";
         }
 
-        return implode(", ", $assigns);
+        return \implode(', ', $assigns);
     }
 }

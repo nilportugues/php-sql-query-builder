@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/4/14
- * Time: 12:40 AM
+ * Time: 12:40 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,8 +14,7 @@ use NilPortugues\Sql\QueryBuilder\Builder\MySqlBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 /**
- * Class MySqlBuilderTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\BuilderInterface
+ * Class MySqlBuilderTest.
  */
 class MySqlBuilderTest extends \PHPUnit_Framework_TestCase
 {

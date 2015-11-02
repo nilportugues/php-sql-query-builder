@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/2/14
- * Time: 11:54 PM
+ * Time: 11:54 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,8 +14,7 @@ use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\Table;
 
 /**
- * Class ColumnTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\Syntax
+ * Class ColumnTest.
  */
 class ColumnTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,7 +33,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldReturnPartName()
     {
-        $column = new Column("id", "user");
+        $column = new Column('id', 'user');
 
         $this->assertSame('COLUMN', $column->partName());
     }
@@ -44,11 +43,11 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldConstruct()
     {
-        $column = new Column("id", "user");
+        $column = new Column('id', 'user');
 
-        $this->assertEquals("id", $column->getName());
+        $this->assertEquals('id', $column->getName());
         $this->assertInstanceOf($this->tableClass, $column->getTable());
-        $this->assertEquals("user", $column->getTable()->getName());
+        $this->assertEquals('user', $column->getTable()->getName());
     }
 
     /**
@@ -56,10 +55,10 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldSetColumnName()
     {
-        $column = new Column("id", "user");
+        $column = new Column('id', 'user');
 
-        $column->setName("user_id");
-        $this->assertEquals("user_id", $column->getName());
+        $column->setName('user_id');
+        $this->assertEquals('user_id', $column->getName());
     }
 
     /**
@@ -67,9 +66,9 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldSetTableName()
     {
-        $tableName = "user";
+        $tableName = 'user';
 
-        $column = new Column("id", $tableName);
+        $column = new Column('id', $tableName);
         $column->setTable(new Table($tableName));
 
         $this->assertInstanceOf($this->tableClass, $column->getTable());
@@ -81,8 +80,8 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldSetAliasName()
     {
-        $column = new Column("user_id", "user", "userId");
-        $this->assertEquals("userId", $column->getAlias());
+        $column = new Column('user_id', 'user', 'userId');
+        $this->assertEquals('userId', $column->getAlias());
     }
 
     /**
@@ -92,6 +91,6 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException($this->queryException);
 
-        new Column("*", "user", "userId");
+        new Column('*', 'user', 'userId');
     }
 }

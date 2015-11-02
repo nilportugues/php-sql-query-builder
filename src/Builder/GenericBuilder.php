@@ -2,11 +2,12 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
- * Time: 12:07 AM
+ * Time: 12:07 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Sql\QueryBuilder\Builder;
 
 use NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory;
@@ -18,8 +19,7 @@ use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\Table;
 
 /**
- * Class Generic
- * @package NilPortugues\Sql\QueryBuilder\BuilderInterface
+ * Class Generic.
  */
 class GenericBuilder implements BuilderInterface
 {
@@ -59,13 +59,13 @@ class GenericBuilder implements BuilderInterface
      * @var array
      */
     private $queryWriterArray = [
-        'SELECT'    => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createSelectWriter',
-        'INSERT'    => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createInsertWriter',
-        'UPDATE'    => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createUpdateWriter',
-        'DELETE'    => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createDeleteWriter',
+        'SELECT' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createSelectWriter',
+        'INSERT' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createInsertWriter',
+        'UPDATE' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createUpdateWriter',
+        'DELETE' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createDeleteWriter',
         'INTERSECT' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createIntersectWriter',
-        'MINUS'     => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createMinusWriter',
-        'UNION'     => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createUnionWriter',
+        'MINUS' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createMinusWriter',
+        'UNION' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createUnionWriter',
         'UNION ALL' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createUnionAllWriter',
     ];
 
@@ -75,13 +75,13 @@ class GenericBuilder implements BuilderInterface
      * @var array
      */
     private $queryWriterInstances = [
-        'SELECT'    => null,
-        'INSERT'    => null,
-        'UPDATE'    => null,
-        'DELETE'    => null,
+        'SELECT' => null,
+        'INSERT' => null,
+        'UPDATE' => null,
+        'DELETE' => null,
         'INTERSECT' => null,
-        'MINUS'     => null,
-        'UNION'     => null,
+        'MINUS' => null,
+        'UNION' => null,
         'UNION ALL' => null,
     ];
 
@@ -107,7 +107,7 @@ class GenericBuilder implements BuilderInterface
     /**
      * @param \NilPortugues\Sql\QueryBuilder\Manipulation\AbstractBaseQuery
      *
-*@return \NilPortugues\Sql\QueryBuilder\Manipulation\AbstractBaseQuery
+     *@return \NilPortugues\Sql\QueryBuilder\Manipulation\AbstractBaseQuery
      */
     protected function injectBuilder(AbstractBaseQuery $query)
     {
@@ -118,7 +118,7 @@ class GenericBuilder implements BuilderInterface
      * @param string $table
      * @param array  $values
      *
-*@return AbstractBaseQuery
+     *@return AbstractBaseQuery
      */
     public function insert($table = null, array $values = null)
     {
@@ -129,7 +129,7 @@ class GenericBuilder implements BuilderInterface
      * @param string $table
      * @param array  $values
      *
-*@return AbstractBaseQuery
+     *@return AbstractBaseQuery
      */
     public function update($table = null, array $values = null)
     {
@@ -210,6 +210,7 @@ class GenericBuilder implements BuilderInterface
      * @param bool           $resetPlaceholders
      *
      * @return string
+     *
      * @throws \RuntimeException
      */
     public function write(QueryInterface $query, $resetPlaceholders = true)
@@ -240,10 +241,10 @@ class GenericBuilder implements BuilderInterface
             $this->whereWriter = WriterFactory::createWhereWriter($this, $this->placeholderWriter);
         }
 
-        $sql = ($select->getJoinType()) ? "{$select->getJoinType()} " : "";
-        $sql .= "JOIN ";
+        $sql = ($select->getJoinType()) ? "{$select->getJoinType()} " : '';
+        $sql .= 'JOIN ';
         $sql .= $this->writeTableWithAlias($select->getTable());
-        $sql .= " ON ";
+        $sql .= ' ON ';
         $sql .= $this->whereWriter->writeWhere($select->getJoinCondition());
 
         return $sql;
@@ -278,7 +279,6 @@ class GenericBuilder implements BuilderInterface
      * @param Table $table
      *
      * @return string
-     *
      */
     public function writeTableName(Table $table)
     {
@@ -314,7 +314,7 @@ class GenericBuilder implements BuilderInterface
      */
     public function writeValues(array &$values)
     {
-        array_walk(
+        \array_walk(
             $values,
             function (&$value) {
                 $value = $this->writePlaceholderValue($value);
@@ -349,7 +349,7 @@ class GenericBuilder implements BuilderInterface
      */
     public function writeIsNull()
     {
-        return " IS NULL";
+        return ' IS NULL';
     }
 
     /**
@@ -357,7 +357,7 @@ class GenericBuilder implements BuilderInterface
      */
     public function writeIsNotNull()
     {
-        return " IS NOT NULL";
+        return ' IS NOT NULL';
     }
 
     /**
@@ -392,8 +392,8 @@ class GenericBuilder implements BuilderInterface
     protected function createQueryObject($queryPart)
     {
         if (null === $this->queryWriterInstances[$queryPart]) {
-            $this->queryWriterInstances[$queryPart] = call_user_func_array(
-                explode('::', $this->queryWriterArray[$queryPart]),
+            $this->queryWriterInstances[$queryPart] = \call_user_func_array(
+                \explode('::', $this->queryWriterArray[$queryPart]),
                 [$this, $this->placeholderWriter]
             );
         }

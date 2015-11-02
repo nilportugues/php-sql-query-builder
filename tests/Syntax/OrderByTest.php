@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
- * Time: 12:07 AM
+ * Time: 12:07 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,8 +14,7 @@ use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
 
 /**
- * Class OrderByTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\Syntax
+ * Class OrderByTest.
  */
 class OrderByTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,8 +28,8 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldConstructOrderBy()
     {
-        $column = new Column("registration_date", "user");
-        $order  = new OrderBy($column, OrderBy::ASC);
+        $column = new Column('registration_date', 'user');
+        $order = new OrderBy($column, OrderBy::ASC);
 
         $this->assertInstanceOf($this->columnClass, $order->getColumn());
         $this->assertEquals(OrderBy::ASC, $order->getDirection());
@@ -41,8 +40,8 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldGetOrderByDirection()
     {
-        $column = new Column("registration_date", "user");
-        $order  = new OrderBy($column, OrderBy::ASC);
+        $column = new Column('registration_date', 'user');
+        $order = new OrderBy($column, OrderBy::ASC);
 
         $this->assertEquals(OrderBy::ASC, $order->getDirection());
 
@@ -55,10 +54,10 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldThrowExceptionIfDirectionNotValid()
     {
-        $column = new Column("registration_date", "user");
-        $order  = new OrderBy($column, OrderBy::ASC);
+        $column = new Column('registration_date', 'user');
+        $order = new OrderBy($column, OrderBy::ASC);
 
         $this->setExpectedException('\InvalidArgumentException');
-        $order->setDirection("this is not a valid direction");
+        $order->setDirection('this is not a valid direction');
     }
 }

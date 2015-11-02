@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
- * Time: 7:11 PM
+ * Time: 7:11 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,8 +11,7 @@
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
 /**
- * Class UnionAll
- * @package NilPortugues\Sql\QueryBuilder\Manipulation
+ * Class UnionAll.
  */
 class UnionAll extends AbstractSetQuery
 {

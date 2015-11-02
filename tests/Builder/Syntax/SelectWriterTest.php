@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
- * Time: 10:46 PM
+ * Time: 10:46 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,8 +15,7 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
 
 /**
- * Class SelectWriterTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax
+ * Class SelectWriterTest.
  */
 class SelectWriterTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,7 +40,7 @@ class SelectWriterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->writer = new GenericBuilder();
-        $this->query  = new Select();
+        $this->query = new Select();
     }
 
     /**
@@ -185,9 +184,9 @@ SQL;
             ->setTable('user')
             ->setColumns(
                 array(
-                    'userId'   => 'user_id', // Alias -> column name
+                    'userId' => 'user_id', // Alias -> column name
                     'username' => 'name',
-                    'email'    => 'email',
+                    'email' => 'email',
                 )
             );
 
@@ -220,9 +219,9 @@ SQL;
             ->setTable($tableName)
             ->setColumns(
                 array(
-                    'userId'   => 'user_id', // Alias -> column name
+                    'userId' => 'user_id', // Alias -> column name
                     'username' => 'name',
-                    'email'    => 'email',
+                    'email' => 'email',
                 )
             )
             ->orderBy('user_id', OrderBy::ASC)
@@ -300,9 +299,9 @@ SQL;
             ->setTable('user')
             ->setColumns(
                 array(
-                    'userId'   => 'user_id',
+                    'userId' => 'user_id',
                     'username' => 'name',
-                    'email'    => 'email',
+                    'email' => 'email',
                     'created_at',
                 )
             )
@@ -340,9 +339,9 @@ SQL;
             ->setTable('user')
             ->setColumns(
                 array(
-                    'userId'   => 'user_id',
+                    'userId' => 'user_id',
                     'username' => 'name',
-                    'email'    => 'email',
+                    'email' => 'email',
                     'created_at',
                 )
             )
@@ -364,7 +363,7 @@ SQL;
     {
         $this->query->setTable('user');
 
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 5; ++$i) {
             //Select QueryInterface for "news" table
             $select = new Select();
             $select
@@ -392,9 +391,9 @@ SQL;
             ->setTable('user')
             ->setColumns(
                 array(
-                    'userId'   => 'user_id',
+                    'userId' => 'user_id',
                     'username' => 'name',
-                    'email'    => 'email',
+                    'email' => 'email',
                     'created_at',
                 )
             )
@@ -486,9 +485,9 @@ SQL;
             ->setTable('user')
             ->setColumns(
                 array(
-                    'userId'   => 'user_id',
+                    'userId' => 'user_id',
                     'username' => 'name',
-                    'email'    => 'email',
+                    'email' => 'email',
                     'created_at',
                 )
             )
@@ -516,9 +515,9 @@ SQL;
             ->setTable('user')
             ->setColumns(
                 array(
-                    'userId'   => 'user_id',
+                    'userId' => 'user_id',
                     'username' => 'name',
-                    'email'    => 'email',
+                    'email' => 'email',
                     'created_at',
                 )
             )
@@ -535,9 +534,9 @@ SQL;
             ->setTable('user')
             ->setColumns(
                 array(
-                    'userId'   => 'user_id',
+                    'userId' => 'user_id',
                     'username' => 'name',
-                    'email'    => 'email',
+                    'email' => 'email',
                     'created_at',
                 )
             )

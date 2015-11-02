@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/11/14
- * Time: 1:51 AM
+ * Time: 1:51 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,8 +15,7 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\Insert;
 use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
 
 /**
- * Class InsertWriter
- * @package NilPortugues\Sql\QueryBuilder\BuilderInterface\Syntax
+ * Class InsertWriter.
  */
 class InsertWriter
 {
@@ -36,7 +35,7 @@ class InsertWriter
      */
     public function __construct(GenericBuilder $writer, PlaceholderWriter $placeholder)
     {
-        $this->writer       = $writer;
+        $this->writer = $writer;
         $this->columnWriter = WriterFactory::createColumnWriter($this->writer, $placeholder);
     }
 
@@ -44,6 +43,7 @@ class InsertWriter
      * @param Insert $insert
      *
      * @throws QueryException
+     *
      * @return string
      */
     public function write(Insert $insert)
@@ -56,7 +56,7 @@ class InsertWriter
 
         $columns = $this->writeQueryColumns($columns);
         $values = $this->writeQueryValues($insert->getValues());
-        $table   = $this->writer->writeTable($insert->getTable());
+        $table = $this->writer->writeTable($insert->getTable());
         $comment = AbstractBaseWriter::writeQueryComment($insert);
 
         return $comment."INSERT INTO {$table} ($columns) VALUES ($values)";
@@ -81,14 +81,14 @@ class InsertWriter
      */
     protected function writeCommaSeparatedValues($collection, $writer, $method)
     {
-        array_walk(
+        \array_walk(
             $collection,
             function (&$data) use ($writer, $method) {
                 $data = $writer->$method($data);
             }
         );
 
-        return implode(", ", $collection);
+        return \implode(', ', $collection);
     }
 
     /**

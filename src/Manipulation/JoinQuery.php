@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 12/25/14
- * Time: 11:41 AM
+ * Time: 11:41 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,12 +14,11 @@ use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 
 /**
- * Class JoinQuery
- * @package NilPortugues\Sql\QueryBuilder\Manipulation
+ * Class JoinQuery.
  */
 class JoinQuery
 {
-    const JOIN_LEFT  = 'LEFT';
+    const JOIN_LEFT = 'LEFT';
     const JOIN_RIGHT = 'RIGHT';
     const JOIN_INNER = 'INNER';
     const JOIN_CROSS = 'CROSS';
@@ -133,7 +132,7 @@ class JoinQuery
     }
 
     /**
-     * Transforms Select in a joint
+     * Transforms Select in a joint.
      *
      * @param bool $isJoin
      *
@@ -188,7 +187,8 @@ class JoinQuery
     }
 
     /**
-     * Alias to joinCondition
+     * Alias to joinCondition.
+     *
      * @return Where
      */
     public function on()
@@ -211,7 +211,7 @@ class JoinQuery
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isJoinSelect()
     {
@@ -219,7 +219,7 @@ class JoinQuery
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isJoin()
     {
@@ -294,7 +294,7 @@ class JoinQuery
         $joins = $this->joins;
 
         foreach ($this->joins as $join) {
-            $joins = array_merge($joins, $join->getAllJoins());
+            $joins = \array_merge($joins, $join->getAllJoins());
         }
 
         return $joins;

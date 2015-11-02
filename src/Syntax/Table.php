@@ -2,16 +2,16 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
- * Time: 12:07 AM
+ * Time: 12:07 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Sql\QueryBuilder\Syntax;
 
 /**
- * Class Table
- * @package NilPortugues\Sql\QueryBuilder\Syntax
+ * Class Table.
  */
 class Table
 {
@@ -57,7 +57,7 @@ class Table
     }
 
     /**
-     * @param boolean $view
+     * @param bool $view
      *
      * @return $this
      */
@@ -97,7 +97,7 @@ class Table
      */
     public function getCompleteName()
     {
-        $alias  = ($this->alias) ? " AS {$this->alias}" : '';
+        $alias = ($this->alias) ? " AS {$this->alias}" : '';
         $schema = ($this->schema) ? "{$this->schema}." : '';
 
         return $schema.$this->name.$alias;

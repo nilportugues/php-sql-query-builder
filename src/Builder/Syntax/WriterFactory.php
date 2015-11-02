@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/12/14
- * Time: 2:11 AM
+ * Time: 2:11 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,8 +13,7 @@ namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 
 /**
- * Class WriterFactory
- * @package NilPortugues\Sql\QueryBuilder\BuilderInterface\Syntax
+ * Class WriterFactory.
  */
 final class WriterFactory
 {

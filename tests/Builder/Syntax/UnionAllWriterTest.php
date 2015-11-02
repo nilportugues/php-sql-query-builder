@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
- * Time: 7:34 PM
+ * Time: 7:34 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,8 +16,7 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\UnionAll;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 /**
- * Class UnionAllWriterTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax
+ * Class UnionAllWriterTest.
  */
 class UnionAllWriterTest extends \PHPUnit_Framework_TestCase
 {

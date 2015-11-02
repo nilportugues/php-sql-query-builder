@@ -2,16 +2,16 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
- * Time: 12:07 AM
+ * Time: 12:07 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
 /**
- * Class Delete
- * @package NilPortugues\Sql\QueryBuilder\Manipulation
+ * Class Delete.
  */
 class Delete extends AbstractBaseQuery
 {
@@ -47,7 +47,7 @@ class Delete extends AbstractBaseQuery
     }
 
     /**
-     * @param integer $start
+     * @param int $start
      *
      * @return $this
      */

@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
- * Time: 10:45 PM
+ * Time: 10:45 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,8 +17,7 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 
 /**
- * Class ColumnWriterTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax
+ * Class ColumnWriterTest.
  */
 class ColumnWriterTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,8 +42,8 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->writer = new GenericBuilder();
-        $this->query  = new Select();
-        $this->columnWriter  = new ColumnWriter(new GenericBuilder(), new PlaceholderWriter());
+        $this->query = new Select();
+        $this->columnWriter = new ColumnWriter(new GenericBuilder(), new PlaceholderWriter());
     }
 
     /**

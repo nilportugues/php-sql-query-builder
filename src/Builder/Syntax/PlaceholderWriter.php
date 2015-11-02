@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/4/14
- * Time: 12:02 AM
+ * Time: 12:02 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,13 +11,12 @@
 namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 
 /**
- * Class PlaceholderWriter
- * @package NilPortugues\Sql\QueryBuilder\BuilderInterface
+ * Class PlaceholderWriter.
  */
 class PlaceholderWriter
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $counter = 1;
 
@@ -39,7 +38,7 @@ class PlaceholderWriter
      */
     public function reset()
     {
-        $this->counter      = 1;
+        $this->counter = 1;
         $this->placeholders = [];
 
         return $this;
@@ -52,10 +51,10 @@ class PlaceholderWriter
      */
     public function add($value)
     {
-        $placeholderKey                      = ':v'.$this->counter;
+        $placeholderKey = ':v'.$this->counter;
         $this->placeholders[$placeholderKey] = $this->setValidSqlValue($value);
 
-        $this->counter++;
+        ++$this->counter;
 
         return $placeholderKey;
     }
@@ -81,7 +80,7 @@ class PlaceholderWriter
      */
     protected function writeNullSqlString($value)
     {
-        if (is_null($value) || (is_string($value) && empty($value))) {
+        if (\is_null($value) || (\is_string($value) && empty($value))) {
             $value = $this->writeNull();
         }
 
@@ -93,7 +92,7 @@ class PlaceholderWriter
      */
     protected function writeNull()
     {
-        return "NULL";
+        return 'NULL';
     }
 
     /**
@@ -103,7 +102,7 @@ class PlaceholderWriter
      */
     protected function writeStringAsSqlString($value)
     {
-        if (is_string($value)) {
+        if (\is_string($value)) {
             $value = $this->writeString($value);
         }
 
@@ -127,7 +126,7 @@ class PlaceholderWriter
      */
     protected function writeBooleanSqlString($value)
     {
-        if (is_bool($value)) {
+        if (\is_bool($value)) {
             $value = $this->writeBoolean($value);
         }
 
@@ -135,14 +134,14 @@ class PlaceholderWriter
     }
 
     /**
-     * @param boolean $value
+     * @param bool $value
      *
      * @return string
      */
     protected function writeBoolean($value)
     {
-        $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        $value = \filter_var($value, FILTER_VALIDATE_BOOLEAN);
 
-        return ($value) ? "1" : "0";
+        return ($value) ? '1' : '0';
     }
 }

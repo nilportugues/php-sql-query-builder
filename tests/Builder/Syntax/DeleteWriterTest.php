@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
- * Time: 10:45 PM
+ * Time: 10:45 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,8 +14,7 @@ use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Delete;
 
 /**
- * Class DeleteWriterTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax
+ * Class DeleteWriterTest.
  */
 class DeleteWriterTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,7 +34,7 @@ class DeleteWriterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->writer = new GenericBuilder();
-        $this->query  = new Delete();
+        $this->query = new Delete();
     }
 
     /**
@@ -58,7 +57,7 @@ class DeleteWriterTest extends \PHPUnit_Framework_TestCase
             ->setTable('user')
             ->limit(1);
 
-        $expected = "DELETE FROM user LIMIT :v1";
+        $expected = 'DELETE FROM user LIMIT :v1';
         $this->assertSame($expected, $this->writer->write($this->query));
 
         $expected = array(':v1' => 1);

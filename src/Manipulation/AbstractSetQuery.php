@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 12/24/14
- * Time: 12:30 PM
+ * Time: 12:30 PM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,8 +13,7 @@ namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
 
 /**
- * Class AbstractSetQuery
- * @package NilPortugues\Sql\QueryBuilder\Manipulation
+ * Class AbstractSetQuery.
  */
 abstract class AbstractSetQuery implements QueryInterface, QueryPartInterface
 {
@@ -45,34 +44,37 @@ abstract class AbstractSetQuery implements QueryInterface, QueryPartInterface
 
     /**
      * @throws QueryException
+     *
      * @return \NilPortugues\Sql\QueryBuilder\Syntax\Table
      */
     public function getTable()
     {
         throw new QueryException(
-            sprintf('%s does not support tables', $this->partName())
+            \sprintf('%s does not support tables', $this->partName())
         );
     }
 
     /**
      * @throws QueryException
+     *
      * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
     public function getWhere()
     {
         throw new QueryException(
-            sprintf('%s does not support WHERE.', $this->partName())
+            \sprintf('%s does not support WHERE.', $this->partName())
         );
     }
 
     /**
      * @throws QueryException
+     *
      * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
     public function where()
     {
         throw new QueryException(
-            sprintf('%s does not support the WHERE statement.', $this->partName())
+            \sprintf('%s does not support the WHERE statement.', $this->partName())
         );
     }
 }

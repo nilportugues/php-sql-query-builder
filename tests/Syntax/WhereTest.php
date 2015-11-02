@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
- * Time: 12:31 AM
+ * Time: 12:31 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,8 +15,7 @@ use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 use NilPortugues\Tests\Sql\QueryBuilder\Manipulation\Resources\DummyQuery;
 
 /**
- * Class WhereTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\Syntax
+ * Class WhereTest.
  */
 class WhereTest extends \PHPUnit_Framework_TestCase
 {
@@ -100,7 +99,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     public function itShouldReturnTheSameEqAndEqual()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $this->assertSame(
             $this->where->equals($column, $value),
@@ -114,7 +113,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     public function itShouldNotBeEqualTo()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $result = $this->where->notEquals($column, $value)->getComparisons();
 
@@ -129,7 +128,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     public function itShouldBeGreaterThan()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $result = $this->where->greaterThan($column, $value)->getComparisons();
 
@@ -144,7 +143,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     public function itShouldBeGreaterThanOrEqual()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $result = $this->where->greaterThanOrEqual($column, $value)->getComparisons();
 
@@ -159,7 +158,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     public function itShouldBeLessThan()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $result = $this->where->lessThan($column, $value)->getComparisons();
 
@@ -174,7 +173,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     public function itShouldBeLessThanOrEqual()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $result = $this->where->lessThanOrEqual($column, $value)->getComparisons();
 
@@ -189,7 +188,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     public function itShouldBeLike()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $result = $this->where->like($column, $value)->getComparisons();
 
@@ -204,7 +203,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     public function itShouldBeNotLike()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $result = $this->where->notLike($column, $value)->getComparisons();
 
@@ -227,8 +226,8 @@ class WhereTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             0 => array(
                 'columns' => array('user_id'),
-                'values'  => array(1, 2, 3),
-                'mode'    => 'natural',
+                'values' => array(1, 2, 3),
+                'mode' => 'natural',
             ),
         );
         $this->assertEquals($expected, $result);
@@ -248,8 +247,8 @@ class WhereTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             0 => array(
                 'columns' => array('user_id'),
-                'values'  => array(1, 2, 3),
-                'mode'    => 'boolean',
+                'values' => array(1, 2, 3),
+                'mode' => 'boolean',
             ),
         );
         $this->assertEquals($expected, $result);
@@ -269,8 +268,8 @@ class WhereTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             0 => array(
                 'columns' => array('user_id'),
-                'values'  => array(1, 2, 3),
-                'mode'    => 'query_expansion',
+                'values' => array(1, 2, 3),
+                'mode' => 'query_expansion',
             ),
         );
         $this->assertEquals($expected, $result);

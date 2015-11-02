@@ -2,7 +2,7 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/13/14
- * Time: 12:46 AM
+ * Time: 12:46 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,8 +14,7 @@ use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 /**
- * Class WhereWriterTest
- * @package NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax
+ * Class WhereWriterTest.
  */
 class WhereWriterTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,7 +34,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->writer = new GenericBuilder();
-        $this->query  = new Select();
+        $this->query = new Select();
     }
 
     /**
@@ -82,7 +81,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     public function itShouldBeAbleToLetWhereStatementNotBeEqualTo()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $this->query
             ->setTable('user')
@@ -102,7 +101,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     public function itShouldBeAbleToLetWhereStatementBeGreaterThan()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $this->query
             ->setTable('user')
@@ -122,7 +121,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     public function itShouldBeAbleToLetWhereStatementBeGreaterThanOrEqual()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $this->query
             ->setTable('user')
@@ -142,7 +141,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     public function itShouldBeAbleToLetWhereStatementBeLessThan()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $this->query
             ->setTable('user')
@@ -162,7 +161,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     public function itShouldBeAbleToLetWhereStatementBeLessThanOrEqual()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $this->query
             ->setTable('user')
@@ -182,7 +181,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     public function itShouldBeAbleToLetWhereStatementBeLike()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $this->query
             ->setTable('user')
@@ -202,7 +201,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     public function itShouldBeAbleToLetWhereStatementBeNotLike()
     {
         $column = 'user_id';
-        $value  = 1;
+        $value = 1;
 
         $this->query
             ->setTable('user')
@@ -342,7 +341,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
             ->where()
             ->equals($column, 1)
             ->equals($column, 2)
-            ->subWhere("OR")
+            ->subWhere('OR')
             ->lessThan($column, 10)
             ->greaterThan($column, 100);
 

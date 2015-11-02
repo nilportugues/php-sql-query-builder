@@ -2,11 +2,12 @@
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
- * Time: 12:07 AM
+ * Time: 12:07 AM.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
 use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
@@ -14,8 +15,7 @@ use NilPortugues\Sql\QueryBuilder\Syntax\Table;
 use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 
 /**
- * Class Select
- * @package NilPortugues\Sql\QueryBuilder\Manipulation
+ * Class Select.
  */
 class Select extends AbstractBaseQuery
 {
@@ -32,7 +32,7 @@ class Select extends AbstractBaseQuery
     /**
      * @var string
      */
-    protected $camelCaseTableName = "";
+    protected $camelCaseTableName = '';
 
     /**
      * @var Where
@@ -42,7 +42,7 @@ class Select extends AbstractBaseQuery
     /**
      * @var string
      */
-    protected $havingOperator = "AND";
+    protected $havingOperator = 'AND';
 
     /**
      * @var bool
@@ -74,7 +74,7 @@ class Select extends AbstractBaseQuery
             $this->setTable($table);
         }
 
-        $this->joinQuery   = new JoinQuery($this);
+        $this->joinQuery = new JoinQuery($this);
         $this->columnQuery = new ColumnQuery($this, $this->joinQuery, $columns);
     }
 
@@ -86,7 +86,7 @@ class Select extends AbstractBaseQuery
      */
     public function __clone()
     {
-        return unserialize(serialize($this));
+        return \unserialize(\serialize($this));
     }
 
     /**
@@ -152,7 +152,7 @@ class Select extends AbstractBaseQuery
     }
 
     /**
-     * Transforms Select in a joint
+     * Transforms Select in a joint.
      *
      * @param bool $isJoin
      *
@@ -205,7 +205,8 @@ class Select extends AbstractBaseQuery
     }
 
     /**
-     * Alias to joinCondition
+     * Alias to joinCondition.
+     *
      * @return Where
      */
     public function on()
@@ -214,7 +215,7 @@ class Select extends AbstractBaseQuery
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isJoinSelect()
     {
@@ -231,6 +232,7 @@ class Select extends AbstractBaseQuery
 
     /**
      * @return \NilPortugues\Sql\QueryBuilder\Syntax\Column
+     *
      * @throws QueryException
      */
     public function getColumns()
@@ -339,7 +341,7 @@ class Select extends AbstractBaseQuery
         }
 
         foreach ($this->joinQuery->getJoins() as $join) {
-            $collection = array_merge($collection, $join->$operation());
+            $collection = \array_merge($collection, $join->$operation());
         }
 
         return $collection;
@@ -373,8 +375,8 @@ class Select extends AbstractBaseQuery
     }
 
     /**
-     * @param integer $start
-     * @param         $count
+     * @param int $start
+     * @param     $count
      *
      * @return $this
      */
@@ -446,6 +448,7 @@ class Select extends AbstractBaseQuery
      * @param $havingOperator
      *
      * @throws QueryException
+     *
      * @return Where
      */
     public function having($havingOperator = 'AND')
@@ -456,7 +459,7 @@ class Select extends AbstractBaseQuery
 
         if (!in_array($havingOperator, array(Where::CONJUNCTION_AND, Where::CONJUNCTION_OR))) {
             throw new QueryException(
-                "Invalid conjunction specified, must be one of AND or OR, but '" . $havingOperator . "' was found."
+                "Invalid conjunction specified, must be one of AND or OR, but '".$havingOperator."' was found."
             );
         }
 
@@ -499,7 +502,7 @@ class Select extends AbstractBaseQuery
         $order = $this->orderBy;
 
         foreach ($this->joinQuery->getJoins() as $join) {
-            $order = array_merge($order, $join->getAllOrderBy());
+            $order = \array_merge($order, $join->getAllOrderBy());
         }
 
         return $order;
