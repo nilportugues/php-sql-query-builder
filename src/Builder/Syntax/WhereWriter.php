@@ -196,6 +196,10 @@ class WhereWriter extends AbstractBaseWriter
             $comparisons,
             function (&$comparison) {
 
+                if (!is_array($comparison)) {
+                    return;
+                }
+
                 $str = $this->writeWherePartialCondition($comparison['subject']);
                 $str .= $this->writer->writeConjunction($comparison['conjunction']);
                 $str .= $this->writeWherePartialCondition($comparison['target']);
