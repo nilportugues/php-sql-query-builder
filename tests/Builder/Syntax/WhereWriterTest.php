@@ -520,4 +520,23 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
         $expected = array(':v1' => 'Nil', ':v2' => 1);
         $this->assertEquals($expected, $this->writer->getValues());
     }
+
+    /**
+     * @test
+     */
+    public function itShouldAllowWhereConditionAsLiteral()
+    {
+        $this->query
+            ->setTable('user')
+            ->where()
+            ->asLiteral("(username is not null and status=:status)")
+            ->notEquals('name', '%N%');
+
+        $expected = "SELECT user.* FROM user WHERE (username is not null and status=:status) AND (user.name <> :v1)";
+
+        $this->assertSame($expected, $this->writer->write($this->query));
+
+        $expected = array(':v1' => '%N%');
+        $this->assertEquals($expected, $this->writer->getValues());
+    }
 }

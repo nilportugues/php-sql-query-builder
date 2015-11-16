@@ -383,6 +383,18 @@ class Where
     }
 
     /**
+     * @param string $literal
+     *
+     * @return $this
+     */
+    public function asLiteral($literal)
+    {
+        $this->comparisons[] = $literal;
+
+        return $this;
+    }
+
+    /**
      * @param string[] $columns
      * @param mixed[]  $values
      *
