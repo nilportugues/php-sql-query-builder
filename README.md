@@ -788,6 +788,7 @@ The following operators are available for filtering using WHERE conditionals:
     public function exists(Select $select);
     public function notExists(Select $select);
     public function addBitClause($column, $value);    
+    public function asLiteral($literal);
 ```
 
 <a name="block4.2"></a>
