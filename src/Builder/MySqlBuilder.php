@@ -31,6 +31,10 @@ class MySqlBuilder extends GenericBuilder
             return '*';
         }
 
+        if (false !== strpos($column->getName(), "(")) {
+            return parent::writeColumnName($column);
+        }
+
         return $this->wrapper(parent::writeColumnName($column));
     }
 
@@ -78,6 +82,10 @@ class MySqlBuilder extends GenericBuilder
      */
     protected function wrapper($string, $char = '`')
     {
+        if (0 === strlen($string)) {
+            return '';
+        }
+
         return $char.$string.$char;
     }
 }
