@@ -413,7 +413,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldReturnLiterals()
     {
-        $result = $this->where->asLiteral("(username is not null and status=:status)")->getComparisons();
-        $this->assertSame("(username is not null and status=:status)", $result[0]);
+        $result = $this->where->asLiteral('(username is not null and status=:status)')->getComparisons();
+        $this->assertSame('(username is not null and status=:status)', $result[0]);
     }
 }

@@ -93,7 +93,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->columnWriter->writeColumnWithAlias($column);
 
-        $this->assertSame('user.user_id AS \'userId\'', $result);
+        $this->assertSame('user.user_id AS "userId"', $result);
     }
 
     /**
@@ -118,8 +118,8 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
             ->equals('user_id', 4);
 
         $expected = 'SELECT user.user_id, user.username, '.
-            '(SELECT role.role_name FROM role WHERE (role.role_id = :v1) LIMIT :v2, :v3) AS \'user_role\', '.
-            '(SELECT role.role_name FROM role WHERE (role.role_id = :v4) LIMIT :v5, :v6) AS \'role\' '.
+            '(SELECT role.role_name FROM role WHERE (role.role_id = :v1) LIMIT :v2, :v3) AS "user_role", '.
+            '(SELECT role.role_name FROM role WHERE (role.role_id = :v4) LIMIT :v5, :v6) AS "role" '.
             'FROM user WHERE (user.user_id = :v7)';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -140,7 +140,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
             ->where()
             ->equals('user_id', 1);
 
-        $expected = 'SELECT user.user_id, user.username, :v1 AS \'priority\' FROM user WHERE (user.user_id = :v2)';
+        $expected = 'SELECT user.user_id, user.username, :v1 AS "priority" FROM user WHERE (user.user_id = :v2)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
         $expected = array(':v1' => 10, ':v2' => 1);
@@ -159,7 +159,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
             ->where()
             ->equals('user_id', 1);
 
-        $expected = 'SELECT user.user_id, user.username, MAX(user_id) AS \'max_id\' FROM user WHERE (user.user_id = :v1)';
+        $expected = 'SELECT user.user_id, user.username, MAX(user_id) AS "max_id" FROM user WHERE (user.user_id = :v1)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
         $expected = array(':v1' => 1);
@@ -178,7 +178,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
             ->where()
             ->equals('user_id', 1);
 
-        $expected = 'SELECT user.user_id, user.username, CURRENT_TIMESTAMP AS \'server_time\' FROM user WHERE (user.user_id = :v1)';
+        $expected = 'SELECT user.user_id, user.username, CURRENT_TIMESTAMP AS "server_time" FROM user WHERE (user.user_id = :v1)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
         $expected = array(':v1' => 1);

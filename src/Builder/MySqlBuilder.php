@@ -31,7 +31,7 @@ class MySqlBuilder extends GenericBuilder
             return '*';
         }
 
-        if (false !== strpos($column->getName(), "(")) {
+        if (false !== strpos($column->getName(), '(')) {
             return parent::writeColumnName($column);
         }
 

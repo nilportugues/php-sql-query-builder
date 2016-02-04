@@ -529,10 +529,10 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
         $this->query
             ->setTable('user')
             ->where()
-            ->asLiteral("(username is not null and status=:status)")
+            ->asLiteral('(username is not null and status=:status)')
             ->notEquals('name', '%N%');
 
-        $expected = "SELECT user.* FROM user WHERE (username is not null and status=:status) AND (user.name <> :v1)";
+        $expected = 'SELECT user.* FROM user WHERE (username is not null and status=:status) AND (user.name <> :v1)';
 
         $this->assertSame($expected, $this->writer->write($this->query));
 

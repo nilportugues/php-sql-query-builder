@@ -190,7 +190,7 @@ SQL;
                 )
             );
 
-        $expected = "SELECT user.user_id AS 'userId', user.name AS 'username', user.email AS 'email' FROM user";
+        $expected = 'SELECT user.user_id AS "userId", user.name AS "username", user.email AS "email" FROM user';
 
         $this->assertSame($expected, $this->writer->write($this->query));
     }
@@ -228,7 +228,7 @@ SQL;
             ->orderBy('email', OrderBy::DESC);
 
         $expected =
-            'SELECT user.user_id AS \'userId\', user.name AS \'username\', user.email AS \'email\' FROM '.
+            'SELECT user.user_id AS "userId", user.name AS "username", user.email AS "email" FROM '.
             'user ORDER BY user.user_id ASC, user.email DESC';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -309,7 +309,7 @@ SQL;
             ->leftJoin('news', 'user_id', 'author_id', array('title', 'body', 'created_at', 'updated_at'))
             ->orderBy('created_at', OrderBy::DESC);
 
-        $expected = 'SELECT user.user_id AS \'userId\', user.name AS \'username\', user.email AS \'email\', user.created_at,'.
+        $expected = 'SELECT user.user_id AS "userId", user.name AS "username", user.email AS "email", user.created_at,'.
             ' news.title, news.body, news.created_at, news.updated_at FROM user LEFT JOIN news ON (news.author_id '.
             '= user.user_id) ORDER BY user.user_id DESC, news.created_at DESC';
 
@@ -349,7 +349,7 @@ SQL;
             ->join('news', 'user_id', 'author_id', array('title', 'body', 'created_at', 'updated_at'))
             ->orderBy('created_at', OrderBy::DESC);
 
-        $expected = 'SELECT user.user_id AS \'userId\', user.name AS \'username\', user.email AS \'email\', user.created_at,'.
+        $expected = 'SELECT user.user_id AS "userId", user.name AS "username", user.email AS "email", user.created_at,'.
             ' news.title, news.body, news.created_at, news.updated_at FROM user JOIN news ON (news.author_id ='.
             ' user.user_id) ORDER BY user.user_id DESC, news.created_at DESC';
 
@@ -405,7 +405,7 @@ SQL;
 
         $this->query->limit(1, 10);
 
-        $expected = 'SELECT user.user_id AS \'userId\', user.name AS \'username\', user.email AS \'email\', user.created_at,'.
+        $expected = 'SELECT user.user_id AS "userId", user.name AS "username", user.email AS "email", user.created_at,'.
             ' news.title, news.body, news.created_at, news.updated_at FROM user JOIN news ON '.
             '(news.author_id = user.user_id) AND (news.author_id = :v1) ORDER BY '.
             'user.user_id DESC, news.created_at DESC LIMIT :v2, :v3';
@@ -469,7 +469,7 @@ SQL;
             ->equals('user_id', 1)
             ->equals('user_id', 2);
 
-        $expected = 'SELECT COUNT(user.user_id) AS \'total_users\' FROM user GROUP BY user.user_id, user.name HAVING (user.user_id = :v1) AND (user.user_id = :v2)';
+        $expected = 'SELECT COUNT(user.user_id) AS "total_users" FROM user GROUP BY user.user_id, user.name HAVING (user.user_id = :v1) AND (user.user_id = :v2)';
 
         $this->assertSame($expected, $this->writer->write($this->query));
         $expected = array(':v1' => 1, ':v2' => 2);
@@ -496,7 +496,7 @@ SQL;
             ->equals('user_id', 1)
             ->equals('user_id', 2);
 
-        $expected = 'SELECT user.user_id AS \'userId\', user.name AS \'username\', user.email AS \'email\', user.created_at'.
+        $expected = 'SELECT user.user_id AS "userId", user.name AS "username", user.email AS "email", user.created_at'.
             ' FROM user GROUP BY user.user_id, user.name HAVING (user.user_id = :v1) AND (user.user_id = :v2)';
 
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -545,7 +545,7 @@ SQL;
             ->equals('user_id', 1)
             ->equals('user_id', 2);
 
-        $expected = 'SELECT user.user_id AS \'userId\', user.name AS \'username\', user.email AS \'email\', user.created_at'.
+        $expected = 'SELECT user.user_id AS "userId", user.name AS "username", user.email AS "email", user.created_at'.
             ' FROM user GROUP BY user.user_id, user.name HAVING (user.user_id = :v1) OR (user.user_id = :v2)';
 
         $this->assertSame($expected, $this->writer->write($this->query));

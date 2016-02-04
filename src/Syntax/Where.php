@@ -417,8 +417,8 @@ class Where
     }
 
     /**
-     * @param string    $column
-     * @param integer[] $values
+     * @param string $column
+     * @param int[]  $values
      *
      * @return $this
      */
@@ -430,8 +430,8 @@ class Where
     }
 
     /**
-     * @param string    $column
-     * @param integer[] $values
+     * @param string $column
+     * @param int[]  $values
      *
      * @return $this
      */

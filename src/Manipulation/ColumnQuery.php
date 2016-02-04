@@ -200,7 +200,7 @@ class ColumnQuery
         $count .= ')';
 
         if (isset($alias) && \strlen($alias) > 0) {
-            $count .= " AS '{$alias}'";
+            $count .= ' AS "'.$alias.'"';
         }
 
         $this->columns = array($count);
