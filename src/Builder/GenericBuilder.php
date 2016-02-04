@@ -292,7 +292,7 @@ class GenericBuilder implements BuilderInterface
      */
     public function writeColumnAlias($alias)
     {
-        return "'{$alias}'";
+        return sprintf('"%s"', $alias);
     }
 
     /**
