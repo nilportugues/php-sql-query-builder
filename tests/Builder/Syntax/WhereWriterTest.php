@@ -275,6 +275,25 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function itShouldBeAbleToLetWhereStatementWriteNotBetweenConditions()
+    {
+        $column = 'user_id';
+
+        $this->query
+            ->setTable('user')
+            ->where()
+            ->notBetween($column, 1, 2);
+
+        $expected = 'SELECT user.* FROM user WHERE (user.user_id NOT BETWEEN :v1 AND :v2)';
+        $this->assertSame($expected, $this->writer->write($this->query));
+
+        $expected = array(':v1' => 1, ':v2' => 2);
+        $this->assertEquals($expected, $this->writer->getValues());
+    }
+
+    /**
+     * @test
+     */
     public function itShouldBeAbleToLetWhereStatementSetNullValueCondition()
     {
         $column = 'user_id';

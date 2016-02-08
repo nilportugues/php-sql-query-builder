@@ -22,12 +22,12 @@ class Minus implements QueryInterface, QueryPartInterface
     /**
      * @var Select
      */
-    private $first;
+    protected $first;
 
     /**
      * @var Select
      */
-    private $second;
+    protected $second;
 
     /**
      * @return string

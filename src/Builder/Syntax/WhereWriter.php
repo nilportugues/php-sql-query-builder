@@ -51,6 +51,7 @@ class WhereWriter extends AbstractBaseWriter
         $this->writeWhereIns($where, $whereArray);
         $this->writeWhereNotIns($where, $whereArray);
         $this->writeWhereBetweens($where, $whereArray);
+        $this->writeWhereNotBetweens($where, $whereArray);
         $this->writeWhereComparisons($where, $whereArray);
         $this->writeWhereIsNulls($where, $whereArray);
         $this->writeWhereIsNotNulls($where, $whereArray);
@@ -173,6 +174,32 @@ class WhereWriter extends AbstractBaseWriter
                 $between = '('
                     .$this->columnWriter->writeColumn($between['subject'])
                     .' BETWEEN '
+                    .$this->writer->writePlaceholderValue($between['a'])
+                    .' AND '
+                    .$this->writer->writePlaceholderValue($between['b'])
+                    .')';
+            }
+        );
+
+        $whereArray = \array_merge($whereArray, $between);
+    }
+
+    /**
+     * @param Where $where
+     * @param array $whereArray
+     *
+     * @return array
+     */
+    protected function writeWhereNotBetweens(Where $where, array &$whereArray)
+    {
+        $between = $where->getNotBetweens();
+        \array_walk(
+            $between,
+            function (&$between) {
+
+                $between = '('
+                    .$this->columnWriter->writeColumn($between['subject'])
+                    .' NOT BETWEEN '
                     .$this->writer->writePlaceholderValue($between['a'])
                     .' AND '
                     .$this->writer->writePlaceholderValue($between['b'])

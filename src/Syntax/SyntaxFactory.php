@@ -74,11 +74,10 @@ final class SyntaxFactory
      */
     public static function createTable($table)
     {
+        $tableName = $table;
         if (\is_array($table)) {
             $tableName = \current($table);
             $tableAlias = \key($table);
-        } else {
-            $tableName = $table;
         }
 
         $newTable = new Table($tableName);

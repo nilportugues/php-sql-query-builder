@@ -38,72 +38,77 @@ class Where
     /**
      * @var array
      */
-    private $comparisons = [];
+    protected $comparisons = [];
 
     /**
      * @var array
      */
-    private $betweens = [];
+    protected $betweens = [];
 
     /**
      * @var array
      */
-    private $isNull = [];
+    protected $isNull = [];
 
     /**
      * @var array
      */
-    private $isNotNull = [];
+    protected $isNotNull = [];
 
     /**
      * @var array
      */
-    private $booleans = [];
+    protected $booleans = [];
 
     /**
      * @var array
      */
-    private $match = [];
+    protected $match = [];
 
     /**
      * @var array
      */
-    private $ins = [];
+    protected $ins = [];
 
     /**
      * @var array
      */
-    private $notIns = [];
+    protected $notIns = [];
 
     /**
      * @var array
      */
-    private $subWheres = [];
+    protected $subWheres = [];
 
     /**
      * @var string
      */
-    private $conjunction = self::CONJUNCTION_AND;
+    protected $conjunction = self::CONJUNCTION_AND;
 
     /**
      * @var QueryInterface
      */
-    private $query;
+    protected $query;
 
     /**
      * @var Table
      */
-    private $table;
+    protected $table;
 
     /**
      * @var array
      */
-    private $exists = [];
+    protected $exists = [];
 
     /**
      * @var array
      */
-    private $notExists = [];
+    protected $notExists = [];
+
+    /**
+     * @var array
+     */
+    protected $notBetweens = [];
 
     /**
      * @param QueryInterface $query
@@ -252,7 +257,7 @@ class Where
      *
      * @return $this
      */
-    public function compare($column, $value, $operator)
+    protected function compare($column, $value, $operator)
     {
         $column = $this->prepareColumn($column);
 
@@ -270,7 +275,7 @@ class Where
      *
      * @return Column|Select
      */
-    private function prepareColumn($column)
+    protected function prepareColumn($column)
     {
         //This condition handles the "Select as a a column" special case.
         if ($column instanceof Select) {
@@ -465,6 +470,21 @@ class Where
 
     /**
      * @param string $column
+     * @param int    $a
+     * @param int    $b
+     *
+     * @return $this
+     */
+    public function notBetween($column, $a, $b)
+    {
+        $column = $this->prepareColumn($column);
+        $this->notBetweens[] = ['subject' => $column, 'a' => $a, 'b' => $b];
+
+        return $this;
+    }
+
+    /**
+     * @param string $column
      *
      * @return static
      */
@@ -573,6 +593,14 @@ class Where
     public function getBetweens()
     {
         return $this->betweens;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNotBetweens()
+    {
+        return $this->notBetweens;
     }
 
     /**

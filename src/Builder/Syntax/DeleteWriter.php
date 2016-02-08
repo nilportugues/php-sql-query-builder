@@ -21,12 +21,12 @@ class DeleteWriter
     /**
      * @var GenericBuilder
      */
-    private $writer;
+    protected $writer;
 
     /**
      * @var PlaceholderWriter
      */
-    private $placeholderWriter;
+    protected $placeholderWriter;
 
     /**
      * @param GenericBuilder    $writer

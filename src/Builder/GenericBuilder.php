@@ -28,21 +28,21 @@ class GenericBuilder implements BuilderInterface
      *
      * @var \NilPortugues\Sql\QueryBuilder\Builder\Syntax\PlaceholderWriter
      */
-    private $placeholderWriter;
+    protected $placeholderWriter;
 
     /**
      * The Where writer.
      *
      * @var \NilPortugues\Sql\QueryBuilder\Builder\Syntax\WhereWriter
      */
-    private $whereWriter;
+    protected $whereWriter;
 
     /**
      * The SQL formatter.
      *
      * @var \NilPortugues\Sql\QueryFormatter\Formatter
      */
-    private $sqlFormatter;
+    protected $sqlFormatter;
 
     /**
      * Class namespace for the query pretty output formatter.
@@ -50,7 +50,7 @@ class GenericBuilder implements BuilderInterface
      *
      * @var string
      */
-    private $sqlFormatterClass = 'NilPortugues\Sql\QueryFormatter\Formatter';
+    protected $sqlFormatterClass = 'NilPortugues\Sql\QueryFormatter\Formatter';
 
     /**
      * Array holding the writers for each query part. Methods are called upon request and stored in
@@ -58,7 +58,7 @@ class GenericBuilder implements BuilderInterface
      *
      * @var array
      */
-    private $queryWriterArray = [
+    protected $queryWriterArray = [
         'SELECT' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createSelectWriter',
         'INSERT' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createInsertWriter',
         'UPDATE' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createUpdateWriter',
@@ -74,7 +74,7 @@ class GenericBuilder implements BuilderInterface
      *
      * @var array
      */
-    private $queryWriterInstances = [
+    protected $queryWriterInstances = [
         'SELECT' => null,
         'INSERT' => null,
         'UPDATE' => null,
@@ -107,7 +107,7 @@ class GenericBuilder implements BuilderInterface
     /**
      * @param \NilPortugues\Sql\QueryBuilder\Manipulation\AbstractBaseQuery
      *
-     *@return \NilPortugues\Sql\QueryBuilder\Manipulation\AbstractBaseQuery
+     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\AbstractBaseQuery
      */
     protected function injectBuilder(AbstractBaseQuery $query)
     {

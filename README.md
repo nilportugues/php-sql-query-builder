@@ -768,28 +768,28 @@ SELECT user_email.* FROM user_email
 The following operators are available for filtering using WHERE conditionals:
 
 ```php
-    public function subWhere($operator = 'OR');
-    public function equals($column, $value);
-    public function compare($column, $value, $operator);
-    public function notEquals($column, $value);
-    public function greaterThan($column, $value);
-    public function greaterThanOrEqual($column, $value);
-    public function lessThan($column, $value);
-    public function lessThanOrEqual($column, $value);
-    public function like($column, $value);
-    public function notLike($column, $value);
-    public function match(array $columns, array $values);
-    public function matchBoolean(array $columns, array $values);
-    public function matchWithQueryExpansion(array $columns, array $values);
-    public function in($column, array $values);
-    public function notIn($column, array $values);
-    public function between($column, $a, $b);
-    public function isNull($column);
-    public function isNotNull($column);
-    public function exists(Select $select);
-    public function notExists(Select $select);
-    public function addBitClause($column, $value);    
-    public function asLiteral($literal);
+public function subWhere($operator = 'OR');
+public function equals($column, $value);        
+public function notEquals($column, $value);
+public function greaterThan($column, $value);
+public function greaterThanOrEqual($column, $value);
+public function lessThan($column, $value);
+public function lessThanOrEqual($column, $value);
+public function like($column, $value);
+public function notLike($column, $value);
+public function match(array $columns, array $values);
+public function matchBoolean(array $columns, array $values);
+public function matchWithQueryExpansion(array $columns, array $values);
+public function in($column, array $values);
+public function notIn($column, array $values);
+public function between($column, $a, $b);
+public function notBetween($column, $a, $b);
+public function isNull($column);
+public function isNotNull($column);
+public function exists(Select $select);
+public function notExists(Select $select);
+public function addBitClause($column, $value);    
+public function asLiteral($literal);
 ```
 
 <a name="block4.2"></a>
