@@ -10,9 +10,9 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Syntax;
 
-use NilPortugues\Sql\QueryBuilder\Manipulation\QueryInterface;
 use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
 use NilPortugues\Sql\QueryBuilder\Manipulation\QueryFactory;
+use NilPortugues\Sql\QueryBuilder\Manipulation\QueryInterface;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 
 /**
@@ -29,7 +29,9 @@ class Where
     const OPERATOR_EQUAL = '=';
     const OPERATOR_NOT_EQUAL = '<>';
     const CONJUNCTION_AND = 'AND';
+    const CONJUNCTION_AND_NOT = 'AND NOT';
     const CONJUNCTION_OR = 'OR';
+    const CONJUNCTION_OR_NOT = 'OR NOT';
     const CONJUNCTION_EXISTS = 'EXISTS';
     const CONJUNCTION_NOT_EXISTS = 'NOT EXISTS';
 
@@ -150,6 +152,29 @@ class Where
     }
 
     /**
+     * @param string $operator
+     *
+     * @return $this
+     *
+     * @throws QueryException
+     */
+    public function conjunction($operator)
+    {
+        if (false === \in_array(
+                $operator,
+                [self::CONJUNCTION_AND, self::CONJUNCTION_OR, self::CONJUNCTION_OR_NOT, self::CONJUNCTION_AND_NOT]
+            )
+        ) {
+            throw new QueryException(
+                "Invalid conjunction specified, must be one of AND or OR, but '".$operator."' was found."
+            );
+        }
+        $this->conjunction = $operator;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getSubWheres()
@@ -172,25 +197,6 @@ class Where
         $this->subWheres[] = $filter;
 
         return $filter;
-    }
-
-    /**
-     * @param string $operator
-     *
-     * @return $this
-     *
-     * @throws QueryException
-     */
-    public function conjunction($operator)
-    {
-        if (false === \in_array($operator, [self::CONJUNCTION_AND, self::CONJUNCTION_OR])) {
-            throw new QueryException(
-                "Invalid conjunction specified, must be one of AND or OR, but '".$operator."' was found."
-            );
-        }
-        $this->conjunction = $operator;
-
-        return $this;
     }
 
     /**
@@ -218,7 +224,7 @@ class Where
     /**
      * equals alias.
      *
-     * @param $column
+     * @param     $column
      * @param int $value
      *
      * @return static
@@ -240,8 +246,8 @@ class Where
     }
 
     /**
-     * @param $column
-     * @param $value
+     * @param        $column
+     * @param        $value
      * @param string $operator
      *
      * @return $this
@@ -333,7 +339,7 @@ class Where
 
     /**
      * @param string $column
-     * @param $value
+     * @param        $value
      *
      * @return static
      */
@@ -510,6 +516,14 @@ class Where
     }
 
     /**
+     * @return array
+     */
+    public function getExists()
+    {
+        return $this->exists;
+    }
+
+    /**
      * @param Select $select
      *
      * @return $this
@@ -519,6 +533,14 @@ class Where
         $this->notExists[] = $select;
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNotExists()
+    {
+        return $this->notExists;
     }
 
     /**
@@ -583,21 +605,5 @@ class Where
     public function getNull()
     {
         return $this->isNull;
-    }
-
-    /**
-     * @return array
-     */
-    public function getExists()
-    {
-        return $this->exists;
-    }
-
-    /**
-     * @return array
-     */
-    public function getNotExists()
-    {
-        return $this->notExists;
     }
 }
