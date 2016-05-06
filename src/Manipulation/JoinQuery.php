@@ -101,6 +101,7 @@ class JoinQuery
             $select = QueryFactory::createSelect($table);
             $select->setColumns($columns);
             $select->setJoinType($joinType);
+            $select->setParentQuery($this->select);
             $this->addJoin($select, $selfColumn, $refColumn);
         }
 
