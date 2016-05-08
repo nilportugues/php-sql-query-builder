@@ -13,6 +13,7 @@ namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 use NilPortugues\Sql\QueryBuilder\Syntax\Table;
 use NilPortugues\Sql\QueryBuilder\Syntax\Where;
+use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
 
 /**
  * Class Select.
@@ -63,6 +64,11 @@ class Select extends AbstractBaseQuery
      * @var ColumnQuery
      */
     protected $columnQuery;
+
+    /**
+     * @var ParentQuery
+     */
+    protected $parentQuery;
 
     /**
      * @param string $table
@@ -499,12 +505,42 @@ class Select extends AbstractBaseQuery
      */
     public function getAllOrderBy()
     {
-        $order = $this->orderBy;
+        return $this->orderBy;
+    }
 
-        foreach ($this->joinQuery->getJoins() as $join) {
-            $order = \array_merge($order, $join->getAllOrderBy());
+    /**
+     * @return ParentQuery
+     */
+    public function getParentQuery()
+    {
+        return $this->parentQuery;
+    }
+
+    /**
+     * @param Select $parentQuery
+     *
+     * @return $this
+     */
+    public function setParentQuery(Select $parentQuery)
+    {
+        $this->parentQuery = $parentQuery;
+
+        return $this;
+    }
+
+    /**
+     * @param string $column
+     * @param string $direction
+     * @param null   $table
+     *
+     * @return $this
+     */
+    public function orderBy($column, $direction = OrderBy::ASC, $table = null)
+    {
+        $current = parent::orderBy($column, $direction, $table);
+        if ($this->getParentQuery() != null) {
+            $this->getParentQuery()->orderBy($column, $direction, \is_null($table) ? $this->getTable() : $table);
         }
-
-        return $order;
+        return $current;
     }
 }

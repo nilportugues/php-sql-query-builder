@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Added parentQuery field to Select Object
+- New test for orderBy method in Select Class
+
+### Altered
+
+- Changed orderBy method logic in Select Class. Now every select query has access to his parent object. You can manipulate sequence of your orderBy clause. 
+
 ## 1.0.2 - TBA
 
 ### Added
