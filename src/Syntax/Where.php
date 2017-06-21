@@ -267,7 +267,8 @@ class Where
     private function prepareColumn($column)
     {
         //This condition handles the "Select as a a column" special case.
-        if ($column instanceof Select) {
+        //or when compare column is customized.
+        if ($column instanceof Select || $column instanceof Column) {
             return $column;
         }
 
