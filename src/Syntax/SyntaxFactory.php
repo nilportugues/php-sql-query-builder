@@ -36,6 +36,8 @@ final class SyntaxFactory
                 }
 
                 $createdColumns[] = $column;
+            } else if ($column instanceof Column) {
+                $createdColumns[] = $column;
             }
         }
 
