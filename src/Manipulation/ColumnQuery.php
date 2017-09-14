@@ -189,9 +189,9 @@ class ColumnQuery
      * @param string $columnName
      * @param string $alias
      *
-     * @return $this
+     * @return $this|Select
      */
-    public function count($columnName = '*', $alias = '')
+    public function count($columnName = '*', $alias = '', $returnParent = false)
     {
         $table = $this->select->getTable();
 
@@ -206,7 +206,7 @@ class ColumnQuery
         $this->columns = array($count);
         $this->isCount = true;
 
-        return $this;
+        return ( $returnParent ? $this->select : $this );
     }
 
     /**

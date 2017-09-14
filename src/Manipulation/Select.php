@@ -365,11 +365,11 @@ class Select extends AbstractBaseQuery
      * @param string $columnName
      * @param string $alias
      *
-     * @return ColumnQuery
+     * @return $this
      */
     public function count($columnName = '*', $alias = '')
     {
-        return $this->columnQuery->count($columnName, $alias);
+        return $this->columnQuery->count($columnName, $alias, true);
     }
 
     /**
