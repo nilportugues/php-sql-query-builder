@@ -208,7 +208,8 @@ $query = $builder->select()
     ])
     ->where()
     ->greaterThan('user_id', 5)
-    ->notLike('username', 'John');
+    ->notLike('username', 'John')
+	->end();
       
 echo $builder->writeFormatted($query);    
 ```
@@ -242,7 +243,8 @@ $query = $builder->select()
     ->equals('user_id', 2)
     ->subWhere("OR")
     ->lessThan($column, 10)
-    ->greaterThan('user_id', 100);
+    ->greaterThan('user_id', 100)
+	->end();
 
 echo $builder->writeFormatted($query);
 ```
@@ -297,7 +299,8 @@ $query = $builder->select()
 $query
     ->where()
     ->greaterThan('user_id', 5)
-    ->notLike('username', 'John');
+    ->notLike('username', 'John')
+	->end();
 
 $query
     ->orderBy('created_at', OrderBy::DESC);
@@ -456,7 +459,8 @@ $query = $builder->update()
         'contact' => 'contact@nilportugues.com'
     ])
     ->where()
-    ->equals('user_id', 1);
+    ->equals('user_id', 1)
+	->end();
 
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
@@ -495,7 +499,8 @@ $query = $builder->update()
 $query
     ->where()
     ->like('username', '%N')
-    ->between('user_id', 1, 2000);
+    ->between('user_id', 1, 2000)
+	->end();
         
 $query
     ->orderBy('user_id', OrderBy::ASC)
@@ -561,7 +566,8 @@ $query = $builder->delete()
 
 $query
     ->where()
-    ->equals('user_id', 100);
+    ->equals('user_id', 100)
+	->end();
 
 $query
     ->limit(1);
@@ -593,7 +599,8 @@ $query = $builder->delete()
 $query
     ->where()
     ->like('username', '%N')
-    ->between('user_id', 1, 2000);
+    ->between('user_id', 1, 2000)
+	->end();
         
 $query
     ->orderBy('user_id', OrderBy::ASC)
@@ -809,7 +816,8 @@ $query = $builder->select()
     ->setTable('user')
     ->where('OR')
     ->equals('user_id', 1)
-    ->like('name', '%N%');       
+    ->like('name', '%N%')
+	->end();       
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
@@ -936,7 +944,8 @@ $query = $builder->select()
     ->setSelectAsColumn(array('user_role' => $selectRole))
     ->setSelectAsColumn(array($selectRole))
     ->where()
-    ->equals('user_id', 4);
+    ->equals('user_id', 4)
+	->end();
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
@@ -987,7 +996,8 @@ $query = $builder->select()
     ->setColumns(array('user_id', 'username'))
     ->setValueAsColumn('10', 'priority')
     ->where()
-    ->equals('user_id', 1);
+    ->equals('user_id', 1)
+	->end();
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
@@ -1021,7 +1031,8 @@ $query = $builder->select()
     ->setColumns(array('user_id', 'username'))
     ->setFunctionAsColumn('MAX', array('user_id'), 'max_id')
     ->where()
-    ->equals('user_id', 1); 
+    ->equals('user_id', 1)
+	->end(); 
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
@@ -1053,7 +1064,8 @@ $query = $builder->select()
     ->setColumns(array('user_id', 'username'))
     ->setFunctionAsColumn('CURRENT_TIMESTAMP', array(), 'server_time')
     ->where()
-    ->equals('user_id', 1);
+    ->equals('user_id', 1)
+	->end();
    
 $sql = $builder->writeFormatted($query);    
 $values = $builder->getValues();
