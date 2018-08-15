@@ -10,8 +10,9 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
-use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 use NilPortugues\Sql\QueryBuilder\Syntax\Where;
+use NilPortugues\Sql\QueryBuilder\Syntax\Column;
+use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 
 /**
  * Class JoinQuery.
@@ -70,8 +71,8 @@ class JoinQuery
 
     /**
      * @param string   $table
-     * @param string   $selfColumn
-     * @param string   $refColumn
+     * @param mixed    $selfColumn
+     * @param mixed    $refColumn
      * @param string[] $columns
      *
      * @return Select
@@ -83,8 +84,8 @@ class JoinQuery
 
     /**
      * @param string   $table
-     * @param string   $selfColumn
-     * @param string   $refColumn
+     * @param mixed    $selfColumn
+     * @param mixed    $refColumn
      * @param string[] $columns
      * @param string   $joinType
      *
@@ -110,8 +111,8 @@ class JoinQuery
 
     /**
      * @param Select $select
-     * @param string $selfColumn
-     * @param string $refColumn
+     * @param mixed  $selfColumn
+     * @param mixed  $refColumn
      *
      * @return Select
      */
@@ -121,11 +122,15 @@ class JoinQuery
         $table = $select->getTable()->getName();
 
         if (!isset($this->joins[$table])) {
-            $newColumn = array($selfColumn);
-            $select->joinCondition()->equals(
-                $refColumn,
-                SyntaxFactory::createColumn($newColumn, $this->select->getTable())
-            );
+            if (!$selfColumn instanceof Column) {
+                $newColumn = array($selfColumn);
+                $selfColumn = SyntaxFactory::createColumn(
+                    $newColumn,
+                    $this->select->getTable()
+                );
+            }
+
+            $select->joinCondition()->equals($refColumn, $selfColumn);
             $this->joins[$table] = $select;
         }
 
@@ -148,8 +153,8 @@ class JoinQuery
 
     /**
      * @param string   $table
-     * @param string   $selfColumn
-     * @param string   $refColumn
+     * @param mixed    $selfColumn
+     * @param mixed    $refColumn
      * @param string[] $columns
      *
      * @internal param null $selectClass
@@ -163,8 +168,8 @@ class JoinQuery
 
     /**
      * @param string   $table
-     * @param string   $selfColumn
-     * @param string   $refColumn
+     * @param mixed    $selfColumn
+     * @param mixed    $refColumn
      * @param string[] $columns
      *
      * @return Select
@@ -176,8 +181,8 @@ class JoinQuery
 
     /**
      * @param string   $table
-     * @param string   $selfColumn
-     * @param string   $refColumn
+     * @param mixed    $selfColumn
+     * @param mixed    $refColumn
      * @param string[] $columns
      *
      * @return Select
