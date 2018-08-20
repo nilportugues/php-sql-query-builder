@@ -10,9 +10,10 @@
 
 namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
-use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
-use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 
 /**
  * Class SelectWriterTest.
@@ -352,6 +353,33 @@ SQL;
         $expected = 'SELECT user.user_id AS "userId", user.name AS "username", user.email AS "email", user.created_at,'.
             ' news.title, news.body, news.created_at, news.updated_at FROM user JOIN news ON (news.author_id ='.
             ' user.user_id) ORDER BY user.user_id DESC, news.created_at DESC';
+
+        $this->assertSame($expected, $this->writer->write($this->query));
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldBeAbleToDoAJoinWithCustomColumns()
+    {
+        $this->query
+            ->setTable('user')
+            ->setColumns(
+                array(
+                    'userId' => 'user_id',
+                    'username' => 'name',
+                    'email' => 'email',
+                    'created_at',
+                )
+            )
+            ->orderBy('user_id', OrderBy::DESC)
+            ->join('news', 'user_id', 'author_id', array('title', 'body', 'created_at', 'updated_at'))
+            ->orderBy('created_at', OrderBy::DESC)
+            ->join('articles', new Column('news_id', 'article'), new Column('id', 'news'));
+
+        $expected = 'SELECT user.user_id AS "userId", user.name AS "username", user.email AS "email", user.created_at,'.
+            ' news.title, news.body, news.created_at, news.updated_at FROM user JOIN news ON (news.author_id ='.
+            ' user.user_id) JOIN articles ON (news.id = article.news_id) ORDER BY user.user_id DESC, news.created_at DESC';
 
         $this->assertSame($expected, $this->writer->write($this->query));
     }
