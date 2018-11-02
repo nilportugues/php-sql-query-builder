@@ -118,7 +118,7 @@ class GenericBuilder implements BuilderInterface
      * @param string $table
      * @param array  $values
      *
-     *@return AbstractBaseQuery
+     *@return \NilPortugues\Sql\QueryBuilder\Manipulation\Insert
      */
     public function insert($table = null, array $values = null)
     {
@@ -129,7 +129,7 @@ class GenericBuilder implements BuilderInterface
      * @param string $table
      * @param array  $values
      *
-     *@return AbstractBaseQuery
+     *@return \NilPortugues\Sql\QueryBuilder\Manipulation\Update
      */
     public function update($table = null, array $values = null)
     {
