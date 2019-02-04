@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
@@ -48,7 +47,7 @@ class UnionWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldWriteIntersects()
+    public function itShouldWriteUnion()
     {
         $union = new Union();
 
@@ -66,7 +65,7 @@ SQL;
     /**
      * @test
      */
-    public function itShouldWriteUnionAllFromGenericBuilder()
+    public function itShouldWriteUnionFromGenericBuilder()
     {
         $unionAll = $this->writer->union();
 
@@ -79,5 +78,41 @@ UNION
 SELECT user_email.* FROM user_email
 SQL;
         $this->assertEquals($expected, $this->writer->write($unionAll));
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldNotResetPlaceholders()
+    {
+        $select1 = (new Select('table1'))
+            ->where()
+            ->between('column', 1, 2)
+            ->end();
+
+        $select2 = (new Select('table2'))
+            ->where()
+            ->between('column', 3, 4)
+            ->end();
+
+        $union = (new Union())
+            ->add($select1)
+            ->add($select2);
+
+        $expectedSql = <<<SQL
+SELECT table1.* FROM table1 WHERE (table1.column BETWEEN :v1 AND :v2)
+UNION
+SELECT table2.* FROM table2 WHERE (table2.column BETWEEN :v3 AND :v4)
+SQL;
+
+        $expectedParams = [
+            ':v1' => 1,
+            ':v2' => 2,
+            ':v3' => 3,
+            ':v4' => 4,
+        ];
+
+        $this->assertEquals($expectedSql, $this->writer->write($union));
+        $this->assertEquals($expectedParams, $this->writer->getValues());
     }
 }
