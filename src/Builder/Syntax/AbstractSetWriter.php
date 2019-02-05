@@ -43,7 +43,7 @@ abstract class AbstractSetWriter
         $selects = [];
 
         foreach ($setClass->$setOperation() as $select) {
-            $selects[] = $this->writer->write($select);
+            $selects[] = $this->writer->write($select, false);
         }
 
         return \implode("\n".$glue."\n", $selects);
