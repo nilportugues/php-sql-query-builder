@@ -52,7 +52,11 @@ class PlaceholderWriter
     public function add($value)
     {
         if (in_array($value, $this->placeholders)) {
-            $placeholderKey = ':'.$value.$this->counter;
+            $c = 0;
+            foreach ($this->placeholders as $p) {
+                if ($p == $value) $c++;
+            }
+            $placeholderKey = ':'.$value.$c;
         } else {
             $placeholderKey = ':'.$value;
         }

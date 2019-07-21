@@ -18,6 +18,12 @@
             "email":"woody.gilk@gmail.com",
             "homepage":"http://shadowhand.me/",
             "role":"Contributor"
+        },
+        {
+            "name":"Kurt Höblinger",
+            "email":"office@nitricware.com",
+            "homepage":"http://nitricware.com",
+            "role":"Contributor"
         }
     ],
     "autoload":{
