@@ -51,7 +51,12 @@ class PlaceholderWriter
      */
     public function add($value)
     {
-        $placeholderKey = ':v'.$this->counter;
+        if (in_array($value, $this->placeholders)) {
+            $placeholderKey = ':'.$value.$this->counter;
+        } else {
+            $placeholderKey = ':'.$value;
+        }
+        
         $this->placeholders[$placeholderKey] = $this->setValidSqlValue($value);
 
         ++$this->counter;
