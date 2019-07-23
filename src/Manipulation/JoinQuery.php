@@ -99,7 +99,7 @@ class JoinQuery
         $columns = [],
         $joinType = null
     ) {
-        if ( !(is_object($table) && is_a($table, Table::class))) {
+        if (!(is_object($table) && is_a($table, Table::class))) {
             $table = new Table(
                 (string) $table
             );

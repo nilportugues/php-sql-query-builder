@@ -167,7 +167,7 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
      */
     public function setTable($table)
     {
-        if ( ! (is_object($table) && is_a($table, Table::class))) {
+        if (!(is_object($table) && is_a($table, Table::class))) {
             $table = new Table(
                 (string) $table
             );
