@@ -62,4 +62,16 @@ class InsertTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('NilPortugues\Sql\QueryBuilder\Syntax\Column', $columns[0]);
     }
+
+    /**
+     * @test
+     */
+    public function itShouldSetNullableValues()
+    {
+        $values = ['user_id' => 1, 'description' => null, 'isVisible' => false];
+
+        $this->query->setValues($values);
+
+        $this->assertSame($values, $this->query->getValues());
+    }
 }
