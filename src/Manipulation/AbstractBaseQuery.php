@@ -169,9 +169,7 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
      */
     public function getTable()
     {
-        $newTable = array($this->table);
-
-        return \is_null($this->table) ? null : SyntaxFactory::createTable($newTable);
+        return $this->table;
     }
 
     /**
@@ -181,7 +179,13 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
      */
     public function setTable($table)
     {
-        $this->table = (string) $table;
+        if (!(is_object($table) && is_a($table, Table::class))) {
+            $table = new Table(
+                (string) $table
+            );
+        }
+
+        $this->table = $table;
 
         return $this;
     }

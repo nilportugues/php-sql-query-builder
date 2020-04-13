@@ -89,8 +89,7 @@ class Column implements QueryPartInterface
      */
     public function setTable($table)
     {
-        $newTable = array($table);
-        $this->table = SyntaxFactory::createTable($newTable);
+        $this->table = $table;
 
         return $this;
     }

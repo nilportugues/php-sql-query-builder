@@ -224,9 +224,11 @@ class ColumnQuery
     {
         $columns = $this->getColumns();
 
-        foreach ($this->joinQuery->getJoins() as $join) {
-            $joinCols = $join->getAllColumns();
-            $columns = \array_merge($columns, $joinCols);
+        foreach ($this->joinQuery->getJoins() as $joins) {
+            foreach ($joins as $join) {
+                $joinCols = $join->getAllColumns();
+                $columns = \array_merge($columns, $joinCols);
+            }
         }
 
         return $columns;
