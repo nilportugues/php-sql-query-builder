@@ -364,8 +364,12 @@ class SelectWriter extends AbstractBaseWriter
         $limit = '';
 
         if ($mask !== '00') {
-            $start = $this->placeholderWriter->add($select->getLimitStart());
-            $count = $this->placeholderWriter->add($select->getLimitCount());
+            //$start = $this->placeholderWriter->add($select->getLimitStart());
+            //$count = $this->placeholderWriter->add($select->getLimitCount());
+            
+            // Make it friendly to PDO drivers (when prepared statements can be executed with values)
+            $start = intval($select->getLimitStart());
+            $count = intval($select->getLimitCount());
 
             $limit = "LIMIT {$start}, {$count}";
         }
