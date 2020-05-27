@@ -10,9 +10,10 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
+use Exception;
 /**
  * Class QueryException.
  */
-final class QueryException extends \Exception
+final class QueryException extends Exception
 {
 }

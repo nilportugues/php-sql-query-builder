@@ -23,9 +23,6 @@ class SelectTest extends TestCase
      * @var Select
      */
     private $query;
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->query = new Select();

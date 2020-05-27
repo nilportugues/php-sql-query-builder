@@ -29,9 +29,6 @@ class UnionTest extends TestCase
      */
     private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
 
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->query = new Union();

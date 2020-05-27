@@ -22,9 +22,6 @@ class InsertTest extends TestCase
      * @var Insert
      */
     private $query;
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->query = new Insert();

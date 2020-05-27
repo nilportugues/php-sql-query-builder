@@ -24,17 +24,11 @@ class MySqlBuilderTest extends TestCase
      */
     protected $writer;
 
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->writer = new MySqlBuilder();
     }
 
-    /**
-     *
-     */
     protected function tearDown(): void
     {
         $this->writer = null;

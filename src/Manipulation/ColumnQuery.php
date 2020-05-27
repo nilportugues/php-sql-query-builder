@@ -10,6 +10,7 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
 use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
@@ -87,7 +88,7 @@ class ColumnQuery
     /**
      * @param string $whereOperator
      *
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
+     * @return Where
      */
     public function where($whereOperator = 'AND')
     {
@@ -233,7 +234,7 @@ class ColumnQuery
     }
 
     /**
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Column
+     * @return Column
      *
      * @throws QueryException
      */

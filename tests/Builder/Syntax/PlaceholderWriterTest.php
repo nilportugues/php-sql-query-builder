@@ -23,9 +23,6 @@ class PlaceholderWriterTest extends TestCase
      */
     private $writer;
 
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->writer = new PlaceholderWriter();

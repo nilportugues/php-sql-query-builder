@@ -10,6 +10,8 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
+use NilPortugues\Sql\QueryBuilder\Syntax\Table;
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 /**
  * Interface QueryInterface.
  */
@@ -21,17 +23,17 @@ interface QueryInterface
     public function partName();
 
     /**
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Table
+     * @return Table
      */
     public function getTable();
 
     /**
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
+     * @return Where
      */
     public function getWhere();
 
     /**
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
+     * @return Where
      */
     public function where();
 }

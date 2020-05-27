@@ -40,9 +40,6 @@ class WhereTest extends TestCase
      */
     protected $queryException = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
 
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $query = new DummyQuery();

@@ -39,9 +39,6 @@ class UpdateWriterTest extends TestCase
      */
     private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
 
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->writer = new GenericBuilder();

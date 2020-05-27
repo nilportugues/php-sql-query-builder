@@ -20,23 +20,13 @@ use PHPUnit\Framework\TestCase;
 class DeleteTest extends TestCase
 {
     /**
-     * @var GenericBuilder
-     */
-    private $writer;
-
-    /**
      * @var Delete
      */
     private $query;
-
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->query = new Delete();
     }
-
     /**
      * @test
      */
@@ -44,7 +34,6 @@ class DeleteTest extends TestCase
     {
         $this->assertSame('DELETE', $this->query->partName());
     }
-
     /**
      * @test
      */

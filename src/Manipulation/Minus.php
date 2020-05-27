@@ -10,6 +10,8 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
+use NilPortugues\Sql\QueryBuilder\Syntax\Table;
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
 
 /**
@@ -17,18 +19,16 @@ use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
  */
 class Minus implements QueryInterface, QueryPartInterface
 {
-    const MINUS = 'MINUS';
+    const MINUS='MINUS';
 
     /**
      * @var Select
      */
     protected $first;
-
     /**
      * @var Select
      */
     protected $second;
-
     /**
      * @return string
      */
@@ -36,7 +36,6 @@ class Minus implements QueryInterface, QueryPartInterface
     {
         return 'MINUS';
     }
-
     /***
      * @param Select $first
      * @param Select $second
@@ -46,47 +45,42 @@ class Minus implements QueryInterface, QueryPartInterface
         $this->first = $first;
         $this->second = $second;
     }
-
     /**
-     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\Select
+     * @return Select
      */
     public function getFirst()
     {
         return $this->first;
     }
-
     /**
-     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\Select
+     * @return Select
      */
     public function getSecond()
     {
         return $this->second;
     }
-
     /**
      * @throws QueryException
      *
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Table
+     * @return Table
      */
     public function getTable()
     {
         throw new QueryException('MINUS does not support tables');
     }
-
     /**
      * @throws QueryException
      *
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
+     * @return Where
      */
     public function getWhere()
     {
         throw new QueryException('MINUS does not support WHERE.');
     }
-
     /**
      * @throws QueryException
      *
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
+     * @return Where
      */
     public function where()
     {

@@ -15,13 +15,13 @@ namespace NilPortugues\Sql\QueryBuilder\Manipulation;
  */
 class UnionAll extends AbstractSetQuery
 {
-    const UNION_ALL = 'UNION ALL';
+    const UNION_ALL='UNION ALL';
 
     /**
      * @return string
      */
     public function partName()
     {
-        return 'UNION ALL';
+        return self::UNION_ALL;
     }
 }

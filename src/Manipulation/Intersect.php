@@ -10,6 +10,8 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
+use NilPortugues\Sql\QueryBuilder\Syntax\Table;
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
 
 /**
@@ -17,13 +19,12 @@ use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
  */
 class Intersect implements QueryInterface, QueryPartInterface
 {
-    const INTERSECT = 'INTERSECT';
+    const INTERSECT='INTERSECT';
 
     /**
      * @var array
      */
     protected $intersect = [];
-
     /**
      * @return string
      */
@@ -31,7 +32,6 @@ class Intersect implements QueryInterface, QueryPartInterface
     {
         return 'INTERSECT';
     }
-
     /**
      * @param Select $select
      *
@@ -43,7 +43,6 @@ class Intersect implements QueryInterface, QueryPartInterface
 
         return $this;
     }
-
     /**
      * @return array
      */
@@ -51,31 +50,28 @@ class Intersect implements QueryInterface, QueryPartInterface
     {
         return $this->intersect;
     }
-
     /**
      * @throws QueryException
      *
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Table
+     * @return Table
      */
     public function getTable()
     {
         throw new QueryException('INTERSECT does not support tables');
     }
-
     /**
      * @throws QueryException
      *
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
+     * @return Where
      */
     public function getWhere()
     {
         throw new QueryException('INTERSECT does not support WHERE.');
     }
-
     /**
      * @throws QueryException
      *
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
+     * @return Where
      */
     public function where()
     {

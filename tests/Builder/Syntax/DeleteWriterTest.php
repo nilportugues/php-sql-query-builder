@@ -29,9 +29,6 @@ class DeleteWriterTest extends TestCase
      */
     private $query;
 
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->writer = new GenericBuilder();

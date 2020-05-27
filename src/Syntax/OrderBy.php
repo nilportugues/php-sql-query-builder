@@ -10,6 +10,7 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Syntax;
 
+use InvalidArgumentException;
 /**
  * Class OrderBy.
  */
@@ -74,14 +75,14 @@ class OrderBy
     /**
      * @param string $direction
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return $this
      */
     public function setDirection($direction)
     {
         if (!in_array($direction, array(self::ASC, self::DESC))) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Specified direction '$direction' is not allowed. Only ASC or DESC are allowed."
             );
         }

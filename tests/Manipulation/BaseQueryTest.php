@@ -9,6 +9,7 @@
  */
 
 namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
+use NilPortugues\Tests\Sql\QueryBuilder\Manipulation\Resources\DummyQuery;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 class BaseQueryTest extends TestCase
 {
     /**
-     * @var \NilPortugues\Tests\Sql\QueryBuilder\Manipulation\Resources\DummyQuery
+     * @var DummyQuery
      */
     private $query;
 
@@ -26,18 +27,12 @@ class BaseQueryTest extends TestCase
      */
     private $whereClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Where';
 
-    /**
-     *
-     */
     protected function setUp(): void
     {
-        $this->query = new Resources\DummyQuery();
+        $this->query = new DummyQuery();
         $this->query->setTable('tablename');
     }
 
-    /**
-     *
-     */
     protected function tearDown(): void
     {
         $this->query = null;

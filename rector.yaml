@@ -1,0 +1,25 @@
+imports:
+    - { resource: "create-rector.yaml", ignore_errors: 'not_found' }
+
+parameters:
+    # bleeding edge feature
+    # is_cache_enabled: true
+
+    auto_import_names: true
+
+    sets:
+        # - solid
+        - 'dead-code'
+
+    paths:
+        - src
+        - tests
+
+    exclude_paths:
+        - "/vendor/"
+
+    php_version_features: '7.4'
+
+services:
+    Rector\DeadCode\Rector\ClassConst\RemoveUnusedPrivateConstantRector: null
+    Rector\SOLID\Rector\Class_\RepeatedLiteralToClassConstantRector: null

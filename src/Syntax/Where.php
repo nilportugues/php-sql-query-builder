@@ -20,6 +20,8 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
  */
 class Where
 {
+    private const SUBJECT = 'subject';
+
     const OPERATOR_GREATER_THAN_OR_EQUAL = '>=';
     const OPERATOR_GREATER_THAN = '>';
     const OPERATOR_LESS_THAN_OR_EQUAL = '<=';
@@ -32,8 +34,6 @@ class Where
     const CONJUNCTION_AND_NOT = 'AND NOT';
     const CONJUNCTION_OR = 'OR';
     const CONJUNCTION_OR_NOT = 'OR NOT';
-    const CONJUNCTION_EXISTS = 'EXISTS';
-    const CONJUNCTION_NOT_EXISTS = 'NOT EXISTS';
 
     /**
      * @var array
@@ -262,7 +262,7 @@ class Where
         $column = $this->prepareColumn($column);
 
         $this->comparisons[] = [
-            'subject' => $column,
+            self::SUBJECT => $column,
             'conjunction' => $operator,
             'target' => $value,
         ];
@@ -464,7 +464,7 @@ class Where
     public function between($column, $a, $b)
     {
         $column = $this->prepareColumn($column);
-        $this->betweens[] = ['subject' => $column, 'a' => $a, 'b' => $b];
+        $this->betweens[] = [self::SUBJECT => $column, 'a' => $a, 'b' => $b];
 
         return $this;
     }
@@ -479,7 +479,7 @@ class Where
     public function notBetween($column, $a, $b)
     {
         $column = $this->prepareColumn($column);
-        $this->notBetweens[] = ['subject' => $column, 'a' => $a, 'b' => $b];
+        $this->notBetweens[] = [self::SUBJECT => $column, 'a' => $a, 'b' => $b];
 
         return $this;
     }
@@ -492,7 +492,7 @@ class Where
     public function isNull($column)
     {
         $column = $this->prepareColumn($column);
-        $this->isNull[] = ['subject' => $column];
+        $this->isNull[] = [self::SUBJECT => $column];
 
         return $this;
     }
@@ -505,7 +505,7 @@ class Where
     public function isNotNull($column)
     {
         $column = $this->prepareColumn($column);
-        $this->isNotNull[] = ['subject' => $column];
+        $this->isNotNull[] = [self::SUBJECT => $column];
 
         return $this;
     }
@@ -519,7 +519,7 @@ class Where
     public function addBitClause($column, $value)
     {
         $column = $this->prepareColumn($column);
-        $this->booleans[] = ['subject' => $column, 'value' => $value];
+        $this->booleans[] = [self::SUBJECT => $column, 'value' => $value];
 
         return $this;
     }

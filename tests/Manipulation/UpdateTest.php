@@ -22,9 +22,6 @@ class UpdateTest extends TestCase
      * @var Update
      */
     private $query;
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->query = new Update();

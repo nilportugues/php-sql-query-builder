@@ -30,9 +30,6 @@ class IntersectWriterTest extends TestCase
      */
     private $intersectWriter;
 
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->intersectWriter = new IntersectWriter(new GenericBuilder());

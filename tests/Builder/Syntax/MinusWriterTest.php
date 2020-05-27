@@ -31,9 +31,6 @@ class MinusWriterTest extends TestCase
      */
     private $writer;
 
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->minusWriter = new MinusWriter(new GenericBuilder());

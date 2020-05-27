@@ -30,9 +30,6 @@ class UnionAllWriterTest extends TestCase
      */
     private $writer;
 
-    /**
-     *
-     */
     protected function setUp(): void
     {
         $this->unionAllWriter = new UnionAllWriter(new GenericBuilder());
