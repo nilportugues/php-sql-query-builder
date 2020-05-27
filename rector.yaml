@@ -10,6 +10,14 @@ parameters:
     sets:
         # - solid
         - 'dead-code'
+        - 'early-return'
+        # - 'code-quality'
+
+        # - 'performance'
+        # - 'psr4'
+        # - 'phpunit91'
+        # - 'php74'
+        # - 'order'
 
     paths:
         - src

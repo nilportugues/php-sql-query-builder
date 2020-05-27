@@ -22,7 +22,7 @@
     ],
     "scripts": {
         "test": "php vendor/pestphp/pest/bin/pest",
-        "rector": "php vendor/rector/rector/bin/rector"
+        "rector": "php vendor/rector/rector/bin/rector process"
     },
     "autoload":{
         "psr-4":{
