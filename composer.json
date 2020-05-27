@@ -20,6 +20,9 @@
             "role":"Contributor"
         }
     ],
+    "scripts": {
+        "test": "php vendor/pestphp/pest/bin/pest"
+    },
     "autoload":{
         "psr-4":{
             "NilPortugues\\Sql\\QueryBuilder\\":"src/"
@@ -32,19 +35,20 @@
     },
     "require":
     {
-        "php": ">=5.5",
+        "php": ">=7",
         "nilportugues/sql-query-formatter": "~1.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.*",
-        "fabpot/php-cs-fixer": "~1.9",
-        "nilportugues/php_backslasher": "~0.2"
+        "phpunit/phpunit": "^9.0",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "pestphp/pest": "^0.1.5"
     },
     "config":
     {
         "bin-dir": "bin"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"

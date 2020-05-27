@@ -14,11 +14,12 @@ use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class SelectWriterTest.
  */
-class SelectWriterTest extends \PHPUnit_Framework_TestCase
+class SelectWriterTest extends TestCase
 {
     /**
      * @var GenericBuilder
@@ -38,7 +39,7 @@ class SelectWriterTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->writer = new GenericBuilder();
         $this->query = new Select();
@@ -89,7 +90,7 @@ SQL;
      */
     public function itShouldThrowExceptionWhenGettingColumnsButNoTableIsSet()
     {
-        $this->setExpectedException($this->exceptionClass);
+        $this->expectException($this->exceptionClass);
 
         $this->query = new Select();
         $this->query->getColumns();
@@ -537,7 +538,7 @@ SQL;
      */
     public function itShouldThrowExceptionInvalidHavingConjunction()
     {
-        $this->setExpectedException($this->exceptionClass);
+        $this->expectException($this->exceptionClass);
 
         $this->query
             ->setTable('user')

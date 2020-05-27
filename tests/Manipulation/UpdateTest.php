@@ -11,11 +11,12 @@
 namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
 use NilPortugues\Sql\QueryBuilder\Manipulation\Update;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class UpdateTest.
  */
-class UpdateTest extends \PHPUnit_Framework_TestCase
+class UpdateTest extends TestCase
 {
     /**
      * @var Update
@@ -24,7 +25,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->query = new Update();
     }

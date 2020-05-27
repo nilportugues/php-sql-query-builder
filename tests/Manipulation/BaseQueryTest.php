@@ -9,11 +9,12 @@
  */
 
 namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class BaseQueryTest.
  */
-class BaseQueryTest extends \PHPUnit_Framework_TestCase
+class BaseQueryTest extends TestCase
 {
     /**
      * @var \NilPortugues\Tests\Sql\QueryBuilder\Manipulation\Resources\DummyQuery
@@ -28,7 +29,7 @@ class BaseQueryTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->query = new Resources\DummyQuery();
         $this->query->setTable('tablename');
@@ -37,7 +38,7 @@ class BaseQueryTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->query = null;
     }

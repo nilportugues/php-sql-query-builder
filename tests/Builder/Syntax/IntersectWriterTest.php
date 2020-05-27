@@ -13,11 +13,12 @@ use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Builder\Syntax\IntersectWriter;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Intersect;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class IntersectWriterTest.
  */
-class IntersectWriterTest extends \PHPUnit_Framework_TestCase
+class IntersectWriterTest extends TestCase
 {
     /**
      * @var GenericBuilder
@@ -32,13 +33,13 @@ class IntersectWriterTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->intersectWriter = new IntersectWriter(new GenericBuilder());
         $this->writer = new GenericBuilder();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->intersectWriter = null;
         $this->writer = null;

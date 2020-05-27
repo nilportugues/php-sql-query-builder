@@ -13,11 +13,12 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Syntax;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 use NilPortugues\Tests\Sql\QueryBuilder\Manipulation\Resources\DummyQuery;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class WhereTest.
  */
-class WhereTest extends \PHPUnit_Framework_TestCase
+class WhereTest extends TestCase
 {
     /**
      * @var Where
@@ -42,7 +43,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $query = new DummyQuery();
         $query->setTable('users');
@@ -378,7 +379,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldThrowExceptionOnUnknownConjunction()
     {
-        $this->setExpectedException($this->queryException);
+        $this->expectException($this->queryException);
         $this->where->conjunction('NOT_VALID_CONJUNCTION');
     }
 

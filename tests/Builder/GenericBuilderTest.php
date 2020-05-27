@@ -12,8 +12,9 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Builder;
 
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use PHPUnit\Framework\TestCase;
 
-class GenericBuilderTest extends \PHPUnit_Framework_TestCase
+class GenericBuilderTest extends TestCase
 {
     /**
      * @var GenericBuilder
@@ -23,7 +24,7 @@ class GenericBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->writer = new GenericBuilder();
     }

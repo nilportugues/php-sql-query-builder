@@ -15,11 +15,12 @@ use NilPortugues\Sql\QueryBuilder\Builder\Syntax\ColumnWriter;
 use NilPortugues\Sql\QueryBuilder\Builder\Syntax\PlaceholderWriter;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 use NilPortugues\Sql\QueryBuilder\Syntax\Column;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ColumnWriterTest.
  */
-class ColumnWriterTest extends \PHPUnit_Framework_TestCase
+class ColumnWriterTest extends TestCase
 {
     /**
      * @var ColumnWriter
@@ -39,7 +40,7 @@ class ColumnWriterTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->writer = new GenericBuilder();
         $this->query = new Select();

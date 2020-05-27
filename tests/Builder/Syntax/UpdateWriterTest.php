@@ -12,11 +12,12 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Update;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class UpdateWriterTest.
  */
-class UpdateWriterTest extends \PHPUnit_Framework_TestCase
+class UpdateWriterTest extends TestCase
 {
     /**
      * @var array
@@ -41,7 +42,7 @@ class UpdateWriterTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->writer = new GenericBuilder();
         $this->query = new Update();
@@ -58,7 +59,7 @@ class UpdateWriterTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldThrowQueryException()
     {
-        $this->setExpectedException($this->exceptionClass);
+        $this->expectException($this->exceptionClass);
 
         $this->query->setTable('user');
         $this->writer->write($this->query);

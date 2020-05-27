@@ -12,11 +12,12 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Insert;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class InsertWriterTest.
  */
-class InsertWriterTest extends \PHPUnit_Framework_TestCase
+class InsertWriterTest extends TestCase
 {
     /**
      * @var GenericBuilder
@@ -36,7 +37,7 @@ class InsertWriterTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->writer = new GenericBuilder();
         $this->query = new Insert();
@@ -47,7 +48,7 @@ class InsertWriterTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldThrowQueryExceptionBecauseNoColumnsWereDefined()
     {
-        $this->setExpectedException($this->exceptionClass, 'No columns were defined for the current schema.');
+        $this->expectException($this->exceptionClass, 'No columns were defined for the current schema.');
 
         $this->query->setTable('user');
         $this->writer->write($this->query);

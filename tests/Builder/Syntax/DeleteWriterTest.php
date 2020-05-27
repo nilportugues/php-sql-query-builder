@@ -12,11 +12,12 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Delete;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class DeleteWriterTest.
  */
-class DeleteWriterTest extends \PHPUnit_Framework_TestCase
+class DeleteWriterTest extends TestCase
 {
     /**
      * @var GenericBuilder
@@ -31,7 +32,7 @@ class DeleteWriterTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->writer = new GenericBuilder();
         $this->query = new Delete();

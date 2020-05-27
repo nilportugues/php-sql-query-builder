@@ -11,11 +11,12 @@
 namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Builder\Syntax\PlaceholderWriter;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class PlaceholderWriterTest.
  */
-class PlaceholderWriterTest extends \PHPUnit_Framework_TestCase
+class PlaceholderWriterTest extends TestCase
 {
     /**
      * @var PlaceholderWriter
@@ -25,7 +26,7 @@ class PlaceholderWriterTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->writer = new PlaceholderWriter();
     }
