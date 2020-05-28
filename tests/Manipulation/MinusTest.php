@@ -20,20 +20,17 @@ use PHPUnit\Framework\TestCase;
 class MinusTest extends TestCase
 {
     /**
-     * @var Minus
-     */
-    private $query;
-
-    /**
      * @var string
      */
     private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
-
+    /**
+     * @var Minus
+     */
+    private $query;
     protected function setUp(): void
     {
         $this->query = new Minus(new Select('user'), new Select('user_email'));
     }
-
     /**
      * @test
      */
@@ -41,7 +38,6 @@ class MinusTest extends TestCase
     {
         $this->assertSame('MINUS', $this->query->partName());
     }
-
     /**
      * @test
      */
@@ -50,7 +46,6 @@ class MinusTest extends TestCase
         $this->expectException($this->exceptionClass);
         $this->query->getTable();
     }
-
     /**
      * @test
      */
@@ -59,7 +54,6 @@ class MinusTest extends TestCase
         $this->expectException($this->exceptionClass);
         $this->query->getWhere();
     }
-
     /**
      * @test
      */
@@ -68,7 +62,6 @@ class MinusTest extends TestCase
         $this->expectException($this->exceptionClass);
         $this->query->where();
     }
-
     /**
      * @test
      */

@@ -23,6 +23,10 @@ use PHPUnit\Framework\TestCase;
 class SelectWriterTest extends TestCase
 {
     /**
+     * @var string
+     */
+    private $exceptionClass = QueryException::class;
+    /**
      * @var GenericBuilder
      */
     private $writer;
@@ -31,11 +35,6 @@ class SelectWriterTest extends TestCase
      * @var Select
      */
     private $query;
-
-    /**
-     * @var string
-     */
-    private $exceptionClass = QueryException::class;
 
     protected function setUp(): void
     {

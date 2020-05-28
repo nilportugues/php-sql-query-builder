@@ -19,8 +19,7 @@ use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
  */
 class Minus implements QueryInterface, QueryPartInterface
 {
-    const MINUS='MINUS';
-
+    public const MINUS = 'MINUS';
     /**
      * @var Select
      */

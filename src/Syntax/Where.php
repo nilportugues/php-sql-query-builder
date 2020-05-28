@@ -20,6 +20,7 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
  */
 class Where
 {
+    const CONJUNCTION_AND = 'AND';
     private const SUBJECT = 'subject';
 
     const OPERATOR_GREATER_THAN_OR_EQUAL = '>=';
@@ -30,9 +31,6 @@ class Where
     const OPERATOR_NOT_LIKE = 'NOT LIKE';
     const OPERATOR_EQUAL = '=';
     const OPERATOR_NOT_EQUAL = '<>';
-    const CONJUNCTION_AND = 'AND';
-    const CONJUNCTION_AND_NOT = 'AND NOT';
-    const CONJUNCTION_OR = 'OR';
     const CONJUNCTION_OR_NOT = 'OR NOT';
 
     /**
@@ -44,6 +42,8 @@ class Where
      * @var array
      */
     protected $betweens = [];
+    const CONJUNCTION_AND_NOT = 'AND NOT';
+    const CONJUNCTION_OR = 'OR';
 
     /**
      * @var array

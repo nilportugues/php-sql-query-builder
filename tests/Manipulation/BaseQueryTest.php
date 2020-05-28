@@ -18,26 +18,22 @@ use PHPUnit\Framework\TestCase;
 class BaseQueryTest extends TestCase
 {
     /**
-     * @var DummyQuery
-     */
-    private $query;
-
-    /**
      * @var string
      */
     private $whereClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Where';
-
+    /**
+     * @var DummyQuery
+     */
+    private $query;
     protected function setUp(): void
     {
         $this->query = new DummyQuery();
         $this->query->setTable('tablename');
     }
-
     protected function tearDown(): void
     {
         $this->query = null;
     }
-
     /**
      * @test
      */
@@ -45,7 +41,6 @@ class BaseQueryTest extends TestCase
     {
         $this->assertSame('tablename', $this->query->getTable()->getName());
     }
-
     /**
      * @test
      */
@@ -56,7 +51,6 @@ class BaseQueryTest extends TestCase
         $this->query->where();
         $this->assertInstanceOf($this->whereClass, $this->query->getWhere());
     }
-
     /**
      * @test
      */

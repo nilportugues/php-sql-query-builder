@@ -20,6 +20,10 @@ use PHPUnit\Framework\TestCase;
 class InsertWriterTest extends TestCase
 {
     /**
+     * @var string
+     */
+    private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
+    /**
      * @var GenericBuilder
      */
     private $writer;
@@ -28,11 +32,6 @@ class InsertWriterTest extends TestCase
      * @var Insert
      */
     private $query;
-
-    /**
-     * @var string
-     */
-    private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
 
     protected function setUp(): void
     {

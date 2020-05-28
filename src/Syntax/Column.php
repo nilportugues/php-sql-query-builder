@@ -17,23 +17,19 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
  */
 class Column implements QueryPartInterface
 {
-    const ALL = '*';
-
-    /**
-     * @var Table
-     */
-    protected $table;
-
     /**
      * @var string
      */
     protected $name;
-
+    /**
+     * @var Table
+     */
+    protected $table;
+    const ALL = '*';
     /**
      * @var string
      */
     protected $alias;
-
     /**
      * @param string $name
      * @param string $table
@@ -45,7 +41,6 @@ class Column implements QueryPartInterface
         $this->setTable($table);
         $this->setAlias($alias);
     }
-
     /**
      * @return string
      */
@@ -53,7 +48,6 @@ class Column implements QueryPartInterface
     {
         return 'COLUMN';
     }
-
     /**
      * @return string
      */
@@ -61,7 +55,6 @@ class Column implements QueryPartInterface
     {
         return $this->name;
     }
-
     /**
      * @param string $name
      *
@@ -73,7 +66,6 @@ class Column implements QueryPartInterface
 
         return $this;
     }
-
     /**
      * @return Table
      */
@@ -81,7 +73,6 @@ class Column implements QueryPartInterface
     {
         return $this->table;
     }
-
     /**
      * @param string $table
      *
@@ -94,7 +85,6 @@ class Column implements QueryPartInterface
 
         return $this;
     }
-
     /**
      * @return string
      */
@@ -102,7 +92,6 @@ class Column implements QueryPartInterface
     {
         return $this->alias;
     }
-
     /**
      * @param null|string $alias
      *
@@ -126,7 +115,6 @@ class Column implements QueryPartInterface
 
         return $this;
     }
-
     /**
      * Check whether column name is '*' or not.
      *

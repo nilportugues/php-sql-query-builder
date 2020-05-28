@@ -21,6 +21,10 @@ use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 class ColumnQuery
 {
     /**
+     * @var bool
+     */
+    protected $isCount = false;
+    /**
      * @var array
      */
     protected $columns = [];
@@ -39,11 +43,6 @@ class ColumnQuery
      * @var array
      */
     protected $columnFuncs = [];
-
-    /**
-     * @var bool
-     */
-    protected $isCount = false;
 
     /**
      * @var Select

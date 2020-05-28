@@ -20,20 +20,17 @@ use PHPUnit\Framework\TestCase;
 class IntersectTest extends TestCase
 {
     /**
-     * @var Intersect
-     */
-    private $query;
-
-    /**
      * @var string
      */
     private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
-
+    /**
+     * @var Intersect
+     */
+    private $query;
     protected function setUp(): void
     {
         $this->query = new Intersect();
     }
-
     /**
      * @test
      */
@@ -41,7 +38,6 @@ class IntersectTest extends TestCase
     {
         $this->assertSame('INTERSECT', $this->query->partName());
     }
-
     /**
      * @test
      */
@@ -50,7 +46,6 @@ class IntersectTest extends TestCase
         $this->expectException($this->exceptionClass);
         $this->query->getTable();
     }
-
     /**
      * @test
      */
@@ -59,7 +54,6 @@ class IntersectTest extends TestCase
         $this->expectException($this->exceptionClass);
         $this->query->getWhere();
     }
-
     /**
      * @test
      */
@@ -68,7 +62,6 @@ class IntersectTest extends TestCase
         $this->expectException($this->exceptionClass);
         $this->query->where();
     }
-
     /**
      * @test
      */

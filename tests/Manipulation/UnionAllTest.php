@@ -20,20 +20,17 @@ use PHPUnit\Framework\TestCase;
 class UnionAllTest extends TestCase
 {
     /**
-     * @var UnionAll
-     */
-    private $query;
-
-    /**
      * @var string
      */
     private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
-
+    /**
+     * @var UnionAll
+     */
+    private $query;
     protected function setUp(): void
     {
         $this->query = new UnionAll();
     }
-
     /**
      * @test
      */
@@ -41,7 +38,6 @@ class UnionAllTest extends TestCase
     {
         $this->assertSame('UNION ALL', $this->query->partName());
     }
-
     /**
      * @test
      */
@@ -50,7 +46,6 @@ class UnionAllTest extends TestCase
         $this->expectException($this->exceptionClass);
         $this->query->getTable();
     }
-
     /**
      * @test
      */
@@ -59,7 +54,6 @@ class UnionAllTest extends TestCase
         $this->expectException($this->exceptionClass);
         $this->query->getWhere();
     }
-
     /**
      * @test
      */
@@ -68,7 +62,6 @@ class UnionAllTest extends TestCase
         $this->expectException($this->exceptionClass);
         $this->query->where();
     }
-
     /**
      * @test
      */

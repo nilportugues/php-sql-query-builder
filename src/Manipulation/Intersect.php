@@ -19,8 +19,7 @@ use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
  */
 class Intersect implements QueryInterface, QueryPartInterface
 {
-    const INTERSECT='INTERSECT';
-
+    public const INTERSECT = 'INTERSECT';
     /**
      * @var array
      */

@@ -21,25 +21,21 @@ use PHPUnit\Framework\TestCase;
 class WhereTest extends TestCase
 {
     /**
-     * @var Where
+     * @var string
      */
-    protected $where;
-
+    protected $columnClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Column';
     /**
      * @var string
      */
     protected $whereClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Where';
-
-    /**
-     * @var string
-     */
-    protected $columnClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Column';
-
     /**
      * @var string
      */
     protected $queryException = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
-
+    /**
+     * @var Where
+     */
+    protected $where;
     protected function setUp(): void
     {
         $query = new DummyQuery();
@@ -47,7 +43,6 @@ class WhereTest extends TestCase
 
         $this->where = new Where($query);
     }
-
     /**
      * @test
      */
@@ -55,7 +50,6 @@ class WhereTest extends TestCase
     {
         $this->assertEquals($this->where, clone $this->where);
     }
-
     /**
      * @test
      */
@@ -63,7 +57,6 @@ class WhereTest extends TestCase
     {
         $this->assertTrue($this->where->isEmpty());
     }
-
     /**
      * @test
      */
@@ -71,7 +64,6 @@ class WhereTest extends TestCase
     {
         $this->assertSame('AND', $this->where->getConjunction());
     }
-
     /**
      * @test
      */
@@ -79,7 +71,6 @@ class WhereTest extends TestCase
     {
         $this->assertSame(array(), $this->where->getSubWheres());
     }
-
     /**
      * @test
      */
@@ -90,7 +81,6 @@ class WhereTest extends TestCase
         $this->assertSame(array(), $filter->getSubWheres());
         $this->assertInstanceOf($this->whereClass, $filter);
     }
-
     /**
      * @test
      */
@@ -104,7 +94,6 @@ class WhereTest extends TestCase
             $this->where->eq($column, $value)
         );
     }
-
     /**
      * @test
      */
@@ -119,7 +108,6 @@ class WhereTest extends TestCase
         $this->assertSame($column, $result[0]['subject']->getName());
         $this->assertSame($value, $result[0]['target']);
     }
-
     /**
      * @test
      */
@@ -134,7 +122,6 @@ class WhereTest extends TestCase
         $this->assertSame($column, $result[0]['subject']->getName());
         $this->assertSame($value, $result[0]['target']);
     }
-
     /**
      * @test
      */
@@ -149,7 +136,6 @@ class WhereTest extends TestCase
         $this->assertSame($column, $result[0]['subject']->getName());
         $this->assertSame($value, $result[0]['target']);
     }
-
     /**
      * @test
      */
@@ -164,7 +150,6 @@ class WhereTest extends TestCase
         $this->assertSame($column, $result[0]['subject']->getName());
         $this->assertSame($value, $result[0]['target']);
     }
-
     /**
      * @test
      */
@@ -179,7 +164,6 @@ class WhereTest extends TestCase
         $this->assertSame($column, $result[0]['subject']->getName());
         $this->assertSame($value, $result[0]['target']);
     }
-
     /**
      * @test
      */
@@ -194,7 +178,6 @@ class WhereTest extends TestCase
         $this->assertSame($column, $result[0]['subject']->getName());
         $this->assertSame($value, $result[0]['target']);
     }
-
     /**
      * @test
      */
@@ -209,7 +192,6 @@ class WhereTest extends TestCase
         $this->assertSame($column, $result[0]['subject']->getName());
         $this->assertSame($value, $result[0]['target']);
     }
-
     /**
      * @test
      */
@@ -230,7 +212,6 @@ class WhereTest extends TestCase
         );
         $this->assertEquals($expected, $result);
     }
-
     /**
      * @test
      */
@@ -251,7 +232,6 @@ class WhereTest extends TestCase
         );
         $this->assertEquals($expected, $result);
     }
-
     /**
      * @test
      */
@@ -272,7 +252,6 @@ class WhereTest extends TestCase
         );
         $this->assertEquals($expected, $result);
     }
-
     /**
      * @test
      */
@@ -287,7 +266,6 @@ class WhereTest extends TestCase
         $expected = array($column => array(1, 2, 3));
         $this->assertEquals($expected, $result);
     }
-
     /**
      * @test
      */
@@ -302,7 +280,6 @@ class WhereTest extends TestCase
         $expected = array($column => array(1, 2, 3));
         $this->assertEquals($expected, $result);
     }
-
     /**
      * @test
      */
@@ -318,7 +295,6 @@ class WhereTest extends TestCase
         $this->assertEquals(1, $result[0]['a']);
         $this->assertEquals(2, $result[0]['b']);
     }
-
     /**
      * @test
      */
@@ -332,7 +308,6 @@ class WhereTest extends TestCase
 
         $this->assertInstanceOf($this->columnClass, $result[0]['subject']);
     }
-
     /**
      * @test
      */
@@ -346,7 +321,6 @@ class WhereTest extends TestCase
 
         $this->assertInstanceOf($this->columnClass, $result[0]['subject']);
     }
-
     /**
      * @test
      */
@@ -361,7 +335,6 @@ class WhereTest extends TestCase
         $this->assertEquals(1, $result[0]['value']);
         $this->assertInstanceOf($this->columnClass, $result[0]['subject']);
     }
-
     /**
      * @test
      */
@@ -370,7 +343,6 @@ class WhereTest extends TestCase
         $result = $this->where->conjunction('OR');
         $this->assertEquals('OR', $result->getConjunction());
     }
-
     /**
      * @test
      */
@@ -379,7 +351,6 @@ class WhereTest extends TestCase
         $this->expectException($this->queryException);
         $this->where->conjunction('NOT_VALID_CONJUNCTION');
     }
-
     /**
      * @test
      */
@@ -392,7 +363,6 @@ class WhereTest extends TestCase
 
         $this->assertEquals(array($select1), $result);
     }
-
     /**
      * @test
      */
@@ -405,7 +375,6 @@ class WhereTest extends TestCase
 
         $this->assertEquals(array($select1), $result);
     }
-
     /**
      * @test
      */

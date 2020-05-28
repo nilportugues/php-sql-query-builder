@@ -31,11 +31,6 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     protected $comment = '';
 
     /**
-     * @var \NilPortugues\Sql\QueryBuilder\Builder\BuilderInterface
-     */
-    protected $builder;
-
-    /**
      * @var string
      */
     protected $table;
@@ -46,16 +41,6 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     protected $whereOperator = 'AND';
 
     /**
-     * @var Where
-     */
-    protected $where;
-
-    /**
-     * @var array
-     */
-    protected $joins = [];
-
-    /**
      * @var int
      */
     protected $limitStart;
@@ -64,11 +49,23 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
      * @var int
      */
     protected $limitCount;
+    /**
+     * @var array
+     */
+    protected $joins = [];
 
     /**
      * @var array
      */
     protected $orderBy = [];
+    /**
+     * @var \NilPortugues\Sql\QueryBuilder\Builder\BuilderInterface
+     */
+    protected $builder;
+    /**
+     * @var Where
+     */
+    protected $where;
 
     /**
      * @return Where

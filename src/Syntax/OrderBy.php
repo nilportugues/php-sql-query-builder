@@ -16,24 +16,20 @@ use InvalidArgumentException;
  */
 class OrderBy
 {
-    const ASC = 'ASC';
-    const DESC = 'DESC';
-
     /**
      * @var Column
      */
     protected $column;
-
+    const DESC = 'DESC';
+    const ASC = 'ASC';
     /**
      * @var string
      */
     protected $direction;
-
     /**
      * @var bool
      */
     protected $useAlias;
-
     /**
      * @param Column $column
      * @param string $direction
@@ -43,7 +39,6 @@ class OrderBy
         $this->setColumn($column);
         $this->setDirection($direction);
     }
-
     /**
      * @return Column
      */
@@ -51,7 +46,6 @@ class OrderBy
     {
         return $this->column;
     }
-
     /**
      * @param Column $column
      *
@@ -63,7 +57,6 @@ class OrderBy
 
         return $this;
     }
-
     /**
      * @return string
      */
@@ -71,7 +64,6 @@ class OrderBy
     {
         return $this->direction;
     }
-
     /**
      * @param string $direction
      *

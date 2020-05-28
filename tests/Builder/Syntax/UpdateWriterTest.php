@@ -20,6 +20,10 @@ use PHPUnit\Framework\TestCase;
 class UpdateWriterTest extends TestCase
 {
     /**
+     * @var string
+     */
+    private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
+    /**
      * @var array
      */
     private $valueArray = array();
@@ -33,11 +37,6 @@ class UpdateWriterTest extends TestCase
      * @var Update
      */
     private $query;
-
-    /**
-     * @var string
-     */
-    private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
 
     protected function setUp(): void
     {

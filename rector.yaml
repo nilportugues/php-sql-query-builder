@@ -11,13 +11,14 @@ parameters:
         # - solid
         - 'dead-code'
         - 'early-return'
+        - 'order'
         # - 'code-quality'
 
         # - 'performance'
-        # - 'psr4'
+        #>blows up - 'psr4'
         # - 'phpunit91'
         # - 'php74'
-        # - 'order'
+        #
 
     paths:
         - src
