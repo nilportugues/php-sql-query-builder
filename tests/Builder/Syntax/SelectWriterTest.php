@@ -10,6 +10,7 @@
 
 namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
+use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
 use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
@@ -34,7 +35,7 @@ class SelectWriterTest extends TestCase
     /**
      * @var string
      */
-    private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
+    private $exceptionClass = QueryException::class;
 
     protected function setUp(): void
     {
