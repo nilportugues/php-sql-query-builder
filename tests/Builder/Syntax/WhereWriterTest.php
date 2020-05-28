@@ -12,11 +12,12 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class WhereWriterTest.
  */
-class WhereWriterTest extends \PHPUnit_Framework_TestCase
+class WhereWriterTest extends TestCase
 {
     /**
      * @var GenericBuilder
@@ -28,10 +29,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
      */
     private $query;
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->writer = new GenericBuilder();
         $this->query = new Select();

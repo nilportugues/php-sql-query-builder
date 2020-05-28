@@ -12,11 +12,12 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class OrderByTest.
  */
-class OrderByTest extends \PHPUnit_Framework_TestCase
+class OrderByTest extends TestCase
 {
     /**
      * @var string
@@ -57,7 +58,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
         $column = new Column('registration_date', 'user');
         $order = new OrderBy($column, OrderBy::ASC);
 
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
         $order->setDirection('this is not a valid direction');
     }
 }

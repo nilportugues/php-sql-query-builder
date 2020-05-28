@@ -11,20 +11,18 @@
 namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
 use NilPortugues\Sql\QueryBuilder\Manipulation\Insert;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class InsertTest.
  */
-class InsertTest extends \PHPUnit_Framework_TestCase
+class InsertTest extends TestCase
 {
     /**
      * @var Insert
      */
     private $query;
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->query = new Insert();
     }

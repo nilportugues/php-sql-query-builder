@@ -68,9 +68,8 @@ class PlaceholderWriter
     {
         $value = $this->writeNullSqlString($value);
         $value = $this->writeStringAsSqlString($value);
-        $value = $this->writeBooleanSqlString($value);
 
-        return $value;
+        return $this->writeBooleanSqlString($value);
     }
 
     /**

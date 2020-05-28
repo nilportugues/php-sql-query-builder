@@ -12,6 +12,8 @@ use NilPortugues\Sql\QueryBuilder\Syntax\Where;
  */
 class WhereWriter extends AbstractBaseWriter
 {
+    private const SUBJECT = 'subject';
+
     /**
      * @var array
      */
@@ -172,7 +174,7 @@ class WhereWriter extends AbstractBaseWriter
             function (&$between) {
 
                 $between = '('
-                    .$this->columnWriter->writeColumn($between['subject'])
+                    .$this->columnWriter->writeColumn($between[self::SUBJECT])
                     .' BETWEEN '
                     .$this->writer->writePlaceholderValue($between['a'])
                     .' AND '
@@ -198,7 +200,7 @@ class WhereWriter extends AbstractBaseWriter
             function (&$between) {
 
                 $between = '('
-                    .$this->columnWriter->writeColumn($between['subject'])
+                    .$this->columnWriter->writeColumn($between[self::SUBJECT])
                     .' NOT BETWEEN '
                     .$this->writer->writePlaceholderValue($between['a'])
                     .' AND '
@@ -227,7 +229,7 @@ class WhereWriter extends AbstractBaseWriter
                     return;
                 }
 
-                $str = $this->writeWherePartialCondition($comparison['subject']);
+                $str = $this->writeWherePartialCondition($comparison[self::SUBJECT]);
                 $str .= $this->writer->writeConjunction($comparison['conjunction']);
                 $str .= $this->writeWherePartialCondition($comparison['target']);
 
@@ -286,7 +288,7 @@ class WhereWriter extends AbstractBaseWriter
             $collection,
             function (&$collection) use ($writeMethod) {
                 $collection =
-                    '('.$this->columnWriter->writeColumn($collection['subject'])
+                    '('.$this->columnWriter->writeColumn($collection[self::SUBJECT])
                     .$this->writer->$writeMethod().')';
             }
         );
@@ -322,7 +324,7 @@ class WhereWriter extends AbstractBaseWriter
         \array_walk(
             $booleans,
             function (&$boolean) use (&$placeholderWriter) {
-                $column = $this->columnWriter->writeColumn($boolean['subject']);
+                $column = $this->columnWriter->writeColumn($boolean[self::SUBJECT]);
                 $value = $this->placeholderWriter->add($boolean['value']);
 
                 $boolean = '(ISNULL('.$column.', 0) = '.$value.')';

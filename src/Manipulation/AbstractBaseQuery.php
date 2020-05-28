@@ -10,6 +10,8 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
+use RuntimeException;
+use Exception;
 use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
 use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
 use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
@@ -29,11 +31,6 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     protected $comment = '';
 
     /**
-     * @var \NilPortugues\Sql\QueryBuilder\Builder\BuilderInterface
-     */
-    protected $builder;
-
-    /**
      * @var string
      */
     protected $table;
@@ -44,16 +41,6 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     protected $whereOperator = 'AND';
 
     /**
-     * @var Where
-     */
-    protected $where;
-
-    /**
-     * @var array
-     */
-    protected $joins = [];
-
-    /**
      * @var int
      */
     protected $limitStart;
@@ -62,11 +49,23 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
      * @var int
      */
     protected $limitCount;
+    /**
+     * @var array
+     */
+    protected $joins = [];
 
     /**
      * @var array
      */
     protected $orderBy = [];
+    /**
+     * @var \NilPortugues\Sql\QueryBuilder\Builder\BuilderInterface
+     */
+    protected $builder;
+    /**
+     * @var Where
+     */
+    protected $where;
 
     /**
      * @return Where
@@ -97,12 +96,12 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     /**
      * @return BuilderInterface
      *
-     * @throws \RuntimeException when builder has not been injected
+     * @throws RuntimeException when builder has not been injected
      */
     final public function getBuilder()
     {
         if (!$this->builder) {
-            throw new \RuntimeException('Query builder has not been injected with setBuilder');
+            throw new RuntimeException('Query builder has not been injected with setBuilder');
         }
 
         return $this->builder;
@@ -117,7 +116,7 @@ abstract class AbstractBaseQuery implements QueryInterface, QueryPartInterface
     {
         try {
             return $this->getSql();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return \sprintf('[%s] %s', \get_class($e), $e->getMessage());
         }
     }

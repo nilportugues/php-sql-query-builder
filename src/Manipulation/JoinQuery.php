@@ -19,36 +19,30 @@ use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
  */
 class JoinQuery
 {
-    const JOIN_LEFT = 'LEFT';
-    const JOIN_RIGHT = 'RIGHT';
     const JOIN_INNER = 'INNER';
+    const JOIN_RIGHT = 'RIGHT';
     const JOIN_CROSS = 'CROSS';
-
+    const JOIN_LEFT = 'LEFT';
     /**
      * @var Where
      */
     protected $joinCondition;
-
     /**
      * @var bool
      */
     protected $isJoin = false;
-
     /**
      * @var string
      */
     protected $joinType;
-
     /**
      * @var array
      */
     protected $joins = [];
-
     /**
      * @var Select
      */
     protected $select;
-
     /**
      * @param Select $select
      */
@@ -56,7 +50,6 @@ class JoinQuery
     {
         $this->select = $select;
     }
-
     /**
      * @param string $table
      *
@@ -68,7 +61,6 @@ class JoinQuery
 
         return $this;
     }
-
     /**
      * @param string   $table
      * @param mixed    $selfColumn
@@ -81,7 +73,6 @@ class JoinQuery
     {
         return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_LEFT);
     }
-
     /**
      * @param string   $table
      * @param mixed    $selfColumn
@@ -108,7 +99,6 @@ class JoinQuery
 
         return $this->joins[$table];
     }
-
     /**
      * @param Select $select
      * @param mixed  $selfColumn
@@ -136,7 +126,6 @@ class JoinQuery
 
         return $this->joins[$table];
     }
-
     /**
      * Transforms Select in a joint.
      *
@@ -150,7 +139,6 @@ class JoinQuery
 
         return $this;
     }
-
     /**
      * @param string   $table
      * @param mixed    $selfColumn
@@ -165,7 +153,6 @@ class JoinQuery
     {
         return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_RIGHT);
     }
-
     /**
      * @param string   $table
      * @param mixed    $selfColumn
@@ -178,7 +165,6 @@ class JoinQuery
     {
         return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_CROSS);
     }
-
     /**
      * @param string   $table
      * @param mixed    $selfColumn
@@ -191,7 +177,6 @@ class JoinQuery
     {
         return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_INNER);
     }
-
     /**
      * Alias to joinCondition.
      *
@@ -201,7 +186,6 @@ class JoinQuery
     {
         return $this->joinCondition();
     }
-
     /**
      * WHERE constrains used for the ON clause of a (LEFT/RIGHT/INNER/CROSS) JOIN.
      *
@@ -215,7 +199,6 @@ class JoinQuery
 
         return $this->joinCondition;
     }
-
     /**
      * @return bool
      */
@@ -223,7 +206,6 @@ class JoinQuery
     {
         return $this->isJoin;
     }
-
     /**
      * @return bool
      */
@@ -231,7 +213,6 @@ class JoinQuery
     {
         return $this->isJoin;
     }
-
     /**
      * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
@@ -239,7 +220,6 @@ class JoinQuery
     {
         return $this->joinCondition;
     }
-
     /**
      * @param \NilPortugues\Sql\QueryBuilder\Syntax\Where $joinCondition
      *
@@ -251,7 +231,6 @@ class JoinQuery
 
         return $this;
     }
-
     /**
      * @return string
      */
@@ -259,7 +238,6 @@ class JoinQuery
     {
         return $this->joinType;
     }
-
     /**
      * @param string $joinType
      *
@@ -271,7 +249,6 @@ class JoinQuery
 
         return $this;
     }
-
     /**
      * @return array
      */
@@ -279,7 +256,6 @@ class JoinQuery
     {
         return $this->joins;
     }
-
     /**
      * @param array $joins
      *
@@ -291,7 +267,6 @@ class JoinQuery
 
         return $this;
     }
-
     /**
      * @return array
      */

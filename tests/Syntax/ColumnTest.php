@@ -12,11 +12,12 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\Table;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ColumnTest.
  */
-class ColumnTest extends \PHPUnit_Framework_TestCase
+class ColumnTest extends TestCase
 {
     /**
      * @var string
@@ -89,7 +90,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
      */
     public function itShouldThrowExceptionIfAliasOnAllSelection()
     {
-        $this->setExpectedException($this->queryException);
+        $this->expectException($this->queryException);
 
         new Column('*', 'user', 'userId');
     }

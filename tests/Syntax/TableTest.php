@@ -11,11 +11,12 @@
 namespace NilPortugues\Tests\Sql\QueryBuilder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Syntax\Table;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class TableTest.
  */
-class TableTest extends \PHPUnit_Framework_TestCase
+class TableTest extends TestCase
 {
     /**
      * @test

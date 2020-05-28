@@ -12,20 +12,18 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
 use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class SelectTest.
  */
-class SelectTest extends \PHPUnit_Framework_TestCase
+class SelectTest extends TestCase
 {
     /**
      * @var Select
      */
     private $query;
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->query = new Select();
     }

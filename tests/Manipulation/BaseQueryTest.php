@@ -9,39 +9,31 @@
  */
 
 namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
+use NilPortugues\Tests\Sql\QueryBuilder\Manipulation\Resources\DummyQuery;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class BaseQueryTest.
  */
-class BaseQueryTest extends \PHPUnit_Framework_TestCase
+class BaseQueryTest extends TestCase
 {
-    /**
-     * @var \NilPortugues\Tests\Sql\QueryBuilder\Manipulation\Resources\DummyQuery
-     */
-    private $query;
-
     /**
      * @var string
      */
     private $whereClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Where';
-
     /**
-     *
+     * @var DummyQuery
      */
-    protected function setUp()
+    private $query;
+    protected function setUp(): void
     {
-        $this->query = new Resources\DummyQuery();
+        $this->query = new DummyQuery();
         $this->query->setTable('tablename');
     }
-
-    /**
-     *
-     */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->query = null;
     }
-
     /**
      * @test
      */
@@ -49,7 +41,6 @@ class BaseQueryTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame('tablename', $this->query->getTable()->getName());
     }
-
     /**
      * @test
      */
@@ -60,7 +51,6 @@ class BaseQueryTest extends \PHPUnit_Framework_TestCase
         $this->query->where();
         $this->assertInstanceOf($this->whereClass, $this->query->getWhere());
     }
-
     /**
      * @test
      */

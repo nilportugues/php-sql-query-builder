@@ -14,11 +14,12 @@ use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Builder\Syntax\MinusWriter;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Minus;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class MinusWriterTest.
  */
-class MinusWriterTest extends \PHPUnit_Framework_TestCase
+class MinusWriterTest extends TestCase
 {
     /**
      * @var MinusWriter
@@ -30,16 +31,13 @@ class MinusWriterTest extends \PHPUnit_Framework_TestCase
      */
     private $writer;
 
-    /**
-     *
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->minusWriter = new MinusWriter(new GenericBuilder());
         $this->writer = new GenericBuilder();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->minusWriter = null;
         $this->writer = null;

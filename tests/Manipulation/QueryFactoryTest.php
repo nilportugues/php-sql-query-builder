@@ -12,11 +12,12 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
 use NilPortugues\Sql\QueryBuilder\Manipulation\QueryFactory;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class QueryFactoryTest.
  */
-class QueryFactoryTest extends \PHPUnit_Framework_TestCase
+class QueryFactoryTest extends TestCase
 {
     /**
      * @test
