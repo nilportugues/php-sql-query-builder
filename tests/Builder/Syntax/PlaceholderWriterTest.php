@@ -62,6 +62,15 @@ class PlaceholderWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function itShouldTranslatePhpStringToSqlString()
+    {
+        $this->writer->add('0');
+
+        $this->assertEquals(array(':v1' => '0'), $this->writer->get());
+    }
+    /**
+     * @test
+     */
     public function itShouldTranslatePhpBoolToSqlBoolValue()
     {
         $this->writer->add(true);
