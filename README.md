@@ -22,7 +22,7 @@ An elegant lightweight and efficient SQL Query Builder with fluid interface SQL 
         * [3.1.5. JOIN & LEFT/RIGHT/INNER/CROSS JOIN SELECT statements](#block3.1.5)
         * [3.1.6. COUNT rows](#block3.1.6)
     * [3.2. INSERT Statement](#block3.2)
-           * [3.2.1. Basic INSERT statement](#block3.2.1) 
+        * [3.2.1. Basic INSERT statement](#block3.2.1) 
     * [3.3. UPDATE Statement](#block3.3)
         * [3.3.1. Basic UPDATE statement](#block3.3.1)
         * [3.3.2. Elaborated UPDATE statement](#block3.3.2)
@@ -582,8 +582,8 @@ DELETE FROM user WHERE (user.user_id = :v1) LIMIT :v2
 ```php
 [':v1' => 100, ':v2' => 1];
 ```
-<a name="block3.4.2"></a>
-#### 3.4.2. Elaborated DELETE statement [↑](#index_block) 
+<a name="block3.4.3"></a>
+#### 3.4.3. Elaborated DELETE statement [↑](#index_block) 
 
 #### Usage:
 ```php
