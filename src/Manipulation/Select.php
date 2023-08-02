@@ -71,6 +71,11 @@ class Select extends AbstractBaseQuery
     protected $parentQuery;
 
     /**
+     * @var string
+     */
+    protected $limitSqlSrvrMode;
+
+    /**
      * @param string $table
      * @param array  $columns
      */
@@ -542,5 +547,29 @@ class Select extends AbstractBaseQuery
             $this->getParentQuery()->orderBy($column, $direction, \is_null($table) ? $this->getTable() : $table);
         }
         return $current;
+    }
+
+    /**
+     * Get the value of limitSqlSrvrMode
+     *
+     * @return  string
+     */
+    public function getLimitSqlSrvrMode()
+    {
+        return $this->limitSqlSrvrMode;
+    }
+
+    /**
+     * Set the value of limitSqlSrvrMode
+     *
+     * @param  string  $limitSqlSrvrMode
+     *
+     * @return  self
+     */
+    public function setLimitSqlSrvrMode(string $limitSqlSrvrMode)
+    {
+        $this->limitSqlSrvrMode = $limitSqlSrvrMode;
+
+        return $this;
     }
 }

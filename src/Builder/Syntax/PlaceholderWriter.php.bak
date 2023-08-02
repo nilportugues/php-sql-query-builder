@@ -80,7 +80,7 @@ class PlaceholderWriter
      */
     protected function writeNullSqlString($value)
     {
-        if (\is_null($value) || (\is_string($value) && empty($value) && $value !== '0')) {
+        if (\is_null($value) || (\is_string($value) && empty($value))) {
             $value = $this->writeNull();
         }
 
@@ -92,7 +92,7 @@ class PlaceholderWriter
      */
     protected function writeNull()
     {
-        return NULL;
+        return 'NULL';
     }
 
     /**

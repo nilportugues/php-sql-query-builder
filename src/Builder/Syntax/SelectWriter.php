@@ -367,7 +367,11 @@ class SelectWriter extends AbstractBaseWriter
             $start = $this->placeholderWriter->add($select->getLimitStart());
             $count = $this->placeholderWriter->add($select->getLimitCount());
 
-            $limit = "LIMIT {$start}, {$count}";
+            if ($select->getLimitSqlSrvrMode() == 'sqlsrv') {
+                $limit = "OFFSET CAST({$start} AS INT) ROWS FETCH NEXT CAST({$count} AS INT) ROWS ONLY";
+            } else {
+                $limit = "LIMIT {$start}, {$count}";
+            }
         }
 
         $parts = \array_merge($parts, [$limit]);
