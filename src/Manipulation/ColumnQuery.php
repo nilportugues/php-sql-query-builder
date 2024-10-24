@@ -195,6 +195,10 @@ class ColumnQuery
     {
         $table = $this->select->getTable();
 
+        if ($this->select->getLimitSqlSrvrMode() === 'sqlsrv') {
+            $table = '[' . $table . ']';
+        }
+
         $count = 'COUNT(';
         $count .= ($columnName !== '*') ? "$table.{$columnName}" : '*';
         $count .= ')';
