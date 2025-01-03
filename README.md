@@ -1,7 +1,7 @@
 SQL Query Builder
 =================
 
-[![Build Status](https://travis-ci.org/nilportugues/php-sql-query-builder.svg)](https://travis-ci.org/nilportugues/php-sql-query-builder) [![Coverage Status](https://img.shields.io/coveralls/nilportugues/sql-query-builder.svg)](https://coveralls.io/r/nilportugues/sql-query-builder) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nilportugues/sql-query-builder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nilportugues/sql-query-builder/?branch=master)  [![SensioLabsInsight](https://insight.sensiolabs.com/projects/89ec1003-4227-43a2-8432-67a9fc2d3ba3/mini.png)](https://insight.sensiolabs.com/projects/89ec1003-4227-43a2-8432-67a9fc2d3ba3) [![Latest Stable Version](https://poser.pugx.org/nilportugues/sql-query-builder/v/stable)](https://packagist.org/packages/nilportugues/sql-query-builder) [![Total Downloads](https://poser.pugx.org/nilportugues/sql-query-builder/downloads)](https://packagist.org/packages/nilportugues/sql-query-builder) [![License](https://poser.pugx.org/nilportugues/sql-query-builder/license)](https://packagist.org/packages/nilportugues/sql-query-builder)
+[![Build Status](https://travis-ci.org/nilportugues/php-sql-query-builder.svg)](https://travis-ci.org/nilportugues/php-sql-query-builder) [![Coverage Status](https://img.shields.io/coveralls/nilportugues/sql-query-builder.svg)](https://coveralls.io/r/nilportugues/sql-query-builder) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nilportugues/sql-query-builder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nilportugues/sql-query-builder/?branch=master) [![Latest Stable Version](https://poser.pugx.org/nilportugues/sql-query-builder/v/stable)](https://packagist.org/packages/nilportugues/sql-query-builder) [![Total Downloads](https://poser.pugx.org/nilportugues/sql-query-builder/downloads)](https://packagist.org/packages/nilportugues/sql-query-builder) [![License](https://poser.pugx.org/nilportugues/sql-query-builder/license)](https://packagist.org/packages/nilportugues/sql-query-builder)
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://paypal.me/nilportugues)
 
 An elegant lightweight and efficient SQL Query Builder with fluid interface SQL syntax supporting bindings and complicated query generation. **Works without establishing a connection to the database.** 
@@ -62,6 +62,8 @@ php composer.phar require nilportugues/sql-query-builder
 ## 2. The Builder [↑](#index_block)
 
 The SQL Query Builder allows to generate complex SQL queries standard using the `SQL-2003` dialect (default) and the `MySQL` dialect, that extends the `SQL-2003` dialect.
+
+<img src="./diagram.svg" />
 
 <a name="block2.1"></a>
 ### 2.1. Generic Builder [↑](#index_block)
