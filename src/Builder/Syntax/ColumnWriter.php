@@ -151,11 +151,15 @@ class ColumnWriter
      */
     public function writeColumn(Column $column)
     {
-        $alias = $column->getTable()->getAlias();
-        $table = ($alias) ? $this->writer->writeTableAlias($alias) : $this->writer->writeTable($column->getTable());
+        if ( $column->getDisableTablePrependInGroup() === false ) {
+            $alias = $column->getTable()->getAlias();
+            $table = ($alias) ? $this->writer->writeTableAlias($alias) : $this->writer->writeTable($column->getTable());
 
-        $columnString = (empty($table)) ? '' : "{$table}.";
-        $columnString .= $this->writer->writeColumnName($column);
+            $columnString = (empty($table)) ? '' : "{$table}.";
+            $columnString .= $this->writer->writeColumnName($column);
+        } else {
+            $columnString = $this->writer->writeColumnName($column);
+        }
 
         return $columnString;
     }

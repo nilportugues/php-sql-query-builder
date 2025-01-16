@@ -34,6 +34,8 @@ class Column implements QueryPartInterface
      */
     protected $alias;
 
+    protected $disableTablePrependInGroup = false;
+
     /**
      * @param string $name
      * @param string $table
@@ -135,5 +137,19 @@ class Column implements QueryPartInterface
     public function isAll()
     {
         return $this->getName() == self::ALL;
+    }
+
+    /** Disable prepend table name in group by
+     * @param $disableTablePrependInGroup
+     * @return void
+     */
+    public function setDisableTablePrependInGroup($disableTablePrependInGroup)
+    {
+        $this->disableTablePrependInGroup = (bool)$disableTablePrependInGroup;
+    }
+
+    public function getDisableTablePrependInGroup()
+    {
+        return $this->disableTablePrependInGroup;
     }
 }
