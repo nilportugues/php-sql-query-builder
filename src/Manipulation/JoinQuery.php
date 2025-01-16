@@ -10,6 +10,7 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
+use NilPortugues\Sql\QueryBuilder\Syntax\Table;
 use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
@@ -83,7 +84,7 @@ class JoinQuery
     }
 
     /**
-     * @param string   $table
+     * @param Table   $table
      * @param mixed    $selfColumn
      * @param mixed    $refColumn
      * @param string[] $columns
@@ -98,7 +99,13 @@ class JoinQuery
         $columns = [],
         $joinType = null
     ) {
-        if (!isset($this->joins[$table])) {
+        if (!(is_object($table) && is_a($table, Table::class))) {
+            $table = new Table(
+                (string) $table
+            );
+        }
+
+        if (! $this->joinExists($table)) {
             $select = QueryFactory::createSelect($table);
             $select->setColumns($columns);
             $select->setJoinType($joinType);
@@ -106,7 +113,7 @@ class JoinQuery
             $this->addJoin($select, $selfColumn, $refColumn);
         }
 
-        return $this->joins[$table];
+        return $this->joins[$table->getName()][$table->getAlias()];
     }
 
     /**
@@ -119,9 +126,11 @@ class JoinQuery
     public function addJoin(Select $select, $selfColumn, $refColumn)
     {
         $select->isJoin(true);
-        $table = $select->getTable()->getName();
 
-        if (!isset($this->joins[$table])) {
+        $tableName  = $select->getTable()->getName();
+        $tableAlias = $select->getTable()->getAlias();
+
+        if (! $this->joinExists($select->getTable())) {
             if (!$selfColumn instanceof Column) {
                 $newColumn = array($selfColumn);
                 $selfColumn = SyntaxFactory::createColumn(
@@ -131,10 +140,20 @@ class JoinQuery
             }
 
             $select->joinCondition()->equals($refColumn, $selfColumn);
-            $this->joins[$table] = $select;
+            $this->joins[$tableName][$tableAlias] = $select;
         }
 
-        return $this->joins[$table];
+        return $this->joins[$tableName][$tableAlias];
+    }
+
+    /**
+     * @param Table $table
+     *
+     * @return bool
+     */
+    private function joinExists(Table $table)
+    {
+        return isset($this->joins[$table->getName()][$table->getAlias()]);
     }
 
     /**
@@ -299,8 +318,10 @@ class JoinQuery
     {
         $joins = $this->joins;
 
-        foreach ($this->joins as $join) {
-            $joins = \array_merge($joins, $join->getAllJoins());
+        foreach ($this->joins as $joins) {
+            foreach ($joins as $join) {
+                $joins = \array_merge($joins, $join->getAllJoins());
+            }
         }
 
         return $joins;

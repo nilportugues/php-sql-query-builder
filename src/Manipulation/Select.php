@@ -117,7 +117,7 @@ class Select extends AbstractBaseQuery
     }
 
     /**
-     * @param string   $table
+     * @param Table    $table
      * @param string   $selfColumn
      * @param string   $refColumn
      * @param string[] $columns
@@ -346,8 +346,10 @@ class Select extends AbstractBaseQuery
             $collection[] = $data;
         }
 
-        foreach ($this->joinQuery->getJoins() as $join) {
-            $collection = \array_merge($collection, $join->$operation());
+        foreach ($this->joinQuery->getJoins() as $joins) {
+            foreach ($joins as $join) {
+                $collection = \array_merge($collection, $join->$operation());
+            }
         }
 
         return $collection;
