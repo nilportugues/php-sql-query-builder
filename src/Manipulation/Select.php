@@ -71,6 +71,11 @@ class Select extends AbstractBaseQuery
     protected $parentQuery;
 
     /**
+     * @var bool
+     */
+    protected bool $disableTablePrepend=false;
+
+    /**
      * @param string $table
      * @param array  $columns
      */
@@ -531,16 +536,34 @@ class Select extends AbstractBaseQuery
     /**
      * @param string $column
      * @param string $direction
-     * @param null   $table
+     * @param null $table
      *
      * @return $this
      */
     public function orderBy($column, $direction = OrderBy::ASC, $table = null)
     {
         $current = parent::orderBy($column, $direction, $table);
-        if ($this->getParentQuery() != null) {
+        if ( $this->getParentQuery() != null ) {
             $this->getParentQuery()->orderBy($column, $direction, \is_null($table) ? $this->getTable() : $table);
         }
         return $current;
+    }
+
+    /**
+     * @param bool $disableTablePrepend
+     * @return $this
+     */
+    public function setDisableTablePrepend(bool $disableTablePrepend = false)
+    {
+        $this->disableTablePrepend = $disableTablePrepend;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getDisableTablePrepend()
+    {
+        return $this->disableTablePrepend;
     }
 }

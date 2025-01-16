@@ -238,20 +238,25 @@ class SelectWriter extends AbstractBaseWriter
 
     /**
      * @param Select $select
-     * @param array  $parts
+     * @param array $parts
      *
      * @return $this
      */
     public function writeSelectGroupBy(Select $select, array &$parts)
     {
-        $groupBy = $this->writeSelectAggrupation(
-            $select,
-            $this->columnWriter,
-            'getGroupBy',
-            'writeColumn',
-            ', ',
-            'GROUP BY '
-        );
+        $groupBy = '';
+        $columns = $select->getGroupBy();
+        $columnWriter = $this->columnWriter;
+        if ( !empty($columns) ) {
+            \array_walk(
+                $columns,
+                function (&$column) use ($select, $columnWriter) {
+                    $column->setDisableTablePrependInGroup($select->getDisableTablePrepend());
+                    $column = $columnWriter->writeColumn($column);
+                }
+            );
+            $groupBy = 'GROUP BY' . implode(',', $columns);
+        }
 
         $parts = \array_merge($parts, [$groupBy]);
 
