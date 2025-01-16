@@ -71,6 +71,11 @@ class Select extends AbstractBaseQuery
     protected $parentQuery;
 
     /**
+     * @var bool
+     */
+    protected bool $disableTablePrepend=false;
+
+    /**
      * @param string $table
      * @param array  $columns
      */
@@ -544,12 +549,19 @@ class Select extends AbstractBaseQuery
         return $current;
     }
 
-    public function setDisableTablePrepend($disableTablePrepend=false)
+    /**
+     * @param bool $disableTablePrepend
+     * @return $this
+     */
+    public function setDisableTablePrepend(bool $disableTablePrepend = false)
     {
         $this->disableTablePrepend = $disableTablePrepend;
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function getDisableTablePrepend()
     {
         return $this->disableTablePrepend;

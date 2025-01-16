@@ -34,7 +34,10 @@ class Column implements QueryPartInterface
      */
     protected $alias;
 
-    protected $disableTablePrependInGroup = false;
+    /**
+     * @var bool
+     */
+    protected bool $disableTablePrependInGroup = false;
 
     /**
      * @param string $name
@@ -140,14 +143,17 @@ class Column implements QueryPartInterface
     }
 
     /** Disable prepend table name in group by
-     * @param $disableTablePrependInGroup
+     * @param bool $disableTablePrependInGroup
      * @return void
      */
-    public function setDisableTablePrependInGroup($disableTablePrependInGroup)
+    public function setDisableTablePrependInGroup(bool $disableTablePrependInGroup)
     {
-        $this->disableTablePrependInGroup = (bool)$disableTablePrependInGroup;
+        $this->disableTablePrependInGroup = $disableTablePrependInGroup;
     }
 
+    /**
+     * @return bool
+     */
     public function getDisableTablePrependInGroup()
     {
         return $this->disableTablePrependInGroup;
