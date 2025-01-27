@@ -95,13 +95,11 @@ class ColumnWriter
         $valueAsColumns = $select->getColumnValues();
         $newColumns = [];
 
-        if (!empty($valueAsColumns)) {
-            foreach ($valueAsColumns as $alias => $value) {
-                $value = $this->writer->writePlaceholderValue($value);
-                $newValueColumn = array($alias => $value);
+        foreach ($valueAsColumns as $alias => $value) {
+            $value = $this->writer->writePlaceholderValue($value);
+            $newValueColumn = array($alias => $value);
 
-                $newColumns[] = SyntaxFactory::createColumn($newValueColumn, null);
-            }
+            $newColumns[] = SyntaxFactory::createColumn($newValueColumn, null);
         }
 
         return $newColumns;
@@ -117,14 +115,12 @@ class ColumnWriter
         $funcAsColumns = $select->getColumnFuncs();
         $newColumns = [];
 
-        if (!empty($funcAsColumns)) {
-            foreach ($funcAsColumns as $alias => $value) {
-                $funcName = $value['func'];
-                $funcArgs = (!empty($value['args'])) ? '('.implode(', ', $value['args']).')' : '';
+        foreach ($funcAsColumns as $alias => $value) {
+            $funcName = $value['func'];
+            $funcArgs = (!empty($value['args'])) ? '('.implode(', ', $value['args']).')' : '';
 
-                $newFuncColumn = array($alias => $funcName.$funcArgs);
-                $newColumns[] = SyntaxFactory::createColumn($newFuncColumn, null);
-            }
+            $newFuncColumn = array($alias => $funcName.$funcArgs);
+            $newColumns[] = SyntaxFactory::createColumn($newFuncColumn, null);
         }
 
         return $newColumns;
@@ -155,8 +151,7 @@ class ColumnWriter
         $table = ($alias) ? $this->writer->writeTableAlias($alias) : $this->writer->writeTable($column->getTable());
 
         $columnString = (empty($table)) ? '' : "{$table}.";
-        $columnString .= $this->writer->writeColumnName($column);
 
-        return $columnString;
+        return $columnString . $this->writer->writeColumnName($column);
     }
 }

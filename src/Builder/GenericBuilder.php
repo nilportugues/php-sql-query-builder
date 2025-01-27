@@ -10,6 +10,16 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Builder;
 
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\PlaceholderWriter;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\WhereWriter;
+use NilPortugues\Sql\QueryFormatter\Formatter;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Delete;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Intersect;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Union;
+use NilPortugues\Sql\QueryBuilder\Manipulation\UnionAll;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Minus;
+use ReflectionClass;
+use RuntimeException;
 use NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory;
 use NilPortugues\Sql\QueryBuilder\Manipulation\AbstractBaseQuery;
 use NilPortugues\Sql\QueryBuilder\Manipulation\QueryInterface;
@@ -24,34 +34,12 @@ use NilPortugues\Sql\QueryBuilder\Syntax\Table;
 class GenericBuilder implements BuilderInterface
 {
     /**
-     * The placeholder parameter bag.
-     *
-     * @var \NilPortugues\Sql\QueryBuilder\Builder\Syntax\PlaceholderWriter
-     */
-    protected $placeholderWriter;
-
-    /**
-     * The Where writer.
-     *
-     * @var \NilPortugues\Sql\QueryBuilder\Builder\Syntax\WhereWriter
-     */
-    protected $whereWriter;
-
-    /**
-     * The SQL formatter.
-     *
-     * @var \NilPortugues\Sql\QueryFormatter\Formatter
-     */
-    protected $sqlFormatter;
-
-    /**
      * Class namespace for the query pretty output formatter.
      * Required to create the instance only if required.
      *
      * @var string
      */
     protected $sqlFormatterClass = 'NilPortugues\Sql\QueryFormatter\Formatter';
-
     /**
      * Array holding the writers for each query part. Methods are called upon request and stored in
      * the $queryWriterInstances array.
@@ -68,7 +56,6 @@ class GenericBuilder implements BuilderInterface
         'UNION' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createUnionWriter',
         'UNION ALL' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createUnionAllWriter',
     ];
-
     /**
      * Array that stores instances of query writers.
      *
@@ -84,7 +71,24 @@ class GenericBuilder implements BuilderInterface
         'UNION' => null,
         'UNION ALL' => null,
     ];
-
+    /**
+     * The placeholder parameter bag.
+     *
+     * @var PlaceholderWriter
+     */
+    protected $placeholderWriter;
+    /**
+     * The Where writer.
+     *
+     * @var WhereWriter
+     */
+    protected $whereWriter;
+    /**
+     * The SQL formatter.
+     *
+     * @var Formatter
+     */
+    protected $sqlFormatter;
     /**
      * Creates writers.
      */
@@ -92,7 +96,6 @@ class GenericBuilder implements BuilderInterface
     {
         $this->placeholderWriter = WriterFactory::createPlaceholderWriter();
     }
-
     /**
      * @param string $table
      * @param array  $columns
@@ -103,7 +106,6 @@ class GenericBuilder implements BuilderInterface
     {
         return $this->injectBuilder(QueryFactory::createSelect($table, $columns));
     }
-
     /**
      * @param \NilPortugues\Sql\QueryBuilder\Manipulation\AbstractBaseQuery
      *
@@ -113,7 +115,6 @@ class GenericBuilder implements BuilderInterface
     {
         return $query->setBuilder($this);
     }
-
     /**
      * @param string $table
      * @param array  $values
@@ -124,7 +125,6 @@ class GenericBuilder implements BuilderInterface
     {
         return $this->injectBuilder(QueryFactory::createInsert($table, $values));
     }
-
     /**
      * @param string $table
      * @param array  $values
@@ -135,52 +135,46 @@ class GenericBuilder implements BuilderInterface
     {
         return $this->injectBuilder(QueryFactory::createUpdate($table, $values));
     }
-
     /**
      * @param string $table
      *
-     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\Delete
+     * @return Delete
      */
     public function delete($table = null)
     {
         return $this->injectBuilder(QueryFactory::createDelete($table));
     }
-
     /**
-     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\Intersect
+     * @return Intersect
      */
     public function intersect()
     {
         return QueryFactory::createIntersect();
     }
-
     /**
-     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\Union
+     * @return Union
      */
     public function union()
     {
         return QueryFactory::createUnion();
     }
-
     /**
-     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\UnionAll
+     * @return UnionAll
      */
     public function unionAll()
     {
         return QueryFactory::createUnionAll();
     }
-
     /**
      * @param \NilPortugues\Sql\QueryBuilder\Manipulation\Select $first
      * @param \NilPortugues\Sql\QueryBuilder\Manipulation\Select $second
      *
-     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\Minus
+     * @return Minus
      */
     public function minus(Select $first, Select $second)
     {
         return QueryFactory::createMinus($first, $second);
     }
-
     /**
      * @return array
      */
@@ -188,7 +182,6 @@ class GenericBuilder implements BuilderInterface
     {
         return $this->placeholderWriter->get();
     }
-
     /**
      * Returns a SQL string in a readable human-friendly format.
      *
@@ -199,19 +192,18 @@ class GenericBuilder implements BuilderInterface
     public function writeFormatted(QueryInterface $query)
     {
         if (null === $this->sqlFormatter) {
-            $this->sqlFormatter = (new \ReflectionClass($this->sqlFormatterClass))->newInstance();
+            $this->sqlFormatter = (new ReflectionClass($this->sqlFormatterClass))->newInstance();
         }
 
         return $this->sqlFormatter->format($this->write($query));
     }
-
     /**
      * @param QueryInterface $query
      * @param bool           $resetPlaceholders
      *
      * @return string
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function write(QueryInterface $query, $resetPlaceholders = true)
     {
@@ -227,9 +219,8 @@ class GenericBuilder implements BuilderInterface
             return $this->queryWriterInstances[$queryPart]->write($query);
         }
 
-        throw new \RuntimeException('Query builder part not defined.');
+        throw new RuntimeException('Query builder part not defined.');
     }
-
     /**
      * @param Select $select
      *
@@ -249,7 +240,6 @@ class GenericBuilder implements BuilderInterface
 
         return $sql;
     }
-
     /**
      * @param Table $table
      *
@@ -262,7 +252,6 @@ class GenericBuilder implements BuilderInterface
 
         return $schema.$this->writeTableName($table).$alias;
     }
-
     /**
      * @param $alias
      *
@@ -272,7 +261,6 @@ class GenericBuilder implements BuilderInterface
     {
         return $alias;
     }
-
     /**
      * Returns the table name.
      *
@@ -284,7 +272,6 @@ class GenericBuilder implements BuilderInterface
     {
         return $table->getName();
     }
-
     /**
      * @param string $alias
      *
@@ -294,7 +281,6 @@ class GenericBuilder implements BuilderInterface
     {
         return sprintf('"%s"', $alias);
     }
-
     /**
      * @param Table $table
      *
@@ -306,7 +292,6 @@ class GenericBuilder implements BuilderInterface
 
         return $schema.$this->writeTableName($table);
     }
-
     /**
      * @param array $values
      *
@@ -323,7 +308,6 @@ class GenericBuilder implements BuilderInterface
 
         return $values;
     }
-
     /**
      * @param $value
      *
@@ -333,7 +317,6 @@ class GenericBuilder implements BuilderInterface
     {
         return $this->placeholderWriter->add($value);
     }
-
     /**
      * @param $operator
      *
@@ -343,7 +326,6 @@ class GenericBuilder implements BuilderInterface
     {
         return ' '.$operator.' ';
     }
-
     /**
      * @return string
      */
@@ -351,7 +333,6 @@ class GenericBuilder implements BuilderInterface
     {
         return ' IS NULL';
     }
-
     /**
      * @return string
      */
@@ -359,7 +340,6 @@ class GenericBuilder implements BuilderInterface
     {
         return ' IS NOT NULL';
     }
-
     /**
      * Returns the column name.
      *
@@ -377,7 +357,6 @@ class GenericBuilder implements BuilderInterface
 
         return $name;
     }
-
     /**
      * @return string
      */
@@ -385,7 +364,6 @@ class GenericBuilder implements BuilderInterface
     {
         return '*';
     }
-
     /**
      * @param string $queryPart
      */

@@ -22,6 +22,6 @@ class Union extends AbstractSetQuery
      */
     public function partName()
     {
-        return 'UNION';
+        return self::UNION;
     }
 }

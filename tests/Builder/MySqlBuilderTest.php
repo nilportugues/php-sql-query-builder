@@ -12,29 +12,24 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Builder;
 
 use NilPortugues\Sql\QueryBuilder\Builder\MySqlBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class MySqlBuilderTest.
  */
-class MySqlBuilderTest extends \PHPUnit_Framework_TestCase
+class MySqlBuilderTest extends TestCase
 {
     /**
      * @var MySqlBuilder
      */
     protected $writer;
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->writer = new MySqlBuilder();
     }
 
-    /**
-     *
-     */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->writer = null;
     }

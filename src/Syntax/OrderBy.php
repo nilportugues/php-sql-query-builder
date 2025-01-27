@@ -10,29 +10,26 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Syntax;
 
+use InvalidArgumentException;
 /**
  * Class OrderBy.
  */
 class OrderBy
 {
-    const ASC = 'ASC';
-    const DESC = 'DESC';
-
     /**
      * @var Column
      */
     protected $column;
-
+    const DESC = 'DESC';
+    const ASC = 'ASC';
     /**
      * @var string
      */
     protected $direction;
-
     /**
      * @var bool
      */
     protected $useAlias;
-
     /**
      * @param Column $column
      * @param string $direction
@@ -42,7 +39,6 @@ class OrderBy
         $this->setColumn($column);
         $this->setDirection($direction);
     }
-
     /**
      * @return Column
      */
@@ -50,7 +46,6 @@ class OrderBy
     {
         return $this->column;
     }
-
     /**
      * @param Column $column
      *
@@ -62,7 +57,6 @@ class OrderBy
 
         return $this;
     }
-
     /**
      * @return string
      */
@@ -70,18 +64,17 @@ class OrderBy
     {
         return $this->direction;
     }
-
     /**
      * @param string $direction
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @return $this
      */
     public function setDirection($direction)
     {
         if (!in_array($direction, array(self::ASC, self::DESC))) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Specified direction '$direction' is not allowed. Only ASC or DESC are allowed."
             );
         }

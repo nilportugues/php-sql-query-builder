@@ -13,11 +13,12 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Builder\Syntax\PlaceholderWriter;
 use NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class WriterFactoryTest.
  */
-class WriterFactoryTest extends \PHPUnit_Framework_TestCase
+class WriterFactoryTest extends TestCase
 {
     /**
      * @var PlaceholderWriter
@@ -29,10 +30,7 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
      */
     private $writer;
 
-    /**
-     *
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->writer = new GenericBuilder();
         $this->placeholder = new PlaceholderWriter();

@@ -10,6 +10,7 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
+use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 use NilPortugues\Sql\QueryBuilder\Syntax\Table;
 use NilPortugues\Sql\QueryBuilder\Syntax\Where;
@@ -237,7 +238,7 @@ class Select extends AbstractBaseQuery
     }
 
     /**
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Column
+     * @return Column
      *
      * @throws QueryException
      */

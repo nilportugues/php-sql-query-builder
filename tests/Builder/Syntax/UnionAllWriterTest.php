@@ -13,11 +13,12 @@ use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Builder\Syntax\UnionAllWriter;
 use NilPortugues\Sql\QueryBuilder\Manipulation\UnionAll;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class UnionAllWriterTest.
  */
-class UnionAllWriterTest extends \PHPUnit_Framework_TestCase
+class UnionAllWriterTest extends TestCase
 {
     /**
      * @var UnionAllWriter
@@ -29,16 +30,13 @@ class UnionAllWriterTest extends \PHPUnit_Framework_TestCase
      */
     private $writer;
 
-    /**
-     *
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->unionAllWriter = new UnionAllWriter(new GenericBuilder());
         $this->writer = new GenericBuilder();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->unionAllWriter = null;
         $this->writer = null;

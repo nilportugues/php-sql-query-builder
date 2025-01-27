@@ -12,30 +12,25 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
 use NilPortugues\Sql\QueryBuilder\Manipulation\Union;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class UnionTest.
  */
-class UnionTest extends \PHPUnit_Framework_TestCase
+class UnionTest extends TestCase
 {
-    /**
-     * @var Union
-     */
-    private $query;
-
     /**
      * @var string
      */
     private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
-
     /**
-     *
+     * @var Union
      */
-    protected function setUp()
+    private $query;
+    protected function setUp(): void
     {
         $this->query = new Union();
     }
-
     /**
      * @test
      */
@@ -43,34 +38,30 @@ class UnionTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame('UNION', $this->query->partName());
     }
-
     /**
      * @test
      */
     public function itShouldThrowExceptionForUnsupportedGetTable()
     {
-        $this->setExpectedException($this->exceptionClass);
+        $this->expectException($this->exceptionClass);
         $this->query->getTable();
     }
-
     /**
      * @test
      */
     public function itShouldThrowExceptionForUnsupportedGetWhere()
     {
-        $this->setExpectedException($this->exceptionClass);
+        $this->expectException($this->exceptionClass);
         $this->query->getWhere();
     }
-
     /**
      * @test
      */
     public function itShouldThrowExceptionForUnsupportedWhere()
     {
-        $this->setExpectedException($this->exceptionClass);
+        $this->expectException($this->exceptionClass);
         $this->query->where();
     }
-
     /**
      * @test
      */
