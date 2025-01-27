@@ -60,7 +60,7 @@ final class SyntaxFactory
         $columnAlias = \array_keys($argument);
         $columnAlias = $columnAlias[0];
 
-        if (\is_numeric($columnAlias) || \strpos($columnName, '*') !== false) {
+        if (\is_numeric($columnAlias) || (\strpos($columnName, '*') !== false && \strlen(\trim($columnName))==1)) {
             $columnAlias = null;
         }
 
