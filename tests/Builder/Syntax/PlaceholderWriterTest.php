@@ -56,7 +56,7 @@ class PlaceholderWriterTest extends \PHPUnit_Framework_TestCase
         $this->writer->add('');
         $this->writer->add(null);
 
-        $this->assertEquals(array(':v1' => 'NULL', ':v2' => 'NULL'), $this->writer->get());
+        $this->assertEquals(array(':v1' => '', ':v2' => null), $this->writer->get());
     }
 
     /**
