@@ -52,18 +52,35 @@ class ColumnWriter
     {
         \array_walk(
             $selectAsColumns,
-            function (mixed &$column) use ($selectWriter): void {
-                $keys = \array_keys($column);
-                $key = \array_pop($keys);
+            function (mixed &$columnData) use ($selectWriter): void {
+                // $columnData is expected to be an array like ['alias_or_index' => Select_object_or_string]
+                $keys = \array_keys($columnData);
+                $originalKey = \array_pop($keys); // Get the alias or numeric index
 
-                $values = \array_values($column);
-                /** @var Column|string $value */
-                $value = $values[0];
+                $values = \array_values($columnData);
+                $content = $values[0]; // This is the Select object or column name string
 
-                if (\is_numeric($key) && $value instanceof Column) {
-                    $key = $this->writer->writeTableName($value->getTable());
+                $aliasToUse = $originalKey; // Default to original key
+
+                if (\is_numeric($originalKey) && $content instanceof \NilPortugues\Sql\QueryBuilder\Manipulation\Select) {
+                    /** @var \NilPortugues\Sql\QueryBuilder\Syntax\Table|null $firstTable */
+                    $firstTable = $content->getTable(); // Get the main table of the subquery
+
+                    if ($firstTable) { // Check if a table is actually set
+                        $derivedAlias = $firstTable->getAlias();
+                        if (null === $derivedAlias || $derivedAlias === '') {
+                            $derivedAlias = $firstTable->getName();
+                        }
+
+                        if ($derivedAlias && $derivedAlias !== '') {
+                            $aliasToUse = $derivedAlias;
+                        }
+                    }
+                    // If no table or no alias/name, $aliasToUse remains $originalKey (numeric string)
                 }
-                $column = $selectWriter->selectToColumn((string)$key, $value);
+                // Important: ensure $aliasToUse is a string for selectToColumn
+                // The variable name for the modified element in array_walk is $columnData itself
+                $columnData = $selectWriter->selectToColumn((string)$aliasToUse, $content);
             }
         );
 
