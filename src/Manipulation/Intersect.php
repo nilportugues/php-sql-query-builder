@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
@@ -10,75 +13,96 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
+use NilPortugues\Sql\QueryBuilder\Builder\BuilderInterface;
 use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
+use NilPortugues\Sql\QueryBuilder\Syntax\Table;
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 
 /**
  * Class Intersect.
  */
 class Intersect implements QueryInterface, QueryPartInterface
 {
-    const INTERSECT = 'INTERSECT';
+    final public const INTERSECT = 'INTERSECT';
 
-    /**
-     * @var array
-     */
-    protected $intersect = [];
+    /** @var array<Select> */
+    protected array $intersect = [];
+    protected ?BuilderInterface $builder = null;
 
-    /**
-     * @return string
-     */
-    public function partName()
+    public function partName(): string
     {
-        return 'INTERSECT';
+        return self::INTERSECT;
     }
 
-    /**
-     * @param Select $select
-     *
-     * @return $this
-     */
-    public function add(Select $select)
+    public function add(Select $select): self
     {
         $this->intersect[] = $select;
-
         return $this;
     }
 
     /**
-     * @return array
+     * @return array<Select>
      */
-    public function getIntersects()
+    public function getIntersects(): array
     {
         return $this->intersect;
     }
 
     /**
      * @throws QueryException
-     *
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Table
      */
-    public function getTable()
+    public function getTable(): ?Table
     {
-        throw new QueryException('INTERSECT does not support tables');
+        throw new QueryException(\sprintf('%s does not support tables', $this->partName()));
     }
 
     /**
      * @throws QueryException
-     *
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
-    public function getWhere()
+    public function getWhere(): ?Where
     {
-        throw new QueryException('INTERSECT does not support WHERE.');
+        throw new QueryException(\sprintf('%s does not support WHERE.', $this->partName()));
     }
 
     /**
      * @throws QueryException
-     *
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
      */
-    public function where()
+    public function where(): Where
     {
-        throw new QueryException('INTERSECT does not support the WHERE statement.');
+        throw new QueryException(\sprintf('%s does not support the WHERE statement.', $this->partName()));
+    }
+
+    final public function setBuilder(BuilderInterface $builder): self
+    {
+        $this->builder = $builder;
+        return $this;
+    }
+
+    /**
+     * @throws \RuntimeException
+     */
+    final public function getBuilder(): BuilderInterface
+    {
+        if (null === $this->builder) {
+            throw new \RuntimeException('Query builder has not been injected with setBuilder for Intersect query.');
+        }
+        return $this->builder;
+    }
+
+    public function getSql(bool $formatted = false): string
+    {
+        if ($formatted) {
+            return $this->getBuilder()->writeFormatted($this);
+        }
+        return $this->getBuilder()->write($this);
+    }
+
+    public function __toString(): string
+    {
+        try {
+            return $this->getSql();
+        } catch (\Exception $e) {
+            return \sprintf('[%s] %s', \get_class($e), $e->getMessage());
+        }
     }
 }

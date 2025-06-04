@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/2/14
@@ -11,16 +13,17 @@
 namespace NilPortugues\Tests\Sql\QueryBuilder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Syntax\Table;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class TableTest.
  */
-class TableTest extends \PHPUnit_Framework_TestCase
+class TableTest extends TestCase
 {
     /**
      * @test
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $table = new Table('user');
         $this->assertEquals('user', $table->getName());
@@ -29,7 +32,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldReturnNullIfTableNameHasNoAlias()
+    public function itShouldReturnNullIfTableNameHasNoAlias(): void
     {
         $table = new Table('user');
         $this->assertNull($table->getAlias());
@@ -38,7 +41,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldReturnAliasIfTableNameAliasHasBeenSet()
+    public function itShouldReturnAliasIfTableNameAliasHasBeenSet(): void
     {
         $table = new Table('user');
         $table->setAlias('u');
@@ -48,7 +51,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldReturnNullIfSchemaNotSet()
+    public function itShouldReturnNullIfSchemaNotSet(): void
     {
         $table = new Table('user');
         $this->assertNull($table->getSchema());
@@ -57,7 +60,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldReturnSchemaIfSchemaHasValue()
+    public function itShouldReturnSchemaIfSchemaHasValue(): void
     {
         $table = new Table('user', 'website');
         $this->assertEquals('website', $table->getSchema());
@@ -66,7 +69,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldReturnTheCompleteName()
+    public function itShouldReturnTheCompleteName(): void
     {
         $table = new Table('user');
 
@@ -79,7 +82,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldReturnFalseOnIsView()
+    public function itShouldReturnFalseOnIsView(): void
     {
         $table = new Table('user_status');
         $this->assertFalse($table->isView());
@@ -88,7 +91,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldReturnTrueOnIsView()
+    public function itShouldReturnTrueOnIsView(): void
     {
         $table = new Table('user_status');
         $table->setView(true);

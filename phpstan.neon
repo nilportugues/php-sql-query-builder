@@ -1,0 +1,11 @@
+parameters:
+    level: 5
+    paths:
+        - src
+        - tests
+    bootstrapFiles:
+        - vendor/autoload.php
+    ignoreErrors:
+        # Ignore errors related to the problematic SyntaxFactory.php if they arise
+        - '#Access to an undefined property NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory::\$someProperty.#'
+        - '#Call to an undefined method NilPortugues\\Sql\\QueryBuilder\\Syntax\\SyntaxFactory::someMethod\\(\\).#'

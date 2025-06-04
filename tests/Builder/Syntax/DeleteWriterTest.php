@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
@@ -12,26 +15,17 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Delete;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class DeleteWriterTest.
  */
-class DeleteWriterTest extends \PHPUnit_Framework_TestCase
+class DeleteWriterTest extends TestCase
 {
-    /**
-     * @var GenericBuilder
-     */
-    private $writer;
+    private GenericBuilder $writer;
+    private Delete $query;
 
-    /**
-     * @var Delete
-     */
-    private $query;
-
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->writer = new GenericBuilder();
         $this->query = new Delete();
@@ -40,7 +34,7 @@ class DeleteWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldWriteDeleteAllTableContentsQuery()
+    public function itShouldWriteDeleteAllTableContentsQuery(): void
     {
         $this->query->setTable('user');
 
@@ -51,7 +45,7 @@ class DeleteWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldWriteDeleteRowLimit1()
+    public function itShouldWriteDeleteRowLimit1(): void
     {
         $this->query
             ->setTable('user')
@@ -60,14 +54,14 @@ class DeleteWriterTest extends \PHPUnit_Framework_TestCase
         $expected = 'DELETE FROM user LIMIT :v1';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToWriteCommentInQuery()
+    public function itShouldBeAbleToWriteCommentInQuery(): void
     {
         $this->query
             ->setTable('user')
@@ -83,7 +77,7 @@ SQL;
     /**
      * @test
      */
-    public function itShouldWriteDeleteRowWithWhereConditionAndLimit1()
+    public function itShouldWriteDeleteRowWithWhereConditionAndLimit1(): void
     {
         $this->query->setTable('user');
 
@@ -98,9 +92,11 @@ SQL;
         $expected = <<<SQL
 DELETE FROM user WHERE (user.user_id = :v1) AND (user.user_id = :v2) AND (user.user_id = :v3) LIMIT :v4
 SQL;
-        $this->assertSame($expected, $this->writer->write($this->query));
+        // Normalize newlines for comparison, as Heredoc might behave differently across OS or configurations.
+        $this->assertSame(str_replace("\r\n", "\n", $expected), $this->writer->write($this->query));
 
-        $expected = array(':v1' => 10, ':v2' => 20, ':v3' => 30, ':v4' => 1);
-        $this->assertEquals($expected, $this->writer->getValues());
+
+        $expectedValues = [':v1' => 10, ':v2' => 20, ':v3' => 30, ':v4' => 1];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 }

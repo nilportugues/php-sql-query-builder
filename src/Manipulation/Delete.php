@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -15,46 +18,37 @@ namespace NilPortugues\Sql\QueryBuilder\Manipulation;
  */
 class Delete extends AbstractBaseQuery
 {
-    /**
-     * @var int
-     */
-    protected $limitStart;
+    // The $limitStart property is inherited from AbstractBaseQuery (?int)
+    // No need to redeclare unless changing visibility or type, which is not the case.
 
-    /**
-     * @param string $table
-     */
-    public function __construct($table = null)
+    public function __construct(?string $table = null)
     {
-        if (isset($table)) {
+        if (null !== $table) {
             $this->setTable($table);
         }
     }
 
-    /**
-     * @return string
-     */
-    public function partName()
+    public function partName(): string
     {
         return 'DELETE';
     }
 
-    /**
-     * @return int
-     */
-    public function getLimitStart()
+    // getLimitStart() is inherited from AbstractBaseQuery and returns ?int.
+    // This local override might be intended if the logic for Delete's limit start was different,
+    // but it just returns the property. If the property is the same as parent,
+    // this override is not strictly necessary unless for specific typing, but parent is already ?int.
+    // For now, keeping it as it might be a specific design choice, but ensuring return type is compatible.
+    public function getLimitStart(): ?int
     {
         return $this->limitStart;
     }
 
-    /**
-     * @param int $start
-     *
-     * @return $this
-     */
-    public function limit($start)
+    public function limit(int $start): self
     {
+        // This sets the $limitStart property inherited from AbstractBaseQuery.
+        // The AbstractBaseWriter::writeLimitCondition only uses getLimitStart(),
+        // so this will effectively produce "LIMIT N".
         $this->limitStart = $start;
-
         return $this;
     }
 }

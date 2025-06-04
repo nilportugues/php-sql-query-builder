@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -10,11 +13,21 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Builder;
 
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\PlaceholderWriter;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\SelectWriter;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\WhereWriter;
 use NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory;
 use NilPortugues\Sql\QueryBuilder\Manipulation\AbstractBaseQuery;
-use NilPortugues\Sql\QueryBuilder\Manipulation\QueryInterface;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Delete;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Insert;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Intersect;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Minus;
 use NilPortugues\Sql\QueryBuilder\Manipulation\QueryFactory;
+use NilPortugues\Sql\QueryBuilder\Manipulation\QueryInterface;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Union;
+use NilPortugues\Sql\QueryBuilder\Manipulation\UnionAll;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Update;
 use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\Table;
 
@@ -23,58 +36,25 @@ use NilPortugues\Sql\QueryBuilder\Syntax\Table;
  */
 class GenericBuilder implements BuilderInterface
 {
-    /**
-     * The placeholder parameter bag.
-     *
-     * @var \NilPortugues\Sql\QueryBuilder\Builder\Syntax\PlaceholderWriter
-     */
-    protected $placeholderWriter;
+    protected PlaceholderWriter $placeholderWriter;
+    protected ?WhereWriter $whereWriter = null;
+    protected ?\NilPortugues\Sql\QueryFormatter\Formatter $sqlFormatter = null;
+    protected string $sqlFormatterClass = 'NilPortugues\Sql\QueryFormatter\Formatter';
 
-    /**
-     * The Where writer.
-     *
-     * @var \NilPortugues\Sql\QueryBuilder\Builder\Syntax\WhereWriter
-     */
-    protected $whereWriter;
-
-    /**
-     * The SQL formatter.
-     *
-     * @var \NilPortugues\Sql\QueryFormatter\Formatter
-     */
-    protected $sqlFormatter;
-
-    /**
-     * Class namespace for the query pretty output formatter.
-     * Required to create the instance only if required.
-     *
-     * @var string
-     */
-    protected $sqlFormatterClass = 'NilPortugues\Sql\QueryFormatter\Formatter';
-
-    /**
-     * Array holding the writers for each query part. Methods are called upon request and stored in
-     * the $queryWriterInstances array.
-     *
-     * @var array
-     */
-    protected $queryWriterArray = [
-        'SELECT' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createSelectWriter',
-        'INSERT' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createInsertWriter',
-        'UPDATE' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createUpdateWriter',
-        'DELETE' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createDeleteWriter',
-        'INTERSECT' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createIntersectWriter',
-        'MINUS' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createMinusWriter',
-        'UNION' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createUnionWriter',
-        'UNION ALL' => '\NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory::createUnionAllWriter',
+    /** @var array<string, string> */
+    protected array $queryWriterArray = [
+        'SELECT' => WriterFactory::class . '::createSelectWriter',
+        'INSERT' => WriterFactory::class . '::createInsertWriter',
+        'UPDATE' => WriterFactory::class . '::createUpdateWriter',
+        'DELETE' => WriterFactory::class . '::createDeleteWriter',
+        'INTERSECT' => WriterFactory::class . '::createIntersectWriter',
+        'MINUS' => WriterFactory::class . '::createMinusWriter',
+        'UNION' => WriterFactory::class . '::createUnionWriter',
+        'UNION ALL' => WriterFactory::class . '::createUnionAllWriter',
     ];
 
-    /**
-     * Array that stores instances of query writers.
-     *
-     * @var array
-     */
-    protected $queryWriterInstances = [
+    /** @var array<string, object|null> */
+    protected array $queryWriterInstances = [
         'SELECT' => null,
         'INSERT' => null,
         'UPDATE' => null,
@@ -94,126 +74,88 @@ class GenericBuilder implements BuilderInterface
     }
 
     /**
-     * @param string $table
-     * @param array  $columns
-     *
-     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\Select
+     * @param array<string>|null $columns
      */
-    public function select($table = null, array $columns = null)
+    public function select(?string $table = null, ?array $columns = null): Select
     {
         return $this->injectBuilder(QueryFactory::createSelect($table, $columns));
     }
 
     /**
-     * @param \NilPortugues\Sql\QueryBuilder\Manipulation\AbstractBaseQuery
-     *
-     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\AbstractBaseQuery
+     * @template T of AbstractBaseQuery
+     * @param T $query
+     * @return T
      */
-    protected function injectBuilder(AbstractBaseQuery $query)
+    protected function injectBuilder(AbstractBaseQuery $query): AbstractBaseQuery
     {
         return $query->setBuilder($this);
     }
 
     /**
-     * @param string $table
-     * @param array  $values
-     *
-     *@return AbstractBaseQuery
+     * @param array<mixed>|null $values
      */
-    public function insert($table = null, array $values = null)
+    public function insert(?string $table = null, ?array $values = null): Insert
     {
         return $this->injectBuilder(QueryFactory::createInsert($table, $values));
     }
 
     /**
-     * @param string $table
-     * @param array  $values
-     *
-     *@return AbstractBaseQuery
+     * @param array<mixed>|null $values
      */
-    public function update($table = null, array $values = null)
+    public function update(?string $table = null, ?array $values = null): Update
     {
         return $this->injectBuilder(QueryFactory::createUpdate($table, $values));
     }
 
-    /**
-     * @param string $table
-     *
-     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\Delete
-     */
-    public function delete($table = null)
+    public function delete(?string $table = null): Delete
     {
         return $this->injectBuilder(QueryFactory::createDelete($table));
     }
 
-    /**
-     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\Intersect
-     */
-    public function intersect()
+    public function intersect(): Intersect
     {
-        return QueryFactory::createIntersect();
+        return QueryFactory::createIntersect()->setBuilder($this);
+    }
+
+    public function union(): Union
+    {
+        return QueryFactory::createUnion()->setBuilder($this);
+    }
+
+    public function unionAll(): UnionAll
+    {
+        return QueryFactory::createUnionAll()->setBuilder($this);
+    }
+
+    public function minus(Select $first, Select $second): Minus
+    {
+        return QueryFactory::createMinus($first, $second)->setBuilder($this);
     }
 
     /**
-     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\Union
+     * @return array<string, mixed>
      */
-    public function union()
-    {
-        return QueryFactory::createUnion();
-    }
-
-    /**
-     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\UnionAll
-     */
-    public function unionAll()
-    {
-        return QueryFactory::createUnionAll();
-    }
-
-    /**
-     * @param \NilPortugues\Sql\QueryBuilder\Manipulation\Select $first
-     * @param \NilPortugues\Sql\QueryBuilder\Manipulation\Select $second
-     *
-     * @return \NilPortugues\Sql\QueryBuilder\Manipulation\Minus
-     */
-    public function minus(Select $first, Select $second)
-    {
-        return QueryFactory::createMinus($first, $second);
-    }
-
-    /**
-     * @return array
-     */
-    public function getValues()
+    public function getValues(): array
     {
         return $this->placeholderWriter->get();
     }
 
     /**
      * Returns a SQL string in a readable human-friendly format.
-     *
-     * @param QueryInterface $query
-     *
-     * @return string
+     * @throws \ReflectionException
      */
-    public function writeFormatted(QueryInterface $query)
+    public function writeFormatted(QueryInterface $query): string
     {
         if (null === $this->sqlFormatter) {
             $this->sqlFormatter = (new \ReflectionClass($this->sqlFormatterClass))->newInstance();
         }
-
         return $this->sqlFormatter->format($this->write($query));
     }
 
     /**
-     * @param QueryInterface $query
-     * @param bool           $resetPlaceholders
-     *
-     * @return string
-     *
-     * @throws \RuntimeException
+     * @throws \RuntimeException|\ReflectionException
      */
-    public function write(QueryInterface $query, $resetPlaceholders = true)
+    public function write(QueryInterface $query, bool $resetPlaceholders = true): string
     {
         if ($resetPlaceholders) {
             $this->placeholderWriter->reset();
@@ -221,21 +163,23 @@ class GenericBuilder implements BuilderInterface
 
         $queryPart = $query->partName();
 
-        if (false === empty($this->queryWriterArray[$queryPart])) {
+        if (!empty($this->queryWriterArray[$queryPart])) {
             $this->createQueryObject($queryPart);
 
-            return $this->queryWriterInstances[$queryPart]->write($query);
+            /** @var SelectWriter|object|null $writerInstance */
+            $writerInstance = $this->queryWriterInstances[$queryPart];
+            if ($writerInstance && method_exists($writerInstance, 'write')) {
+                return $writerInstance->write($query);
+            }
         }
 
-        throw new \RuntimeException('Query builder part not defined.');
+        throw new \RuntimeException('Query builder part not defined or writer instance/method is invalid.');
     }
 
     /**
-     * @param Select $select
-     *
-     * @return string
+     * @throws \ReflectionException
      */
-    public function writeJoin(Select $select)
+    public function writeJoin(Select $select): string
     {
         if (null === $this->whereWriter) {
             $this->whereWriter = WriterFactory::createWhereWriter($this, $this->placeholderWriter);
@@ -250,152 +194,104 @@ class GenericBuilder implements BuilderInterface
         return $sql;
     }
 
-    /**
-     * @param Table $table
-     *
-     * @return string
-     */
-    public function writeTableWithAlias(Table $table)
+    public function writeTableWithAlias(Table $table): string
     {
-        $alias = ($table->getAlias()) ? " AS {$this->writeTableAlias($table->getAlias())}" : '';
+        $alias = $table->getAlias();
+        $aliasString = ($alias !== null && $alias !== '') ? " AS {$this->writeTableAlias($alias)}" : '';
         $schema = ($table->getSchema()) ? "{$table->getSchema()}." : '';
 
-        return $schema.$this->writeTableName($table).$alias;
+        return $schema . $this->writeTableName($table) . $aliasString;
     }
 
-    /**
-     * @param $alias
-     *
-     * @return mixed
-     */
-    public function writeTableAlias($alias)
+    public function writeTableAlias(string $alias): string
     {
-        return $alias;
+        return $alias; // Usually, aliases are not quoted unless they are keywords or contain special chars.
     }
 
-    /**
-     * Returns the table name.
-     *
-     * @param Table $table
-     *
-     * @return string
-     */
-    public function writeTableName(Table $table)
+    public function writeTableName(Table $table): string
     {
-        return $table->getName();
+        return $table->getName(); // Table names might need quoting depending on DB if they are keywords or contain special chars.
     }
 
-    /**
-     * @param string $alias
-     *
-     * @return string
-     */
-    public function writeColumnAlias($alias)
+    public function writeColumnAlias(string $alias): string
     {
-        return sprintf('"%s"', $alias);
+        // ANSI SQL standard for quoting identifiers is double quotes.
+        return '"' . str_replace('"', '""', $alias) . '"';
     }
 
-    /**
-     * @param Table $table
-     *
-     * @return string
-     */
-    public function writeTable(Table $table)
+    public function writeTable(Table $table): string
     {
         $schema = ($table->getSchema()) ? "{$table->getSchema()}." : '';
-
-        return $schema.$this->writeTableName($table);
+        return $schema . $this->writeTableName($table);
     }
 
     /**
-     * @param array $values
-     *
-     * @return array
+     * @param array<mixed> $values
+     * @return array<string>
      */
-    public function writeValues(array &$values)
+    public function writeValues(array $values): array
     {
-        \array_walk(
-            $values,
-            function (&$value) {
-                $value = $this->writePlaceholderValue($value);
-            }
-        );
-
-        return $values;
+        $writtenValues = [];
+        foreach ($values as $value) {
+            $writtenValues[] = $this->writePlaceholderValue($value);
+        }
+        return $writtenValues;
     }
 
-    /**
-     * @param $value
-     *
-     * @return string
-     */
-    public function writePlaceholderValue($value)
+    public function writePlaceholderValue(mixed $value): string
     {
         return $this->placeholderWriter->add($value);
     }
 
-    /**
-     * @param $operator
-     *
-     * @return string
-     */
-    public function writeConjunction($operator)
+    public function writeConjunction(string $operator): string
     {
-        return ' '.$operator.' ';
+        return ' ' . $operator . ' ';
     }
 
-    /**
-     * @return string
-     */
-    public function writeIsNull()
+    public function writeIsNull(): string
     {
         return ' IS NULL';
     }
 
-    /**
-     * @return string
-     */
-    public function writeIsNotNull()
+    public function writeIsNotNull(): string
     {
         return ' IS NOT NULL';
     }
 
-    /**
-     * Returns the column name.
-     *
-     * @param Column $column
-     *
-     * @return string
-     */
-    public function writeColumnName(Column $column)
+    public function writeColumnName(Column $column): string
     {
         $name = $column->getName();
 
         if ($name === Column::ALL) {
             return $this->writeColumnAll();
         }
-
+        // Column names might need quoting depending on DB if they are keywords or contain special chars.
         return $name;
     }
 
-    /**
-     * @return string
-     */
-    protected function writeColumnAll()
+    protected function writeColumnAll(): string
     {
         return '*';
     }
 
     /**
-     * @param string $queryPart
+     * @throws \ReflectionException
      */
-    protected function createQueryObject($queryPart)
+    protected function createQueryObject(string $queryPart): void
     {
         if (null === $this->queryWriterInstances[$queryPart]) {
-            $this->queryWriterInstances[$queryPart] = \call_user_func_array(
-                \explode('::', $this->queryWriterArray[$queryPart]),
-                [$this, $this->placeholderWriter]
-            );
+            $writerFactoryMethod = $this->queryWriterArray[$queryPart];
+            // Check if $writerFactoryMethod is a valid callable string 'Class::method'
+            if (is_string($writerFactoryMethod) && str_contains($writerFactoryMethod, '::')) {
+                /** @var callable $callable */
+                $callable = explode('::', $writerFactoryMethod);
+                $this->queryWriterInstances[$queryPart] = \call_user_func_array(
+                    $callable,
+                    [$this, $this->placeholderWriter]
+                );
+            } else {
+                throw new \RuntimeException("Invalid factory method definition for query part: {$queryPart}");
+            }
         }
     }
 }

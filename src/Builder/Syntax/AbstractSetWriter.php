@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 12/24/14
@@ -18,30 +21,24 @@ use NilPortugues\Sql\QueryBuilder\Syntax\QueryPartInterface;
  */
 abstract class AbstractSetWriter
 {
-    /**
-     * @var GenericBuilder
-     */
-    protected $writer;
-
-    /**
-     * @param GenericBuilder $writer
-     */
-    public function __construct(GenericBuilder $writer)
+    public function __construct(protected GenericBuilder $writer)
     {
-        $this->writer = $writer;
     }
 
     /**
      * @param QueryPartInterface $setClass
-     * @param string             $setOperation
-     * @param $glue
+     * @param string $setOperation
+     * @param string $glue
      *
      * @return string
+     *
+     * @throws \ReflectionException
      */
-    protected function abstractWrite(QueryPartInterface $setClass, $setOperation, $glue)
+    protected function abstractWrite(QueryPartInterface $setClass, string $setOperation, string $glue): string
     {
         $selects = [];
 
+        /** @var \NilPortugues\Sql\QueryBuilder\Manipulation\QueryInterface $select */
         foreach ($setClass->$setOperation() as $select) {
             $selects[] = $this->writer->write($select, false);
         }

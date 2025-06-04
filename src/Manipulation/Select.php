@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -10,74 +13,39 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
+use NilPortugues\Sql\QueryBuilder\Syntax\Column;
+use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
 use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 use NilPortugues\Sql\QueryBuilder\Syntax\Table;
 use NilPortugues\Sql\QueryBuilder\Syntax\Where;
-use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
 
 /**
  * Class Select.
  */
 class Select extends AbstractBaseQuery
 {
-    /**
-     * @var Table
-     */
-    protected $table;
+    // Properties `$table` and `$where` are inherited from AbstractBaseQuery.
+    // No need to redeclare them here if visibility and type are compatible.
+
+    /** @var array<string> */
+    protected array $groupBy = [];
+
+    protected string $camelCaseTableName = ''; // Appears unused. Will keep for now.
+    protected ?Where $having = null;
+    protected string $havingOperator = 'AND';
+    protected bool $isDistinct = false;
+
+    protected JoinQuery $joinQuery;
+    protected ColumnQuery $columnQuery;
+    protected ?Select $parentQuery = null; // Changed from ParentQuery to ?Select
 
     /**
-     * @var array
+     * @param array<string>|null $columns
      */
-    protected $groupBy = [];
-
-    /**
-     * @var string
-     */
-    protected $camelCaseTableName = '';
-
-    /**
-     * @var Where
-     */
-    protected $having;
-
-    /**
-     * @var string
-     */
-    protected $havingOperator = 'AND';
-
-    /**
-     * @var bool
-     */
-    protected $isDistinct = false;
-
-    /**
-     * @var Where
-     */
-    protected $where;
-
-    /**
-     * @var JoinQuery
-     */
-    protected $joinQuery;
-
-    /**
-     * @var ColumnQuery
-     */
-    protected $columnQuery;
-
-    /**
-     * @var ParentQuery
-     */
-    protected $parentQuery;
-
-    /**
-     * @param string $table
-     * @param array  $columns
-     */
-    public function __construct($table = null, array $columns = null)
+    public function __construct(?string $table = null, ?array $columns = null)
     {
-        if (isset($table)) {
-            $this->setTable($table);
+        if (null !== $table) {
+            $this->setTable($table); // Uses parent's setTable
         }
 
         $this->joinQuery = new JoinQuery($this);
@@ -87,460 +55,381 @@ class Select extends AbstractBaseQuery
     /**
      * This __clone method will create an exact clone but without the object references due to the fact these
      * are lost in the process of serialization and un-serialization.
-     *
-     * @return Select
      */
-    public function __clone()
+    public function __clone(): void
     {
-        return \unserialize(\serialize($this));
+        // $this is already a shallow copy when __clone() is invoked.
+        // We need to deep clone properties that are objects and ensure
+        // their internal back-references point to this new cloned Select instance ($this).
+
+        // Properties from AbstractBaseQuery
+        if ($this->where !== null) {
+            $this->where = clone $this->where; // Clones the Where object
+            $this->where->setQuery($this);      // Re-parent: Where object now refers to the new Select
+        }
+
+        $newOrderBy = [];
+        foreach ($this->orderBy as $orderByItem) {
+            $newOrderBy[] = clone $orderByItem; // OrderBy objects are value objects, simple clone is fine
+        }
+        $this->orderBy = $newOrderBy;
+
+        // Properties from Select
+        if ($this->having !== null) {
+            $this->having = clone $this->having; // Clones the Where object for HAVING
+            $this->having->setQuery($this);       // Re-parent: Having's Where object refers to the new Select
+        }
+
+        // Deep clone composed query objects and update their back-references.
+        // It's important to clone them before assigning to $this->joinQuery / $this->columnQuery
+        // if other parts of the cloning process might depend on the old instances.
+        // However, here we are directly replacing them.
+
+        // Clone JoinQuery and re-parent it
+        $clonedJoinQuery = clone $this->joinQuery;
+        $clonedJoinQuery->internalSetSelect($this);
+        $this->joinQuery = $clonedJoinQuery;
+
+        // Clone ColumnQuery and re-parent it (and its JoinQuery reference)
+        $clonedColumnQuery = clone $this->columnQuery;
+        $clonedColumnQuery->internalSetSelect($this);
+        $clonedColumnQuery->internalSetJoinQuery($this->joinQuery); // Point to the newly cloned JoinQuery
+        $this->columnQuery = $clonedColumnQuery;
+
+        // $parentQuery: Typically, parent references are not deep-cloned to avoid cycles
+        // and because the clone is a new "child" in a sense, not a clone of the parent relationship.
+        // So, $this->parentQuery (if not null) will still point to the original parent. This is usually desired.
     }
 
-    /**
-     * @return string
-     */
-    public function partName()
+    public function partName(): string
     {
         return 'SELECT';
     }
 
     /**
-     * @param string   $table
-     * @param string   $selfColumn
-     * @param string   $refColumn
-     * @param string[] $columns
-     *
-     * @return Select
+     * @param string|Column|null $selfColumn
+     * @param string|Column|null $refColumn
+     * @param array<string> $columns
      */
-    public function leftJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
+    public function leftJoin(string $table, mixed $selfColumn = null, mixed $refColumn = null, array $columns = []): Select
     {
         return $this->joinQuery->leftJoin($table, $selfColumn, $refColumn, $columns);
     }
 
     /**
-     * @param string   $table
-     * @param string   $selfColumn
-     * @param string   $refColumn
-     * @param string[] $columns
-     * @param string   $joinType
-     *
-     * @return Select
+     * @param string|Column|null $selfColumn
+     * @param string|Column|null $refColumn
+     * @param array<string> $columns
      */
     public function join(
-        $table,
-        $selfColumn = null,
-        $refColumn = null,
-        $columns = [],
-        $joinType = null
-    ) {
+        string $table,
+        mixed $selfColumn = null,
+        mixed $refColumn = null,
+        array $columns = [],
+        ?string $joinType = null
+    ): Select {
         return $this->joinQuery->join($table, $selfColumn, $refColumn, $columns, $joinType);
     }
 
-    /**
-     * WHERE constrains used for the ON clause of a (LEFT/RIGHT/INNER/CROSS) JOIN.
-     *
-     * @return Where
-     */
-    public function joinCondition()
+    public function joinCondition(): Where
     {
         return $this->joinQuery->joinCondition();
     }
 
     /**
-     * @param Select $select
-     * @param string $selfColumn
-     * @param string $refColumn
-     *
-     * @return Select
+     * @param string|Column|null $selfColumn
+     * @param string|Column|null $refColumn
      */
-    public function addJoin(Select $select, $selfColumn, $refColumn)
+    public function addJoin(Select $select, mixed $selfColumn, mixed $refColumn): Select
     {
         return $this->joinQuery->addJoin($select, $selfColumn, $refColumn);
     }
 
-    /**
-     * Transforms Select in a joint.
-     *
-     * @param bool $isJoin
-     *
-     * @return JoinQuery
-     */
-    public function isJoin($isJoin = true)
+    public function isJoin(bool $isJoin = true): self // Return type changed to self for consistency
     {
-        return $this->joinQuery->setJoin($isJoin);
+        $this->joinQuery->setJoin($isJoin);
+        return $this;
     }
 
     /**
-     * @param string   $table
-     * @param string   $selfColumn
-     * @param string   $refColumn
-     * @param string[] $columns
-     *
-     * @internal param null $selectClass
-     *
-     * @return Select
+     * @param string|Column|null $selfColumn
+     * @param string|Column|null $refColumn
+     * @param array<string> $columns
      */
-    public function rightJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
+    public function rightJoin(string $table, mixed $selfColumn = null, mixed $refColumn = null, array $columns = []): Select
     {
         return $this->joinQuery->rightJoin($table, $selfColumn, $refColumn, $columns);
     }
 
     /**
-     * @param string   $table
-     * @param string   $selfColumn
-     * @param string   $refColumn
-     * @param string[] $columns
-     *
-     * @return Select
+     * @param string|Column|null $selfColumn
+     * @param string|Column|null $refColumn
+     * @param array<string> $columns
      */
-    public function crossJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
+    public function crossJoin(string $table, mixed $selfColumn = null, mixed $refColumn = null, array $columns = []): Select
     {
         return $this->joinQuery->crossJoin($table, $selfColumn, $refColumn, $columns);
     }
 
     /**
-     * @param string   $table
-     * @param string   $selfColumn
-     * @param string   $refColumn
-     * @param string[] $columns
-     *
-     * @return Select
+     * @param string|Column|null $selfColumn
+     * @param string|Column|null $refColumn
+     * @param array<string> $columns
      */
-    public function innerJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
+    public function innerJoin(string $table, mixed $selfColumn = null, mixed $refColumn = null, array $columns = []): Select
     {
         return $this->joinQuery->innerJoin($table, $selfColumn, $refColumn, $columns);
     }
 
-    /**
-     * Alias to joinCondition.
-     *
-     * @return Where
-     */
-    public function on()
+    public function on(): Where // Alias to joinCondition
     {
         return $this->joinQuery->joinCondition();
     }
 
-    /**
-     * @return bool
-     */
-    public function isJoinSelect()
+    public function isJoinSelect(): bool
     {
         return $this->joinQuery->isJoin();
     }
 
     /**
-     * @return array
+     * @return array<Column>
+     * @throws QueryException
      */
-    public function getAllColumns()
+    public function getAllColumns(): array
     {
         return $this->columnQuery->getAllColumns();
     }
 
     /**
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Column
-     *
+     * @return array<Column>
      * @throws QueryException
      */
-    public function getColumns()
+    public function getColumns(): array
     {
         return $this->columnQuery->getColumns();
     }
 
     /**
-     * Sets the column names used to write the SELECT statement.
-     * If key is set, key is the column's alias. Value is always the column names.
-     *
-     * @param string[] $columns
-     *
-     * @return ColumnQuery
+     * @param array<string|Column> $columns
      */
-    public function setColumns(array $columns)
+    public function setColumns(array $columns): self // Return type self from ColumnQuery
     {
-        return $this->columnQuery->setColumns($columns);
+        $this->columnQuery->setColumns($columns);
+        return $this;
     }
 
     /**
-     * Allows setting a Select query as a column value.
-     *
-     * @param array $column
-     *
-     * @return ColumnQuery
+     * @param array<string, Select> $column
      */
-    public function setSelectAsColumn(array $column)
+    public function setSelectAsColumn(array $column): self // Return type self from ColumnQuery
     {
-        return $this->columnQuery->setSelectAsColumn($column);
+        $this->columnQuery->setSelectAsColumn($column);
+        return $this;
     }
 
     /**
-     * @return array
+     * @return array<array<string, Select>>
      */
-    public function getColumnSelects()
+    public function getColumnSelects(): array
     {
         return $this->columnQuery->getColumnSelects();
     }
 
-    /**
-     * Allows setting a value to the select statement.
-     *
-     * @param string $value
-     * @param string $alias
-     *
-     * @return ColumnQuery
-     */
-    public function setValueAsColumn($value, $alias)
+    public function setValueAsColumn(mixed $value, string $alias): self // Return type self from ColumnQuery
     {
-        return $this->columnQuery->setValueAsColumn($value, $alias);
+        $this->columnQuery->setValueAsColumn($value, $alias);
+        return $this;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getColumnValues()
+    public function getColumnValues(): array
     {
         return $this->columnQuery->getColumnValues();
     }
 
     /**
-     * Allows calculation on columns using predefined SQL functions.
-     *
-     * @param string   $funcName
-     * @param string[] $arguments
-     * @param string   $alias
-     *
-     * @return ColumnQuery
+     * @param array<string> $arguments
      */
-    public function setFunctionAsColumn($funcName, array $arguments, $alias)
+    public function setFunctionAsColumn(string $funcName, array $arguments, string $alias): self // Return type self from ColumnQuery
     {
-        return $this->columnQuery->setFunctionAsColumn($funcName, $arguments, $alias);
+        $this->columnQuery->setFunctionAsColumn($funcName, $arguments, $alias);
+        return $this;
     }
 
     /**
-     * @return array
+     * @return array<string, array{func: string, args: string[]}>
      */
-    public function getColumnFuncs()
+    public function getColumnFuncs(): array
     {
         return $this->columnQuery->getColumnFuncs();
     }
 
     /**
      * Returns all the Where conditions to the BuilderInterface class in order to write the SQL WHERE statement.
-     *
-     * @return array
+     * @return array<Where>
      */
-    public function getAllWheres()
+    public function getAllWheres(): array
     {
-        return $this->getAllOperation($this->where, 'getAllWheres');
+        /** @var array<Where> $wheres */
+        $wheres = $this->getAllOperation($this->where, 'getAllWheres');
+        return $wheres;
     }
 
     /**
-     * @param null|Where $data
-     * @param string     $operation
-     *
-     * @return array
+     * @param Where|null $data Initial data (e.g., $this->where or $this->having)
+     * @param string $operation Method name to call on joined Select objects (e.g., 'getAllWheres', 'getAllHavings')
+     * @return array<mixed> Actually returns array of Where or Having objects based on usage
      */
-    protected function getAllOperation($data, $operation)
+    protected function getAllOperation(?object $data, string $operation): array
     {
         $collection = [];
-
-        if (!is_null($data)) {
+        if (null !== $data) {
             $collection[] = $data;
         }
 
+        /** @var Select $join */
         foreach ($this->joinQuery->getJoins() as $join) {
-            $collection = \array_merge($collection, $join->$operation());
+            // Ensure the method exists on the joined Select object before calling
+            if (method_exists($join, $operation)) {
+                $collection = \array_merge($collection, $join->$operation());
+            }
         }
-
         return $collection;
     }
 
     /**
-     * @return array
+     * @return array<Where>
      */
-    public function getAllHavings()
+    public function getAllHavings(): array
     {
-        return $this->getAllOperation($this->having, 'getAllHavings');
+        /** @var array<Where> $havings */ // Assuming Having conditions are structurally similar to Where for this method
+        $havings = $this->getAllOperation($this->having, 'getAllHavings');
+        return $havings;
     }
 
-    /**
-     * @param string $columnName
-     * @param string $alias
-     *
-     * @return ColumnQuery
-     */
-    public function count($columnName = '*', $alias = '')
+    public function count(string $columnName = '*', string $alias = ''): self // Return type self from ColumnQuery
     {
-        return $this->columnQuery->count($columnName, $alias);
+        $this->columnQuery->count($columnName, $alias);
+        return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isCount()
+    public function isCount(): bool
     {
         return $this->columnQuery->isCount();
     }
 
-    /**
-     * @param int $start
-     * @param     $count
-     *
-     * @return $this
-     */
-    public function limit($start, $count = 0)
+    public function limit(int $start, int $count = 0): self
     {
         $this->limitStart = $start;
         $this->limitCount = $count;
-
         return $this;
     }
 
     /**
-     * @return array
+     * @return array<string, Select>
      */
-    public function getAllJoins()
+    public function getAllJoins(): array
     {
         return $this->joinQuery->getAllJoins();
     }
 
     /**
-     * @return array
+     * @return array<Column>
      */
-    public function getGroupBy()
+    public function getGroupBy(): array
     {
         return SyntaxFactory::createColumns($this->groupBy, $this->getTable());
     }
 
     /**
-     * @param string[] $columns
-     *
-     * @return $this
+     * @param array<string> $columns
      */
-    public function groupBy(array $columns)
+    public function groupBy(array $columns): self
     {
         $this->groupBy = $columns;
-
         return $this;
     }
 
-    /**
-     * @return Where
-     */
-    public function getJoinCondition()
+    public function getJoinCondition(): ?Where
     {
         return $this->joinQuery->getJoinCondition();
     }
 
-    /**
-     * @return string
-     */
-    public function getJoinType()
+    public function getJoinType(): ?string
     {
         return $this->joinQuery->getJoinType();
     }
 
-    /**
-     * @param string|null $joinType
-     *
-     * @return $this
-     */
-    public function setJoinType($joinType)
+    public function setJoinType(?string $joinType): self
     {
         $this->joinQuery->setJoinType($joinType);
-
         return $this;
     }
 
     /**
-     * @param $havingOperator
-     *
      * @throws QueryException
-     *
-     * @return Where
      */
-    public function having($havingOperator = 'AND')
+    public function having(string $havingOperator = 'AND'): Where
     {
         if (!isset($this->having)) {
             $this->having = QueryFactory::createWhere($this);
         }
 
-        if (!in_array($havingOperator, array(Where::CONJUNCTION_AND, Where::CONJUNCTION_OR))) {
+        if (!\in_array($havingOperator, [Where::CONJUNCTION_AND, Where::CONJUNCTION_OR], true)) {
             throw new QueryException(
-                "Invalid conjunction specified, must be one of AND or OR, but '".$havingOperator."' was found."
+                "Invalid conjunction specified, must be one of AND or OR, but '" . $havingOperator . "' was found."
             );
         }
-
         $this->havingOperator = $havingOperator;
-
         return $this->having;
     }
 
-    /**
-     * @return string
-     */
-    public function getHavingOperator()
+    public function getHavingOperator(): string
     {
         return $this->havingOperator;
     }
 
-    /**
-     * @return $this
-     */
-    public function distinct()
+    public function distinct(): self
     {
         $this->isDistinct = true;
-
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isDistinct()
+    public function isDistinct(): bool
     {
         return $this->isDistinct;
     }
 
     /**
-     * @return array
+     * @return array<OrderBy>
      */
-    public function getAllOrderBy()
+    public function getAllOrderBy(): array
     {
-        return $this->orderBy;
+        return $this->orderBy; // Property $orderBy is already array<OrderBy> from AbstractBaseQuery
     }
 
-    /**
-     * @return ParentQuery
-     */
-    public function getParentQuery()
+    public function getParentQuery(): ?Select
     {
         return $this->parentQuery;
     }
 
-    /**
-     * @param Select $parentQuery
-     *
-     * @return $this
-     */
-    public function setParentQuery(Select $parentQuery)
+    public function setParentQuery(Select $parentQuery): self
     {
         $this->parentQuery = $parentQuery;
-
         return $this;
     }
 
     /**
-     * @param string $column
-     * @param string $direction
-     * @param null   $table
-     *
-     * @return $this
+     * @param string|Table|null $table
      */
-    public function orderBy($column, $direction = OrderBy::ASC, $table = null)
+    public function orderBy(string $column, string $direction = OrderBy::ASC, mixed $table = null): self
     {
-        $current = parent::orderBy($column, $direction, $table);
-        if ($this->getParentQuery() != null) {
-            $this->getParentQuery()->orderBy($column, $direction, \is_null($table) ? $this->getTable() : $table);
+        parent::orderBy($column, $direction, $table); // Call parent to add to $this->orderBy
+        if ($this->parentQuery !== null) { // Use null check
+            $this->parentQuery->orderBy($column, $direction, $table ?? $this->getTable());
         }
-        return $current;
+        return $this;
     }
 }

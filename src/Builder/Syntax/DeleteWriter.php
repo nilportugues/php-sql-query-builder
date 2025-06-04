@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/11/14
@@ -18,40 +21,22 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\Delete;
  */
 class DeleteWriter
 {
-    /**
-     * @var GenericBuilder
-     */
-    protected $writer;
-
-    /**
-     * @var PlaceholderWriter
-     */
-    protected $placeholderWriter;
-
-    /**
-     * @param GenericBuilder    $writer
-     * @param PlaceholderWriter $placeholder
-     */
-    public function __construct(GenericBuilder $writer, PlaceholderWriter $placeholder)
-    {
-        $this->writer = $writer;
-        $this->placeholderWriter = $placeholder;
+    public function __construct(
+        protected GenericBuilder $writer,
+        protected PlaceholderWriter $placeholderWriter
+    ) {
     }
 
-    /**
-     * @param Delete $delete
-     *
-     * @return string
-     */
-    public function write(Delete $delete)
+    public function write(Delete $delete): string
     {
         $table = $this->writer->writeTable($delete->getTable());
-        $parts = array("DELETE FROM {$table}");
+        /** @var array<string> $parts */
+        $parts = ["DELETE FROM {$table}"];
 
         AbstractBaseWriter::writeWhereCondition($delete, $this->writer, $this->placeholderWriter, $parts);
         AbstractBaseWriter::writeLimitCondition($delete, $this->placeholderWriter, $parts);
         $comment = AbstractBaseWriter::writeQueryComment($delete);
 
-        return $comment.implode(' ', $parts);
+        return $comment . implode(' ', $parts);
     }
 }

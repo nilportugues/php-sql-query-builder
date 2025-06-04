@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -17,17 +20,9 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\QueryInterface;
  */
 interface BuilderInterface
 {
-    /**
-     * @param QueryInterface $query
-     *
-     * @return string
-     */
-    public function write(QueryInterface $query);
+    public function write(QueryInterface $query): string;
 
-    /**
-     * @param QueryInterface $query
-     *
-     * @return string
-     */
-    public function writeFormatted(QueryInterface $query);
+    public function writeFormatted(QueryInterface $query): string;
+
+    public function writeColumnAlias(string $alias): string;
 }

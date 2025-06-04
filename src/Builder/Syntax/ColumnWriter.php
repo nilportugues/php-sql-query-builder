@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/12/14
@@ -20,32 +23,16 @@ use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
  */
 class ColumnWriter
 {
-    /**
-     * @var \NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder
-     */
-    protected $writer;
-
-    /**
-     * @var PlaceholderWriter
-     */
-    protected $placeholderWriter;
-
-    /**
-     * @param GenericBuilder    $writer
-     * @param PlaceholderWriter $placeholderWriter
-     */
-    public function __construct(GenericBuilder $writer, PlaceholderWriter $placeholderWriter)
-    {
-        $this->writer = $writer;
-        $this->placeholderWriter = $placeholderWriter;
+    public function __construct(
+        protected GenericBuilder $writer,
+        protected PlaceholderWriter $placeholderWriter
+    ) {
     }
 
     /**
-     * @param Select $select
-     *
-     * @return array
+     * @return array<string|Column>
      */
-    public function writeSelectsAsColumns(Select $select)
+    public function writeSelectsAsColumns(Select $select): array
     {
         $selectAsColumns = $select->getColumnSelects();
 
@@ -58,27 +45,25 @@ class ColumnWriter
     }
 
     /**
-     * @param array        $selectAsColumns
-     * @param SelectWriter $selectWriter
-     *
-     * @return mixed
+     * @param array<string|Column> $selectAsColumns
+     * @return array<string|Column>
      */
-    protected function selectColumnToQuery(array &$selectAsColumns, SelectWriter $selectWriter)
+    protected function selectColumnToQuery(array &$selectAsColumns, SelectWriter $selectWriter): array
     {
         \array_walk(
             $selectAsColumns,
-            function (&$column) use (&$selectWriter) {
+            function (mixed &$column) use ($selectWriter): void {
                 $keys = \array_keys($column);
                 $key = \array_pop($keys);
 
                 $values = \array_values($column);
+                /** @var Column|string $value */
                 $value = $values[0];
 
-                if (\is_numeric($key)) {
-                    /* @var Column $value */
+                if (\is_numeric($key) && $value instanceof Column) {
                     $key = $this->writer->writeTableName($value->getTable());
                 }
-                $column = $selectWriter->selectToColumn($key, $value);
+                $column = $selectWriter->selectToColumn((string)$key, $value);
             }
         );
 
@@ -86,19 +71,18 @@ class ColumnWriter
     }
 
     /**
-     * @param Select $select
-     *
-     * @return array
+     * @return array<Column>
      */
-    public function writeValueAsColumns(Select $select)
+    public function writeValueAsColumns(Select $select): array
     {
         $valueAsColumns = $select->getColumnValues();
         $newColumns = [];
 
         if (!empty($valueAsColumns)) {
             foreach ($valueAsColumns as $alias => $value) {
-                $value = $this->writer->writePlaceholderValue($value);
-                $newValueColumn = array($alias => $value);
+                /** @var string $alias */
+                $writtenValue = $this->writer->writePlaceholderValue($value);
+                $newValueColumn = [$alias => $writtenValue];
 
                 $newColumns[] = SyntaxFactory::createColumn($newValueColumn, null);
             }
@@ -108,21 +92,21 @@ class ColumnWriter
     }
 
     /**
-     * @param Select $select
-     *
-     * @return array
+     * @return array<Column>
      */
-    public function writeFuncAsColumns(Select $select)
+    public function writeFuncAsColumns(Select $select): array
     {
         $funcAsColumns = $select->getColumnFuncs();
         $newColumns = [];
 
         if (!empty($funcAsColumns)) {
-            foreach ($funcAsColumns as $alias => $value) {
-                $funcName = $value['func'];
-                $funcArgs = (!empty($value['args'])) ? '('.implode(', ', $value['args']).')' : '';
+            foreach ($funcAsColumns as $alias => $valueDetails) {
+                /** @var string $alias */
+                /** @var array{func: string, args: string[]} $valueDetails */
+                $funcName = $valueDetails['func'];
+                $funcArgs = !empty($valueDetails['args']) ? '('.implode(', ', $valueDetails['args']).')' : '';
 
-                $newFuncColumn = array($alias => $funcName.$funcArgs);
+                $newFuncColumn = [$alias => $funcName.$funcArgs];
                 $newColumns[] = SyntaxFactory::createColumn($newFuncColumn, null);
             }
         }
@@ -130,31 +114,27 @@ class ColumnWriter
         return $newColumns;
     }
 
-    /**
-     * @param Column $column
-     *
-     * @return string
-     */
-    public function writeColumnWithAlias(Column $column)
+    public function writeColumnWithAlias(Column $column): string
     {
-        if (($alias = $column->getAlias()) && !$column->isAll()) {
+        $alias = $column->getAlias();
+        if ($alias !== null && $alias !== '' && !$column->isAll()) {
             return $this->writeColumn($column).' AS '.$this->writer->writeColumnAlias($alias);
         }
 
         return $this->writeColumn($column);
     }
 
-    /**
-     * @param Column $column
-     *
-     * @return string
-     */
-    public function writeColumn(Column $column)
+    public function writeColumn(Column $column): string
     {
-        $alias = $column->getTable()->getAlias();
-        $table = ($alias) ? $this->writer->writeTableAlias($alias) : $this->writer->writeTable($column->getTable());
+        $tableInstance = $column->getTable();
+        $alias = $tableInstance?->getAlias(); // Potentially null if table is not set for a column
+        $table = '';
 
-        $columnString = (empty($table)) ? '' : "{$table}.";
+        if ($tableInstance) {
+            $table = ($alias) ? $this->writer->writeTableAlias($alias) : $this->writer->writeTable($tableInstance);
+        }
+
+        $columnString = ($table === '') ? '' : "{$table}.";
         $columnString .= $this->writer->writeColumnName($column);
 
         return $columnString;

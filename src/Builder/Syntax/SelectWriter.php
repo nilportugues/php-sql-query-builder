@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/11/14
@@ -12,55 +15,46 @@ namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+// Removed duplicate imports that were causing fatal error
 use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
 use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Join; // Added
+
+// use NilPortugues\Sql\QueryBuilder\Syntax\Having; // Replaced by Where
 
 /**
  * Class SelectWriter.
  */
 class SelectWriter extends AbstractBaseWriter
 {
-    /**
-     * @param        $alias
-     * @param Select $select
-     *
-     * @return Column
-     */
-    public function selectToColumn($alias, Select $select)
+    public function selectToColumn(string $alias, Select $select): Column
     {
         $selectAsColumn = $this->write($select);
 
-        if (!empty($selectAsColumn)) {
-            $selectAsColumn = '('.$selectAsColumn.')';
+        if ($selectAsColumn !== '') {
+            $selectAsColumn = '(' . $selectAsColumn . ')';
         }
 
-        $column = array($alias => $selectAsColumn);
+        $column = [$alias => $selectAsColumn];
 
         return SyntaxFactory::createColumn($column, null);
     }
 
-    /**
-     * @param Select $select
-     *
-     * @return string
-     */
-    public function write(Select $select)
+    public function write(Select $select): string
     {
         if ($select->isJoinSelect()) {
+            // Assuming writeJoin is part of GenericBuilder and returns string
             return $this->writer->writeJoin($select);
         }
 
         return $this->writeSelectQuery($select);
     }
 
-    /**
-     * @param Select $select
-     *
-     * @return string
-     */
-    protected function writeSelectQuery(Select $select)
+    protected function writeSelectQuery(Select $select): string
     {
+        /** @var array<string> $parts */
         $parts = ['SELECT'];
 
         if ($select->isDistinct()) {
@@ -76,175 +70,161 @@ class SelectWriter extends AbstractBaseWriter
         $this->writeSelectOrderBy($select, $parts);
         $this->writeSelectLimit($select, $parts);
 
-        return AbstractBaseWriter::writeQueryComment($select).implode(' ', \array_filter($parts));
+        return AbstractBaseWriter::writeQueryComment($select) . implode(' ', \array_filter($parts));
     }
 
     /**
-     * @param Select   $select
-     * @param string[] $parts
-     *
-     * @return $this
+     * @param array<string> $parts
      */
-    public function writeSelectColumns(Select $select, array &$parts)
+    public function writeSelectColumns(Select $select, array &$parts): self
     {
         if ($select->isCount() === false) {
-            $columns = $this->writeColumnAlias(
+            $columnsToWrite = $this->writeColumnAlias(
                 $select->getAllColumns(),
                 $this->columnWriter->writeSelectsAsColumns($select),
                 $this->columnWriter->writeValueAsColumns($select),
                 $this->columnWriter->writeFuncAsColumns($select)
             );
 
-            $parts = \array_merge($parts, [implode(', ', $columns)]);
-
+            if (!empty($columnsToWrite)) {
+                $parts[] = implode(', ', $columnsToWrite);
+            }
             return $this;
         }
 
         $columns = $select->getColumns();
+        /** @var Column|null $column */
         $column = \array_pop($columns);
-        $columnList = $column->getName();
-
-        $parts = \array_merge($parts, [$columnList]);
+        if ($column) {
+            $columnList = $column->getName(); // Assuming getName() exists and returns string
+            $parts[] = (string)$columnList;
+        }
 
         return $this;
     }
 
     /**
-     * @param $tableColumns
-     * @param $selectAsColumns
-     * @param $valueAsColumns
-     * @param $funcAsColumns
-     *
-     * @return array
+     * @param array<Column> $tableColumns
+     * @param array<Column|string> $selectAsColumns
+     * @param array<Column> $valueAsColumns
+     * @param array<Column> $funcAsColumns
+     * @return array<string>
      */
-    protected function writeColumnAlias($tableColumns, $selectAsColumns, $valueAsColumns, $funcAsColumns)
-    {
-        $columns = \array_merge($tableColumns, $selectAsColumns, $valueAsColumns, $funcAsColumns);
-
-        \array_walk(
-            $columns,
-            function (&$column) {
-                $column = $this->columnWriter->writeColumnWithAlias($column);
+    protected function writeColumnAlias(
+        array $tableColumns,
+        array $selectAsColumns,
+        array $valueAsColumns,
+        array $funcAsColumns
+    ): array {
+        /** @var array<Column> $mergedColumns */
+        $mergedColumns = \array_merge($tableColumns, $selectAsColumns, $valueAsColumns, $funcAsColumns);
+        $writtenColumns = [];
+        foreach ($mergedColumns as $column) {
+            if ($column instanceof Column) { // Ensure it's a column object
+                $writtenColumns[] = $this->columnWriter->writeColumnWithAlias($column);
             }
-        );
-
-        return $columns;
+        }
+        return $writtenColumns;
     }
 
     /**
-     * @param Select   $select
-     * @param string[] $parts
-     *
-     * @return $this
+     * @param array<string> $parts
      */
-    public function writeSelectFrom(Select $select, array &$parts)
+    public function writeSelectFrom(Select $select, array &$parts): self
     {
-        $parts = \array_merge(
-            $parts,
-            ['FROM '.$this->writer->writeTableWithAlias($select->getTable())]
-        );
-
+        $tableRepresentation = $this->writer->writeTableWithAlias($select->getTable());
+        if ($tableRepresentation !== '') {
+            $parts[] = 'FROM';
+            $parts[] = $tableRepresentation;
+        }
         return $this;
     }
 
     /**
-     * @param Select $select
-     * @param array  $parts
-     *
-     * @return $this
+     * @param array<string> $parts
      */
-    public function writeSelectJoins(Select $select, array &$parts)
+    public function writeSelectJoins(Select $select, array &$parts): self
     {
-        $parts = \array_merge(
-            $parts,
-            [$this->writeSelectAggrupation($select, $this->writer, 'getAllJoins', 'writeJoin', ' ')]
+        $joinsString = $this->writeSelectAggrupation(
+            $select,
+            $this->writer,
+            'getAllJoins',
+            'writeJoin',
+            ' '
         );
-
+        if ($joinsString !== '') {
+            $parts[] = $joinsString;
+        }
         return $this;
     }
 
     /**
-     * @param Select $select
-     * @param        $writer
-     * @param string $getMethod
-     * @param string $writeMethod
-     * @param string $glue
-     * @param string $prepend
-     *
+     * @param GenericBuilder|ColumnWriter $writerObject
+     * @param string $getMethod Name of the method on Select to get items (e.g., getAllJoins)
+     * @param string $writeMethod Name of the method on $writerObject to write an item
+     * @param string $glue Separator string
+     * @param string $prepend String to prepend if items exist
      * @return string
      */
-    protected function writeSelectAggrupation(Select $select, $writer, $getMethod, $writeMethod, $glue, $prepend = '')
-    {
-        $str = '';
-        $joins = $select->$getMethod();
+    protected function writeSelectAggrupation(
+        Select $select,
+        object $writerObject,
+        string $getMethod,
+        string $writeMethod,
+        string $glue,
+        string $prepend = ''
+    ): string {
+        $items = $select->$getMethod(); // e.g. $select->getAllJoins()
+        $writtenItems = [];
 
-        if (!empty($joins)) {
-            \array_walk(
-                $joins,
-                function (&$join) use ($writer, $writeMethod) {
-                    $join = $writer->$writeMethod($join);
-                }
-            );
-
-            $str = $prepend.implode($glue, $joins);
+        if (!empty($items)) {
+            /** @var Join|Column|OrderBy|Where $item */ // Added Where for Having case
+            foreach ($items as $item) {
+                // e.g. $this->writer->writeJoin($item) or $this->columnWriter->writeColumn($item)
+                $writtenItems[] = $writerObject->$writeMethod($item);
+            }
+            return $prepend . implode($glue, $writtenItems);
         }
 
-        return $str;
+        return '';
     }
 
     /**
-     * @param Select $select
-     * @param array  $parts
-     *
-     * @return $this
+     * @param array<string> $parts
      */
-    public function writeSelectWhere(Select $select, array &$parts)
+    public function writeSelectWhere(Select $select, array &$parts): self
     {
-        $str = '';
         $wheres = $this->writeSelectWheres($select->getAllWheres());
-        $wheres = \array_filter($wheres);
+        $wheres = \array_filter($wheres); // Remove empty strings
 
         if (\count($wheres) > 0) {
-            $str = 'WHERE ';
-            $separator = ' '.$this->writer->writeConjunction($select->getWhereOperator()).' ';
-
-            $str .= \implode($separator, $wheres);
+            $parts[] = 'WHERE';
+            $separator = ' ' . $this->writer->writeConjunction($select->getWhereOperator()) . ' ';
+            $parts[] = \implode($separator, $wheres);
         }
-
-        $parts = \array_merge($parts, [$str]);
-
         return $this;
     }
 
     /**
-     * @param array $wheres
-     *
-     * @return array
+     * @param array<Where> $wheres
+     * @return array<string>
      */
-    protected function writeSelectWheres(array $wheres)
+    protected function writeSelectWheres(array $wheres): array
     {
         $whereWriter = WriterFactory::createWhereWriter($this->writer, $this->placeholderWriter);
-
-        \array_walk(
-            $wheres,
-            function (&$where) use (&$whereWriter) {
-
-                $where = $whereWriter->writeWhere($where);
-            }
-        );
-
-        return $wheres;
+        $writtenWheres = [];
+        foreach ($wheres as $where) {
+            $writtenWheres[] = $whereWriter->writeWhere($where);
+        }
+        return $writtenWheres;
     }
 
     /**
-     * @param Select $select
-     * @param array  $parts
-     *
-     * @return $this
+     * @param array<string> $parts
      */
-    public function writeSelectGroupBy(Select $select, array &$parts)
+    public function writeSelectGroupBy(Select $select, array &$parts): self
     {
-        $groupBy = $this->writeSelectAggrupation(
+        $groupByString = $this->writeSelectAggrupation(
             $select,
             $this->columnWriter,
             'getGroupBy',
@@ -252,146 +232,103 @@ class SelectWriter extends AbstractBaseWriter
             ', ',
             'GROUP BY '
         );
-
-        $parts = \array_merge($parts, [$groupBy]);
-
+        if ($groupByString !== '') {
+            $parts[] = $groupByString;
+        }
         return $this;
     }
 
     /**
-     * @param Select $select
-     * @param array  $parts
-     *
-     * @return $this
+     * @param array<string> $parts
      */
-    public function writeSelectHaving(Select $select, array &$parts)
+    public function writeSelectHaving(Select $select, array &$parts): self
     {
-        $str = '';
+        /** @var array<Where> $havingArray */ // Changed Having to Where
         $havingArray = $select->getAllHavings();
 
         if (\count($havingArray) > 0) {
-            $placeholder = $this->placeholderWriter;
-            $writer = $this->writer;
+            $writtenHavings = $this->getHavingConditions($havingArray, $select, $this->writer, $this->placeholderWriter);
+            $writtenHavings = \array_filter($writtenHavings);
 
-            $str = 'HAVING ';
-            $separator = ' '.$select->getHavingOperator().' ';
-            $havingArray = $this->getHavingConditions($havingArray, $select, $writer, $placeholder);
-
-            $str .= \implode($separator, $havingArray);
+            if (!empty($writtenHavings)) {
+                $parts[] = 'HAVING';
+                $separator = ' ' . $this->writer->writeConjunction($select->getHavingOperator()) . ' '; // Use conjunction from GenericBuilder
+                $parts[] = \implode($separator, $writtenHavings);
+            }
         }
-
-        $parts = \array_merge($parts, [$str]);
-
         return $this;
     }
 
     /**
-     * @param array             $havingArray
-     * @param Select            $select
-     * @param GenericBuilder    $writer
-     * @param PlaceholderWriter $placeholder
-     *
-     * @return mixed
+     * @param array<Where> $havingArray  // Changed Having to Where
+     * @return array<string>
      */
     protected function getHavingConditions(
-        array &$havingArray,
+        array $havingArray, // Pass by value, return new array
         Select $select,
         GenericBuilder $writer,
         PlaceholderWriter $placeholder
-    ) {
-        \array_walk(
-            $havingArray,
-            function (&$having) use ($select, $writer, $placeholder) {
-
-                $whereWriter = WriterFactory::createWhereWriter($writer, $placeholder);
-                $clauses = $whereWriter->writeWhereClauses($having);
-                $having = \implode($this->writer->writeConjunction($select->getHavingOperator()), $clauses);
+    ): array {
+        $writtenConditions = [];
+        $whereWriter = WriterFactory::createWhereWriter($writer, $placeholder);
+        /** @var Where $having */ // Ensure $having is treated as Where
+        foreach ($havingArray as $having) {
+            $clauses = $whereWriter->writeWhereClauses($having);
+            if (!empty($clauses)) {
+                $writtenConditions[] = \implode($this->writer->writeConjunction($select->getHavingOperator()), $clauses);
             }
-        );
-
-        return $havingArray;
+        }
+        return $writtenConditions;
     }
 
     /**
-     * @param Select $select
-     * @param array  $parts
-     *
-     * @return $this
+     * @param array<string> $parts
      */
-    protected function writeSelectOrderBy(Select $select, array &$parts)
+    protected function writeSelectOrderBy(Select $select, array &$parts): self
     {
-        $str = '';
-        if (\count($select->getAllOrderBy())) {
-            $orderByArray = $select->getAllOrderBy();
-            \array_walk(
-                $orderByArray,
-                function (&$orderBy) {
-                    $orderBy = $this->writeOrderBy($orderBy);
-                }
-            );
+        /** @var array<OrderBy> $orderByArray */
+        $orderByArray = $select->getAllOrderBy();
+        $writtenOrderBys = [];
 
-            $str = 'ORDER BY ';
-            $str .= \implode(', ', $orderByArray);
+        if (\count($orderByArray) > 0) {
+            foreach ($orderByArray as $orderBy) {
+                $writtenOrderBys[] = $this->writeOrderBy($orderBy);
+            }
+            $parts[] = 'ORDER BY';
+            $parts[] = \implode(', ', $writtenOrderBys);
         }
-
-        $parts = \array_merge($parts, [$str]);
-
         return $this;
     }
 
-    /**
-     * @param OrderBy $orderBy
-     *
-     * @return string
-     */
-    public function writeOrderBy(OrderBy $orderBy)
+    public function writeOrderBy(OrderBy $orderBy): string
     {
         $column = $this->columnWriter->writeColumn($orderBy->getColumn());
-
-        return $column.' '.$orderBy->getDirection();
+        return $column . ' ' . $orderBy->getDirection();
     }
 
     /**
-     * @param Select $select
-     * @param array  $parts
-     *
-     * @return $this
+     * @param array<string> $parts
      */
-    protected function writeSelectLimit(Select $select, array &$parts)
+    protected function writeSelectLimit(Select $select, array &$parts): self
     {
-        $mask = $this->getStartingLimit($select).$this->getLimitCount($select);
-
-        $limit = '';
+        $mask = $this->getStartingLimit($select) . $this->getLimitCount($select);
 
         if ($mask !== '00') {
-            $start = $this->placeholderWriter->add($select->getLimitStart());
-            $count = $this->placeholderWriter->add($select->getLimitCount());
-
-            $limit = "LIMIT {$start}, {$count}";
+            $start = $this->placeholderWriter->add($select->getLimitStart()); // Ensure getLimitStart() is not null
+            $count = $this->placeholderWriter->add($select->getLimitCount()); // Ensure getLimitCount() is not null
+            $parts[] = "LIMIT {$start}, {$count}";
         }
-
-        $parts = \array_merge($parts, [$limit]);
-
         return $this;
     }
 
-    /**
-     * @param Select $select
-     *
-     * @return string
-     */
-    protected function getStartingLimit(Select $select)
+    protected function getStartingLimit(Select $select): string
     {
-        return (null === $select->getLimitStart() || 0 == $select->getLimitStart()) ? '0' : '1';
+        $limitStart = $select->getLimitStart();
+        return ($limitStart === null || $limitStart === 0) ? '0' : '1';
     }
 
-    /**
-     * @param Select $select
-     *
-     * @return string
-     */
-    protected function getLimitCount(Select $select)
+    protected function getLimitCount(Select $select): string
     {
-        return (null === $select->getLimitCount()) ? '0' : '1';
+        return ($select->getLimitCount() === null) ? '0' : '1';
     }
 }

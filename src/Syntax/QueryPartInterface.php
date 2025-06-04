@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/8/14
@@ -15,8 +18,5 @@ namespace NilPortugues\Sql\QueryBuilder\Syntax;
  */
 interface QueryPartInterface
 {
-    /**
-     * @return string
-     */
-    public function partName();
+    public function partName(): string;
 }

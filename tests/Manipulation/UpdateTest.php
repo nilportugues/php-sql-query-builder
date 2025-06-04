@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -10,29 +12,27 @@
 
 namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder; // For setBuilder
 use NilPortugues\Sql\QueryBuilder\Manipulation\Update;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class UpdateTest.
  */
-class UpdateTest extends \PHPUnit_Framework_TestCase
+class UpdateTest extends TestCase
 {
-    /**
-     * @var Update
-     */
-    private $query;
-    /**
-     *
-     */
-    protected function setUp()
+    private Update $query;
+
+    protected function setUp(): void
     {
         $this->query = new Update();
+        $this->query->setBuilder(new GenericBuilder()); // Add builder for completeness
     }
 
     /**
      * @test
      */
-    public function itShouldGetPartName()
+    public function itShouldGetPartName(): void
     {
         $this->assertSame('UPDATE', $this->query->partName());
     }
@@ -40,34 +40,29 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldReturnLimit1()
+    public function itShouldReturnLimit1(): void
     {
         $this->query->limit(1);
-
         $this->assertSame(1, $this->query->getLimitStart());
     }
 
     /**
      * @test
      */
-    public function itShouldReturnValues()
+    public function itShouldReturnValues(): void
     {
         $values = ['user_id' => 1];
-
         $this->query->setValues($values);
-
         $this->assertSame($values, $this->query->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldSetNullableValues()
+    public function itShouldSetNullableValues(): void
     {
         $values = ['user_id' => 1, 'description' => null, 'isVisible' => false];
-
         $this->query->setValues($values);
-
         $this->assertSame($values, $this->query->getValues());
     }
 }

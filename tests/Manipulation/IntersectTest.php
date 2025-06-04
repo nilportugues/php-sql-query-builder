@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
@@ -10,36 +12,30 @@
 
 namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder; // For setBuilder
 use NilPortugues\Sql\QueryBuilder\Manipulation\Intersect;
+use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class IntersectTest.
  */
-class IntersectTest extends \PHPUnit_Framework_TestCase
+class IntersectTest extends TestCase
 {
-    /**
-     * @var Intersect
-     */
-    private $query;
+    private Intersect $query;
+    private string $exceptionClass = QueryException::class;
 
-    /**
-     * @var string
-     */
-    private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
-
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->query = new Intersect();
+        $this->query->setBuilder(new GenericBuilder()); // Add builder for completeness
     }
 
     /**
      * @test
      */
-    public function itShouldGetPartName()
+    public function itShouldGetPartName(): void
     {
         $this->assertSame('INTERSECT', $this->query->partName());
     }
@@ -47,43 +43,46 @@ class IntersectTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldThrowExceptionForUnsupportedGetTable()
+    public function itShouldThrowExceptionForUnsupportedGetTable(): void
     {
-        $this->setExpectedException($this->exceptionClass);
+        $this->expectException($this->exceptionClass);
         $this->query->getTable();
     }
 
     /**
      * @test
      */
-    public function itShouldThrowExceptionForUnsupportedGetWhere()
+    public function itShouldThrowExceptionForUnsupportedGetWhere(): void
     {
-        $this->setExpectedException($this->exceptionClass);
+        $this->expectException($this->exceptionClass);
         $this->query->getWhere();
     }
 
     /**
      * @test
      */
-    public function itShouldThrowExceptionForUnsupportedWhere()
+    public function itShouldThrowExceptionForUnsupportedWhere(): void
     {
-        $this->setExpectedException($this->exceptionClass);
+        $this->expectException($this->exceptionClass);
         $this->query->where();
     }
 
     /**
      * @test
      */
-    public function itShouldGetIntersectSelects()
+    public function itShouldGetIntersectSelects(): void
     {
-        $this->assertEquals(array(), $this->query->getIntersects());
+        $this->assertEquals([], $this->query->getIntersects());
 
         $select1 = new Select('user');
+        $select1->setBuilder(new GenericBuilder()); // Set builder if Select needs it for any operations
+
         $select2 = new Select('user_email');
+        $select2->setBuilder(new GenericBuilder()); // Set builder
 
         $this->query->add($select1);
         $this->query->add($select2);
 
-        $this->assertEquals(array($select1, $select2), $this->query->getIntersects());
+        $this->assertEquals([$select1, $select2], $this->query->getIntersects());
     }
 }

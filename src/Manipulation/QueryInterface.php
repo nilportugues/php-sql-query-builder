@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -10,28 +13,28 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
+use NilPortugues\Sql\QueryBuilder\Builder\BuilderInterface;
+use NilPortugues\Sql\QueryBuilder\Syntax\Table;
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
+
 /**
  * Interface QueryInterface.
  */
 interface QueryInterface
 {
-    /**
-     * @return string
-     */
-    public function partName();
+    public function partName(): string;
 
-    /**
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Table
-     */
-    public function getTable();
+    public function getTable(): ?Table;
 
-    /**
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
-     */
-    public function getWhere();
+    public function getWhere(): ?Where;
 
-    /**
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
-     */
-    public function where();
+    public function where(): Where; // Or specify where(string $operator = 'AND'): Where; for consistency
+
+    public function setBuilder(BuilderInterface $builder): self;
+
+    public function getBuilder(): BuilderInterface;
+
+    public function getSql(bool $formatted = false): string;
+
+    public function __toString(): string;
 }

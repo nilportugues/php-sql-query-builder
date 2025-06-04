@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
@@ -12,31 +15,19 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Insert;
+use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class InsertWriterTest.
  */
-class InsertWriterTest extends \PHPUnit_Framework_TestCase
+class InsertWriterTest extends TestCase
 {
-    /**
-     * @var GenericBuilder
-     */
-    private $writer;
+    private GenericBuilder $writer;
+    private Insert $query;
+    private string $exceptionClass = QueryException::class;
 
-    /**
-     * @var Insert
-     */
-    private $query;
-
-    /**
-     * @var string
-     */
-    private $exceptionClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
-
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->writer = new GenericBuilder();
         $this->query = new Insert();
@@ -45,9 +36,10 @@ class InsertWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldThrowQueryExceptionBecauseNoColumnsWereDefined()
+    public function itShouldThrowQueryExceptionBecauseNoColumnsWereDefined(): void
     {
-        $this->setExpectedException($this->exceptionClass, 'No columns were defined for the current schema.');
+        $this->expectException($this->exceptionClass);
+        $this->expectExceptionMessage('No columns were defined for the current schema.');
 
         $this->query->setTable('user');
         $this->writer->write($this->query);
@@ -56,49 +48,50 @@ class InsertWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldWriteInsertQuery()
+    public function itShouldWriteInsertQuery(): void
     {
-        $valueArray = array(
+        $valueArray = [
             'user_id' => 1,
             'name' => 'Nil',
             'contact' => 'contact@nilportugues.com',
-        );
+        ];
 
         $this->query
             ->setTable('user')
             ->setValues($valueArray);
 
-        $expected = 'INSERT INTO user (user.user_id, user.name, user.contact) VALUES (:v1, :v2, :v3)';
+        $expectedSQL = 'INSERT INTO user (user.user_id, user.name, user.contact) VALUES (:v1, :v2, :v3)';
 
-        $this->assertSame($expected, $this->writer->write($this->query));
+        $this->assertSame($expectedSQL, $this->writer->write($this->query));
+        // Query::getValues() returns the raw values, GenericBuilder::getValues() returns placeholder values
         $this->assertEquals(\array_values($valueArray), \array_values($this->query->getValues()));
 
-        $expected = array(':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com');
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedPlaceholders = [':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com'];
+        $this->assertEquals($expectedPlaceholders, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToWriteCommentInQuery()
+    public function itShouldBeAbleToWriteCommentInQuery(): void
     {
-        $valueArray = array(
+        $valueArray = [
             'user_id' => 1,
             'name' => 'Nil',
             'contact' => 'contact@nilportugues.com',
-        );
+        ];
 
         $this->query
             ->setTable('user')
             ->setComment('This is a comment')
             ->setValues($valueArray);
 
-        $expected = "-- This is a comment\n".'INSERT INTO user (user.user_id, user.name, user.contact) VALUES (:v1, :v2, :v3)';
+        $expectedSQL = "-- This is a comment\n" . 'INSERT INTO user (user.user_id, user.name, user.contact) VALUES (:v1, :v2, :v3)';
 
-        $this->assertSame($expected, $this->writer->write($this->query));
+        $this->assertSame($expectedSQL, $this->writer->write($this->query));
         $this->assertEquals(\array_values($valueArray), \array_values($this->query->getValues()));
 
-        $expected = array(':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com');
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedPlaceholders = [':v1' => 1, ':v2' => 'Nil', ':v3' => 'contact@nilportugues.com'];
+        $this->assertEquals($expectedPlaceholders, $this->writer->getValues());
     }
 }

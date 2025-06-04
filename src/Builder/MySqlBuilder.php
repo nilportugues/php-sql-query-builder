@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -18,74 +21,55 @@ use NilPortugues\Sql\QueryBuilder\Syntax\Table;
  */
 class MySqlBuilder extends GenericBuilder
 {
-    /**
-     * {@inheritdoc}
-     *
-     * @param Column $column
-     *
-     * @return string
-     */
-    public function writeColumnName(Column $column)
+    public function writeColumnName(Column $column): string
     {
         if ($column->isAll()) {
             return '*';
         }
 
-        if (false !== strpos($column->getName(), '(')) {
+        // If column name contains '(', it's likely a function call, so don't wrap it.
+        if (str_contains($column->getName(), '(')) {
             return parent::writeColumnName($column);
         }
 
         return $this->wrapper(parent::writeColumnName($column));
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param Table $table
-     *
-     * @return string
-     */
-    public function writeTableName(Table $table)
+    public function writeTableName(Table $table): string
     {
         return $this->wrapper(parent::writeTableName($table));
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param $alias
-     *
-     * @return string
-     */
-    public function writeTableAlias($alias)
+    public function writeTableAlias(string $alias): string
     {
         return $this->wrapper(parent::writeTableAlias($alias));
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param $alias
-     *
-     * @return string
-     */
-    public function writeColumnAlias($alias)
+    public function writeColumnAlias(string $alias): string
     {
+        // MySQL uses backticks for aliases if they need quoting,
+        // but standard SQL uses double quotes.
+        // Parent GenericBuilder uses double quotes.
+        // This override will wrap with backticks.
         return $this->wrapper($alias);
     }
 
-    /**
-     * @param        $string
-     * @param string $char
-     *
-     * @return string
-     */
-    protected function wrapper($string, $char = '`')
+    protected function wrapper(string $string, string $char = '`'): string
     {
-        if (0 === strlen($string)) {
+        if ($string === '') {
             return '';
         }
+        // Avoid double wrapping if already wrapped by any common quote char
+        if (isset($string[0]) && ($string[0] === '`' || $string[0] === '"' || $string[0] === "'")) {
+            // Check if the string is already wrapped, if so, return as is or unwrap and re-wrap.
+            // For simplicity here, if it starts with a quote, assume it's correctly quoted.
+            // A more robust solution might involve checking if it's wrapped with the *same* $char.
+            if (str_ends_with($string, $string[0])) {
+                return $string;
+            }
+        }
 
-        return $char.$string.$char;
+
+        return $char . str_replace($char, $char.$char, $string) . $char;
     }
 }

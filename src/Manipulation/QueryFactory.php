@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -18,89 +21,55 @@ use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 final class QueryFactory
 {
     /**
-     * @param string $table
-     * @param array  $columns
-     *
-     * @return Select
+     * @param array<string>|null $columns
      */
-    public static function createSelect($table = null, array $columns = null)
+    public static function createSelect(?string $table = null, ?array $columns = null): Select
     {
         return new Select($table, $columns);
     }
 
     /**
-     * @param string $table
-     * @param array  $values
-     *
-     * @return Insert
+     * @param array<mixed>|null $values
      */
-    public static function createInsert($table = null, array $values = null)
+    public static function createInsert(?string $table = null, ?array $values = null): Insert
     {
         return new Insert($table, $values);
     }
 
     /**
-     * @param string $table
-     * @param array  $values
-     *
-     * @return Update
+     * @param array<mixed>|null $values
      */
-    public static function createUpdate($table = null, array $values = null)
+    public static function createUpdate(?string $table = null, ?array $values = null): Update
     {
         return new Update($table, $values);
     }
 
-    /**
-     * @param string $table
-     *
-     * @return Delete
-     */
-    public static function createDelete($table = null)
+    public static function createDelete(?string $table = null): Delete
     {
         return new Delete($table);
     }
 
-    /**
-     * @param QueryInterface $query
-     *
-     * @return Where
-     */
-    public static function createWhere(QueryInterface $query)
+    public static function createWhere(QueryInterface $query): Where
     {
         return new Where($query);
     }
 
-    /**
-     * @return Intersect
-     */
-    public static function createIntersect()
+    public static function createIntersect(): Intersect
     {
         return new Intersect();
     }
 
-    /**
-     * @param Select $first
-     * @param Select $second
-     *
-     * @return Minus
-     */
-    public static function createMinus(Select $first, Select $second)
+    public static function createMinus(Select $first, Select $second): Minus
     {
         return new Minus($first, $second);
     }
 
-    /**
-     * @return Union
-     */
-    public static function createUnion()
+    public static function createUnion(): Union
     {
         return new Union();
     }
 
-    /**
-     * @return UnionAll
-     */
-    public static function createUnionAll()
+    public static function createUnionAll(): UnionAll
     {
         return new UnionAll();
     }

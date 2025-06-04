@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/11/14
@@ -13,40 +16,26 @@ namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Insert;
 use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
-
 /**
  * Class InsertWriter.
  */
+use NilPortugues\Sql\QueryBuilder\Syntax\Column;
+
 class InsertWriter
 {
-    /**
-     * @var GenericBuilder
-     */
-    protected $writer;
+    protected ColumnWriter $columnWriter;
 
-    /**
-     * @var ColumnWriter
-     */
-    protected $columnWriter;
-
-    /**
-     * @param GenericBuilder    $writer
-     * @param PlaceholderWriter $placeholder
-     */
-    public function __construct(GenericBuilder $writer, PlaceholderWriter $placeholder)
-    {
-        $this->writer = $writer;
-        $this->columnWriter = WriterFactory::createColumnWriter($this->writer, $placeholder);
+    public function __construct(
+        protected GenericBuilder $writer,
+        PlaceholderWriter $placeholderWriter
+    ) {
+        $this->columnWriter = WriterFactory::createColumnWriter($this->writer, $placeholderWriter);
     }
 
     /**
-     * @param Insert $insert
-     *
      * @throws QueryException
-     *
-     * @return string
      */
-    public function write(Insert $insert)
+    public function write(Insert $insert): string
     {
         $columns = $insert->getColumns();
 
@@ -54,37 +43,33 @@ class InsertWriter
             throw new QueryException('No columns were defined for the current schema.');
         }
 
-        $columns = $this->writeQueryColumns($columns);
-        $values = $this->writeQueryValues($insert->getValues());
+        $columnString = $this->writeQueryColumns($columns);
+        $valueString = $this->writeQueryValues($insert->getValues());
         $table = $this->writer->writeTable($insert->getTable());
         $comment = AbstractBaseWriter::writeQueryComment($insert);
 
-        return $comment."INSERT INTO {$table} ($columns) VALUES ($values)";
+        return $comment . "INSERT INTO {$table} ({$columnString}) VALUES ({$valueString})";
     }
 
     /**
-     * @param $columns
-     *
-     * @return string
+     * @param array<Column> $columns
      */
-    protected function writeQueryColumns($columns)
+    protected function writeQueryColumns(array $columns): string
     {
         return $this->writeCommaSeparatedValues($columns, $this->columnWriter, 'writeColumn');
     }
 
     /**
-     * @param $collection
-     * @param $writer
-     * @param string $method
-     *
-     * @return string
+     * @param array<mixed> $collection
+     * @param ColumnWriter|GenericBuilder $writerObject
      */
-    protected function writeCommaSeparatedValues($collection, $writer, $method)
+    protected function writeCommaSeparatedValues(array $collection, object $writerObject, string $method): string
     {
         \array_walk(
             $collection,
-            function (&$data) use ($writer, $method) {
-                $data = $writer->$method($data);
+            function (mixed &$data) use ($writerObject, $method): void {
+                /** @var mixed $data */
+                $data = $writerObject->$method($data);
             }
         );
 
@@ -92,11 +77,9 @@ class InsertWriter
     }
 
     /**
-     * @param $values
-     *
-     * @return string
+     * @param array<mixed> $values
      */
-    protected function writeQueryValues($values)
+    protected function writeQueryValues(array $values): string
     {
         return $this->writeCommaSeparatedValues($values, $this->writer, 'writePlaceholderValue');
     }

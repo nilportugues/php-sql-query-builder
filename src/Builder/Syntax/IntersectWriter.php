@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
@@ -17,12 +20,7 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\Intersect;
  */
 class IntersectWriter extends AbstractSetWriter
 {
-    /**
-     * @param Intersect $intersect
-     *
-     * @return string
-     */
-    public function write(Intersect $intersect)
+    public function write(Intersect $intersect): string
     {
         return $this->abstractWrite($intersect, 'getIntersects', Intersect::INTERSECT);
     }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
@@ -18,29 +21,18 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\Minus;
  */
 class MinusWriter
 {
-    /**
-     * @var GenericBuilder
-     */
-    protected $writer;
-
-    /**
-     * @param GenericBuilder $writer
-     */
-    public function __construct(GenericBuilder $writer)
+    public function __construct(protected GenericBuilder $writer)
     {
-        $this->writer = $writer;
     }
 
     /**
-     * @param Minus $minus
-     *
-     * @return string
+     * @throws \ReflectionException
      */
-    public function write(Minus $minus)
+    public function write(Minus $minus): string
     {
         $first = $this->writer->write($minus->getFirst());
         $second = $this->writer->write($minus->getSecond());
 
-        return $first."\n".Minus::MINUS."\n".$second;
+        return $first . "\n" . Minus::MINUS . "\n" . $second;
     }
 }

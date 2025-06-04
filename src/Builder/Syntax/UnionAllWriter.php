@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
@@ -17,12 +20,7 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\UnionAll;
  */
 class UnionAllWriter extends AbstractSetWriter
 {
-    /**
-     * @param UnionAll $unionAll
-     *
-     * @return string
-     */
-    public function write(UnionAll $unionAll)
+    public function write(UnionAll $unionAll): string
     {
         return $this->abstractWrite($unionAll, 'getUnions', UnionAll::UNION_ALL);
     }

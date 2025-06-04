@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -10,42 +12,29 @@
 
 namespace NilPortugues\Tests\Sql\QueryBuilder\Syntax;
 
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder; // For setBuilder
+use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 use NilPortugues\Tests\Sql\QueryBuilder\Manipulation\Resources\DummyQuery;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class WhereTest.
  */
-class WhereTest extends \PHPUnit_Framework_TestCase
+class WhereTest extends TestCase
 {
-    /**
-     * @var Where
-     */
-    protected $where;
+    protected Where $where;
+    protected string $whereClass = Where::class;
+    protected string $columnClass = Column::class;
+    protected string $queryExceptionClass = QueryException::class; // Renamed for clarity
 
-    /**
-     * @var string
-     */
-    protected $whereClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Where';
-
-    /**
-     * @var string
-     */
-    protected $columnClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Column';
-
-    /**
-     * @var string
-     */
-    protected $queryException = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
-
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $query = new DummyQuery();
         $query->setTable('users');
+        $query->setBuilder(new GenericBuilder()); // DummyQuery needs a builder
 
         $this->where = new Where($query);
     }
@@ -53,7 +42,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldBeCloneable()
+    public function itShouldBeCloneable(): void
     {
         $this->assertEquals($this->where, clone $this->where);
     }
@@ -61,7 +50,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldBeEmptyOnConstruct()
+    public function itShouldBeEmptyOnConstruct(): void
     {
         $this->assertTrue($this->where->isEmpty());
     }
@@ -69,7 +58,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldReturnDefaultConjuctionAnd()
+    public function itShouldReturnDefaultConjuctionAnd(): void
     {
         $this->assertSame('AND', $this->where->getConjunction());
     }
@@ -77,30 +66,30 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldReturnDefaultSubWhere()
+    public function itShouldReturnDefaultSubWhere(): void
     {
-        $this->assertSame(array(), $this->where->getSubWheres());
+        $this->assertSame([], $this->where->getSubWheres());
     }
 
     /**
      * @test
      */
-    public function itShouldReturnSubFilter()
+    public function itShouldReturnSubFilter(): void
     {
         $filter = $this->where->subWhere();
-
-        $this->assertSame(array(), $filter->getSubWheres());
+        $this->assertSame([], $filter->getSubWheres());
         $this->assertInstanceOf($this->whereClass, $filter);
     }
 
     /**
      * @test
      */
-    public function itShouldReturnTheSameEqAndEqual()
+    public function itShouldReturnTheSameEqAndEqual(): void
     {
         $column = 'user_id';
         $value = 1;
 
+        // These methods return $this (the Where object), so they will be the same instance.
         $this->assertSame(
             $this->where->equals($column, $value),
             $this->where->eq($column, $value)
@@ -110,14 +99,15 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldNotBeEqualTo()
+    public function itShouldNotBeEqualTo(): void
     {
         $column = 'user_id';
         $value = 1;
-
         $result = $this->where->notEquals($column, $value)->getComparisons();
-
+        $this->assertNotEmpty($result);
+        $this->assertIsArray($result[0]);
         $this->assertSame('<>', $result[0]['conjunction']);
+        $this->assertInstanceOf(Column::class, $result[0]['subject']);
         $this->assertSame($column, $result[0]['subject']->getName());
         $this->assertSame($value, $result[0]['target']);
     }
@@ -125,14 +115,15 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldBeGreaterThan()
+    public function itShouldBeGreaterThan(): void
     {
         $column = 'user_id';
         $value = 1;
-
         $result = $this->where->greaterThan($column, $value)->getComparisons();
-
+        $this->assertNotEmpty($result);
+        $this->assertIsArray($result[0]);
         $this->assertSame('>', $result[0]['conjunction']);
+        $this->assertInstanceOf(Column::class, $result[0]['subject']);
         $this->assertSame($column, $result[0]['subject']->getName());
         $this->assertSame($value, $result[0]['target']);
     }
@@ -140,14 +131,15 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldBeGreaterThanOrEqual()
+    public function itShouldBeGreaterThanOrEqual(): void
     {
         $column = 'user_id';
         $value = 1;
-
         $result = $this->where->greaterThanOrEqual($column, $value)->getComparisons();
-
+        $this->assertNotEmpty($result);
+        $this->assertIsArray($result[0]);
         $this->assertSame('>=', $result[0]['conjunction']);
+        $this->assertInstanceOf(Column::class, $result[0]['subject']);
         $this->assertSame($column, $result[0]['subject']->getName());
         $this->assertSame($value, $result[0]['target']);
     }
@@ -155,14 +147,15 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldBeLessThan()
+    public function itShouldBeLessThan(): void
     {
         $column = 'user_id';
         $value = 1;
-
         $result = $this->where->lessThan($column, $value)->getComparisons();
-
+        $this->assertNotEmpty($result);
+        $this->assertIsArray($result[0]);
         $this->assertSame('<', $result[0]['conjunction']);
+        $this->assertInstanceOf(Column::class, $result[0]['subject']);
         $this->assertSame($column, $result[0]['subject']->getName());
         $this->assertSame($value, $result[0]['target']);
     }
@@ -170,14 +163,15 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldBeLessThanOrEqual()
+    public function itShouldBeLessThanOrEqual(): void
     {
         $column = 'user_id';
         $value = 1;
-
         $result = $this->where->lessThanOrEqual($column, $value)->getComparisons();
-
+        $this->assertNotEmpty($result);
+        $this->assertIsArray($result[0]);
         $this->assertSame('<=', $result[0]['conjunction']);
+        $this->assertInstanceOf(Column::class, $result[0]['subject']);
         $this->assertSame($column, $result[0]['subject']->getName());
         $this->assertSame($value, $result[0]['target']);
     }
@@ -185,14 +179,15 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldBeLike()
+    public function itShouldBeLike(): void
     {
         $column = 'user_id';
-        $value = 1;
-
+        $value = 1; // Or a string like '%pattern%'
         $result = $this->where->like($column, $value)->getComparisons();
-
+        $this->assertNotEmpty($result);
+        $this->assertIsArray($result[0]);
         $this->assertSame('LIKE', $result[0]['conjunction']);
+        $this->assertInstanceOf(Column::class, $result[0]['subject']);
         $this->assertSame($column, $result[0]['subject']->getName());
         $this->assertSame($value, $result[0]['target']);
     }
@@ -200,14 +195,15 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldBeNotLike()
+    public function itShouldBeNotLike(): void
     {
         $column = 'user_id';
-        $value = 1;
-
+        $value = 1; // Or a string
         $result = $this->where->notLike($column, $value)->getComparisons();
-
+        $this->assertNotEmpty($result);
+        $this->assertIsArray($result[0]);
         $this->assertSame('NOT LIKE', $result[0]['conjunction']);
+        $this->assertInstanceOf(Column::class, $result[0]['subject']);
         $this->assertSame($column, $result[0]['subject']->getName());
         $this->assertSame($value, $result[0]['target']);
     }
@@ -215,107 +211,78 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldAccumulateMatchConditions()
+    public function itShouldAccumulateMatchConditions(): void
     {
-        $column = array('user_id');
-
-        $result = $this->where
-            ->match($column, array(1, 2, 3))
-            ->getMatches();
-
-        $expected = array(
-            0 => array(
-                'columns' => array('user_id'),
-                'values' => array(1, 2, 3),
-                'mode' => 'natural',
-            ),
-        );
+        $columns = ['user_id'];
+        $values = [1, 2, 3];
+        $result = $this->where->match($columns, $values)->getMatches();
+        $expected = [
+            0 => ['columns' => $columns, 'values' => $values, 'mode' => 'natural'],
+        ];
         $this->assertEquals($expected, $result);
     }
 
     /**
      * @test
      */
-    public function itShouldAccumulateMatchBooleanConditions()
+    public function itShouldAccumulateMatchBooleanConditions(): void
     {
-        $column = array('user_id');
-
-        $result = $this->where
-            ->matchBoolean($column, array(1, 2, 3))
-            ->getMatches();
-
-        $expected = array(
-            0 => array(
-                'columns' => array('user_id'),
-                'values' => array(1, 2, 3),
-                'mode' => 'boolean',
-            ),
-        );
+        $columns = ['user_id'];
+        $values = [1, 2, 3];
+        $result = $this->where->matchBoolean($columns, $values)->getMatches();
+        $expected = [
+            0 => ['columns' => $columns, 'values' => $values, 'mode' => 'boolean'],
+        ];
         $this->assertEquals($expected, $result);
     }
 
     /**
      * @test
      */
-    public function itShouldAccumulateMatchQueryExpansionConditions()
+    public function itShouldAccumulateMatchQueryExpansionConditions(): void
     {
-        $column = array('user_id');
-
-        $result = $this->where
-            ->matchWithQueryExpansion($column, array(1, 2, 3))
-            ->getMatches();
-
-        $expected = array(
-            0 => array(
-                'columns' => array('user_id'),
-                'values' => array(1, 2, 3),
-                'mode' => 'query_expansion',
-            ),
-        );
+        $columns = ['user_id'];
+        $values = [1, 2, 3];
+        $result = $this->where->matchWithQueryExpansion($columns, $values)->getMatches();
+        $expected = [
+            0 => ['columns' => $columns, 'values' => $values, 'mode' => 'query_expansion'],
+        ];
         $this->assertEquals($expected, $result);
     }
 
     /**
      * @test
      */
-    public function itShouldAccumulateInConditions()
+    public function itShouldAccumulateInConditions(): void
     {
         $column = 'user_id';
-
-        $result = $this->where
-            ->in($column, array(1, 2, 3))
-            ->getIns();
-
-        $expected = array($column => array(1, 2, 3));
+        $values = [1, 2, 3];
+        $result = $this->where->in($column, $values)->getIns();
+        $expected = [$column => $values];
         $this->assertEquals($expected, $result);
     }
 
     /**
      * @test
      */
-    public function itShouldAccumulateNotInConditions()
+    public function itShouldAccumulateNotInConditions(): void
     {
         $column = 'user_id';
-
-        $result = $this->where
-            ->notIn($column, array(1, 2, 3))
-            ->getNotIns();
-
-        $expected = array($column => array(1, 2, 3));
+        $values = [1, 2, 3];
+        $result = $this->where->notIn($column, $values)->getNotIns();
+        $expected = [$column => $values];
         $this->assertEquals($expected, $result);
     }
 
     /**
      * @test
      */
-    public function itShouldWriteBetweenConditions()
+    public function itShouldWriteBetweenConditions(): void
     {
         $column = 'user_id';
-
-        $result = $this->where
-            ->between($column, 1, 2)
-            ->getBetweens();
-
+        $result = $this->where->between($column, 1, 2)->getBetweens();
+        $this->assertNotEmpty($result);
+        $this->assertIsArray($result[0]);
         $this->assertInstanceOf($this->columnClass, $result[0]['subject']);
         $this->assertEquals(1, $result[0]['a']);
         $this->assertEquals(2, $result[0]['b']);
@@ -324,42 +291,36 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldSetNullValueCondition()
+    public function itShouldSetNullValueCondition(): void
     {
         $column = 'user_id';
-
-        $result = $this->where
-            ->isNull($column)
-            ->getNull();
-
+        $result = $this->where->isNull($column)->getNull();
+        $this->assertNotEmpty($result);
+        $this->assertIsArray($result[0]);
         $this->assertInstanceOf($this->columnClass, $result[0]['subject']);
     }
 
     /**
      * @test
      */
-    public function itShouldSetIsNotNullValueCondition()
+    public function itShouldSetIsNotNullValueCondition(): void
     {
         $column = 'user_id';
-
-        $result = $this->where
-            ->isNotNull($column)
-            ->getNotNull();
-
+        $result = $this->where->isNotNull($column)->getNotNull();
+        $this->assertNotEmpty($result);
+        $this->assertIsArray($result[0]);
         $this->assertInstanceOf($this->columnClass, $result[0]['subject']);
     }
 
     /**
      * @test
      */
-    public function itShouldSetBitClauseValueCondition()
+    public function itShouldSetBitClauseValueCondition(): void
     {
         $column = 'user_id';
-
-        $result = $this->where
-            ->addBitClause($column, 1)
-            ->getBooleans();
-
+        $result = $this->where->addBitClause($column, 1)->getBooleans();
+        $this->assertNotEmpty($result);
+        $this->assertIsArray($result[0]);
         $this->assertEquals(1, $result[0]['value']);
         $this->assertInstanceOf($this->columnClass, $result[0]['subject']);
     }
@@ -367,7 +328,7 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function ItShouldChangeAndToOrOperator()
+    public function ItShouldChangeAndToOrOperator(): void
     {
         $result = $this->where->conjunction('OR');
         $this->assertEquals('OR', $result->getConjunction());
@@ -376,44 +337,47 @@ class WhereTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldThrowExceptionOnUnknownConjunction()
+    public function itShouldThrowExceptionOnUnknownConjunction(): void
     {
-        $this->setExpectedException($this->queryException);
+        $this->expectException($this->queryExceptionClass);
         $this->where->conjunction('NOT_VALID_CONJUNCTION');
     }
 
     /**
      * @test
      */
-    public function itShouldSetExistsCondition()
+    public function itShouldSetExistsCondition(): void
     {
+        $builder = new GenericBuilder();
         $select1 = new Select('user');
+        $select1->setBuilder($builder);
         $select1->where()->equals('user_id', 10);
 
         $result = $this->where->exists($select1)->getExists();
-
-        $this->assertEquals(array($select1), $result);
+        $this->assertEquals([$select1], $result);
     }
 
     /**
      * @test
      */
-    public function itShouldSetNotExistsCondition()
+    public function itShouldSetNotExistsCondition(): void
     {
+        $builder = new GenericBuilder();
         $select1 = new Select('user');
+        $select1->setBuilder($builder);
         $select1->where()->equals('user_id', 10);
 
         $result = $this->where->notExists($select1)->getNotExists();
-
-        $this->assertEquals(array($select1), $result);
+        $this->assertEquals([$select1], $result);
     }
 
     /**
      * @test
      */
-    public function itShouldReturnLiterals()
+    public function itShouldReturnLiterals(): void
     {
         $result = $this->where->asLiteral('(username is not null and status=:status)')->getComparisons();
+        $this->assertNotEmpty($result);
         $this->assertSame('(username is not null and status=:status)', $result[0]);
     }
 }
