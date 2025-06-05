@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/16/14
@@ -10,89 +12,95 @@
 
 namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
+use NilPortugues\Sql\QueryBuilder\Manipulation\Delete;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Insert;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Intersect; // Added for completeness, though not in original test
+use NilPortugues\Sql\QueryBuilder\Manipulation\Minus;
 use NilPortugues\Sql\QueryBuilder\Manipulation\QueryFactory;
+use NilPortugues\Sql\QueryBuilder\Manipulation\QueryInterface;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Union;
+use NilPortugues\Sql\QueryBuilder\Manipulation\UnionAll;
+use NilPortugues\Sql\QueryBuilder\Manipulation\Update;
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class QueryFactoryTest.
  */
-class QueryFactoryTest extends \PHPUnit_Framework_TestCase
+class QueryFactoryTest extends TestCase
 {
     /**
      * @test
      */
-    public function itShouldCreateSelectObject()
+    public function itShouldCreateSelectObject(): void
     {
-        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\Select';
-        $this->assertInstanceOf($className, QueryFactory::createSelect());
+        $this->assertInstanceOf(Select::class, QueryFactory::createSelect());
     }
 
     /**
      * @test
      */
-    public function itShouldCreateInsertObject()
+    public function itShouldCreateInsertObject(): void
     {
-        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\Insert';
-        $this->assertInstanceOf($className, QueryFactory::createInsert());
+        $this->assertInstanceOf(Insert::class, QueryFactory::createInsert());
     }
 
     /**
      * @test
      */
-    public function itShouldCreateUpdateObject()
+    public function itShouldCreateUpdateObject(): void
     {
-        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\Update';
-        $this->assertInstanceOf($className, QueryFactory::createUpdate());
+        $this->assertInstanceOf(Update::class, QueryFactory::createUpdate());
     }
 
     /**
      * @test
      */
-    public function itShouldCreateDeleteObject()
+    public function itShouldCreateDeleteObject(): void
     {
-        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\Delete';
-        $this->assertInstanceOf($className, QueryFactory::createDelete());
+        $this->assertInstanceOf(Delete::class, QueryFactory::createDelete());
     }
 
     /**
      * @test
      */
-    public function itShouldCreateMinusObject()
+    public function itShouldCreateMinusObject(): void
     {
-        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\Minus';
-        $this->assertInstanceOf($className, QueryFactory::createMinus(new Select('table1'), new Select('table2')));
+        // These Select objects don't need a builder as they are just constructor arguments here.
+        $this->assertInstanceOf(Minus::class, QueryFactory::createMinus(new Select('table1'), new Select('table2')));
     }
 
     /**
      * @test
      */
-    public function itShouldCreateUnionObject()
+    public function itShouldCreateUnionObject(): void
     {
-        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\Union';
-        $this->assertInstanceOf($className, QueryFactory::createUnion());
+        $this->assertInstanceOf(Union::class, QueryFactory::createUnion());
     }
 
     /**
      * @test
      */
-    public function itShouldCreateUnionAllObject()
+    public function itShouldCreateUnionAllObject(): void
     {
-        $className = '\NilPortugues\Sql\QueryBuilder\Manipulation\UnionAll';
-        $this->assertInstanceOf($className, QueryFactory::createUnionAll());
+        $this->assertInstanceOf(UnionAll::class, QueryFactory::createUnionAll());
     }
 
     /**
      * @test
      */
-    public function itShouldCreateWhereObject()
+    public function itShouldCreateIntersectObject(): void // Added test for createIntersect
     {
-        $mockClass = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryInterface';
+        $this->assertInstanceOf(Intersect::class, QueryFactory::createIntersect());
+    }
 
-        $query = $this->getMockBuilder($mockClass)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $className = '\NilPortugues\Sql\QueryBuilder\Syntax\Where';
-        $this->assertInstanceOf($className, QueryFactory::createWhere($query));
+    /**
+     * @test
+     */
+    public function itShouldCreateWhereObject(): void
+    {
+        $query = $this->createMock(QueryInterface::class);
+        $this->assertInstanceOf(Where::class, QueryFactory::createWhere($query));
     }
 }

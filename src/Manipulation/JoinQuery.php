@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 12/25/14
@@ -10,299 +13,245 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
-use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 
 /**
  * Class JoinQuery.
  */
 class JoinQuery
 {
-    const JOIN_LEFT = 'LEFT';
-    const JOIN_RIGHT = 'RIGHT';
-    const JOIN_INNER = 'INNER';
-    const JOIN_CROSS = 'CROSS';
+    final public const JOIN_LEFT = 'LEFT';
+    final public const JOIN_RIGHT = 'RIGHT';
+    final public const JOIN_INNER = 'INNER';
+    final public const JOIN_CROSS = 'CROSS';
+
+    protected ?Where $joinCondition = null;
+    protected bool $isJoin = false;
+    protected ?string $joinType = null;
+
+    /** @var array<string, Select> */
+    protected array $joins = [];
+
+    public function __construct(protected Select $select)
+    {
+    }
 
     /**
-     * @var Where
+     * Used by Select::__clone to update the internal reference to the new Select instance.
      */
-    protected $joinCondition;
-
-    /**
-     * @var bool
-     */
-    protected $isJoin = false;
-
-    /**
-     * @var string
-     */
-    protected $joinType;
-
-    /**
-     * @var array
-     */
-    protected $joins = [];
-
-    /**
-     * @var Select
-     */
-    protected $select;
-
-    /**
-     * @param Select $select
-     */
-    public function __construct(Select $select)
+    public function internalSetSelect(Select $select): void
     {
         $this->select = $select;
     }
 
-    /**
-     * @param string $table
-     *
-     * @return $this
-     */
-    public function setTable($table)
+    public function setTable(string $table): self
     {
         $this->select->setTable($table);
-
         return $this;
     }
 
     /**
-     * @param string   $table
-     * @param mixed    $selfColumn
-     * @param mixed    $refColumn
-     * @param string[] $columns
-     *
-     * @return Select
+     * @param string|Column|null $selfColumn
+     * @param string|Column|null $refColumn
+     * @param array<string> $columns
      */
-    public function leftJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
-    {
+    public function leftJoin(
+        string $table,
+        mixed $selfColumn = null,
+        mixed $refColumn = null,
+        array $columns = []
+    ): Select {
         return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_LEFT);
     }
 
     /**
-     * @param string   $table
-     * @param mixed    $selfColumn
-     * @param mixed    $refColumn
-     * @param string[] $columns
-     * @param string   $joinType
-     *
-     * @return Select
+     * @param string|Column|null $selfColumn
+     * @param string|Column|null $refColumn
+     * @param array<string> $columns
      */
     public function join(
-        $table,
-        $selfColumn = null,
-        $refColumn = null,
-        $columns = [],
-        $joinType = null
-    ) {
+        string $table,
+        mixed $selfColumn = null,
+        mixed $refColumn = null,
+        array $columns = [],
+        ?string $joinType = null
+    ): Select {
         if (!isset($this->joins[$table])) {
             $select = QueryFactory::createSelect($table);
             $select->setColumns($columns);
-            $select->setJoinType($joinType);
+            if ($joinType !== null) {
+                $select->setJoinType($joinType);
+            }
             $select->setParentQuery($this->select);
             $this->addJoin($select, $selfColumn, $refColumn);
         }
-
         return $this->joins[$table];
     }
 
     /**
-     * @param Select $select
-     * @param mixed  $selfColumn
-     * @param mixed  $refColumn
-     *
-     * @return Select
+     * @param string|Column|null $selfColumn
+     * @param string|Column|null $refColumn
      */
-    public function addJoin(Select $select, $selfColumn, $refColumn)
+    public function addJoin(Select $select, mixed $selfColumn, mixed $refColumn): Select
     {
         $select->isJoin(true);
-        $table = $select->getTable()->getName();
+        $table = $select->getTable()?->getName(); // Nullsafe access to table name
 
-        if (!isset($this->joins[$table])) {
-            if (!$selfColumn instanceof Column) {
-                $newColumn = array($selfColumn);
-                $selfColumn = SyntaxFactory::createColumn(
-                    $newColumn,
-                    $this->select->getTable()
-                );
-            }
-
-            $select->joinCondition()->equals($refColumn, $selfColumn);
-            $this->joins[$table] = $select;
+        if ($table === null) {
+            // Or throw an exception, a join must be on a table.
+            // This case should ideally not happen if Select object is always valid.
+            return $select; // Early return or throw
         }
 
+        if (!isset($this->joins[$table])) {
+            $selfColInstance = $selfColumn;
+            if (!$selfColumn instanceof Column) {
+                $selfColInstance = SyntaxFactory::createColumn([(string)$selfColumn], $this->select->getTable());
+            }
+
+            // Ensure $refColumn is also a Column instance or a string that can be resolved by `equals`
+            // The `equals` method in Where should handle mixed types or specific types for columns.
+            $select->joinCondition()->equals($refColumn, $selfColInstance);
+            $this->joins[$table] = $select;
+        }
         return $this->joins[$table];
     }
 
     /**
      * Transforms Select in a joint.
-     *
-     * @param bool $isJoin
-     *
-     * @return $this
      */
-    public function setJoin($isJoin = true)
+    public function setJoin(bool $isJoin = true): self
     {
         $this->isJoin = $isJoin;
-
         return $this;
     }
 
     /**
-     * @param string   $table
-     * @param mixed    $selfColumn
-     * @param mixed    $refColumn
-     * @param string[] $columns
-     *
-     * @internal param null $selectClass
-     *
-     * @return Select
+     * @param string|Column|null $selfColumn
+     * @param string|Column|null $refColumn
+     * @param array<string> $columns
      */
-    public function rightJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
-    {
+    public function rightJoin(
+        string $table,
+        mixed $selfColumn = null,
+        mixed $refColumn = null,
+        array $columns = []
+    ): Select {
         return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_RIGHT);
     }
 
     /**
-     * @param string   $table
-     * @param mixed    $selfColumn
-     * @param mixed    $refColumn
-     * @param string[] $columns
-     *
-     * @return Select
+     * @param string|Column|null $selfColumn
+     * @param string|Column|null $refColumn
+     * @param array<string> $columns
      */
-    public function crossJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
-    {
+    public function crossJoin(
+        string $table,
+        mixed $selfColumn = null,
+        mixed $refColumn = null,
+        array $columns = []
+    ): Select {
         return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_CROSS);
     }
 
     /**
-     * @param string   $table
-     * @param mixed    $selfColumn
-     * @param mixed    $refColumn
-     * @param string[] $columns
-     *
-     * @return Select
+     * @param string|Column|null $selfColumn
+     * @param string|Column|null $refColumn
+     * @param array<string> $columns
      */
-    public function innerJoin($table, $selfColumn = null, $refColumn = null, $columns = [])
-    {
+    public function innerJoin(
+        string $table,
+        mixed $selfColumn = null,
+        mixed $refColumn = null,
+        array $columns = []
+    ): Select {
         return $this->join($table, $selfColumn, $refColumn, $columns, self::JOIN_INNER);
     }
 
     /**
      * Alias to joinCondition.
-     *
-     * @return Where
      */
-    public function on()
+    public function on(): Where
     {
         return $this->joinCondition();
     }
 
     /**
      * WHERE constrains used for the ON clause of a (LEFT/RIGHT/INNER/CROSS) JOIN.
-     *
-     * @return Where
      */
-    public function joinCondition()
+    public function joinCondition(): Where
     {
         if (!isset($this->joinCondition)) {
             $this->joinCondition = QueryFactory::createWhere($this->select);
         }
-
         return $this->joinCondition;
     }
 
-    /**
-     * @return bool
-     */
-    public function isJoinSelect()
+    public function isJoinSelect(): bool
     {
         return $this->isJoin;
     }
 
-    /**
-     * @return bool
-     */
-    public function isJoin()
+    public function isJoin(): bool // Alias
     {
         return $this->isJoin;
     }
 
-    /**
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
-     */
-    public function getJoinCondition()
+    public function getJoinCondition(): ?Where
     {
         return $this->joinCondition;
     }
 
-    /**
-     * @param \NilPortugues\Sql\QueryBuilder\Syntax\Where $joinCondition
-     *
-     * @return $this
-     */
-    public function setJoinCondition($joinCondition)
+    public function setJoinCondition(Where $joinCondition): self
     {
         $this->joinCondition = $joinCondition;
-
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getJoinType()
+    public function getJoinType(): ?string
     {
         return $this->joinType;
     }
 
-    /**
-     * @param string $joinType
-     *
-     * @return $this
-     */
-    public function setJoinType($joinType)
+    public function setJoinType(?string $joinType): self
     {
         $this->joinType = $joinType;
-
         return $this;
     }
 
     /**
-     * @return array
+     * @return array<string, Select>
      */
-    public function getJoins()
+    public function getJoins(): array
     {
         return $this->joins;
     }
 
     /**
-     * @param array $joins
-     *
-     * @return $this
+     * @param array<string, Select> $joins
      */
-    public function setJoins($joins)
+    public function setJoins(array $joins): self
     {
         $this->joins = $joins;
-
         return $this;
     }
 
     /**
-     * @return array
+     * @return array<string, Select>
      */
-    public function getAllJoins()
+    public function getAllJoins(): array
     {
-        $joins = $this->joins;
+        $allJoins = $this->joins; // Start with current level joins
 
-        foreach ($this->joins as $join) {
-            $joins = \array_merge($joins, $join->getAllJoins());
+        /** @var Select $joinSelect */
+        foreach ($this->joins as $joinSelect) {
+            // Recursively get joins from joined Select objects
+            if ($joinSelect instanceof Select) { // Check if it's a Select object
+                $allJoins = \array_merge($allJoins, $joinSelect->getAllJoins());
+            }
         }
-
-        return $joins;
+        return $allJoins;
     }
 }

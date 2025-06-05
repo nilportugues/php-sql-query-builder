@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/12/14
@@ -17,116 +20,57 @@ use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
  */
 final class WriterFactory
 {
-    /**
-     * @param GenericBuilder    $writer
-     * @param PlaceholderWriter $placeholderWriter
-     *
-     * @return ColumnWriter
-     */
-    public static function createColumnWriter(GenericBuilder $writer, PlaceholderWriter $placeholderWriter)
+    public static function createColumnWriter(GenericBuilder $writer, PlaceholderWriter $placeholderWriter): ColumnWriter
     {
         return new ColumnWriter($writer, $placeholderWriter);
     }
 
-    /**
-     * @param GenericBuilder    $writer
-     * @param PlaceholderWriter $placeholderWriter
-     *
-     * @return WhereWriter
-     */
-    public static function createWhereWriter(GenericBuilder $writer, PlaceholderWriter $placeholderWriter)
+    public static function createWhereWriter(GenericBuilder $writer, PlaceholderWriter $placeholderWriter): WhereWriter
     {
         return new WhereWriter($writer, $placeholderWriter);
     }
 
-    /**
-     * @param GenericBuilder    $writer
-     * @param PlaceholderWriter $placeholderWriter
-     *
-     * @return SelectWriter
-     */
-    public static function createSelectWriter(GenericBuilder $writer, PlaceholderWriter $placeholderWriter)
+    public static function createSelectWriter(GenericBuilder $writer, PlaceholderWriter $placeholderWriter): SelectWriter
     {
         return new SelectWriter($writer, $placeholderWriter);
     }
 
-    /**
-     * @param GenericBuilder    $writer
-     * @param PlaceholderWriter $placeholderWriter
-     *
-     * @return InsertWriter
-     */
-    public static function createInsertWriter(GenericBuilder $writer, PlaceholderWriter $placeholderWriter)
+    public static function createInsertWriter(GenericBuilder $writer, PlaceholderWriter $placeholderWriter): InsertWriter
     {
         return new InsertWriter($writer, $placeholderWriter);
     }
 
-    /**
-     * @param GenericBuilder    $writer
-     * @param PlaceholderWriter $placeholderWriter
-     *
-     * @return UpdateWriter
-     */
-    public static function createUpdateWriter(GenericBuilder $writer, PlaceholderWriter $placeholderWriter)
+    public static function createUpdateWriter(GenericBuilder $writer, PlaceholderWriter $placeholderWriter): UpdateWriter
     {
         return new UpdateWriter($writer, $placeholderWriter);
     }
 
-    /**
-     * @param GenericBuilder    $writer
-     * @param PlaceholderWriter $placeholderWriter
-     *
-     * @return DeleteWriter
-     */
-    public static function createDeleteWriter(GenericBuilder $writer, PlaceholderWriter $placeholderWriter)
+    public static function createDeleteWriter(GenericBuilder $writer, PlaceholderWriter $placeholderWriter): DeleteWriter
     {
         return new DeleteWriter($writer, $placeholderWriter);
     }
 
-    /**
-     * @return PlaceholderWriter
-     */
-    public static function createPlaceholderWriter()
+    public static function createPlaceholderWriter(): PlaceholderWriter
     {
         return new PlaceholderWriter();
     }
 
-    /**
-     * @param GenericBuilder $writer
-     *
-     * @return IntersectWriter
-     */
-    public static function createIntersectWriter(GenericBuilder $writer)
+    public static function createIntersectWriter(GenericBuilder $writer): IntersectWriter
     {
         return new IntersectWriter($writer);
     }
 
-    /**
-     * @param GenericBuilder $writer
-     *
-     * @return MinusWriter
-     */
-    public static function createMinusWriter(GenericBuilder $writer)
+    public static function createMinusWriter(GenericBuilder $writer): MinusWriter
     {
         return new MinusWriter($writer);
     }
 
-    /**
-     * @param GenericBuilder $writer
-     *
-     * @return UnionWriter
-     */
-    public static function createUnionWriter(GenericBuilder $writer)
+    public static function createUnionWriter(GenericBuilder $writer): UnionWriter
     {
         return new UnionWriter($writer);
     }
 
-    /**
-     * @param GenericBuilder $writer
-     *
-     * @return UnionAllWriter
-     */
-    public static function createUnionAllWriter(GenericBuilder $writer)
+    public static function createUnionAllWriter(GenericBuilder $writer): UnionAllWriter
     {
         return new UnionAllWriter($writer);
     }

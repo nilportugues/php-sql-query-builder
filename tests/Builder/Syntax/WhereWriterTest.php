@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/13/14
@@ -12,35 +15,27 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class WhereWriterTest.
  */
-class WhereWriterTest extends \PHPUnit_Framework_TestCase
+class WhereWriterTest extends TestCase
 {
-    /**
-     * @var GenericBuilder
-     */
-    private $writer;
+    private GenericBuilder $writer;
+    private Select $query;
 
-    /**
-     * @var Select
-     */
-    private $query;
-
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->writer = new GenericBuilder();
         $this->query = new Select();
+        $this->query->setBuilder($this->writer); // Where clauses generate placeholders
     }
 
     /**
      * @test
      */
-    public function itShouldAllowWhereConditions()
+    public function itShouldAllowWhereConditions(): void
     {
         $this->query
             ->setTable('user')
@@ -51,14 +46,14 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
         $expected = 'SELECT user.* FROM user WHERE (user.user_id = :v1) AND (user.name LIKE :v2)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1, ':v2' => '%N%');
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1, ':v2' => '%N%'];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldAllowWhereOrConditions()
+    public function itShouldAllowWhereOrConditions(): void
     {
         $this->query
             ->setTable('user')
@@ -71,316 +66,277 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
         $expected = 'SELECT user.* FROM user WHERE (user.user_id = :v1) OR (user.name LIKE :v2)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1, ':v2' => '%N%');
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1, ':v2' => '%N%'];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementNotBeEqualTo()
+    public function itShouldBeAbleToLetWhereStatementNotBeEqualTo(): void
     {
-        $column = 'user_id';
-        $value = 1;
-
         $this->query
             ->setTable('user')
             ->where()
-            ->notEquals($column, $value);
+            ->notEquals('user_id', 1);
 
         $expected = 'SELECT user.* FROM user WHERE (user.user_id <> :v1)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementBeGreaterThan()
+    public function itShouldBeAbleToLetWhereStatementBeGreaterThan(): void
     {
-        $column = 'user_id';
-        $value = 1;
-
         $this->query
             ->setTable('user')
             ->where()
-            ->greaterThan($column, $value);
+            ->greaterThan('user_id', 1);
 
         $expected = 'SELECT user.* FROM user WHERE (user.user_id > :v1)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementBeGreaterThanOrEqual()
+    public function itShouldBeAbleToLetWhereStatementBeGreaterThanOrEqual(): void
     {
-        $column = 'user_id';
-        $value = 1;
-
         $this->query
             ->setTable('user')
             ->where()
-            ->greaterThanOrEqual($column, $value);
+            ->greaterThanOrEqual('user_id', 1);
 
         $expected = 'SELECT user.* FROM user WHERE (user.user_id >= :v1)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementBeLessThan()
+    public function itShouldBeAbleToLetWhereStatementBeLessThan(): void
     {
-        $column = 'user_id';
-        $value = 1;
-
         $this->query
             ->setTable('user')
             ->where()
-            ->lessThan($column, $value);
+            ->lessThan('user_id', 1);
 
         $expected = 'SELECT user.* FROM user WHERE (user.user_id < :v1)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementBeLessThanOrEqual()
+    public function itShouldBeAbleToLetWhereStatementBeLessThanOrEqual(): void
     {
-        $column = 'user_id';
-        $value = 1;
-
         $this->query
             ->setTable('user')
             ->where()
-            ->lessThanOrEqual($column, $value);
+            ->lessThanOrEqual('user_id', 1);
 
         $expected = 'SELECT user.* FROM user WHERE (user.user_id <= :v1)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementBeLike()
+    public function itShouldBeAbleToLetWhereStatementBeLike(): void
     {
-        $column = 'user_id';
-        $value = 1;
-
         $this->query
             ->setTable('user')
             ->where()
-            ->like($column, $value);
+            ->like('user_id', 1); // Value 1 will be treated as string '1' by PDO or similar
 
         $expected = 'SELECT user.* FROM user WHERE (user.user_id LIKE :v1)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementBeNotLike()
+    public function itShouldBeAbleToLetWhereStatementBeNotLike(): void
     {
-        $column = 'user_id';
-        $value = 1;
-
         $this->query
             ->setTable('user')
             ->where()
-            ->notLike($column, $value);
+            ->notLike('user_id', 1);
 
         $expected = 'SELECT user.* FROM user WHERE (user.user_id NOT LIKE :v1)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementAccumulateInConditions()
+    public function itShouldBeAbleToLetWhereStatementAccumulateInConditions(): void
     {
-        $column = 'user_id';
-
         $this->query
             ->setTable('user')
             ->where()
-            ->in($column, array(1, 2, 3));
+            ->in('user_id', [1, 2, 3]);
 
         $expected = 'SELECT user.* FROM user WHERE (user.user_id IN (:v1, :v2, :v3))';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1, ':v2' => 2, ':v3' => 3);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1, ':v2' => 2, ':v3' => 3];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementAccumulateNotInConditions()
+    public function itShouldBeAbleToLetWhereStatementAccumulateNotInConditions(): void
     {
-        $column = 'user_id';
-
         $this->query
             ->setTable('user')
             ->where()
-            ->notIn($column, array(1, 2, 3));
+            ->notIn('user_id', [1, 2, 3]);
 
         $expected = 'SELECT user.* FROM user WHERE (user.user_id NOT IN (:v1, :v2, :v3))';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1, ':v2' => 2, ':v3' => 3);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1, ':v2' => 2, ':v3' => 3];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementWriteBetweenConditions()
+    public function itShouldBeAbleToLetWhereStatementWriteBetweenConditions(): void
     {
-        $column = 'user_id';
-
         $this->query
             ->setTable('user')
             ->where()
-            ->between($column, 1, 2);
+            ->between('user_id', 1, 2);
 
         $expected = 'SELECT user.* FROM user WHERE (user.user_id BETWEEN :v1 AND :v2)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1, ':v2' => 2);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1, ':v2' => 2];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementWriteNotBetweenConditions()
+    public function itShouldBeAbleToLetWhereStatementWriteNotBetweenConditions(): void
     {
-        $column = 'user_id';
-
         $this->query
             ->setTable('user')
             ->where()
-            ->notBetween($column, 1, 2);
+            ->notBetween('user_id', 1, 2);
 
         $expected = 'SELECT user.* FROM user WHERE (user.user_id NOT BETWEEN :v1 AND :v2)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1, ':v2' => 2);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1, ':v2' => 2];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementSetNullValueCondition()
+    public function itShouldBeAbleToLetWhereStatementSetNullValueCondition(): void
     {
-        $column = 'user_id';
-
         $this->query
             ->setTable('user')
             ->where()
-            ->isNull($column);
+            ->isNull('user_id');
 
         $expected = 'SELECT user.* FROM user WHERE (user.user_id IS NULL)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array();
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementSetIsNotNullValueCondition()
+    public function itShouldBeAbleToLetWhereStatementSetIsNotNullValueCondition(): void
     {
-        $column = 'user_id';
-
         $this->query
             ->setTable('user')
             ->where()
-            ->isNotNull($column);
+            ->isNotNull('user_id');
 
         $expected = 'SELECT user.* FROM user WHERE (user.user_id IS NOT NULL)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array();
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementSetBitClauseValueCondition()
+    public function itShouldBeAbleToLetWhereStatementSetBitClauseValueCondition(): void
     {
-        $column = 'user_id';
-
         $this->query
             ->setTable('user')
             ->where()
-            ->addBitClause($column, 1);
+            ->addBitClause('user_id', 1);
 
         $expected = 'SELECT user.* FROM user WHERE (ISNULL(user.user_id, 0) = :v1)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToLetWhereStatementSubconditions()
+    public function itShouldBeAbleToLetWhereStatementSubconditions(): void
     {
-        $column = 'user_id';
-
         $this->query
             ->setTable('user')
             ->where()
-            ->equals($column, 1)
-            ->equals($column, 2)
-            ->subWhere('OR')
-            ->lessThan($column, 10)
-            ->greaterThan($column, 100);
+            ->equals('user_id', 1)
+            ->equals('user_id', 2)
+            ->subWhere('OR') // This creates a new Where object, its table context needs to be set
+            ->lessThan('user_id', 10)
+            ->greaterThan('user_id', 100);
 
-        $expected = 'SELECT user.* FROM user WHERE (user.user_id = :v1) AND (user.user_id = :v2) '.
-            'AND ((user.user_id < :v3) OR (user.user_id > :v4))';
-
+        $expected = 'SELECT user.* FROM user WHERE (user.user_id = :v1) AND (user.user_id = :v2) AND ((user.user_id < :v3) OR (user.user_id > :v4))';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1, ':v2' => 2, ':v3' => 10, ':v4' => 100);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1, ':v2' => 2, ':v3' => 10, ':v4' => 100];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldAllowSelectWhereButNotWriteCondition()
+    public function itShouldAllowSelectWhereButNotWriteCondition(): void
     {
         $table1 = new Select('Table1');
-        $table1
-            ->where();
+        $table1->setBuilder($this->writer);
+        $table1->where(); // Calling where() creates a Where object but adds no conditions yet
 
         $expected = 'SELECT Table1.* FROM Table1';
         $this->assertSame($expected, $this->writer->write($table1));
@@ -389,7 +345,7 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldAllowHavingConditions()
+    public function itShouldAllowHavingConditions(): void
     {
         $this->query
             ->setTable('user')
@@ -400,150 +356,141 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
         $expected = 'SELECT user.* FROM user HAVING (user.user_id > :v1) AND (user.name LIKE :v2)';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 1, ':v2' => '%N%');
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 1, ':v2' => '%N%'];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToUseSelectStatementsInWhere()
+    public function itShouldBeAbleToUseSelectStatementsInWhere(): void
     {
         $selectRole = new Select();
+        $selectRole->setBuilder($this->writer);
         $selectRole
             ->setTable('role')
-            ->setColumns(array('role_name'))
-            ->limit(1)
+            ->setColumns(['role_name'])
+            ->limit(1, 0) // limit(count, offset)
             ->where()
             ->equals('role_id', 3);
 
         $this->query
             ->setTable('user')
-            ->setColumns(array('user_id', 'role_id'))
+            ->setColumns(['user_id', 'role_id'])
             ->where()
             ->equals('role_id', $selectRole);
 
-        $expected = 'SELECT user.user_id, user.role_id FROM user WHERE '.
-            '(user.role_id = (SELECT role.role_name FROM role WHERE (role.role_id = :v1) LIMIT :v2, :v3))';
-
+        $expected = 'SELECT user.user_id, user.role_id FROM user WHERE (user.role_id = (SELECT role.role_name FROM role WHERE (role.role_id = :v1) LIMIT :v2, :v3))';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 3, ':v2' => 1, ':v3' => 0);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 3, ':v2' => 1, ':v3' => 0];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToSelectWithFullMatchSearchUsingMatchInNaturalMode()
+    public function itShouldBeAbleToSelectWithFullMatchSearchUsingMatchInNaturalMode(): void
     {
         $this->query
             ->setTable('user')
-            ->setColumns(array('user_id', 'role_id'))
+            ->setColumns(['user_id', 'role_id'])
             ->where()
-            ->match(array('username', 'email'), array('Nil'));
+            ->match(['username', 'email'], ['Nil']);
 
-        $expected = 'SELECT user.user_id, user.role_id FROM user '.
-            'WHERE (MATCH(user.username, user.email) AGAINST(:v1))';
-
+        $expected = 'SELECT user.user_id, user.role_id FROM user WHERE (MATCH(user.username, user.email) AGAINST(:v1))';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 'Nil');
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 'Nil'];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToSelectWithFullMatchSearchUsingMatchInBooleanMode()
+    public function itShouldBeAbleToSelectWithFullMatchSearchUsingMatchInBooleanMode(): void
     {
         $this->query
             ->setTable('user')
-            ->setColumns(array('user_id', 'role_id'))
+            ->setColumns(['user_id', 'role_id'])
             ->where()
-            ->matchBoolean(array('username', 'email'), array('Nil'));
+            ->matchBoolean(['username', 'email'], ['Nil']);
 
-        $expected = 'SELECT user.user_id, user.role_id FROM user '.
-            'WHERE (MATCH(user.username, user.email) AGAINST(:v1 IN BOOLEAN MODE))';
-
+        $expected = 'SELECT user.user_id, user.role_id FROM user WHERE (MATCH(user.username, user.email) AGAINST(:v1 IN BOOLEAN MODE))';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 'Nil');
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 'Nil'];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToSelectWithFullMatchSearchUsingMatchInQueryExpansionMode()
+    public function itShouldBeAbleToSelectWithFullMatchSearchUsingMatchInQueryExpansionMode(): void
     {
         $this->query
             ->setTable('user')
-            ->setColumns(array('user_id', 'role_id'))
+            ->setColumns(['user_id', 'role_id'])
             ->where()
-            ->matchWithQueryExpansion(array('username', 'email'), array('Nil'));
+            ->matchWithQueryExpansion(['username', 'email'], ['Nil']);
 
-        $expected = 'SELECT user.user_id, user.role_id FROM user '.
-            'WHERE (MATCH(user.username, user.email) AGAINST(:v1 WITH QUERY EXPANSION))';
-
+        $expected = 'SELECT user.user_id, user.role_id FROM user WHERE (MATCH(user.username, user.email) AGAINST(:v1 WITH QUERY EXPANSION))';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 'Nil');
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 'Nil'];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToDoWhereExists()
+    public function itShouldBeAbleToDoWhereExists(): void
     {
         $select = new Select('banned_user');
+        $select->setBuilder($this->writer);
         $select->where()->equals('user_id', 1);
 
         $this->query
             ->setTable('user')
-            ->setColumns(array('user_id', 'role_id'))
+            ->setColumns(['user_id', 'role_id'])
             ->where()
             ->exists($select)
             ->equals('user', 'Nil');
 
-        $expected = 'SELECT user.user_id, user.role_id FROM user WHERE (user.user = :v1) AND '.
-            'EXISTS (SELECT banned_user.* FROM banned_user WHERE (banned_user.user_id = :v2))';
-
+        $expected = 'SELECT user.user_id, user.role_id FROM user WHERE (user.user = :v1) AND EXISTS (SELECT banned_user.* FROM banned_user WHERE (banned_user.user_id = :v2))';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 'Nil', ':v2' => 1);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 'Nil', ':v2' => 1];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToDoWhereNotExists()
+    public function itShouldBeAbleToDoWhereNotExists(): void
     {
         $select = new Select('banned_user');
+        $select->setBuilder($this->writer);
         $select->where()->equals('user_id', 1);
 
         $this->query
             ->setTable('user')
-            ->setColumns(array('user_id', 'role_id'))
+            ->setColumns(['user_id', 'role_id'])
             ->where()
             ->notExists($select)
             ->equals('user', 'Nil');
 
-        $expected = 'SELECT user.user_id, user.role_id FROM user WHERE (user.user = :v1) AND '.
-            'NOT EXISTS (SELECT banned_user.* FROM banned_user WHERE (banned_user.user_id = :v2))';
-
+        $expected = 'SELECT user.user_id, user.role_id FROM user WHERE (user.user = :v1) AND NOT EXISTS (SELECT banned_user.* FROM banned_user WHERE (banned_user.user_id = :v2))';
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => 'Nil', ':v2' => 1);
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => 'Nil', ':v2' => 1];
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 
     /**
      * @test
      */
-    public function itShouldAllowWhereConditionAsLiteral()
+    public function itShouldAllowWhereConditionAsLiteral(): void
     {
         $this->query
             ->setTable('user')
@@ -552,10 +499,9 @@ class WhereWriterTest extends \PHPUnit_Framework_TestCase
             ->notEquals('name', '%N%');
 
         $expected = 'SELECT user.* FROM user WHERE (username is not null and status=:status) AND (user.name <> :v1)';
-
         $this->assertSame($expected, $this->writer->write($this->query));
 
-        $expected = array(':v1' => '%N%');
-        $this->assertEquals($expected, $this->writer->getValues());
+        $expectedValues = [':v1' => '%N%']; // :status is not a placeholder generated by the library here
+        $this->assertEquals($expectedValues, $this->writer->getValues());
     }
 }

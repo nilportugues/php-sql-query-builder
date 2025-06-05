@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/11/14
@@ -20,46 +23,45 @@ use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 class UpdateWriter extends AbstractBaseWriter
 {
     /**
-     * @param Update $update
-     *
      * @throws QueryException
-     *
-     * @return string
      */
-    public function write(Update $update)
+    public function write(Update $update): string
     {
         $values = $update->getValues();
         if (empty($values)) {
             throw new QueryException('No values to update in Update query.');
         }
 
-        $parts = array(
-            'UPDATE '.$this->writer->writeTable($update->getTable()).' SET ',
+        /** @var array<string> $parts */
+        $parts = [
+            'UPDATE ' . $this->writer->writeTable($update->getTable()) . ' SET', // Removed space after SET
             $this->writeUpdateValues($update),
-        );
+        ];
 
         AbstractBaseWriter::writeWhereCondition($update, $this->writer, $this->placeholderWriter, $parts);
         AbstractBaseWriter::writeLimitCondition($update, $this->placeholderWriter, $parts);
         $comment = AbstractBaseWriter::writeQueryComment($update);
 
-        return $comment.implode(' ', $parts);
+        // Filter out empty strings that might result from conditions not being met
+        $filteredParts = \array_filter($parts, fn (string $part) => $part !== '');
+        return $comment . implode(' ', $filteredParts);
     }
 
-    /**
-     * @param Update $update
-     *
-     * @return string
-     */
-    protected function writeUpdateValues(Update $update)
+    protected function writeUpdateValues(Update $update): string
     {
         $assigns = [];
-        foreach ($update->getValues() as $column => $value) {
-            $newColumn = array($column);
-            $column = $this->columnWriter->writeColumn(SyntaxFactory::createColumn($newColumn, $update->getTable()));
+        /** @var string $columnName */
+        /** @var mixed $value */
+        foreach ($update->getValues() as $columnName => $value) {
+            // Ensure $columnName is a string for safety, though keys of an array are usually int or string.
+            $newColumnArray = [(string)$columnName];
+            $columnToWrite = $this->columnWriter->writeColumn(
+                SyntaxFactory::createColumn($newColumnArray, $update->getTable())
+            );
 
-            $value = $this->writer->writePlaceholderValue($value);
+            $placeholderValue = $this->writer->writePlaceholderValue($value);
 
-            $assigns[] = "$column = $value";
+            $assigns[] = "{$columnToWrite} = {$placeholderValue}";
         }
 
         return \implode(', ', $assigns);

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/12/14
@@ -20,32 +23,16 @@ use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
  */
 class ColumnWriter
 {
-    /**
-     * @var \NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder
-     */
-    protected $writer;
-
-    /**
-     * @var PlaceholderWriter
-     */
-    protected $placeholderWriter;
-
-    /**
-     * @param GenericBuilder    $writer
-     * @param PlaceholderWriter $placeholderWriter
-     */
-    public function __construct(GenericBuilder $writer, PlaceholderWriter $placeholderWriter)
-    {
-        $this->writer = $writer;
-        $this->placeholderWriter = $placeholderWriter;
+    public function __construct(
+        protected GenericBuilder $writer,
+        protected PlaceholderWriter $placeholderWriter
+    ) {
     }
 
     /**
-     * @param Select $select
-     *
-     * @return array
+     * @return array<string|Column>
      */
-    public function writeSelectsAsColumns(Select $select)
+    public function writeSelectsAsColumns(Select $select): array
     {
         $selectAsColumns = $select->getColumnSelects();
 
@@ -58,27 +45,42 @@ class ColumnWriter
     }
 
     /**
-     * @param array        $selectAsColumns
-     * @param SelectWriter $selectWriter
-     *
-     * @return mixed
+     * @param array<string|Column> $selectAsColumns
+     * @return array<string|Column>
      */
-    protected function selectColumnToQuery(array &$selectAsColumns, SelectWriter $selectWriter)
+    protected function selectColumnToQuery(array &$selectAsColumns, SelectWriter $selectWriter): array
     {
         \array_walk(
             $selectAsColumns,
-            function (&$column) use (&$selectWriter) {
-                $keys = \array_keys($column);
-                $key = \array_pop($keys);
+            function (mixed &$columnData) use ($selectWriter): void {
+                // $columnData is expected to be an array like ['alias_or_index' => Select_object_or_string]
+                $keys = \array_keys($columnData);
+                $originalKey = \array_pop($keys); // Get the alias or numeric index
 
-                $values = \array_values($column);
-                $value = $values[0];
+                $values = \array_values($columnData);
+                $content = $values[0]; // This is the Select object or column name string
 
-                if (\is_numeric($key)) {
-                    /* @var Column $value */
-                    $key = $this->writer->writeTableName($value->getTable());
+                $aliasToUse = $originalKey; // Default to original key
+
+                if (\is_numeric($originalKey) && $content instanceof \NilPortugues\Sql\QueryBuilder\Manipulation\Select) {
+                    /** @var \NilPortugues\Sql\QueryBuilder\Syntax\Table|null $firstTable */
+                    $firstTable = $content->getTable(); // Get the main table of the subquery
+
+                    if ($firstTable) { // Check if a table is actually set
+                        $derivedAlias = $firstTable->getAlias();
+                        if (null === $derivedAlias || $derivedAlias === '') {
+                            $derivedAlias = $firstTable->getName();
+                        }
+
+                        if ($derivedAlias && $derivedAlias !== '') {
+                            $aliasToUse = $derivedAlias;
+                        }
+                    }
+                    // If no table or no alias/name, $aliasToUse remains $originalKey (numeric string)
                 }
-                $column = $selectWriter->selectToColumn($key, $value);
+                // Important: ensure $aliasToUse is a string for selectToColumn
+                // The variable name for the modified element in array_walk is $columnData itself
+                $columnData = $selectWriter->selectToColumn((string)$aliasToUse, $content);
             }
         );
 
@@ -86,19 +88,18 @@ class ColumnWriter
     }
 
     /**
-     * @param Select $select
-     *
-     * @return array
+     * @return array<Column>
      */
-    public function writeValueAsColumns(Select $select)
+    public function writeValueAsColumns(Select $select): array
     {
         $valueAsColumns = $select->getColumnValues();
         $newColumns = [];
 
         if (!empty($valueAsColumns)) {
             foreach ($valueAsColumns as $alias => $value) {
-                $value = $this->writer->writePlaceholderValue($value);
-                $newValueColumn = array($alias => $value);
+                /** @var string $alias */
+                $writtenValue = $this->writer->writePlaceholderValue($value);
+                $newValueColumn = [$alias => $writtenValue];
 
                 $newColumns[] = SyntaxFactory::createColumn($newValueColumn, null);
             }
@@ -108,21 +109,21 @@ class ColumnWriter
     }
 
     /**
-     * @param Select $select
-     *
-     * @return array
+     * @return array<Column>
      */
-    public function writeFuncAsColumns(Select $select)
+    public function writeFuncAsColumns(Select $select): array
     {
         $funcAsColumns = $select->getColumnFuncs();
         $newColumns = [];
 
         if (!empty($funcAsColumns)) {
-            foreach ($funcAsColumns as $alias => $value) {
-                $funcName = $value['func'];
-                $funcArgs = (!empty($value['args'])) ? '('.implode(', ', $value['args']).')' : '';
+            foreach ($funcAsColumns as $alias => $valueDetails) {
+                /** @var string $alias */
+                /** @var array{func: string, args: string[]} $valueDetails */
+                $funcName = $valueDetails['func'];
+                $funcArgs = !empty($valueDetails['args']) ? '('.implode(', ', $valueDetails['args']).')' : '';
 
-                $newFuncColumn = array($alias => $funcName.$funcArgs);
+                $newFuncColumn = [$alias => $funcName.$funcArgs];
                 $newColumns[] = SyntaxFactory::createColumn($newFuncColumn, null);
             }
         }
@@ -130,31 +131,27 @@ class ColumnWriter
         return $newColumns;
     }
 
-    /**
-     * @param Column $column
-     *
-     * @return string
-     */
-    public function writeColumnWithAlias(Column $column)
+    public function writeColumnWithAlias(Column $column): string
     {
-        if (($alias = $column->getAlias()) && !$column->isAll()) {
+        $alias = $column->getAlias();
+        if ($alias !== null && !$column->isAll()) { // Removed $alias !== ''
             return $this->writeColumn($column).' AS '.$this->writer->writeColumnAlias($alias);
         }
 
         return $this->writeColumn($column);
     }
 
-    /**
-     * @param Column $column
-     *
-     * @return string
-     */
-    public function writeColumn(Column $column)
+    public function writeColumn(Column $column): string
     {
-        $alias = $column->getTable()->getAlias();
-        $table = ($alias) ? $this->writer->writeTableAlias($alias) : $this->writer->writeTable($column->getTable());
+        $tableInstance = $column->getTable();
+        $alias = $tableInstance?->getAlias(); // Potentially null if table is not set for a column
+        $table = '';
 
-        $columnString = (empty($table)) ? '' : "{$table}.";
+        if ($tableInstance) {
+            $table = ($alias) ? $this->writer->writeTableAlias($alias) : $this->writer->writeTable($tableInstance);
+        }
+
+        $columnString = ($table === '') ? '' : "{$table}.";
         $columnString .= $this->writer->writeColumnName($column);
 
         return $columnString;

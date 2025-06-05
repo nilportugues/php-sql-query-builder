@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/7/14
@@ -10,63 +12,59 @@
 
 namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder; // For setBuilder
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
+use NilPortugues\Tests\Sql\QueryBuilder\Manipulation\Resources\DummyQuery;
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class BaseQueryTest.
  */
-class BaseQueryTest extends \PHPUnit_Framework_TestCase
+class BaseQueryTest extends TestCase
 {
-    /**
-     * @var \NilPortugues\Tests\Sql\QueryBuilder\Manipulation\Resources\DummyQuery
-     */
-    private $query;
+    private DummyQuery $query;
+    private string $whereClass = Where::class;
 
-    /**
-     * @var string
-     */
-    private $whereClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Where';
-
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->query = new Resources\DummyQuery();
+        $this->query = new DummyQuery();
         $this->query->setTable('tablename');
+        $this->query->setBuilder(new GenericBuilder()); // Add builder for completeness
     }
 
-    /**
-     *
-     */
-    protected function tearDown()
+    protected function tearDown(): void
     {
-        $this->query = null;
+        // No need to null $this->query, PHPUnit handles test isolation.
     }
 
     /**
      * @test
      */
-    public function itShouldBeAbleToSetTableName()
+    public function itShouldBeAbleToSetTableName(): void
     {
-        $this->assertSame('tablename', $this->query->getTable()->getName());
+        $table = $this->query->getTable();
+        $this->assertNotNull($table);
+        $this->assertSame('tablename', $table->getName());
     }
 
     /**
      * @test
      */
-    public function itShouldGetWhere()
+    public function itShouldGetWhere(): void
     {
         $this->assertNull($this->query->getWhere());
 
-        $this->query->where();
-        $this->assertInstanceOf($this->whereClass, $this->query->getWhere());
+        $this->query->where(); // This initializes the Where object
+        $whereInstance = $this->query->getWhere();
+        $this->assertInstanceOf($this->whereClass, $whereInstance);
     }
 
     /**
      * @test
      */
-    public function itShouldGetWhereOperator()
+    public function itShouldGetWhereOperator(): void
     {
-        $this->assertSame('AND', $this->query->getWhereOperator());
+        $this->assertSame('AND', $this->query->getWhereOperator()); // Default
 
         $this->query->where('OR');
         $this->assertSame('OR', $this->query->getWhereOperator());

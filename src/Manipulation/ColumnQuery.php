@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 12/25/14
@@ -13,251 +16,200 @@ namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
 use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
+use NilPortugues\Sql\QueryBuilder\Syntax\Table;
+use NilPortugues\Sql\QueryBuilder\Syntax\Where;
 
 /**
  * Class ColumnQuery.
  */
 class ColumnQuery
 {
-    /**
-     * @var array
-     */
-    protected $columns = [];
+    /** @var array<string|Column> */
+    protected array $columns = [];
+
+    /** @var array<array<string, Select>> */
+    protected array $columnSelects = [];
+
+    /** @var array<string, mixed> */
+    protected array $columnValues = [];
+
+    /** @var array<string, array{func: string, args: string[]}> */
+    protected array $columnFuncs = [];
+
+    protected bool $isCount = false;
 
     /**
-     * @var array
+     * @param array<string>|null $columns
      */
-    protected $columnSelects = [];
-
-    /**
-     * @var array
-     */
-    protected $columnValues = [];
-
-    /**
-     * @var array
-     */
-    protected $columnFuncs = [];
-
-    /**
-     * @var bool
-     */
-    protected $isCount = false;
-
-    /**
-     * @var Select
-     */
-    protected $select;
-
-    /**
-     * @var JoinQuery
-     */
-    protected $joinQuery;
-
-    /**
-     * @param Select    $select
-     * @param JoinQuery $joinQuery
-     * @param array     $columns
-     */
-    public function __construct(Select $select, JoinQuery $joinQuery, array $columns = null)
-    {
-        $this->select = $select;
-        $this->joinQuery = $joinQuery;
-
-        if (!isset($columns)) {
-            $columns = array(Column::ALL);
+    public function __construct(
+        protected Select $select,
+        protected JoinQuery $joinQuery,
+        ?array $columns = null
+    ) {
+        if (null === $columns) {
+            $columns = [Column::ALL];
         }
 
-        if (\count($columns)) {
+        if (!empty($columns)) {
             $this->setColumns($columns);
         }
     }
 
     /**
-     * @param     $start
-     * @param int $count
-     *
-     * @return Select
+     * Used by Select::__clone to update the internal reference to the new Select instance.
      */
-    public function limit($start, $count = 0)
+    public function internalSetSelect(Select $select): void
+    {
+        $this->select = $select;
+    }
+
+    /**
+     * Used by Select::__clone to update the internal reference to the new JoinQuery instance.
+     */
+    public function internalSetJoinQuery(JoinQuery $joinQuery): void
+    {
+        $this->joinQuery = $joinQuery;
+    }
+
+    public function limit(int $start, int $count = 0): Select
     {
         return $this->select->limit($start, $count);
     }
 
-    /**
-     * @param string $whereOperator
-     *
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Where
-     */
-    public function where($whereOperator = 'AND')
+    public function where(string $whereOperator = 'AND'): Where
     {
         return $this->select->where($whereOperator);
     }
 
     /**
-     * @param string $column
-     * @param string $direction
-     * @param null   $table
-     *
-     * @return Select
+     * @param string|Table|null $table
      */
-    public function orderBy($column, $direction = OrderBy::ASC, $table = null)
+    public function orderBy(string $column, string $direction = OrderBy::ASC, mixed $table = null): Select
     {
         return $this->select->orderBy($column, $direction, $table);
     }
 
     /**
-     * @param string[] $columns
-     *
-     * @return Select
+     * @param array<string> $columns
      */
-    public function groupBy(array $columns)
+    public function groupBy(array $columns): Select
     {
         return $this->select->groupBy($columns);
     }
 
     /**
      * Allows setting a Select query as a column value.
-     *
-     * @param array $column
-     *
-     * @return $this
+     * @param array<string, Select> $column e.g. ['alias' => SelectObject]
      */
-    public function setSelectAsColumn(array $column)
+    public function setSelectAsColumn(array $column): self
     {
         $this->columnSelects[] = $column;
-
         return $this;
     }
 
     /**
-     * @return array
+     * @return array<array<string, Select>>
      */
-    public function getColumnSelects()
+    public function getColumnSelects(): array
     {
         return $this->columnSelects;
     }
 
     /**
      * Allows setting a value to the select statement.
-     *
-     * @param string $value
-     * @param string $alias
-     *
-     * @return $this
      */
-    public function setValueAsColumn($value, $alias)
+    public function setValueAsColumn(mixed $value, string $alias): self
     {
         $this->columnValues[$alias] = $value;
-
         return $this;
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getColumnValues()
+    public function getColumnValues(): array
     {
         return $this->columnValues;
     }
 
     /**
      * Allows calculation on columns using predefined SQL functions.
-     *
-     * @param string   $funcName
-     * @param string[] $arguments
-     * @param string   $alias
-     *
-     * @return $this
+     * @param array<string> $arguments
      */
-    public function setFunctionAsColumn($funcName, array $arguments, $alias)
+    public function setFunctionAsColumn(string $funcName, array $arguments, string $alias): self
     {
         $this->columnFuncs[$alias] = ['func' => $funcName, 'args' => $arguments];
-
         return $this;
     }
 
     /**
-     * @return array
+     * @return array<string, array{func: string, args: string[]}>
      */
-    public function getColumnFuncs()
+    public function getColumnFuncs(): array
     {
         return $this->columnFuncs;
     }
 
-    /**
-     * @param string $columnName
-     * @param string $alias
-     *
-     * @return $this
-     */
-    public function count($columnName = '*', $alias = '')
+    public function count(string $columnName = '*', string $alias = ''): self
     {
         $table = $this->select->getTable();
+        $tableName = $table?->getName(); // Use nullsafe operator
 
         $count = 'COUNT(';
-        $count .= ($columnName !== '*') ? "$table.{$columnName}" : '*';
+        $count .= ($columnName !== '*') ? ($tableName ? "{$tableName}.{$columnName}" : $columnName) : '*';
         $count .= ')';
 
-        if (isset($alias) && \strlen($alias) > 0) {
-            $count .= ' AS "'.$alias.'"';
+        if ($alias !== '') {
+            $count .= " AS " . $this->select->getBuilder()->writeColumnAlias($alias);
         }
 
-        $this->columns = array($count);
+        $this->columns = [$count]; // This will be a string, not a Column object yet
         $this->isCount = true;
-
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isCount()
+    public function isCount(): bool
     {
         return $this->isCount;
     }
 
     /**
-     * @return array
+     * @return array<Column>
+     * @throws QueryException
      */
-    public function getAllColumns()
+    public function getAllColumns(): array
     {
-        $columns = $this->getColumns();
+        $columns = $this->getColumns(); // This returns array<Column>
 
         foreach ($this->joinQuery->getJoins() as $join) {
-            $joinCols = $join->getAllColumns();
+            $joinCols = $join->getAllColumns(); // Assuming this also returns array<Column>
             $columns = \array_merge($columns, $joinCols);
         }
-
         return $columns;
     }
 
     /**
-     * @return \NilPortugues\Sql\QueryBuilder\Syntax\Column
-     *
+     * @return array<Column>
      * @throws QueryException
      */
-    public function getColumns()
+    public function getColumns(): array
     {
-        if (\is_null($this->select->getTable())) {
+        if (null === $this->select->getTable()) {
             throw new QueryException('No table specified for the Select instance');
         }
-
+        // $this->columns can contain strings or Column::ALL
+        // SyntaxFactory::createColumns expects array of strings or Column objects
         return SyntaxFactory::createColumns($this->columns, $this->select->getTable());
     }
 
     /**
      * Sets the column names used to write the SELECT statement.
      * If key is set, key is the column's alias. Value is always the column names.
-     *
-     * @param array $columns
-     *
-     * @return $this
+     * @param array<string|Column> $columns
      */
-    public function setColumns(array $columns)
+    public function setColumns(array $columns): self
     {
         $this->columns = $columns;
-
         return $this;
     }
 }

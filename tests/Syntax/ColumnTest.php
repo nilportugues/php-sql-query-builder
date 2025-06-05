@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/2/14
@@ -10,53 +12,47 @@
 
 namespace NilPortugues\Tests\Sql\QueryBuilder\Syntax;
 
+use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
 use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\Table;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ColumnTest.
  */
-class ColumnTest extends \PHPUnit_Framework_TestCase
+class ColumnTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    protected $tableClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Table';
-
-    /**
-     * @var string
-     */
-    protected $queryException = '\NilPortugues\Sql\QueryBuilder\Manipulation\QueryException';
+    protected string $tableClass = Table::class;
+    protected string $queryExceptionClass = QueryException::class; // Renamed for clarity
 
     /**
      * @test
      */
-    public function itShouldReturnPartName()
+    public function itShouldReturnPartName(): void
     {
         $column = new Column('id', 'user');
-
         $this->assertSame('COLUMN', $column->partName());
     }
 
     /**
      * @test
      */
-    public function itShouldConstruct()
+    public function itShouldConstruct(): void
     {
         $column = new Column('id', 'user');
-
         $this->assertEquals('id', $column->getName());
-        $this->assertInstanceOf($this->tableClass, $column->getTable());
-        $this->assertEquals('user', $column->getTable()->getName());
+        $table = $column->getTable();
+        $this->assertInstanceOf($this->tableClass, $table);
+        $this->assertNotNull($table); // To satisfy static analysis that $table is not null before getName
+        $this->assertEquals('user', $table->getName());
     }
 
     /**
      * @test
      */
-    public function itShouldSetColumnName()
+    public function itShouldSetColumnName(): void
     {
         $column = new Column('id', 'user');
-
         $column->setName('user_id');
         $this->assertEquals('user_id', $column->getName());
     }
@@ -64,21 +60,22 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldSetTableName()
+    public function itShouldSetTableName(): void
     {
         $tableName = 'user';
-
         $column = new Column('id', $tableName);
-        $column->setTable(new Table($tableName));
+        $column->setTable($tableName); // Column::setTable expects ?string
 
-        $this->assertInstanceOf($this->tableClass, $column->getTable());
-        $this->assertEquals($tableName, $column->getTable()->getName());
+        $table = $column->getTable();
+        $this->assertInstanceOf($this->tableClass, $table);
+        $this->assertNotNull($table);
+        $this->assertEquals($tableName, $table->getName());
     }
 
     /**
      * @test
      */
-    public function itShouldSetAliasName()
+    public function itShouldSetAliasName(): void
     {
         $column = new Column('user_id', 'user', 'userId');
         $this->assertEquals('userId', $column->getAlias());
@@ -87,10 +84,9 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldThrowExceptionIfAliasOnAllSelection()
+    public function itShouldThrowExceptionIfAliasOnAllSelection(): void
     {
-        $this->setExpectedException($this->queryException);
-
+        $this->expectException($this->queryExceptionClass);
         new Column('*', 'user', 'userId');
     }
 }

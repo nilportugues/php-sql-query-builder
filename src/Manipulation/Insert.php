@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -10,6 +13,7 @@
 
 namespace NilPortugues\Sql\QueryBuilder\Manipulation;
 
+use NilPortugues\Sql\QueryBuilder\Syntax\Column; // Import Column for return type
 use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
 
 /**
@@ -17,21 +21,19 @@ use NilPortugues\Sql\QueryBuilder\Syntax\SyntaxFactory;
  */
 class Insert extends AbstractCreationalQuery
 {
-    /**
-     * @return string
-     */
-    public function partName()
+    public function partName(): string
     {
         return 'INSERT';
     }
 
     /**
-     * @return array
+     * @return array<Column>
      */
-    public function getColumns()
+    public function getColumns(): array
     {
-        $columns = \array_keys($this->values);
+        /** @var array<string> $columnNames */
+        $columnNames = \array_keys($this->values);
 
-        return SyntaxFactory::createColumns($columns, $this->getTable());
+        return SyntaxFactory::createColumns($columnNames, $this->getTable());
     }
 }

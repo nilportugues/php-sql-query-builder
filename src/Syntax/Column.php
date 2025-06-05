@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -17,104 +20,63 @@ use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
  */
 class Column implements QueryPartInterface
 {
-    const ALL = '*';
+    final public const ALL = '*';
 
-    /**
-     * @var Table
-     */
-    protected $table;
+    protected ?Table $table = null;
+    protected ?string $alias = null;
 
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
-     */
-    protected $alias;
-
-    /**
-     * @param string $name
-     * @param string $table
-     * @param string $alias
-     */
-    public function __construct($name, $table, $alias = '')
-    {
-        $this->setName($name);
-        $this->setTable($table);
+    public function __construct(
+        protected string $name,
+        ?string $tableName,
+        string $alias = ''
+    ) {
+        $this->setTable($tableName);
         $this->setAlias($alias);
     }
 
-    /**
-     * @return string
-     */
-    public function partName()
+    public function partName(): string
     {
         return 'COLUMN';
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
-        $this->name = (string) $name;
-
+        $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return Table
-     */
-    public function getTable()
+    public function getTable(): ?Table
     {
         return $this->table;
     }
 
-    /**
-     * @param string $table
-     *
-     * @return $this
-     */
-    public function setTable($table)
+    public function setTable(?string $tableName): self
     {
-        $newTable = array($table);
-        $this->table = SyntaxFactory::createTable($newTable);
-
+        if (null === $tableName || $tableName === '') {
+            $this->table = null;
+        } else {
+            $this->table = SyntaxFactory::createTable([$tableName]);
+        }
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getAlias()
+    public function getAlias(): ?string
     {
         return $this->alias;
     }
 
     /**
-     * @param null|string $alias
-     *
-     * @return $this
-     *
      * @throws QueryException
      */
-    public function setAlias($alias)
+    public function setAlias(?string $alias): self
     {
-        if (0 == \strlen($alias)) {
+        if (null === $alias || $alias === '') {
             $this->alias = null;
-
             return $this;
         }
 
@@ -122,18 +84,15 @@ class Column implements QueryPartInterface
             throw new QueryException("Can't use alias because column name is ALL (*)");
         }
 
-        $this->alias = (string) $alias;
-
+        $this->alias = $alias;
         return $this;
     }
 
     /**
      * Check whether column name is '*' or not.
-     *
-     * @return bool
      */
-    public function isAll()
+    public function isAll(): bool
     {
-        return $this->getName() == self::ALL;
+        return $this->name === self::ALL;
     }
 }

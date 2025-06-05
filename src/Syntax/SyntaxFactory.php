@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -18,73 +21,76 @@ final class SyntaxFactory
     /**
      * Creates a collection of Column objects.
      *
-     * @param array      $arguments
-     * @param Table|null $table
-     *
-     * @return array
+     * @param array<int|string, string|Column> $arguments Elements can be column name strings or Column objects.
+     *                                                If string, key can be alias.
+     * @return array<Column>
      */
-    public static function createColumns(array &$arguments, $table = null)
+    public static function createColumns(array $arguments, ?Table $table = null): array
     {
         $createdColumns = [];
 
-        foreach ($arguments as $index => $column) {
-            if (!is_object($column)) {
-                $newColumn = array($column);
-                $column = self::createColumn($newColumn, $table);
-                if (!is_numeric($index)) {
-                    $column->setAlias($index);
-                }
-
-                $createdColumns[] = $column;
-            } else if ($column instanceof Column) {
+        /** @var string|Column $columnData */
+        foreach ($arguments as $indexOrAlias => $columnData) {
+            if ($columnData instanceof Column) {
+                $createdColumns[] = $columnData;
+            } elseif (\is_string($columnData)) {
+                // If $indexOrAlias is string, it's an alias. If numeric, no alias from index.
+                // $columnData is the column name.
+                $columnArray = [\is_string($indexOrAlias) ? $indexOrAlias : 0 => $columnData];
+                $column = self::createColumn($columnArray, $table);
                 $createdColumns[] = $column;
             }
         }
-
-        return \array_filter($createdColumns);
+        // array_filter might not be necessary if logic ensures only Column objects are added.
+        return $createdColumns;
     }
 
     /**
      * Creates a Column object.
+     * Expects an array like ['alias' => 'column_name'] or [0 => 'column_name'].
      *
-     * @param array      $argument
-     * @param null|Table $table
-     *
-     * @return Column
+     * @param array<string|int, string> $argument
      */
-    public static function createColumn(array &$argument, $table = null)
+    public static function createColumn(array $argument, ?Table $table = null): Column
     {
-        $columnName = \array_values($argument);
-        $columnName = $columnName[0];
+        $columnName = (string) \current($argument); // First value is name
+        $columnAliasKey = \key($argument); // Key of the first element
 
-        $columnAlias = \array_keys($argument);
-        $columnAlias = $columnAlias[0];
-
-        if (\is_numeric($columnAlias) || \strpos($columnName, '*') !== false) {
-            $columnAlias = null;
+        $alias = null;
+    if (\is_string($columnAliasKey)) {
+            $alias = $columnAliasKey;
         }
 
-        return new Column($columnName, (string) $table, $columnAlias);
+        // Column constructor expects table name as string, not Table object.
+        // Table name can be null if column is not from a specific table (e.g. functions, literals)
+        $tableNameString = $table?->getName();
+
+        return new Column($columnName, $tableNameString, $alias ?? '');
     }
 
     /**
      * Creates a Table object.
      *
-     * @param string[] $table
-     *
-     * @return Table
+     * @param string|array<string|int, string> $tableInput Table name as string, or an array like ['alias' => 'tableName'] or ['tableName']
      */
-    public static function createTable($table)
+    public static function createTable(string|array $tableInput): Table
     {
-        $tableName = $table;
-        if (\is_array($table)) {
-            $tableName = \current($table);
-            $tableAlias = \key($table);
+        $tableName = '';
+        $tableAlias = null;
+
+        if (\is_array($tableInput)) {
+            $tableName = (string) \current($tableInput); // First value is name
+            $aliasKey = \key($tableInput); // Key of the first element
+            if (\is_string($aliasKey)) {
+                $tableAlias = $aliasKey;
+            }
+        } else { // string
+            $tableName = $tableInput;
         }
 
         $newTable = new Table($tableName);
 
-        if (isset($tableAlias) && !is_numeric($tableAlias)) {
+        if ($tableAlias !== null) {
             $newTable->setAlias($tableAlias);
         }
 

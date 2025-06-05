@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
@@ -12,24 +14,17 @@ use NilPortugues\Sql\QueryBuilder\Syntax\Where;
  */
 class WhereWriter extends AbstractBaseWriter
 {
-    /**
-     * @var array
-     */
-    protected $matchMode = [
+    /** @var array<string, string> */
+    protected array $matchMode = [
         'natural' => '(MATCH({{columnNames}}) AGAINST({{columnValues}}))',
         'boolean' => '(MATCH({{columnNames}}) AGAINST({{columnValues}} IN BOOLEAN MODE))',
         'query_expansion' => '(MATCH({{columnNames}}) AGAINST({{columnValues}} WITH QUERY EXPANSION))',
     ];
 
-    /**
-     * @param Where $where
-     *
-     * @return string
-     */
-    public function writeWhere(Where $where)
+    public function writeWhere(Where $where): string
     {
         $clauses = $this->writeWhereClauses($where);
-        $clauses = \array_filter($clauses);
+        $clauses = \array_filter($clauses); // Remove empty strings
 
         if (empty($clauses)) {
             return '';
@@ -39,362 +34,261 @@ class WhereWriter extends AbstractBaseWriter
     }
 
     /**
-     * @param Where $where
-     *
-     * @return array
+     * @return array<string>
      */
-    public function writeWhereClauses(Where $where)
+    public function writeWhereClauses(Where $where): array
     {
         $whereArray = [];
 
-        $this->writeWhereMatches($where, $whereArray);
-        $this->writeWhereIns($where, $whereArray);
-        $this->writeWhereNotIns($where, $whereArray);
-        $this->writeWhereBetweens($where, $whereArray);
-        $this->writeWhereNotBetweens($where, $whereArray);
-        $this->writeWhereComparisons($where, $whereArray);
-        $this->writeWhereIsNulls($where, $whereArray);
-        $this->writeWhereIsNotNulls($where, $whereArray);
-        $this->writeWhereBooleans($where, $whereArray);
-        $this->writeExists($where, $whereArray);
-        $this->writeNotExists($where, $whereArray);
-        $this->writeSubWheres($where, $whereArray);
+        $this->writeWhereMatches($where, $whereArray); // Appends to $whereArray
+        $whereArray = \array_merge($whereArray, $this->writeWhereIns($where));
+        $whereArray = \array_merge($whereArray, $this->writeWhereNotIns($where));
+        $whereArray = \array_merge($whereArray, $this->writeWhereBetweens($where));
+        $whereArray = \array_merge($whereArray, $this->writeWhereNotBetweens($where));
+        $whereArray = \array_merge($whereArray, $this->writeWhereComparisons($where));
+        $whereArray = \array_merge($whereArray, $this->writeWhereIsNulls($where));
+        $whereArray = \array_merge($whereArray, $this->writeWhereIsNotNulls($where));
+        $whereArray = \array_merge($whereArray, $this->writeWhereBooleans($where));
+        $whereArray = \array_merge($whereArray, $this->writeExists($where));
+        $whereArray = \array_merge($whereArray, $this->writeNotExists($where));
+        $whereArray = \array_merge($whereArray, $this->writeSubWheres($where));
 
         return $whereArray;
     }
 
     /**
-     * @param Where $where
-     * @param array $whereArray
-     *
-     * @return array
+     * @param array<string> $whereArray
      */
-    protected function writeWhereMatches(Where $where, array &$whereArray)
+    protected function writeWhereMatches(Where $where, array &$whereArray): void
     {
         $matches = [];
+        /** @var array{columns: array<string>, values: array<string|int|float>, mode: string} $matchData */
+        foreach ($where->getMatches() as $matchData) {
+            $columns = SyntaxFactory::createColumns($matchData['columns'], $where->getTable());
+            $columnNamesString = $this->getColumnNames($columns);
 
-        foreach ($where->getMatches() as $values) {
-            $columns = SyntaxFactory::createColumns($values['columns'], $where->getTable());
-            $columnNames = $this->getColumnNames($columns);
-
-            $columnValues = array(\implode(' ', $values['values']));
-            $columnValues = \implode(', ', $this->writer->writeValues($columnValues));
+            $columnValues = [(string)\implode(' ', $matchData['values'])];
+            $columnValuesString = \implode(', ', $this->writer->writeValues($columnValues));
 
             $matches[] = \str_replace(
                 ['{{columnNames}}', '{{columnValues}}'],
-                [$columnNames, $columnValues],
-                $this->matchMode[$values['mode']]
+                [$columnNamesString, $columnValuesString],
+                $this->matchMode[$matchData['mode']]
             );
         }
-
         $whereArray = \array_merge($whereArray, $matches);
     }
 
     /**
-     * @param $columns
-     *
-     * @return string
+     * @param array<Column> $columns
      */
-    protected function getColumnNames($columns)
+    protected function getColumnNames(array $columns): string
     {
         $columnNames = [];
-        foreach ($columns as &$column) {
+        foreach ($columns as $column) {
             $columnNames[] = $this->columnWriter->writeColumn($column);
         }
-
         return \implode(', ', $columnNames);
     }
 
     /**
-     * @param Where $where
-     * @param array $whereArray
-     *
-     * @return array
+     * @return array<string>
      */
-    protected function writeWhereIns(Where $where, array &$whereArray)
+    protected function writeWhereIns(Where $where): array
     {
-        $whereArray = \array_merge(
-            $whereArray,
-            $this->writeWhereIn($where, 'getIns', 'IN')
-        );
+        return $this->writeWhereIn($where, 'getIns', 'IN');
     }
 
     /**
-     * @param Where  $where
-     * @param string $method
-     * @param string $operation
-     *
-     * @return array
+     * @return array<string>
      */
-    protected function writeWhereIn(Where $where, $method, $operation)
+    protected function writeWhereIn(Where $where, string $method, string $operation): array
     {
         $collection = [];
+        /** @var array<string, array<mixed>> $ins */
+        $ins = $where->$method();
 
-        foreach ($where->$method() as $column => $values) {
-            $newColumn = array($column);
-            $column = SyntaxFactory::createColumn($newColumn, $where->getTable());
-            $column = $this->columnWriter->writeColumn($column);
+        /** @var string $columnName */
+        /** @var array<mixed> $values */
+        foreach ($ins as $columnName => $values) {
+            $newColumnArray = [$columnName];
+            $columnToWrite = SyntaxFactory::createColumn($newColumnArray, $where->getTable());
+            $columnString = $this->columnWriter->writeColumn($columnToWrite);
 
-            $values = $this->writer->writeValues($values);
-            $values = \implode(', ', $values);
+            $writtenValues = $this->writer->writeValues($values);
+            $valuesString = \implode(', ', $writtenValues);
 
-            $collection[] = "({$column} $operation ({$values}))";
+            $collection[] = "({$columnString} {$operation} ({$valuesString}))";
         }
-
         return $collection;
     }
 
     /**
-     * @param Where $where
-     * @param array $whereArray
-     *
-     * @return array
+     * @return array<string>
      */
-    protected function writeWhereNotIns(Where $where, array &$whereArray)
+    protected function writeWhereNotIns(Where $where): array
     {
-        $whereArray = \array_merge(
-            $whereArray,
-            $this->writeWhereIn($where, 'getNotIns', 'NOT IN')
-        );
+        return $this->writeWhereIn($where, 'getNotIns', 'NOT IN');
     }
 
     /**
-     * @param Where $where
-     * @param array $whereArray
-     *
-     * @return array
+     * @return array<string>
      */
-    protected function writeWhereBetweens(Where $where, array &$whereArray)
+    protected function writeWhereBetweens(Where $where): array
     {
-        $between = $where->getBetweens();
-        \array_walk(
-            $between,
-            function (&$between) {
+        $output = [];
+        /** @var array{subject: Column, a: mixed, b: mixed} $betweenData */
+        foreach ($where->getBetweens() as $betweenData) {
+            $output[] = '('
+                . $this->columnWriter->writeColumn($betweenData['subject'])
+                . ' BETWEEN '
+                . $this->writer->writePlaceholderValue($betweenData['a'])
+                . ' AND '
+                . $this->writer->writePlaceholderValue($betweenData['b'])
+                . ')';
+        }
+        return $output;
+    }
 
-                $between = '('
-                    .$this->columnWriter->writeColumn($between['subject'])
-                    .' BETWEEN '
-                    .$this->writer->writePlaceholderValue($between['a'])
-                    .' AND '
-                    .$this->writer->writePlaceholderValue($between['b'])
-                    .')';
+    /**
+     * @return array<string>
+     */
+    protected function writeWhereNotBetweens(Where $where): array
+    {
+        $output = [];
+        /** @var array{subject: Column, a: mixed, b: mixed} $notBetweenData */
+        foreach ($where->getNotBetweens() as $notBetweenData) {
+            $output[] = '('
+                . $this->columnWriter->writeColumn($notBetweenData['subject'])
+                . ' NOT BETWEEN '
+                . $this->writer->writePlaceholderValue($notBetweenData['a'])
+                . ' AND '
+                . $this->writer->writePlaceholderValue($notBetweenData['b'])
+                . ')';
+        }
+        return $output;
+    }
+
+    /**
+     * @return array<string>
+     */
+    protected function writeWhereComparisons(Where $where): array
+    {
+        $output = [];
+        /** @var array{subject: Column|Select|mixed, conjunction: string, target: Column|Select|mixed}|string $comparisonData */
+        foreach ($where->getComparisons() as $comparisonData) {
+            if (!\is_array($comparisonData)) { // This handles literal strings
+                $output[] = (string)$comparisonData;
+                continue;
             }
-        );
 
-        $whereArray = \array_merge($whereArray, $between);
+            $subjectStr = $this->writeWherePartialCondition($comparisonData['subject']);
+            $conjunctionStr = $this->writer->writeConjunction((string)$comparisonData['conjunction']); // Simplified: removed ?? ''
+            $targetStr = $this->writeWherePartialCondition($comparisonData['target']);
+
+            $output[] = "({$subjectStr}{$conjunctionStr}{$targetStr})";
+        }
+        return $output;
     }
 
-    /**
-     * @param Where $where
-     * @param array $whereArray
-     *
-     * @return array
-     */
-    protected function writeWhereNotBetweens(Where $where, array &$whereArray)
-    {
-        $between = $where->getNotBetweens();
-        \array_walk(
-            $between,
-            function (&$between) {
-
-                $between = '('
-                    .$this->columnWriter->writeColumn($between['subject'])
-                    .' NOT BETWEEN '
-                    .$this->writer->writePlaceholderValue($between['a'])
-                    .' AND '
-                    .$this->writer->writePlaceholderValue($between['b'])
-                    .')';
-            }
-        );
-
-        $whereArray = \array_merge($whereArray, $between);
-    }
-
-    /**
-     * @param Where $where
-     * @param array $whereArray
-     *
-     * @return array
-     */
-    protected function writeWhereComparisons(Where $where, array &$whereArray)
-    {
-        $comparisons = $where->getComparisons();
-        \array_walk(
-            $comparisons,
-            function (&$comparison) {
-
-                if (!is_array($comparison)) {
-                    return;
-                }
-
-                $str = $this->writeWherePartialCondition($comparison['subject']);
-                $str .= $this->writer->writeConjunction($comparison['conjunction']);
-                $str .= $this->writeWherePartialCondition($comparison['target']);
-
-                $comparison = "($str)";
-            }
-        );
-
-        $whereArray = \array_merge($whereArray, $comparisons);
-    }
-
-    /**
-     * @param $subject
-     *
-     * @return string
-     */
-    protected function writeWherePartialCondition(&$subject)
+    protected function writeWherePartialCondition(mixed $subject): string
     {
         if ($subject instanceof Column) {
-            $str = $this->columnWriter->writeColumn($subject);
-        } elseif ($subject instanceof Select) {
+            return $this->columnWriter->writeColumn($subject);
+        }
+        if ($subject instanceof Select) {
             $selectWriter = WriterFactory::createSelectWriter($this->writer, $this->placeholderWriter);
-            $str = '('.$selectWriter->write($subject).')';
-        } else {
-            $str = $this->writer->writePlaceholderValue($subject);
+            return '(' . $selectWriter->write($subject) . ')';
         }
-
-        return $str;
+        return $this->writer->writePlaceholderValue($subject);
     }
 
     /**
-     * @param Where $where
-     * @param array $whereArray
-     *
-     * @return array
+     * @return array<string>
      */
-    protected function writeWhereIsNulls(Where $where, array &$whereArray)
+    protected function writeWhereIsNulls(Where $where): array
     {
-        $whereArray = \array_merge(
-            $whereArray,
-            $this->writeWhereIsNullable($where, 'getNull', 'writeIsNull')
-        );
+        return $this->writeWhereIsNullable($where, 'getNull', 'writeIsNull');
     }
 
     /**
-     * @param Where  $where
-     * @param string $getMethod
-     * @param string $writeMethod
-     *
-     * @return array
+     * @return array<string>
      */
-    protected function writeWhereIsNullable(Where $where, $getMethod, $writeMethod)
+    protected function writeWhereIsNullable(Where $where, string $getMethod, string $writeMethod): array
     {
-        $collection = $where->$getMethod();
-
-        \array_walk(
-            $collection,
-            function (&$collection) use ($writeMethod) {
-                $collection =
-                    '('.$this->columnWriter->writeColumn($collection['subject'])
-                    .$this->writer->$writeMethod().')';
-            }
-        );
-
-        return $collection;
+        $output = [];
+        /** @var array<array{subject: Column}> $items */
+        $items = $where->$getMethod();
+        foreach ($items as $item) {
+            $output[] = '('
+                . $this->columnWriter->writeColumn($item['subject'])
+                . $this->writer->$writeMethod() . ')';
+        }
+        return $output;
     }
 
     /**
-     * @param Where $where
-     * @param array $whereArray
-     *
-     * @return array
+     * @return array<string>
      */
-    protected function writeWhereIsNotNulls(Where $where, array &$whereArray)
+    protected function writeWhereIsNotNulls(Where $where): array
     {
-        $whereArray = \array_merge(
-            $whereArray,
-            $this->writeWhereIsNullable($where, 'getNotNull', 'writeIsNotNull')
-        );
+        return $this->writeWhereIsNullable($where, 'getNotNull', 'writeIsNotNull');
     }
 
     /**
-     * @param Where $where
-     * @param array $whereArray
-     *
-     * @return array
+     * @return array<string>
      */
-    protected function writeWhereBooleans(Where $where, array &$whereArray)
+    protected function writeWhereBooleans(Where $where): array
     {
-        $booleans = $where->getBooleans();
-        $placeholderWriter = $this->placeholderWriter;
-
-        \array_walk(
-            $booleans,
-            function (&$boolean) use (&$placeholderWriter) {
-                $column = $this->columnWriter->writeColumn($boolean['subject']);
-                $value = $this->placeholderWriter->add($boolean['value']);
-
-                $boolean = '(ISNULL('.$column.', 0) = '.$value.')';
-            }
-        );
-
-        $whereArray = \array_merge($whereArray, $booleans);
+        $output = [];
+        /** @var array{subject: Column, value: mixed} $booleanData */
+        foreach ($where->getBooleans() as $booleanData) {
+            $columnStr = $this->columnWriter->writeColumn($booleanData['subject']);
+            $valuePlaceholder = $this->placeholderWriter->add($booleanData['value']);
+            $output[] = '(ISNULL(' . $columnStr . ', 0) = ' . $valuePlaceholder . ')';
+        }
+        return $output;
     }
 
     /**
-     * @param Where $where
-     * @param array $whereArray
-     *
-     * @return array
+     * @return array<string>
      */
-    protected function writeExists(Where $where, array &$whereArray)
+    protected function writeExists(Where $where): array
     {
-        $whereArray = \array_merge(
-            $whereArray,
-            $this->writeExistence($where, 'getExists', 'EXISTS')
-        );
+        return $this->writeExistence($where, 'getExists', 'EXISTS');
     }
 
     /**
-     * @param Where  $where
-     * @param string $method
-     * @param string $operation
-     *
-     * @return array
+     * @return array<string>
      */
-    protected function writeExistence(Where $where, $method, $operation)
+    protected function writeExistence(Where $where, string $method, string $operation): array
     {
-        $exists = [];
-
+        $output = [];
+        /** @var Select $select */
         foreach ($where->$method() as $select) {
-            $exists[] = "$operation (".$this->writer->write($select, false).')';
+            $output[] = "{$operation} (" . $this->writer->write($select, false) . ')';
         }
-
-        return $exists;
+        return $output;
     }
 
     /**
-     * @param Where $where
-     * @param array $whereArray
-     *
-     * @return array
+     * @return array<string>
      */
-    protected function writeNotExists(Where $where, array &$whereArray)
+    protected function writeNotExists(Where $where): array
     {
-        $whereArray = \array_merge(
-            $whereArray,
-            $this->writeExistence($where, 'getNotExists', 'NOT EXISTS')
-        );
+        return $this->writeExistence($where, 'getNotExists', 'NOT EXISTS');
     }
 
     /**
-     * @param Where $where
-     * @param array $whereArray
-     *
-     * @return array
+     * @return array<string>
      */
-    protected function writeSubWheres(Where $where, array &$whereArray)
+    protected function writeSubWheres(Where $where): array
     {
-        $subWheres = $where->getSubWheres();
-
-        \array_walk(
-            $subWheres,
-            function (&$subWhere) {
-                $subWhere = "({$this->writeWhere($subWhere)})";
-            }
-        );
-
-        $whereArray = \array_merge($whereArray, $subWheres);
+        $output = [];
+        /** @var Where $subWhere */
+        foreach ($where->getSubWheres() as $subWhere) {
+            $output[] = "({$this->writeWhere($subWhere)})";
+        }
+        return $output;
     }
 }

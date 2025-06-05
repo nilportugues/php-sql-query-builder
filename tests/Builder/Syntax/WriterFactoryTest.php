@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
@@ -11,28 +14,29 @@
 namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\ColumnWriter;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\DeleteWriter;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\InsertWriter;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\IntersectWriter;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\MinusWriter;
 use NilPortugues\Sql\QueryBuilder\Builder\Syntax\PlaceholderWriter;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\SelectWriter;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\UnionAllWriter;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\UnionWriter;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\UpdateWriter;
+use NilPortugues\Sql\QueryBuilder\Builder\Syntax\WhereWriter;
 use NilPortugues\Sql\QueryBuilder\Builder\Syntax\WriterFactory;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class WriterFactoryTest.
  */
-class WriterFactoryTest extends \PHPUnit_Framework_TestCase
+class WriterFactoryTest extends TestCase
 {
-    /**
-     * @var PlaceholderWriter
-     */
-    private $placeholder;
+    private PlaceholderWriter $placeholder;
+    private GenericBuilder $writer;
 
-    /**
-     * @var GenericBuilder
-     */
-    private $writer;
-
-    /**
-     *
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->writer = new GenericBuilder();
         $this->placeholder = new PlaceholderWriter();
@@ -41,110 +45,99 @@ class WriterFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldCreateColumnWriter()
+    public function itShouldCreateColumnWriter(): void
     {
         $writer = WriterFactory::createColumnWriter($this->writer, $this->placeholder);
-
-        $this->assertSame('NilPortugues\Sql\QueryBuilder\Builder\Syntax\ColumnWriter', \get_class($writer));
+        $this->assertInstanceOf(ColumnWriter::class, $writer);
     }
 
     /**
      * @test
      */
-    public function itShouldCreateWhereWriter()
+    public function itShouldCreateWhereWriter(): void
     {
         $writer = WriterFactory::createWhereWriter($this->writer, $this->placeholder);
-
-        $this->assertSame('NilPortugues\Sql\QueryBuilder\Builder\Syntax\WhereWriter', \get_class($writer));
+        $this->assertInstanceOf(WhereWriter::class, $writer);
     }
 
     /**
      * @test
      */
-    public function itShouldCreateSelectWriter()
+    public function itShouldCreateSelectWriter(): void
     {
         $writer = WriterFactory::createSelectWriter($this->writer, $this->placeholder);
-
-        $this->assertSame('NilPortugues\Sql\QueryBuilder\Builder\Syntax\SelectWriter', \get_class($writer));
+        $this->assertInstanceOf(SelectWriter::class, $writer);
     }
 
     /**
      * @test
      */
-    public function itShouldCreateInsertWriter()
+    public function itShouldCreateInsertWriter(): void
     {
         $writer = WriterFactory::createInsertWriter($this->writer, $this->placeholder);
-
-        $this->assertSame('NilPortugues\Sql\QueryBuilder\Builder\Syntax\InsertWriter', \get_class($writer));
+        $this->assertInstanceOf(InsertWriter::class, $writer);
     }
 
     /**
      * @test
      */
-    public function itShouldCreateUpdateWriter()
+    public function itShouldCreateUpdateWriter(): void
     {
         $writer = WriterFactory::createUpdateWriter($this->writer, $this->placeholder);
-
-        $this->assertSame('NilPortugues\Sql\QueryBuilder\Builder\Syntax\UpdateWriter', \get_class($writer));
+        $this->assertInstanceOf(UpdateWriter::class, $writer);
     }
 
     /**
      * @test
      */
-    public function itShouldCreateDeleteWriter()
+    public function itShouldCreateDeleteWriter(): void
     {
         $writer = WriterFactory::createDeleteWriter($this->writer, $this->placeholder);
-
-        $this->assertSame('NilPortugues\Sql\QueryBuilder\Builder\Syntax\DeleteWriter', \get_class($writer));
+        $this->assertInstanceOf(DeleteWriter::class, $writer);
     }
 
     /**
      * @test
      */
-    public function itShouldCreatePlaceholderWriter()
+    public function itShouldCreatePlaceholderWriter(): void
     {
         $writer = WriterFactory::createPlaceholderWriter();
-
-        $this->assertSame('NilPortugues\Sql\QueryBuilder\Builder\Syntax\PlaceholderWriter', \get_class($writer));
+        $this->assertInstanceOf(PlaceholderWriter::class, $writer);
     }
 
     /**
      * @test
      */
-    public function itShouldCreateIntersectWriter()
+    public function itShouldCreateIntersectWriter(): void
     {
         $writer = WriterFactory::createIntersectWriter($this->writer);
-
-        $this->assertSame('NilPortugues\Sql\QueryBuilder\Builder\Syntax\IntersectWriter', \get_class($writer));
+        $this->assertInstanceOf(IntersectWriter::class, $writer);
     }
 
     /**
      * @test
      */
-    public function itShouldCreateMinusWriter()
+    public function itShouldCreateMinusWriter(): void
     {
         $writer = WriterFactory::createMinusWriter($this->writer);
-
-        $this->assertSame('NilPortugues\Sql\QueryBuilder\Builder\Syntax\MinusWriter', \get_class($writer));
+        $this->assertInstanceOf(MinusWriter::class, $writer);
     }
 
     /**
      * @test
      */
-    public function itShouldCreateUnion()
+    public function itShouldCreateUnion(): void
     {
         $writer = WriterFactory::createUnionWriter($this->writer);
-
-        $this->assertSame('NilPortugues\Sql\QueryBuilder\Builder\Syntax\UnionWriter', \get_class($writer));
+        $this->assertInstanceOf(UnionWriter::class, $writer);
     }
 
     /**
      * @test
      */
-    public function itShouldCreateUnionAll()
+    public function itShouldCreateUnionAll(): void
     {
         $writer = WriterFactory::createUnionAllWriter($this->writer);
-
-        $this->assertSame('NilPortugues\Sql\QueryBuilder\Builder\Syntax\UnionAllWriter', \get_class($writer));
+        $this->assertInstanceOf(UnionAllWriter::class, $writer);
     }
 }

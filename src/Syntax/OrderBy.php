@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -15,78 +18,59 @@ namespace NilPortugues\Sql\QueryBuilder\Syntax;
  */
 class OrderBy
 {
-    const ASC = 'ASC';
-    const DESC = 'DESC';
+    final public const ASC = 'ASC';
+    final public const DESC = 'DESC';
 
-    /**
-     * @var Column
-     */
-    protected $column;
+    protected bool $useAlias; // This property is unused in the provided code.
 
-    /**
-     * @var string
-     */
-    protected $direction;
-
-    /**
-     * @var bool
-     */
-    protected $useAlias;
-
-    /**
-     * @param Column $column
-     * @param string $direction
-     */
-    public function __construct(Column $column, $direction)
-    {
-        $this->setColumn($column);
-        $this->setDirection($direction);
+    public function __construct(
+        protected Column $column,
+        protected string $direction
+    ) {
+        $this->setDirection($direction); // Validate direction
+        // $useAlias is not initialized in constructor, defaults to PHP uninitialized state for bool (effectively false)
+        // If it were to be used, it should be initialized, e.g., $this->useAlias = $useAliasParam;
     }
 
-    /**
-     * @return Column
-     */
-    public function getColumn()
+    public function getColumn(): Column
     {
         return $this->column;
     }
 
-    /**
-     * @param Column $column
-     *
-     * @return $this
-     */
-    public function setColumn($column)
+    public function setColumn(Column $column): self
     {
         $this->column = $column;
-
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDirection()
+    public function getDirection(): string
     {
         return $this->direction;
     }
 
     /**
-     * @param string $direction
-     *
      * @throws \InvalidArgumentException
-     *
-     * @return $this
      */
-    public function setDirection($direction)
+    public function setDirection(string $direction): self
     {
-        if (!in_array($direction, array(self::ASC, self::DESC))) {
+        if (!\in_array($direction, [self::ASC, self::DESC], true)) {
             throw new \InvalidArgumentException(
-                "Specified direction '$direction' is not allowed. Only ASC or DESC are allowed."
+                "Specified direction '{$direction}' is not allowed. Only ASC or DESC are allowed."
             );
         }
         $this->direction = $direction;
-
         return $this;
     }
+
+    // Example of how useAlias might be used if it were functional
+    // public function useAlias(bool $use = true): self
+    // {
+    //     $this->useAlias = $use;
+    //     return $this;
+    // }
+
+    // public function isUsingAlias(): bool
+    // {
+    //     return $this->useAlias;
+    // }
 }

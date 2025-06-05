@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
@@ -7,49 +10,43 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Tests\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Builder\Syntax\IntersectWriter;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Intersect;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Select;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class IntersectWriterTest.
  */
-class IntersectWriterTest extends \PHPUnit_Framework_TestCase
+class IntersectWriterTest extends TestCase
 {
-    /**
-     * @var GenericBuilder
-     */
-    private $writer;
+    private GenericBuilder $writer;
+    private IntersectWriter $intersectWriter;
 
-    /**
-     * @var IntersectWriter
-     */
-    private $intersectWriter;
-
-    /**
-     *
-     */
-    public function setUp()
+    protected function setUp(): void
     {
-        $this->intersectWriter = new IntersectWriter(new GenericBuilder());
         $this->writer = new GenericBuilder();
+        $this->intersectWriter = new IntersectWriter($this->writer);
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
-        $this->intersectWriter = null;
-        $this->writer = null;
+        // Properties will be automatically garbage collected if not holding circular references.
+        // Explicitly nulling is not strictly necessary in PHP 8+ for simple objects like these
+        // unless for specific resource cleanup or to break circular refs not handled by GC.
     }
 
     /**
      * @test
      */
-    public function itShouldWriteIntersect()
+    public function itShouldWriteIntersect(): void
     {
         $intersect = new Intersect();
+        $intersect->setBuilder($this->writer); // Intersect needs a builder instance
 
         $intersect->add(new Select('user'));
         $intersect->add(new Select('user_email'));
@@ -59,15 +56,15 @@ SELECT user.* FROM user
 INTERSECT
 SELECT user_email.* FROM user_email
 SQL;
-        $this->assertEquals($expected, $this->intersectWriter->write($intersect));
+        $this->assertEquals(str_replace("\r\n", "\n", $expected), $this->intersectWriter->write($intersect));
     }
 
     /**
      * @test
      */
-    public function itShouldWriteIntersectFromGenericBuilder()
+    public function itShouldWriteIntersectFromGenericBuilder(): void
     {
-        $intersect = $this->writer->intersect();
+        $intersect = $this->writer->intersect(); // This already sets the builder
 
         $intersect->add(new Select('user'));
         $intersect->add(new Select('user_email'));
@@ -77,26 +74,29 @@ SELECT user.* FROM user
 INTERSECT
 SELECT user_email.* FROM user_email
 SQL;
-        $this->assertEquals($expected, $this->writer->write($intersect));
+        $this->assertEquals(str_replace("\r\n", "\n", $expected), $this->writer->write($intersect));
     }
 
     /**
      * @test
      */
-    public function itShouldNotResetPlaceholders()
+    public function itShouldNotResetPlaceholders(): void
     {
-        $select1 = (new Select('table1'))
-            ->where()
+        $select1 = (new Select('table1'));
+        $select1->setBuilder($this->writer); // Set builder for placeholder generation context
+        $select1->where()
             ->between('column', 1, 2)
             ->end();
 
-        $select2 = (new Select('table2'))
-            ->where()
+        $select2 = (new Select('table2'));
+        $select2->setBuilder($this->writer); // Set builder
+        $select2->where()
             ->between('column', 3, 4)
             ->end();
 
-        $union = (new Intersect())
-            ->add($select1)
+        $intersect = (new Intersect());
+        $intersect->setBuilder($this->writer); // Set builder
+        $intersect->add($select1)
             ->add($select2);
 
         $expectedSql = <<<SQL
@@ -112,7 +112,7 @@ SQL;
             ':v4' => 4,
         ];
 
-        $this->assertEquals($expectedSql, $this->writer->write($union));
+        $this->assertEquals(str_replace("\r\n", "\n", $expectedSql), $this->writer->write($intersect));
         $this->assertEquals($expectedParams, $this->writer->getValues());
     }
 }

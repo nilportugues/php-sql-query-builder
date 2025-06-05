@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 9/12/14
@@ -15,13 +18,10 @@ namespace NilPortugues\Sql\QueryBuilder\Manipulation;
  */
 class UnionAll extends AbstractSetQuery
 {
-    const UNION_ALL = 'UNION ALL';
+    final public const UNION_ALL = 'UNION ALL';
 
-    /**
-     * @return string
-     */
-    public function partName()
+    public function partName(): string
     {
-        return 'UNION ALL';
+        return self::UNION_ALL;
     }
 }

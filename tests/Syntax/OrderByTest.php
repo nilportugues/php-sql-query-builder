@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -12,21 +14,19 @@ namespace NilPortugues\Tests\Sql\QueryBuilder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Syntax\Column;
 use NilPortugues\Sql\QueryBuilder\Syntax\OrderBy;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class OrderByTest.
  */
-class OrderByTest extends \PHPUnit_Framework_TestCase
+class OrderByTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    protected $columnClass = '\NilPortugues\Sql\QueryBuilder\Syntax\Column';
+    protected string $columnClass = Column::class;
 
     /**
      * @test
      */
-    public function itShouldConstructOrderBy()
+    public function itShouldConstructOrderBy(): void
     {
         $column = new Column('registration_date', 'user');
         $order = new OrderBy($column, OrderBy::ASC);
@@ -38,7 +38,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldGetOrderByDirection()
+    public function itShouldGetOrderByDirection(): void
     {
         $column = new Column('registration_date', 'user');
         $order = new OrderBy($column, OrderBy::ASC);
@@ -52,12 +52,12 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldThrowExceptionIfDirectionNotValid()
+    public function itShouldThrowExceptionIfDirectionNotValid(): void
     {
         $column = new Column('registration_date', 'user');
         $order = new OrderBy($column, OrderBy::ASC);
 
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $order->setDirection('this is not a valid direction');
     }
 }

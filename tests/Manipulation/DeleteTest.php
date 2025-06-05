@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -10,36 +12,28 @@
 
 namespace NilPortugues\Tests\Sql\QueryBuilder\Manipulation;
 
-use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
+use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder; // For setBuilder
 use NilPortugues\Sql\QueryBuilder\Manipulation\Delete;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class DeleteTest.
  */
-class DeleteTest extends \PHPUnit_Framework_TestCase
+class DeleteTest extends TestCase
 {
-    /**
-     * @var GenericBuilder
-     */
-    private $writer;
+    // private GenericBuilder $writer; // Property $writer is unused.
+    private Delete $query;
 
-    /**
-     * @var Delete
-     */
-    private $query;
-
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->query = new Delete();
+        $this->query->setBuilder(new GenericBuilder()); // Add builder for completeness
     }
 
     /**
      * @test
      */
-    public function itShouldGetPartName()
+    public function itShouldGetPartName(): void
     {
         $this->assertSame('DELETE', $this->query->partName());
     }
@@ -47,10 +41,9 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itShouldReturnLimit1()
+    public function itShouldReturnLimit1(): void
     {
         $this->query->limit(1);
-
         $this->assertSame(1, $this->query->getLimitStart());
     }
 }

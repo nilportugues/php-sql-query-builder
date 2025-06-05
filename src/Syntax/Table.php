@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Author: Nil Portugués Calderó <contact@nilportugues.com>
  * Date: 6/3/14
@@ -15,124 +18,66 @@ namespace NilPortugues\Sql\QueryBuilder\Syntax;
  */
 class Table
 {
-    /**
-     * @var string
-     */
-    protected $name;
+    protected ?string $alias = null;
+    protected ?string $schema = null;
+    protected bool $view = false;
 
-    /**
-     * @var string
-     */
-    protected $alias;
-
-    /**
-     * @var string
-     */
-    protected $schema;
-
-    /**
-     * @var bool
-     */
-    protected $view = false;
-
-    /**
-     * @param        $name
-     * @param string $schema
-     */
-    public function __construct($name, $schema = null)
-    {
-        $this->name = $name;
-
-        if (!is_null($schema)) {
+    public function __construct(
+        protected string $name,
+        ?string $schema = null
+    ) {
+        if (null !== $schema) {
             $this->schema = $schema;
         }
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->name;
-    }
-
-    /**
-     * @param bool $view
-     *
-     * @return $this
-     */
-    public function setView($view)
-    {
-        $this->view = $view;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isView()
-    {
-        return $this->view;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
+    public function __toString(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
-    public function getAlias()
+    public function setView(bool $view): self
+    {
+        $this->view = $view;
+        return $this;
+    }
+
+    public function isView(): bool
+    {
+        return $this->view;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getAlias(): ?string
     {
         return $this->alias;
     }
 
-    /**
-     * @return string
-     */
-    public function getCompleteName()
+    public function getCompleteName(): string
     {
-        $alias = ($this->alias) ? " AS {$this->alias}" : '';
-        $schema = ($this->schema) ? "{$this->schema}." : '';
-
-        return $schema.$this->name.$alias;
+        $aliasString = ($this->alias !== null && $this->alias !== '') ? " AS {$this->alias}" : '';
+        $schemaString = ($this->schema !== null && $this->schema !== '') ? "{$this->schema}." : '';
+        return $schemaString . $this->name . $aliasString;
     }
 
-    /**
-     * @param string $alias
-     *
-     * @return $this
-     */
-    public function setAlias($alias)
+    public function setAlias(?string $alias): self
     {
         $this->alias = $alias;
-
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getSchema()
+    public function getSchema(): ?string
     {
         return $this->schema;
     }
 
-    /**
-     * @param string
-     * @param string $schema
-     *
-     * @return $this
-     */
-    public function setSchema($schema)
+    public function setSchema(?string $schema): self
     {
         $this->schema = $schema;
-
         return $this;
     }
 }
