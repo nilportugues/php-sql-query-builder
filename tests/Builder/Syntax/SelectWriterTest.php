@@ -165,7 +165,7 @@ SQL;
             ->setColumns([
                 'userId' => 'user_id',
                 'username' => 'name',
-                'email' => 'email', // Alias is same as column name, no AS clause should be generated
+                'email', // Changed
             ]);
         $expected = 'SELECT user.user_id AS "userId", user.name AS "username", user.email FROM user';
         $this->assertSame($expected, $this->writer->write($this->query));
@@ -193,7 +193,7 @@ SQL;
             ->setColumns([
                 'userId' => 'user_id',
                 'username' => 'name',
-                'email' => 'email', // Alias is same as column name, no AS clause should be generated
+                'email', // Changed
             ])
             ->orderBy('user_id', OrderBy::ASC)
             ->orderBy('email', OrderBy::DESC);

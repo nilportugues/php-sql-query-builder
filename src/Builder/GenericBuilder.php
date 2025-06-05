@@ -194,8 +194,11 @@ class GenericBuilder implements BuilderInterface
         return $sql;
     }
 
-    public function writeTableWithAlias(Table $table): string
+    public function writeTableWithAlias(?Table $table): string
     {
+        if ($table === null) {
+            return '';
+        }
         $alias = $table->getAlias();
         $aliasString = ($alias !== null && $alias !== '') ? " AS {$this->writeTableAlias($alias)}" : '';
         $schema = ($table->getSchema()) ? "{$table->getSchema()}." : '';
@@ -281,8 +284,8 @@ class GenericBuilder implements BuilderInterface
     {
         if (null === $this->queryWriterInstances[$queryPart]) {
             $writerFactoryMethod = $this->queryWriterArray[$queryPart];
-            // Check if $writerFactoryMethod is a valid callable string 'Class::method'
-            if (is_string($writerFactoryMethod) && str_contains($writerFactoryMethod, '::')) {
+            // $writerFactoryMethod is already known to be a string from array<string, string>
+            if (str_contains($writerFactoryMethod, '::')) {
                 /** @var callable $callable */
                 $callable = explode('::', $writerFactoryMethod);
                 $this->queryWriterInstances[$queryPart] = \call_user_func_array(

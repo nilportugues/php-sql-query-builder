@@ -57,8 +57,7 @@ final class SyntaxFactory
         $columnAliasKey = \key($argument); // Key of the first element
 
         $alias = null;
-        if (\is_string($columnAliasKey) && $columnAliasKey !== $columnName) {
-            // If key is string and not identical to value (e.g. ['name' => 'name']), it's an alias
+    if (\is_string($columnAliasKey)) {
             $alias = $columnAliasKey;
         }
 
