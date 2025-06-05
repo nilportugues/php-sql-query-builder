@@ -15,6 +15,7 @@ namespace NilPortugues\Sql\QueryBuilder\Builder\Syntax;
 
 use NilPortugues\Sql\QueryBuilder\Builder\GenericBuilder;
 use NilPortugues\Sql\QueryBuilder\Manipulation\Delete;
+use NilPortugues\Sql\QueryBuilder\Manipulation\QueryException;
 
 /**
  * Class DeleteWriter.
@@ -29,7 +30,11 @@ class DeleteWriter
 
     public function write(Delete $delete): string
     {
-        $table = $this->writer->writeTable($delete->getTable());
+        $tableInstance = $delete->getTable();
+        if ($tableInstance === null) {
+            throw new QueryException("DELETE query must specify a table.");
+        }
+        $table = $this->writer->writeTable($tableInstance);
         /** @var array<string> $parts */
         $parts = ["DELETE FROM {$table}"];
 

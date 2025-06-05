@@ -134,7 +134,7 @@ class ColumnWriter
     public function writeColumnWithAlias(Column $column): string
     {
         $alias = $column->getAlias();
-        if ($alias !== null && $alias !== '' && !$column->isAll()) {
+        if ($alias !== null && !$column->isAll()) { // Removed $alias !== ''
             return $this->writeColumn($column).' AS '.$this->writer->writeColumnAlias($alias);
         }
 
